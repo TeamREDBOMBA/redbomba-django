@@ -1,0 +1,140 @@
+{% load extras %}
+    {% if state.no == -1 %}
+      {% if groups|length == league.max_team and league.uid == state.user.uid %}
+      <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>
+      <input type="hidden" id="round_id" name="round_id" value="{{state.lr.id}}" />
+      <input type="hidden" id="round_no" name="round_no" value="{{state.lr.round}}" />
+      {% else %}
+      <div data-toggle="tooltip" data-placement="bottom" data-html="true"
+      title="
+      <b>참가조건이 안됨</b><br/>
+      <p style='width:93%;text-align:left;margin-left:13px;text-indent:-6px'>
+        {% if state.user %}<font color='#40d47e'><i class='fa fa-check-circle'>{% else %}
+        <font color='#e74c3c'><i class='fa fa-times-circle'>{% endif %}</i></font> 소속그룹이 있어야 합니다.
+      </p>
+      <p style='width:93%;text-align:left;margin-left:13px;text-indent:-6px'>
+        {% if state.isAdmin == 0 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹장이어야 합니다.
+      </p>
+      <p style='width:93%;text-align:left;margin-left:13px;text-indent:-6px'>
+      {% if state.groupmem < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 5명 이상이어야 합니다.
+      </p>
+      <p style='width:93%;text-align:left;margin-left:13px;text-indent:-6px'>
+      {% if state.gamelink < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 모두 게임계정 연결을 해야 합니다.
+      </p>
+      "><button class="btn btn-primary disabled"><i class="fa fa-check-circle"></i> 참가신청</button></div>
+      {% endif %}
+    <img src="/static/img/arena_card_div.png">
+      <button class="btn btn-danger" id="btnWish"><i class="fa fa-heart"></i> 관심있어요!</button>
+    {% elif state.no == 0 %}
+      <button class="btn btn-primary" id="btnjoin"><i class="fa fa-check-circle"></i> 참가신청</button>
+      <img src="/static/img/arena_card_div.png">
+      <button class="btn btn-danger" id="btnWish"><i class="fa fa-heart"></i> 관심있어요!</button>
+    {% elif state.no == 1 %}
+      {% if state.league.uid == state.user.uid %}
+        <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lt.round.round}}</button>
+        <input type="hidden" id="round_id" name="round_id" value="{{state.lt.round.id}}" />
+        <input type="hidden" id="round_no" name="round_no" value="{{state.lt.round.round}}" />
+      {% else %}
+		  <button class="btn btn-default" id="btnjoin" disabled="disabled"><i class="fa fa-clock-o"></i> {{state.lt.round.round}}라운드 일정 대기 중</button>
+		  <p class="processMsg">일정은 {{state.lt.round.start|get_time_diff:"value"}} 발표됩니다.</p>
+      {% endif %}
+		  <img src="/static/img/arena_card_div.png">
+      {% if state.isAdmin %}
+        {% if state.lt.round.round > 1 %}
+  		  <button class="btn btn-danger" id="btnAbstain"><i class="fa fa-times-circle"></i> 기권하기</button>
+        {% else %}
+        <button class="btn btn-danger" id="btnCancel"><i class="fa fa-times-circle"></i> 참가취소하기</button>
+        {% endif %}
+      {% else %}
+        {% if state.lt.round.round > 1 %}
+        <button class="btn btn-danger" id="btnAskAbstain"><i class="fa fa-times-circle"></i> 기권 요청하기</button>
+        {% else %}
+        <button class="btn btn-danger" id="btnAskCancel"><i class="fa fa-times-circle"></i> 참가취소 요청하기</button>
+        {% endif %}
+      {% endif %}
+    {% elif state.no == 2 %}
+      <button class="btn btn-warning" id="btnEnter" disabled="disabled"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button>
+      <p class="processMsg">배틀페이지는<br/>{{state.lm.date_match|get_time_diff:"value"}} 입장 가능합니다.</p>
+      <img src="/static/img/arena_card_div.png">
+      {% if state.isAdmin %}
+      <button class="btn btn-danger" id="btnAbstain"><i class="fa fa-times-circle"></i> 기권하기</button>
+      {% else %}
+      <button class="btn btn-danger" id="btnAskAbstain"><i class="fa fa-times-circle"></i> 기권 요청하기</button>
+      {% endif %}
+    {% elif state.no == 3 %}
+      <a href="/battle/?round={{state.lm.team_a.round.id}}"><button class="btn btn-warning" id="btnEnter"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button></a>
+      <p class="processMsg">배틀페이지 입장이 가능합니다.<br/>행운을 빕니다!</p>
+      <img src="/static/img/arena_card_div.png">
+      {% if state.isAdmin %}
+      <button class="btn btn-danger" id="btnAbstain"><i class="fa fa-times-circle"></i> 기권하기</button>
+      {% else %}
+      <button class="btn btn-danger" id="btnAskAbstain"><i class="fa fa-times-circle"></i> 기권 요청하기</button>
+      {% endif %}
+    {% elif state.no == 4 %}
+      {% if state.lt.round.round %}<button class="btn btn-warning" id="btnEnter" disabled="disabled"><i class="fa fa-frown-o"></i> {{state.lt.round.round}} 라운드 탈락</button>{% endif %}
+      <button class="btn btn-warning" id="btnEnter" disabled="disabled"><i class="fa fa-arrow-circle-o-right"></i> {{state.lr.round}}라운드 진행 중</button>
+    {% elif state.no == 5 %}
+      <p id="win_1" class="p_btn_winner"><img src="/static/img/card_rand_1.png" class="medal"><img src="/media/group_icon/{{ state.win_1.group_icon }}" class="group_icon">{{state.win_1.name}}</p>
+      <p id="win_2" class="p_btn_winner"><img src="/static/img/card_rand_2.png" class="medal"><img src="/media/group_icon/{{ state.win_2.group_icon }}" class="group_icon">{{state.win_2.name}}</p>
+      <p id="win_3_1" class="p_btn_winner"><img src="/static/img/card_rand_3.png" class="medal">
+        <img src="/media/group_icon/{{ state.win_3_1.group_icon }}" class="group_icon">{{state.win_3_1.name}}<br/>
+        <img src="/media/group_icon/{{ state.win_3_2.group_icon }}" class="group_icon">{{state.win_3_2.name}}</p>
+    {% endif %}
+<script>
+$("[data-toggle='tooltip']").tooltip();
+</script>
+<script>
+$('#btnCancel').click(function(){
+  $.post('/db/leagueteam/',{
+    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+    'action':'delete',
+    'round':'1',
+    'league_id':"{{state.league.id}}",
+  },function(res,status){
+    location.href="/arena/";
+  });
+});
+
+$('#btnAbstain').click(function(){
+  $.post('/db/leagueteam/',{
+    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+    'action':'abstain',
+    'league_id':"{{state.league.id}}",
+    {% if state.no == 1 %}
+    'round':'{{state.lt.round.round}}',
+    {% elif state.no == 2 or state.no == 3 %}
+    'round':"{{state.lm.team_a.round.round}}",
+    {% endif %}
+  },function(res,status){
+    location.href="/arena/";
+  });
+});
+
+$("#btnAskAbstain").click(function(){
+  socket.emit('chatGroup', {"name":"redbomba","con":"'{{user.uid.username}}'님이 '{{league.name}}'대회의 참가 취소를 요청하셨습니다."});
+});
+
+$("#btnAskCancel").click(function(){
+  socket.emit('chatGroup', {"name":"redbomba","con":"'{{user.uid.username}}'님이 '{{league.name}}'대회의 참가 취소를 요청하셨습니다."});
+});
+
+$('#btnjoin').click(function(){
+  $('#div_join').show();
+ });
+</script>
+<script>
+$('#btnMatchMaker').click(function(){
+      var round_id = $("#round_id").val();
+      var round_no = $("#round_no").val();
+      $.post("/matchmaker/?round="+round_id,{
+        'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+        },function(res,status){
+          socket.emit('sendNotification', {'lid':round_id,'round':round_no,'tablename':'home_leagueround'});
+          alert(res);
+          history.go(0);
+      });
+    });
+</script>

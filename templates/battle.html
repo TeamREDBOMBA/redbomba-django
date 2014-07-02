@@ -1,0 +1,372 @@
+		{% if user.username %}
+    {% if league %}
+		{% load staticfiles %}
+    {% load extras %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>REDBOMBA</title>
+<!-- Loading Bootstrap -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Loading Flat UI -->
+    <link href="/static/css/battle.css" rel="stylesheet" />
+    <link href="/static/css/icon.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="/static/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+  <!-- ERROR : {{ error }} -->
+<div id="wrap">
+<!-- Container -->
+<div id="container">
+	<div id="content">
+    {% csrf_token %}
+    <input type='hidden' id='round_id' value='{{league.id}}'>
+    <input type='hidden' id='username' value='{{user.username}}'>
+    <input type='hidden' id='state' value='{{league.state}}'>
+    <input type='hidden' id='gameno' value='{{league.game}}'>
+    <p id="simpleMsg">대회 진행을 도와줄<br/>호스트를 기다리는 중 입니다.<br/><br/>빨리 그룹장이 오도록<br/>독촉하여 주세요.</p>
+    {% if league.team_a.group_id.name ==  group.name %}
+    <input type='hidden' id='side' value='A'>
+    {% elif league.team_b.group_id.name ==  group.name %}
+    <input type='hidden' id='side' value='B'>
+    {% endif %}
+    <div id="div_con_title">
+      <h1>{{league.team_a.round.league_id.name}} [{% if next_round %}ROUND {{league.team_a.round.round}}{% else %}FINAL ROUND{% endif %}]</h1>
+      <p class="team_win" id="team_win_a">{{win_a|length}}</p>
+      <p class="team_win" id="team_win_b">{{win_b|length}}</p>
+      <section class="main">        
+        <div id="arc-wrapper" class="arc-wrapper">
+          <h4>( {{bo}} )</h4>
+        </div>
+      </section>
+    </div>
+    <div id="div_con_teama" class="div_con_team">
+      <H1>{{league.team_a.group_id.name}}</H1>
+      {% for gm in league.team_a.group_id.get_member|slice:":5" %}
+      <p class="h3">
+        <input type='hidden' class='uid' value='{{ gm.uid.id }}'>
+        <img src="/static/img/icon/usericon_{{ gm.uid.get_profile.user_icon }}.jpg" class="img_team_icon">
+        <span>{{ gm.uid }}<br/><font>({{gm.get_gamelink.name}})</font></span>
+        <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.uid.id }}">
+      </p>
+      {% endfor %}
+    </div>
+    <div id="div_con_teamb" class="div_con_team">
+      <H1>{{league.team_b.group_id.name}}</H1>
+      {% for gm in league.team_b.group_id.get_member|slice:":5" %}
+      <p class="h3">
+        <input type='hidden' class='uid' value='{{ gm.uid.id }}'>
+        <img src="/static/img/icon/usericon_{{ gm.uid.get_profile.user_icon }}.jpg" class="img_team_icon">
+        <span>{{ gm.uid }}<br/><font>({{gm.get_gamelink.name}})</font></span>
+        <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.uid.id }}">
+      </p>
+      {% endfor %}
+    </div>
+    <img src="/static/img/battle_team_table.png" id="img_team_table">
+    {% if league.state == 3 and league.result == 'A' %}
+    <img src="/static/img/battle_Ready_A.png" class="img_ready" id="img_ready_A" style='display:block'>
+    <img src="/static/img/battle_Ready_B.png" class="img_ready" id="img_ready_B">
+    {% elif league.state == 3 and league.result == 'B' %}
+    <img src="/static/img/battle_Ready_A.png" class="img_ready" id="img_ready_A">
+    <img src="/static/img/battle_Ready_B.png" class="img_ready" id="img_ready_B" style='display:block'>
+    {% elif league.state == 4 %}
+    <img src="/static/img/battle_Ready_A.png" class="img_ready" id="img_ready_A" style='display:block'>
+    <img src="/static/img/battle_Ready_B.png" class="img_ready" id="img_ready_B" style='display:block'>
+    {% else %}
+    <img src="/static/img/battle_Ready_A.png" class="img_ready" id="img_ready_A">
+    <img src="/static/img/battle_Ready_B.png" class="img_ready" id="img_ready_B">
+    {% endif %}
+	</div>
+</div>
+<!-- //Container -->
+</div>
+<div id="Chatting">
+  <p id="title">그룹채팅</p>
+  <div class="div_chat">
+    Loading...
+  </div>
+  <div class="div_input">
+    <input type='text' id='chatMsg' placeholder="메세지를 입력해주세요. (전송:ㄴ, 줄바꿈:shift+ㄴ)">
+  </div>
+</div>
+<div id="countdown">
+    <table width='100%' height='100%'>
+      <tr valign='center'><td align='center'>
+    <p id="p_text">3</p></td></tr></table>
+  </div>
+{% if next_round %}
+  {% if user.id|striptags == league.team_a.group_id.uid.id|striptags or user.id|striptags == league.team_b.group_id.uid.id|striptags %}
+  <!-- Modal3 -->
+    <div class="modal fade" id="settime" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="div_modal_mouseover">
+              <div class="div_modal_title">
+                Round{{next_round.round}} 경기를 위해, 참가 <font color="#ff5d5d">불가능한</font> 시간을 선택해주세요.
+              </div>
+              <div id="div_modal_left">
+                {% for i in nextCount %}
+                <div class="div_left_time">
+                  <div class="div_time_name">
+                    <p>{{next_round.start|date_add:i|date:'m월 d일'}}</p>
+                  </div>
+                  <canvas id="wheelcanvas{{i}}" class="wheelcanvas" width="350" height="350" onclick="draw(event,{{i}});"></canvas>
+                </div>
+                {% endfor %}
+              </div>
+              <div id="div_modal_right">
+                {% for i in nextCount %}
+                <div class="div_time_tag">
+                  <h1>{{next_round.start|date_add:i|date:'m월 d일'}}</h1>
+                  <div class="wheelcanvas_tag" id="wheelcanvas{{i}}_tag">&nbsp;</div>
+                </div>
+                {% endfor %}
+                <button class="btn btn-primary" id="btndone">Complete Join this Round!</button>
+              </div>
+            </div>
+            <div class="div_modal_done">
+              <img id="ex" src="/static/img/arena_done_ex.png">
+              <h1>경기 참가가 완료되었습니다.</h1>
+              <h3>참가 취소, 진행상황, 결과확인 등은<br /> 모두 <img id="btn_done_arena" src="/static/img/arena_done_arena.png"> 에서 가능합니다.</h3>
+              <button class="btn btn-default" id="btn_done_back">◀ 뒤로가기</button>
+              <button class="btn btn-success" id="btn_done_ok">확인</button>
+            </div>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  {% endif %}
+{% endif %}
+<!-- Load JS here for greater good =============================-->
+    <script src="http://14.63.186.76:8080/socket.io/socket.io.js" type="text/javascript"></script>
+    <script src="/static/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap-select.js" type="text/javascript"></script>
+    <script src="/static/js/bootstrap-switch.js" type="text/javascript"></script>
+    <script src="/static/js/flatui-checkbox.js" type="text/javascript"></script>
+    <script src="/static/js/flatui-radio.js" type="text/javascript"></script>
+    <script src="/static/js/application.js" type="text/javascript"></script>
+    <script src="/static/js/Base64.js" type="text/javascript"></script>
+    <script src="/static/js/battle.js" type="text/javascript"></script>
+    <script>
+
+    var GroupChatLen = 30;
+
+    $("#Chatting .div_chat").scroll(function(){ 
+    if($(this).scrollTop() == 0){
+      $("#Chatting .div_chat").html("<div width='100%' align='center'><img src='/static/img/ajax-loader_s.gif'></div>"+$("#Chatting .div_chat").html());
+      $("#Chatting .div_chat").load("/chatting/",{
+        "csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),
+        "len":GroupChatLen,
+        "group_name":"{{group.name}}"},function(){
+          GroupChatLen += 30;
+          $("#Chatting .div_chat").scrollTop(2);
+        });
+    }
+    }); 
+
+    $('#Chatting #chatMsg').keypress(function(e){
+      if(e.keyCode==13&&$('#Chatting #chatMsg').val()!=""){
+        var con = $('#Chatting #chatMsg').val();
+        socket.emit('chatGroup', {"name":"{{user.username}}","con":con});
+        $('#Chatting #chatMsg').val("");
+      }
+    });
+
+    $("#Chatting .div_chat").load("/chatting/",{"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(), "len":GroupChatLen, "group_name":"{{group.name}}"}, function(){
+      GroupChatLen+=30;
+      $('#Chatting .div_chat').scrollTop(600);
+    });
+
+    $('#btn_done_arena').click(function(){
+        location.href = "/stats/?get=myarena";
+      });
+
+      $('#btn_done_back').click(function(){
+        $.post('/db/leagueteam/',{
+          'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+          'action':'delete',
+          'round':'2',
+          'league_id':{{league.team_a.round.league_id.id}},
+        },function(res,status){
+          $('.div_modal_done').fadeOut('fast');
+          $('.modal-content').css({"overflow":"none","height":"100%"});
+          $('.div_modal_mouseover').fadeIn('fast');
+        });
+      });
+
+      $('#btn_done_ok').click(function(){
+        location.href = "/arena/";
+      });
+
+    $('#btndone').click(function(){
+        var feasible_time = "";
+        var unfeasible_time = new Array();
+        {% for i in dayR1 %}
+        for(var i=0;i<isClicked[{{i}}].length;i++)
+          if(isClicked[{{i}}][i]>=0&&isClicked[{{i}}][i]<=23)
+            unfeasible_time.push(isClicked[{{i}}][i]+({{i}}*24));
+        {% endfor %}
+        var i=0;
+        var j=0;
+        for(i=0; i<24*isClicked.length; i++){
+          for(j=0;j<unfeasible_time.length; j++){
+            if(i==unfeasible_time[j]){
+              break;
+            }
+          }
+          if(j==unfeasible_time.length) feasible_time += i+",";
+        }
+        feasible_time=feasible_time.substr(0,feasible_time.length-1)
+        
+        $.post('/db/leagueteam/',{
+        'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+        'action':'insert',
+        'round':{{league.team_a.round.round}}+1,
+        'league_id':{{league.team_a.round.league_id.id}},
+        'feasible_time':feasible_time
+      },function(res,status){
+      $('.div_modal_mouseover').fadeOut('fast');
+      $('.modal-content').css({"overflow":"hidden","height":"650px"});
+      $('.div_modal_done').fadeIn('fast');
+      });
+        
+      });
+
+
+  var startAngle = 4.7;
+  var arc = Math.PI / 12;
+  var ctx;
+  var isClicked = new Array();
+
+  function setTimeline(ele){
+    $('#wheelcanvas'+ele+'_tag').html("");
+    for(var i=0;i<isClicked[ele].length;i++){
+      if(isClicked[ele][i]>=0&&isClicked[ele][i]<=23)
+        $('#wheelcanvas'+ele+'_tag').html($('#wheelcanvas'+ele+'_tag').html()+"<span class='label label-danger'>"+isClicked[ele][i]+":00~</span>");
+    }
+  }
+  
+  function draw(E, ele) {
+    drawRouletteWheel(E, ele);
+  }
+  
+  function drawRouletteWheel(E, ele) {
+    var canvas = document.getElementById("wheelcanvas"+ele);
+
+    var boxsize = 350;
+    var outsideRadius = boxsize/2;
+    var textRadius = (boxsize/2)-30;
+    var insideRadius = (boxsize/2)-60;
+
+    if (canvas.getContext) {
+      if (E === false) {
+          mx = outsideRadius;
+          my = outsideRadius;
+      } else {
+          mx = E.clientX-$("#wheelcanvas"+ele).offset().left;
+          my = E.clientY-$("#wheelcanvas"+ele).offset().top;
+      }
+
+      mangle = (-Math.atan2(mx-outsideRadius, my-outsideRadius)+Math.PI*2.5)%(Math.PI*4);
+      mradius = Math.sqrt(Math.pow(mx-outsideRadius, 2) + Math.pow(my-outsideRadius, 2));
+      
+      ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,boxsize,boxsize);
+      
+      
+      ctx.font = 'bold 15px 맑은 고딕';
+      
+      for(var i = 0; i < 24; i++) {
+        var angle = startAngle + i * arc;
+
+        if (mangle > angle && mangle < (angle + arc) && mradius<=outsideRadius && mradius>=insideRadius) {
+          if(isClicked[ele][i] == i){
+            delete isClicked[ele][i];
+          }else{
+            isClicked[ele][i]=i;
+          }
+        }
+
+        if(isClicked[ele][i] == i) ctx.fillStyle="#e74c3c";
+        else ctx.fillStyle="#2ecc71";
+        
+        ctx.beginPath();
+        ctx.arc(outsideRadius, outsideRadius, outsideRadius, angle, angle + arc, false);
+        ctx.arc(outsideRadius, outsideRadius, insideRadius, angle + arc, angle, true);
+        ctx.fill();
+        
+        ctx.save();
+        ctx.fillStyle = "white";
+        ctx.translate(outsideRadius + Math.cos(angle + arc / 2) * textRadius, outsideRadius + 7 + Math.sin(angle + arc / 2) * textRadius);
+        if(isClicked[ele][i] == i) ctx.fillText("불가", -ctx.measureText("불가").width / 2, 0);
+        else ctx.fillText(i, -ctx.measureText(i).width / 2, 0);
+        ctx.restore();
+
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        setTimeline(ele);
+      } 
+    }
+  }
+    {% for i in nextCount %}
+    isClicked[{{i}}] = new Array();
+    draw(false, {{i}});
+    {% endfor %}
+    </script>
+{% if user.id|striptags == league.host.id|striptags  %}
+  {% include "battle_host.html" %}
+{% elif user.id|striptags == league.team_a.group_id.uid.id|striptags %}
+  {% include "battle_leader.html" %}
+{% elif user.id|striptags == league.team_b.group_id.uid.id|striptags %}
+  {% include "battle_leader.html" %}
+{% else %}
+  {% include "battle_member.html" %}
+{% endif %}
+<script type="text/javascript">
+var __lc = {};
+__lc.license = 4218651;
+
+(function() {
+    var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+    lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+})();
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49677205-1', 'redbomba.net');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
+{% else %}
+<script>
+alert("{{league}}");
+alert("해당 경기에 대한 출전 권한이 없습니다.");
+location.href="/arena/";
+</script>
+{% endif %}
+    {% else %}
+      <p>Checking session...</p>
+		    <script>location.href="/home/";</script>
+		{% endif %}

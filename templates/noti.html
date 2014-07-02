@@ -1,0 +1,39 @@
+<div class='div_noti_cell {% if this.date_read == 1 %}read{% endif %}' id='div_noti_cell{{this.id}}'>
+    <div class='div_cell_icon'><img src='{{state.img | safe}}'></div>
+    <div class='div_cell_txt'>{{state.con | safe}}</div>
+    <div class='div_cell_bottom'>
+      <div class='div_bottom_date'>{{date}}</div>
+    </div>
+</div>
+{% if table == 'home_league' %}
+  <script>
+  $('#div_noti_cell{{this.id}}').click(function(){
+    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
+    location.href='/stats/?get=myarena';
+  });
+  </script>
+{% endif %}
+{% if table == 'home_group' %}
+  <script>
+  $('#div_noti_cell{{this.id}}').click(function(){
+    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
+    location.href='/stats/';
+  });
+  </script>
+{% endif %}
+{% if table == 'home_leagueround' %}
+  <script>
+  $('#div_noti_cell{{this.id}}').click(function(){
+    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
+    location.href='/stats/?get=myarena';
+  });
+  </script>
+{% endif %}
+{% if table == 'home_leaguematch' %}
+  <script>
+  $('#div_noti_cell{{this.id}}').click(function(){
+    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
+    location.href='/battle/?round={{state.this.team_a.round.id}}';
+  });
+  </script>
+{% endif %}

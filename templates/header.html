@@ -1,0 +1,48 @@
+    <div id="content">
+    {% csrf_token %}
+    	<ul>
+        	  <li id="img_head_logo"><img src="/static/img/main_head_logoS.png" alt="REDBOMBA" class="imgbtn" /></li>
+            <li class="btn_top_menu" id="img_head_menu1"><img src="/static/img/main_head_menu1S.png" alt="STATS" class="imgbtn" title="STATS" /> 스탯</li>
+            <li class="btn_top_menu" id="img_head_menu2"><img src="/static/img/main_head_menu2S.png" alt="ARENA" class="imgbtn" title="ARENA" /> 아레나</li>
+            <li class="btn_top_menu" id="img_head_menu3"><img src="/static/img/main_head_menu3S.png" alt="LIVE" class="imgbtn" title="LIVE" /> 밤바스트림</li>
+            <li id="searchset">
+                <div class="input-group">
+                    <input type="text" class="form-control btn-xs" id="input_search_bar" placeholder="찾으실 내용을 입력하세요." />
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-xs" id="input_search_btn" type="button"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+                <div id="div_head_searchlist"></div>
+            </li>
+            <li>
+            <div id="div_head_icon1" class="imgbtn div_head_icon" title="알림">
+              <a href="#" id="a_head_noti" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
+              <i class="fa fa-bell fa-2x"></i>
+              </a>
+              <span class="badge" id='noti_value'>{{ noti }}</span>
+            </div>
+            <div id="div_head_icon2" class="imgbtn div_head_icon" title="필드">
+              <a href="#" id="a_head_field" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
+              <i class="fa fa-globe fa-2x"></i>
+              </a>
+              <span class="badge" id='field_value'>{{ field }}</span>
+            </div>
+            </li>
+            <li>
+            <div class="dropdown">
+              <img id="img_head_usericon" src="/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg" class="imgbtn dropdown-toggle" data-toggle="dropdown" alt="usericon_{{ uinfo.user_icon }}" /><p id="p_head_username">{{ user.username }}</p>
+              <ul class="dropdown-menu pull-center" role="menu" aria-labelledby="dLabel">
+                <li><a id="Logout"><i class="fa fa-sign-out"></i> 로그아웃</a></li>
+              </ul>
+            </div>
+            </li>
+        </ul>
+	</div>
+  {% for gm in groupmem %}
+  <input type="hidden" id="groupmem_uid" value="{{gm.uid.id}}">
+  {% endfor %}
+<div id="div_noti_step1">
+  <div id="div_noti_top">
+    알림 <span class="badge" id='title_noti_value'>{{ noti }}</span>
+  </div>
+</div>

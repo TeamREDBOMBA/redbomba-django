@@ -1,0 +1,159 @@
+{% load extras %}
+{% if summoner_info %}
+<div id="div_gamelink_search">
+  <div id="div_gamelink_games">
+    <p id="p_gamelink_games">
+    <img src="/static/img/game_leagueoflegends.jpg" class="img_games_game {% if name == 1 %}active{% endif %}" id="img_games_game1" title="League of Legends">
+    <img src="/static/img/game_dota2.jpg" class="img_games_game {% if name == 2 %}active{% endif %}" id="img_games_game2" title="Dota2">
+    <img src="/static/img/game_starcraft2.jpg" class="img_games_game {% if name == 3 %}active{% endif %}" id="img_games_game3" title="Startcraft2">
+    <img src="/static/img/game_suddenattack.jpg" class="img_games_game {% if name == 4 %}active{% endif %}" id="img_games_game4" title="Sudden Attack">
+    <img src="/static/img/game_fifa3.jpg" class="img_games_game {% if name == 5 %}active{% endif %}" id="img_games_game5" title="FiFA Online 3">
+    </p>
+  </div>
+  <input class="form-control input-lg" type="text" id="input_gamelink_searchbar" placeholder="소환사명을 입력하세요." value="{{summoner_info.name}}" onKeyPress="if(event.keyCode==13){ findId('{{ from }}'); return false; }">
+</div>
+{% if isLinked %}{%else%}<button type="button" class="btn btn-danger input_gamelink_btn" id="btnSave"><i class="fa fa-link"></i> | 이 계정을 연결하기</button>{% endif %}
+<div class="panel panel-default" id="div_gamelink_panel">
+  <div class="panel-body" id="div_gamelink_panelbody">
+  {% if isLinked %}
+  {% if isLinked.uid.id == uid %}
+  <button type="button" class="btn btn-danger" id="brn_gamelink_delete">이 게임계정 연결 해제하기</button>
+  {% else %}
+  <div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <strong><a class="username" onclick="click_name('{{isLinked.uid.username}}')"><img src="/static/img/icon/usericon_{{isLinked.uid.get_profile.user_icon}}.jpg">{{isLinked.uid.username}}</a></strong> 님에게 연결된 게임계정입니다.
+  </div>
+  {% endif %}
+  {% endif %}
+  <div class="li_left_stat">
+    <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_medal_{{summoner_stat.tier}}.png" id="img_left_medal">
+    <p id="p_left_line1">{{summoner_stat.tier}} <b>{{summoner_stat.rank}}</b></p>
+    <p id="p_left_line2">{{summoner_stat.lp}} LP</p>
+    <p id="p_left_line3">승 {{summoner_stat.wins}}&nbsp;&nbsp;패 {{summoner_stat.losses}}</p>
+  </div>
+  <ul id="ul_gamelink_left">
+    {% for s in summoner_most %}
+    <li class="li_left_most">
+      <img src="{{s.img}}" class="img_most_img" id="img_most_img1">
+      <p class="p_most_name">{{s.name}}</p>
+      <p class="p_most_kda">{{s.kda}}</p>
+      <p class="p_most_played">{{s.played}}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  <ul id="ul_gamelink_right">
+    {% for r in summoner_recent %}
+    <li class="li_right_league">
+      <p class="p_league_win {% if r.win_bool %}win{% else %}lose{% endif %}">{{r.win}}</p>
+      <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_cham_{{r.cid}}.png" class="img_league_img" id="img_league_img1">
+      <p class="p_league_spell">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_spell_{{r.spell1}}.png" class="img_league_spell">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_spell_{{r.spell2}}.png" class="img_league_spell">
+      </p>
+      <p class="p_league_kda">
+        <span class='kda'>{{r.kill}} / <font class='kda_r'>{{r.death}}</font> / {{r.assists}}</span><br/>
+        <span class='kda_avg'>{{r.kda}}</span>
+      </p>
+      <p class="p_league_level">
+        <span class='level'>레벨 {{r.level}}<br/>
+        <span class='cs'>CS {{r.cs}}</span>
+      </p>
+      <p class="p_league_item">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item0}}.png" class="img_league_item">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item1}}.png" class="img_league_item">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item2}}.png" class="img_league_item"><br/>
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item3}}.png" class="img_league_item">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item4}}.png" class="img_league_item">
+        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item5}}.png" class="img_league_item">
+      </p>
+      <p class="p_league_type">
+        <span id="type_sub" style="color:{{r.mathchtype.color}};background-color:{{r.mathchtype.bc}};">{{r.mathchtype.name}}</span><br/>
+        <span id="type_min">{{r.timePlayed}}분</span>
+      </p>
+      <p class="p_league_time">
+        <span id="time_date">{{r.createdate|get_time_diff:"msg"}}</span>
+      </p>
+    </li>
+    {% endfor %}
+  </ul>
+  </div>
+</div>
+{% else %}
+<div id="div_gamelink_search">
+  <H1>게임 계정 연결</H1>
+  <H3>자신의 게임계정을 연결해보세요.</H3>
+  <div id="div_gamelink_games">
+    <p id="p_gamelink_games">
+    <img src="/static/img/game_leagueoflegends.jpg" class="img_games_game" id="img_games_game1" title="League of Legends">
+    <img src="/static/img/game_dota2.jpg" class="img_games_game" id="img_games_game2" title="Dota2">
+    <img src="/static/img/game_starcraft2.jpg" class="img_games_game" id="img_games_game3" title="Startcraft2">
+    <img src="/static/img/game_suddenattack.jpg" class="img_games_game" id="img_games_game4" title="Sudden Attack">
+    <img src="/static/img/game_fifa3.jpg" class="img_games_game" id="img_games_game5" title="FiFA Online 3">
+    </p>
+  </div>
+  <input class="form-control input-lg" type="text" id="input_gamelink_searchbar" placeholder="소환사명을 입력하세요." onKeyPress="if(event.keyCode==13){ findId('{{ from }}'); return false; }">
+</div>
+<div class="panel panel-default" id="div_gamelink_panel">
+  <div class="panel-body" id="div_gamelink_panelbody">
+    검색해보세요.....<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  </div>
+</div>
+{% endif %}
+<script>
+{% if summoner_info %}
+$(".img_games_game.active").siblings().hide();
+$("#input_gamelink_searchbar").show();
+{% elif error %}
+$("#div_gamelink_panelbody").text("{{error}}");
+{% else %}
+// {{error}}
+{% endif %}
+</script>
+<script>
+$(".img_games_game").click(function(){
+  if ($('#input_gamelink_searchbar').is(':visible')) {
+    $(".img_games_game").show();
+    $(".img_games_game").removeClass("active");
+    $("#input_gamelink_searchbar").hide();
+  }else{
+    if($(this).attr("id") != "img_games_game1"){
+      $("#input_gamelink_searchbar").attr("disabled","disabled");
+      $("#input_gamelink_searchbar").attr("placeholder","계정명을 입력하세요.");
+    }else{
+      $("#input_gamelink_searchbar").removeAttr("disabled");
+      $("#input_gamelink_searchbar").attr("placeholder","소환사명을 입력하세요.");
+    }
+    $(this).siblings().hide();
+    $(this).addClass("active");
+    $("#input_gamelink_searchbar").show();
+  }
+});
+function findId(from){
+  var str = $('#Gamelink #input_gamelink_searchbar').val();
+  str = str.replace(/\s+/g, '');
+  str = str.toLowerCase();
+  $('#Gamelink #div_gamelink_panelbody').html("<div width='100%' align='center'><img src='/static/img/ajax-loader_s.gif'></div>");
+  $('#Gamelink .modal-content').load("/s/?from="+from,{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),"user":str});
+}
+$('#btnSave').click(function(){
+  $.post('/db/gamelink/',{
+    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+    'action':'insert',
+    'name':'{{summoner_info.name}}',
+    'gid':$('.img_games_game.active').attr('title'),
+    'from':'{{ from }}'
+  },function(res,status){
+    location.reload();
+  });
+});
+$('#brn_gamelink_delete').click(function(){
+  $.post('/db/gamelink/',{
+    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+    'action':'delete',
+    'gl':'{{isLinked.id}}',
+    'from':'{{ from }}'
+  },function(res,status){
+    location.reload();
+  });
+});
+</script>

@@ -1,0 +1,10 @@
+    <!-- Group -->
+    {% if target_user == user %}
+    <div class='imgbtn group_add div_feed' data-toggle='modal' data-target='#groupaddModal'>
+	    <img src='/static/img/stats_group_add.gif'>
+	    <button class='btn btn-default' id='btnMakeGroup'>그룹 만들기</button>
+	</div>
+	{% else %}
+	<p id="nogroup"><i class="fa fa-times-circle"></i> 소속된 그룹이 없습니다.</p>
+	{% endif %}
+    <!-- //Group -->

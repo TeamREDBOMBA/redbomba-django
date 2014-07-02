@@ -1,0 +1,88 @@
+        {% if ele == 0 %}
+        <div id="feed_pub_{{ fid }}" class="div_feed feed_pub">
+        {% endif %}
+        	<div class="div_feedpub_icon imgbtn"><img src="/static/img/icon/usericon_{{ ufromicon }}.jpg"></div>
+          <h1>{{ ufrom }}{% if ufrom == uto %}{% else %} > {{ uto }}{% endif %}</h1><p class="div_feedpub_date">{{ date_updated }}</p>
+          <h2>{{ con_txt|linebreaks }}</h2>
+          <div class="div_feedpub_brn">
+            {% if isDone_smile|length %}<button class="btn btn-smile-done imgbtn">{{ smile|length }} | <i class="fa fa-smile-o fa-1"></i> 취소</button>
+            {% else %}<button class="btn btn-smile imgbtn">{{ smile|length }} | <i class="fa fa-smile-o fa-1"></i> 스마일</button>
+            {% endif %}
+            <button id="btn-reply" class="btn btn-reply imgbtn"><i class="fa fa-comments fa-1"></i> 댓글</button>
+            <button id="btn-share" class="btn btn-share imgbtn"><i class="fa fa-share-square-o fa-1"></i> 공유</button>
+            <button class="btn btn-more imgbtn"><i class="fa fa-ellipsis-h fa-1"></i></button>
+          </div>
+          <div class="div_feedpub_reply">
+            <div class="input-group">
+            <input type="text" class="input_reply_replytxt form-control" placeholder="댓글을 남겨주세요.">
+            <span class="input-group-btn"><button type="button" class="btn btn-default btn_reply_replybtn">입력</button></span>
+            </div>
+            <div class="div_feedpub_div">
+            </div>
+          </div>
+<script>
+  var feed_pub_len_{{ fid }} = 3;
+  
+  $("#feed_pub_{{ fid }} .btn-smile").click(function(){
+    var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+    var fid = {{ fid }};
+    var uid=0;
+    $.post("/forsocket/",{"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').attr('value')},function(data,status){
+      uid = $(data).filter('uid').text();
+      $('#feed_pub_{{ fid }}').hide().load('/db/smile/?action=insert&fid={{ fid }}&loc=pub',function(response, status) {
+        socket.emit('sendNotification', {'ufrom':uid,'fid':{{ fid }},'tablename':'home_smile'});
+        $('#feed_pub_{{ fid }} .input_reply_replytxt').val("");
+      }).fadeIn('500');
+    });
+  });
+  
+  $("#feed_pub_{{ fid }} .btn-smile-done").click(function(){
+    var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+    var fid = {{ fid }};
+    var uid=0;
+    $.post("/forsocket/",{"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').attr('value')},function(data,status){
+      uid = $(data).filter('uid').text();
+      $('#feed_pub_{{ fid }}').hide().load('/db/smile/?action=delete&fid={{ fid }}&loc=pub',function(response, status) {
+        socket.emit('sendNotification', {'ufrom':uid,'fid':{{ fid }},'tablename':'home_smile'});
+        $('#feed_pub_{{ fid }} .input_reply_replytxt').val("");
+      }).fadeIn('500');
+    });
+  });
+  
+  $("#feed_pub_{{ fid }} #btn-reply").click(function(){
+    $('#feed_pub_{{ fid }} .div_feedpub_reply').toggle();
+    feed_pub_len_{{ fid }} = 0;
+    $('#feed_pub_{{ fid }} .div_feedpub_div').hide().load('/reply/?loc=pub&len=3&fid={{ fid }}').fadeIn('500');
+  });
+  
+  $("#feed_pub_{{ fid }} .btn_reply_replybtn").click(function(){
+    var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+    var fid = {{ fid }};
+    var txt = $('#feed_pub_{{ fid }} .input_reply_replytxt').val();
+    var uid=0;
+    if(txt!=""){
+      $.post("/forsocket/",{"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').attr('value')},function(data,status){
+      uid = $(data).filter('uid').text();
+      $('#feed_pub_{{ fid }} .div_feedpub_div').hide().load('/db/reply/',{'action':'insert','csrfmiddlewaretoken':csrfmiddlewaretoken,'fid':fid,'txt':txt,'loc':'pub'},function(response, status) {
+        //socket.emit('sendNotification', {'ufrom':uid,'uto':fid,'tablename':'home_reply'});
+        $('#feed_pub_{{ fid }} .input_reply_replytxt').val("");
+      }).fadeIn('500');
+      });
+    }
+  });
+  
+  $("#feed_pub_{{ fid }} .input_reply_replytxt").keypress(function(e){
+    if(e.keyCode==13){
+      btnreply_{{ fid }}();
+      return false;
+    }
+  });
+  
+  function clickMore_pub_{{ fid }}(){
+    feed_pub_len_{{ fid }}+=10;
+    $('#feed_pub_{{ fid }} .div_feedpub_div').hide().load('/reply/?loc=pub&len='+feed_pub_len_{{ fid }}+'&fid={{ fid }}').fadeIn('500');
+  }
+</script>
+        {% if ele == 0 %}
+        </div>
+        {% endif %}

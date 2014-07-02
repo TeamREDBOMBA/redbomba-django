@@ -1,0 +1,23 @@
+﻿#container{}
+#container #content{}
+#container #content #profile{position:relative;width:auto;height:250px}
+#container #content #profile #div_profile_link{position:relative;width:250px;height:100%;background-color:#000;background-image:url(/static/img/main_link_bg.png);float:left}
+#container #content #profile #div_profile_link .div_link_game{position:relative;width:100%;overflow:hidden;border-top:1px solid #999999;background-position: 50% 50%}
+#container #content #profile #div_profile_link .div_link_game .icon{position:absolute;left:0px;bottom:0px}
+#container #content #profile #div_profile_link .div_link_game p{position:absolute;right:10px;bottom:5px;color:#FFF;font-size:15px}
+#container #content #profile #div_profile_feedInput{position:relative;width:520px;height:100%;background-color:#fafbfb;float:right}
+#container #content #profile #div_profile_feedInput #textarea_feedinput_input{position:relative;width:500px;height:120px;margin:10px}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn{position:absolute;top:136px;width:520px;z-index:10}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn .btn{height:28px;line-height:15px;font-size:12px}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #btn_feedInput_to{float:left;margin-left:60px}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #div_btn_to{float:left}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #div_btn_game{float:left}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #div_btn_to ul{margin-left:60px}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #btn_feedInput_game{float:left;margin-left:5px}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #div_btn_game ul{margin-left:5px}
+// #container #content #profile #div_profile_feedInput #div_feedInput_btn #btn_feedInput_post{margin-left:110px}
+#container #content #profile #div_profile_feedInput #div_feedInput_btn #btn_feedInput_post{float:right;margin-right:10px}
+#container #content #profile #div_profile_feedInput #div_feedInput_arrow{position:relative;width:500px;height:80px;margin-top:40px;margin-left:10px;text-align:center}
+#container #content #profile #div_profile_feedInput #div_feedInput_arrow img{margin:0 5px}
+
+#container #aside{background-image:url(/static/img/main_aside_bg.png);background-repeat:repeat-y}

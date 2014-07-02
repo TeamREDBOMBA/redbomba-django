@@ -1,0 +1,174 @@
+{% load staticfiles %}
+{% load extras %}
+{% for s in state %}
+<div class='arenapass'>
+  <div class='div_pass_left'>
+    <div class='div_passleft_left'>
+      {% if s.no == 1 %}
+      신청완료
+      {% elif s.no == 2 %}
+      경기대기
+      {% elif s.no == 3 %}
+      입장가능
+      {% elif s.no == 4 %}
+      {{s.last_lm.team_a.round.round}} 라운드 탈락
+      {% elif s.no == 5 %}
+        {% if s.win_1 == s.user.gid %}
+        우승
+        {% elif s.win_2 == s.user.gid %}
+        준우승
+        {% else %}
+        {{s.last_lm.team_a.round.round}} 라운드 탈락
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class='div_passleft_right'>
+      <div class='pass_top'><b>{{ s.league.name }}</b></div>
+        <ul id='div_pass_bottom1' class='pass_bottom'>
+          <li class='title'>소속팀</li>
+          <li class='group'><img src='/media/group_icon/{{s.user.gid.group_icon}}'>{{ s.user.gid.name }}</li>
+        </ul>
+        <ul id='div_pass_bottom2' class='pass_bottom'>
+          <li class='title'>이전 라운드</li>
+          <li class='round'>
+          {% if s.no == 1 %}
+           {% if s.lt.round.round == 1 %}
+           -
+           {% else %}
+           {{s.last_lm.team_a.round.round}} 라운드
+           {% endif %}
+          {% elif s.no == 2 %}
+           {% if s.lm.team_a.round.round == 1 %}
+           -
+           {% else %}
+           {{s.lm.team_a.round.round}} 라운드
+           {% endif %}
+          {% elif s.no == 3 %}
+           {% if s.lm.team_a.round.round == 1 %}
+           -
+           {% else %}
+           {{s.last_lm.team_a.round.round}} 라운드
+           {% endif %}
+          {% elif s.no == 4 %}
+           {{s.last_lm.team_a.round.round}} 라운드
+          {% elif s.no == 5 %}
+            {{s.last_lm.team_a.round.round}} 라운드
+          {% endif %}
+          </li>
+          <li class='group'>
+            {% if s.no == 1 %}
+           {% if s.lt.round.round == 1 %}
+           &nbsp;
+           {% else %}
+             {% if s.last_lm.team_a.group_id == s.user.gid %}
+             <span class='res'>{% if s.last_lm.result == "A" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
+             {{s.last_lm.team_b.group_id.name}}
+             {% else %}
+             <span class='res'>{% if s.last_lm.result == "B" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
+             {{s.last_lm.team_b.group_id.name}}
+             {% endif %}
+           {% endif %}
+          {% elif s.no == 2 %}
+           {% if s.lm.team_a.round.round == 1 %}
+           &nbsp;
+           {% else %}
+             {% if s.last_lm.team_a.group_id == s.user.gid %}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
+             {{s.last_lm.team_b.group_id.name}}
+             {% else %}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
+             {{s.last_lm.team_a.group_id.name}}
+             {% endif %}
+           {% endif %}
+          {% elif s.no == 3 %}
+           {% if s.lm.team_a.round.round == 1 %}
+           &nbsp;
+           {% else %}
+             {% if s.last_lm.team_a.group_id == s.user.gid %}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
+             {{s.last_lm.team_b.group_id.name}}
+             {% else %}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
+             {{s.last_lm.team_a.group_id.name}}
+             {% endif %}
+           {% endif %}
+          {% elif s.no == 4 %}
+             {% if s.last_lm.team_a.group_id == s.user.gid %}
+             <span class='res'>{% if s.last_lm.result == "A" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
+             {{s.last_lm.team_b.group_id.name}}
+             {% else %}
+             <span class='res'>{% if s.last_lm.result == "B" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
+             {{s.last_lm.team_b.group_id.name}}
+             {% endif %}
+          {% elif s.no == 5 %}
+             {% if s.last_lm.team_a.group_id == s.user.gid %}
+             <span class='res'>
+             {% if s.last_lm.result == "A" %}승{% else %}패{% endif %}
+             </span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>{{s.last_lm.team_b.group_id.name}}
+             {% else %}
+             <span class='res'>
+             {% if s.last_lm.result == "B" %}승{% else %}패{% endif %}
+             </span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>{{s.last_lm.team_a.group_id.name}}
+             {% endif %}
+          {% endif %}
+          </li>
+        </ul>
+    </div>
+  </div>
+  <div class='div_pass_right'>
+    <div class='pass_top'>다음 라운드</div>
+    <ul id='div_pass_bottom2' class='pass_bottom'>
+      {% if s.no == 1 %}
+      <li class='title'>{{ s.lt.round.round }} 라운드 일정</li>
+      <li class='time'>일정 등록 전</li>
+      <li class='date'>{{s.lt.round.start}}</li>
+      {% elif s.no == 2 or s.no == 3 %}
+      <li class='title'>{{ s.lm.team_a.round.round }} 라운드 일정</li>
+      <li class='time'>
+        {% if s.lm.date_match|get_time_diff:"state" %}
+        {{s.lm.date_match|get_time_diff:"msg"}}
+        {% else %}
+        경기 진행 중
+        {% endif %}
+      </li>
+      <li class='date'>{{s.lm.date_match}}</li>
+      <li class='group-sm'>
+        {% if s.no == 1 %}
+        &nbsp;
+        {% elif s.no == 2 or s.no == 3 %}
+          {% if s.lm.team_a.group_id == s.user.gid %}
+          <span class='vs'>vs</span><img src='/media/group_icon/{{s.lm.team_b.group_id.group_icon}}'>
+          {{s.lm.team_b.group_id.name}}
+          {% else %}
+          <span class='vs'>vs</span><img src='/media/group_icon/{{s.lm.team_a.group_id.group_icon}}'>
+          {{s.lm.team_a.group_id.name}}
+          {% endif %}
+        {% elif s.no == 4 %}
+        {% elif s.no == 5 %}
+        {% endif %}
+      </li>
+      {% elif s.no == 4 %}
+      <li class='title'>{{ s.last_lm.team_a.round.round }} 라운드 탈락</li>
+      <li class='time'>{{s.lt.round.round}} 라운드 진행 중</li>
+      {% elif s.no == 5 %}
+      <li id="win_1" class="p_btn_winner"><img src="/static/img/card_rand_1.png" class="medal"><img src="/media/group_icon/{{ s.win_1.group_icon }}" class="group_icon">{{s.win_1.name}}</li>
+      <li id="win_2" class="p_btn_winner"><img src="/static/img/card_rand_2.png" class="medal"><img src="/media/group_icon/{{ s.win_2.group_icon }}" class="group_icon">{{s.win_2.name}}</li>
+      <li id="win_3_1" class="p_btn_winner"><img src="/static/img/card_rand_3.png" class="medal">
+        <img src="/media/group_icon/{{ s.win_3_1.group_icon }}" class="group_icon">{{s.win_3_1.name}}<br/>
+        <img src="/media/group_icon/{{ s.win_3_2.group_icon }}" class="group_icon">{{s.win_3_2.name}}</li>
+      {% endif %}
+    </ul>
+    {% if target_user == s.user %}
+      {% if s.no == 1 %}
+      &nbsp;
+      {% elif s.no == 2 %}
+      <span title='경기시작 30분 전부터 입장이 가능합니다.'><buttun type='button' class='btn btn-warning' id='btnEnter' disabled='disabled'>배틀페이지 입장</button></span>
+      {% elif s.no == 3 %}
+      <a href="/battle/?round={{s.lm.team_a.round.id}}"><buttun type='button' class='btn btn-warning' id='btnEnter'>배틀페이지 입장</button></a>
+      {% elif s.no == 4 %}
+      {% elif s.no == 5 %}
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endfor %}

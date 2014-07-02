@@ -1,0 +1,25 @@
+<html>
+<body>
+{% csrf_token %}
+<input type="text" id="text" value="text">
+<input type="button" id='btn' value="click">
+<div id="list" style="width:100%">
+&nbsp;
+</div>
+<script src="http://www.redbomba.net/static/js/jquery-1.8.3.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#btn").click(function(){
+    $.post("/test/",
+    {
+      "a":"abc",
+      "csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val()
+    },
+    function(data,status){
+      alert("Data: " + data + "\nStatus: " + status);
+    });
+  });
+});
+</script>
+</body>
+</html>

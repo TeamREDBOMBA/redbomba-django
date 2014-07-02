@@ -1,0 +1,83 @@
+# -*- coding: utf-8 -*-
+ 
+# Create your views here.
+from redbomba.home.Func import *
+import json
+import datetime
+from redbomba.home.models import GroupMember
+from redbomba.home.models import GameLink
+from redbomba.home.models import Notification
+from django.db.models import Q
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.utils.timezone import utc
+from django.utils.dateformat import format
+from django.views.decorators.csrf import csrf_exempt
+
+######################################## Views ########################################
+
+@csrf_exempt
+def fromMobile(request):
+  if 'mode' in request.GET:
+    if request.GET["mode"] == "1" :
+      try:
+        email = request.GET["email"]
+        password = request.GET["password"]
+        username = get_user(email)
+        if username is None:
+          return HttpResponse('0')
+        else :
+          user = authenticate(username=username, password=password)
+          if user is not None:
+            if user.is_active:
+              state = []
+              state.append({"uid":user.id});
+              return HttpResponse(json.dumps(state), content_type="application/json")
+            else:
+              return HttpResponse('0')
+          else:
+            return HttpResponse('0')
+      except Exception as e:
+        return HttpResponse(e.message)
+      return HttpResponse('0')
+    elif request.GET["mode"] == "2" :
+      try:
+        state = []
+        user = User.objects.get(id=request.GET["uid"])
+        try:
+          gl = GameLink.objects.get(uid=user).name
+        except Exception as e:
+          gl = None
+        try:
+          gm = GroupMember.objects.get(uid=user)
+          state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"groupname":gm.gid.name,"groupimg":gm.gid.group_icon});
+        except Exception as e:
+          gm = None
+          state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"groupname":0,"groupimg":0});
+        return HttpResponse(json.dumps(state), content_type="application/json")
+      except Exception as e:
+        return HttpResponse(e.message)
+    elif request.GET["mode"] == "Notification" :
+      try:
+        user = User.objects.get(id=request.GET["uid"])
+        noti = Notification.objects.filter(uid=user)
+        state = []
+        now = format(datetime.utcnow().replace(tzinfo=utc), u'U')
+        for n in noti :
+          unixtime = format(n.date_updated, u'U')
+          ret = NotificationMsg(n,GroupMember.objects.filter(uid=user)[0])
+          state.append({"no":n.id,"tablename":n.tablename,"con":ret["con"],"img":ret["img"],"imgurl":ret["imgurl"],"date_updated":unixtime, "now":now, "time":n.get_time_diff()})
+        return HttpResponse(json.dumps(state), content_type="application/json")
+      except Exception as e:
+        return HttpResponse(e.message)
+    elif request.GET["mode"] == "NotificationDel" :
+      try:
+        state = []
+        Notification.objects.get(id=request.GET["no"]).delete()
+        state.append({"result":1})
+        return HttpResponse(json.dumps(state), content_type="application/json")
+      except Exception as e:
+        return HttpResponse(e.message)
+    return HttpResponse('0')
+  else:
+    return HttpResponse('0')

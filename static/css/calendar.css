@@ -1,0 +1,155 @@
+.cal {
+  position: relative;
+  padding: 4px;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: baseline;
+  zoom: 1;
+  *display: inline;
+  *vertical-align: auto;
+}
+.cal:before {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 4px;
+  right: 4px;
+  height: 6px;
+}
+.cal a {
+  text-decoration: none;
+  color:inherit;
+}
+.cal tr:first-child a {
+  margin-top: 0;
+}
+.cal tr:last-child a {
+  margin-bottom: 0;
+}
+.cal td:first-child a {
+  margin-left: 0;
+}
+.cal td:last-child a {
+  margin-right: 0;
+}
+
+.cal-table {
+  position: relative;
+}
+
+.cal-caption {
+  width: 100%;
+  padding-bottom: 1px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.3);
+}
+.cal-caption a {
+  line-height: 30px;
+  padding: 0 10px;
+  font-size: 20px;
+  font-weight: normal;
+}
+.cal-caption .prev {
+  float: left;
+}
+.cal-caption .next {
+  float: right;
+}
+
+.cal-body td {
+  width: 30px;
+  height: 22px;
+  text-align: center;
+  font-size: 10px;
+}
+.cal-body a {
+  display: block;
+  position: relative;
+  line-height: 24px;
+  text-align: center;
+}
+.cal-body a:hover {
+  background: #e9e9e9;
+}
+
+.cal-body td:first-child{ color:#de4646; }
+.cal-body td:last-child{ color:#467fde; }
+
+.cal-off a {
+  color: #ccc;
+  font-weight: normal;
+}
+
+.cal-today a {
+  color: black;
+  background: #f5f5f5;
+  background-image: -webkit-linear-gradient(top, whitesmoke, white 70%);
+  background-image: -moz-linear-gradient(top, whitesmoke, white 70%);
+  background-image: -o-linear-gradient(top, whitesmoke, white 70%);
+  background-image: linear-gradient(to bottom, whitesmoke, white 70%);
+  border-radius:23px;
+}
+
+.cal-selected a, .cal-body a:active {
+  color: #b2494d;
+  background: #fff5f6;
+}
+
+.cal-check a {
+  color: #f79901;
+  overflow: hidden;
+}
+.cal-check a:before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+  background: #ffb83b;
+  background-image: -webkit-linear-gradient(top, #ffb83b, #ff6c00);
+  background-image: -moz-linear-gradient(top, #ffb83b, #ff6c00);
+  background-image: -o-linear-gradient(top, #ffb83b, #ff6c00);
+  background-image: linear-gradient(to bottom, #ffb83b, #ff6c00);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.lt-ie8 .cal-table {
+  *border-collapse: collapse;
+}
+.lt-ie8 .cal-body a {
+  zoom: 1;
+}
+
+.cal-apply{
+  background:RGBA(255,0,0,0.1);
+}
+
+.cal-apply-first{
+  border-top-left-radius:10px;
+  border-bottom-left-radius:10px;
+}
+
+.cal-apply-last{
+  border-top-right-radius:10px;
+  border-bottom-right-radius:10px;
+}
+
+.cal-round{
+  background:RGBA(0,144,255,0.1);
+}
+
+.cal-round-first{
+  border-top-left-radius:10px;
+  border-bottom-left-radius:10px;
+}
+
+.cal-round-last{
+  border-top-right-radius:10px;
+  border-bottom-right-radius:10px;
+}
