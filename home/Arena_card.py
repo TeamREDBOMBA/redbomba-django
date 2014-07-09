@@ -40,48 +40,47 @@ def getCard(request):
     return HttpResponse(cardsorter())
 
 def setLeagueteam(request):
-  if request.method=='POST':
-    action = request.POST["action"]
-    if action == "insert":
-      feasible_time = request.POST["feasible_time"]
-      group_id = GroupMember.objects.get(uid=request.user).gid
-      round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
-      LeagueTeam.objects.create(
-        group_id=group_id,
-        round=round,
-        feasible_time=feasible_time
-      )
-      try :
-        if request.POST["round"] > 1 :
-          lr = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=int(request.POST["round"])-1)
-          for lt in LeagueTeam.objects.filter(round=lr) :
-            for lm in LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt))&~Q(state=10)):
-              return HttpResponse("Not Finish")
-          lr.is_finish = 1
-          lr.save()
-      except Exception as e:
-        pass
-    elif action == "delete":
-      group_id = GroupMember.objects.get(uid=request.user).gid
-      round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
-      LeagueTeam.objects.filter(group_id=group_id,round=round).delete()
-    elif action == "abstain":
-      try :
-        gid = GroupMember.objects.get(uid=request.user).gid
-        lr = LeagueRound.objects.get(league_id__id=request.POST["league_id"],round=request.POST["round"])
-        lt = LeagueTeam.objects.get(group_id=gid,round=lr)
-        lm = LeagueMatch.objects.get(Q(team_a=lt)|Q(team_b=lt))
-        lm.state = 10
-        if lm.team_a == lt :
-          lm.result = 'B';
-        elif lm.team_b == lt :
-          lm.result = 'A';
-        lm.save()
-      except Exception as e:
-        return HttpResponse("error:"+e.message)
-    return HttpResponse("Success")
-  else:
-    return HttpResponse("error")
+  action = request.POST.get("action")
+  if action == "insert":
+    feasible_time = request.POST["feasible_time"]
+    group_id = GroupMember.objects.get(uid=request.user).gid
+    round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
+    LeagueTeam.objects.create(
+      group_id=group_id,
+      round=round,
+      feasible_time=feasible_time
+    )
+    try :
+      if request.POST["round"] > 1 :
+        lr = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=int(request.POST["round"])-1)
+        for lt in LeagueTeam.objects.filter(round=lr) :
+          for lm in LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt))&~Q(state=10)):
+            return HttpResponse("Not Finish")
+        lr.is_finish = 1
+        lr.save()
+    except Exception as e:
+      pass
+  elif action == "delete":
+    group_id = GroupMember.objects.get(uid=request.user).gid
+    round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
+    LeagueTeam.objects.filter(group_id=group_id,round=round).delete()
+  elif action == "abstain":
+    try :
+      gid = GroupMember.objects.get(uid=request.user).gid
+      lr = LeagueRound.objects.get(league_id__id=request.POST["league_id"],round=request.POST["round"])
+      lt = LeagueTeam.objects.get(group_id=gid,round=lr)
+      lm = LeagueMatch.objects.get(Q(team_a=lt)|Q(team_b=lt))
+      lm.state = 10
+      if lm.team_a == lt :
+        lm.result = 'B';
+      elif lm.team_b == lt :
+        lm.result = 'A';
+      lm.save()
+    except Exception as e:
+      return HttpResponse("error:"+e.message)
+  else :
+    return HttpResponse("Error")
+  return HttpResponse("Success")
 
 def setMatchmaker(request):
   if request.user :
@@ -114,10 +113,7 @@ def cardsorter():
   val = ""
   for leagueElem in query_league:
     round = LeagueRound.objects.get(league_id=leagueElem,round=1)
-    try:
-      lt = LeagueTeam.objects.filter(round=round)
-    except Exception as e:
-      lt = None
+    lt = LeagueTeam.objects.filter(round=round)
     variables = Context({
     'league':leagueElem,
     'host':leagueElem.uid,

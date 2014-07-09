@@ -32,7 +32,7 @@ def matchmaker(round):
   team_b = []
   timearray = []
   array = getarray(round)
-  start = starttime(round)
+  start = round.start.replace(hour=0, minute=0, second=0, microsecond=0)
 
   for i in array:
     size = countvalues(i)
@@ -97,7 +97,7 @@ def getarray(round):
   teamtimes = time_array(round)
   thearray = []
   for i in teamtimes:
-    teamtimesa = stoa(i)
+    teamtimesa = map(int, i.split(','))
     thearray.append(teamtimesa)
   return thearray
 
@@ -113,10 +113,6 @@ def insertteam(team_a,team_b,date):
 #-----------------------------------------------
 #---------- functions in main function----------
 #-----------------------------------------------
-#Convert string to array
-def stoa(string):
-  array = map(int, string.split(','))
-  return array
 
 #Get size of availiable time
 def countvalues(array):
@@ -170,16 +166,14 @@ def sortindex(array):
 
 #Get values(times) in an array
 def gettime(array):
-  result = []
+  """result = []
   for i in array:
     if i != 0 :
       result.append(i)
-  return result
+  return result"""
+  return [e for e in array if e != 0]
 
 #Time calculator
-def starttime(round):
-  query = round.start
-  return query.replace(hour=0, minute=0, second=0, microsecond=0)
 
 def timecal(datetime,n):
   return datetime + timedelta(hours=n)
