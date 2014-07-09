@@ -208,3 +208,9 @@ def get_json(url) :
   j = urllib2.urlopen(url)
   j_obj = json.load(j)
   return j_obj
+
+def get_or_none(model, **kwargs):
+  try:
+      return model.objects.get(**kwargs)
+  except model.DoesNotExist:
+      return None

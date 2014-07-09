@@ -43,7 +43,9 @@ def setLeagueteam(request):
   action = request.POST.get("action")
   if action == "insert":
     feasible_time = request.POST["feasible_time"]
-    group_id = GroupMember.objects.get(uid=request.user).gid
+    group_id = get_or_none(GroupMember,uid=request.user).gid
+    if group_id :
+      group_id = group_id.gid
     round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
     LeagueTeam.objects.create(
       group_id=group_id,
