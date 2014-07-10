@@ -76,10 +76,7 @@ def fncSignupEmail(request):
 
 def fncSignupNick(request):
   username = request.GET["nick"]
-  try:
-      res = User.objects.get(username=username)
-  except User.DoesNotExist:
-      res =  None
+  res = get_or_none(User,username=username)
   if res==None:
     return HttpResponse("")
   else :
@@ -87,10 +84,7 @@ def fncSignupNick(request):
     
 def fncGroupName(request):
   groupname = request.GET["name"]
-  try:
-      res = Group.objects.get(name=groupname)
-  except Exception as e:
-      res =  None
+  res = get_or_none(Group,name=groupname)
   if res==None:
     return HttpResponse("")
   else :
@@ -98,10 +92,7 @@ def fncGroupName(request):
     
 def fncGroupNick(request):
   groupnick = request.GET["nick"]
-  try:
-      res = Group.objects.get(nick=groupnick)
-  except Exception as e:
-      res =  None
+  res = get_or_none(Group,nick=groupnick)
   if res==None:
     return HttpResponse("")
   else :
