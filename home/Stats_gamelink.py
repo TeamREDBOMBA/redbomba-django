@@ -148,7 +148,7 @@ def write_GameLink(request):
       return HttpResponseRedirect(dfrom)
 
 def insertGameLink(uid=None, game=None, name=None):
-  if uid && game && name :
+  if uid and game and name :
     gl = GameLink.objects.filter(uid=uid,game=game)
     if int(gl.count()) > 0 :
       gl = GameLink.objects.get(uid=uid,game=game)
