@@ -17,111 +17,84 @@ from redbomba.home.Stats_gamelink import *
 from redbomba.home.Stats_myarena import *
 
 def home(request):
-    context = ''
-    if request.GET.get('msg'):
-        context= errorMsg(request.GET.get('msg'))
-        context['site'] = request.GET.get('site')
-    return render(request, 'login.html', context)
+  context = ''
+  if request.GET.get('msg'):
+      context= errorMsg(request.GET.get('msg'))
+      context['site'] = request.GET.get('site')
+  return render(request, 'login.html', context)
 
 def main(request):
-    try:
-      gl = GameLink.objects.filter(uid=request.user)
-      gl_h = 100.0/int(gl.count())
-      try:
-        group = GroupMember.objects.get(Q(uid=request.user)&~Q(is_active=-1)).gid
-        groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
-      except Exception as e:
-        group = None
-        groupmem = None
-      get_group = request.GET.get('group')
-      context = {
-        'user': request.user,
-        'uinfo':request.user.get_profile,
-        'group':group,
-        'groupmem':groupmem,
-        'get_group':get_group,
-        'gamelink':gl,
-        'height':gl_h,
-        'from':'/'
-        }
-    except Exception as e:
-      context = {'user': request.user}
-    return render(request, 'main.html', context)
+  try:
+    gl = GameLink.objects.filter(uid=request.user)
+    gl_h = 100.0/int(gl.count())
+    group = GroupMember.objects.filter(Q(uid=request.user)&~Q(is_active=-1))
+    if group.count() :
+      group = group.gid
+      groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+    else : groupmem = None
+    get_group = request.GET.get('group')
+    context = {
+      'user': request.user,
+      'uinfo':request.user.get_profile,
+      'group':group,
+      'groupmem':groupmem,
+      'get_group':get_group,
+      'gamelink':gl,
+      'height':gl_h,
+      'from':'/'
+      }
+  except Exception as e:
+    context = {'user': request.user}
+  return render(request, 'main.html', context)
 
 def stats(request,username=None):
-    try:
-      myuid = request.user
-      if username :
-        target_uid = User.objects.get(username=username)
-      else :
-        target_uid = myuid
+  try:
+    myuid = request.user
+    if username :
+      target_uid = User.objects.get(username=username)
+    else :
+      target_uid = myuid
 
-      try:
-        getval = request.GET['get']
-      except Exception as e:
-        getval = ""
+    getval = request.GET.get('get','')
+    gl = GameLink.objects.filter(uid=target_uid)
 
-      try:
-        gl = GameLink.objects.filter(uid=target_uid)
-      except Exception as e:
-        gl=None
+    group = GroupMember.objects.filter(Q(uid=target_uid)&~Q(is_active=-1))
+    if group.count() :
+      group = group[0].gid
+      groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+    else : groupmem = None
 
-      try:
-        group = GroupMember.objects.get(Q(uid=target_uid)&~Q(is_active=-1)).gid
-        groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
-      except Exception as e:
-        group = None
-        groupmem = None
+    get_group = request.GET.get('group',None)
 
-      try:
-        if request.GET['group']:
-          get_group = request.GET['group']
-        else :
-          get_group = None
-      except Exception as e:
-        get_group = None
-
-      context = {
-        'user' : request.user,
-        'uinfo':request.user.get_profile,
-        'target_user':target_uid,
-        'group':group,
-        'groupmem':groupmem,
-        'get_group':get_group,
-        'gamelink' : gl,
-        'getval':getval,
-        'from' : '/stats/'
-        }
-    except Exception as e:
-      context = {'user': request.user}
-    return render(request, 'stats.html', context)
+    context = {
+      'user' : request.user,
+      'uinfo':request.user.get_profile,
+      'target_user':target_uid,
+      'group':group,
+      'groupmem':groupmem,
+      'get_group':get_group,
+      'gamelink' : gl,
+      'getval':getval,
+      'from' : '/stats/'
+      }
+  except Exception as e:
+    context = {'user': request.user}
+  return render(request, 'stats.html', context)
 
 def arena(request):
     try:
-      try:
-        getval = request.GET['get']
-      except Exception as e:
-        getval = ""
+      getval = request.GET.get('get')
 
-      try:
-        group = GroupMember.objects.get(Q(uid=request.user)&~Q(is_active=-1)).gid
+      group = GroupMember.objects.filter(Q(uid=request.user)&~Q(is_active=-1))
+      if group.count() :
+        group = group[0].gid
         groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
-      except Exception as e:
-        group = None
-        groupmem = None
+      else : groupmem = None
 
-      try:
-        if request.GET['group']:
-          get_group = request.GET['group']
-        else :
-          get_group = None
-      except Exception as e:
-        get_group = None
+      get_group = request.GET.get('group')
 
-      try:
-        is_pass1 = int(Tutorial.objects.get(uid=request.user).is_pass1)
-      except Exception as e:
-        is_pass1 = 0
+      is_pass1 = get_or_none(Tutorial,uid=request.user)
+      if is_pass1 : is_pass1 = int(is_pass1.is_pass1)
 
       state = {"is_pass1":is_pass1}
 
