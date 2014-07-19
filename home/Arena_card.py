@@ -31,6 +31,8 @@ from redbomba.home.models import GameLink
 from redbomba.home.models import LeagueReward
 
 ######################################## Views ########################################
+from home.Func import get_or_none
+
 
 def getCard(request):
   if request.method=='POST':
