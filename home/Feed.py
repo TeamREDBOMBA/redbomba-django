@@ -134,7 +134,7 @@ def feedsorter(loc, uid, len, fid, request):
     reply = Reply.objects.filter(ufrom=uid).values_list('fid', flat=True)
     smile = Smile.objects.filter(uid=user).values_list('fid', flat=True)
     if fid==0 :
-      feed = list(Feed.objects.filter())
+      feed = list(Feed.objects.filter().order_by("-date_updated"))
     else :
       feed = list(Feed.objects.filter(id=fid).order_by("-date_updated"))
     template = get_template('feed_pub.html')

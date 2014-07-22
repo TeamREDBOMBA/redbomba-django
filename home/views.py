@@ -26,12 +26,19 @@ def home(request):
 def main(request):
   try:
     gl = GameLink.objects.filter(uid=request.user)
-    gl_h = 100.0/int(gl.count())
-    group = GroupMember.objects.filter(Q(uid=request.user)&~Q(is_active=-1))
-    if group.count() :
+    if gl.count() :
+      gl_h = 100.0/int(gl.count())
+    else :
+      gl_h = 0
+
+    try :
+      group = GroupMember.objects.get(Q(uid=request.user)&~Q(is_active=-1))
       group = group.gid
       groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
-    else : groupmem = None
+    except Exception as e:
+      group = None
+      groupmem = None
+      
     get_group = request.GET.get('group')
     context = {
       'user': request.user,
