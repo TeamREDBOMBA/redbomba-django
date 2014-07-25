@@ -71,9 +71,9 @@ def setLeagueteam(request):
             lm = LeagueMatch.objects.get(Q(team_a=lt)|Q(team_b=lt))
             lm.state = 10
             if lm.team_a == lt :
-                lm.result = 'B';
+                lm.result = 'B'
             elif lm.team_b == lt :
-                lm.result = 'A';
+                lm.result = 'A'
             lm.save()
         except Exception as e:
             return HttpResponse("error:"+e.message)
