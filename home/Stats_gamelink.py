@@ -29,7 +29,7 @@ def summoner(request):
     summoner_info = json_res[user]
     
     random.shuffle(apikey)
-    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.3/league/by-summoner/%s?api_key=%s' %(summoner_info['id'],apikey[0])))
+    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.4/league/by-summoner/%s?api_key=%s' %(summoner_info['id'],apikey[0])))
     
     for res in json_res[0]['entries'] :
       if res['playerOrTeamId'] == str(summoner_info['id']) :
