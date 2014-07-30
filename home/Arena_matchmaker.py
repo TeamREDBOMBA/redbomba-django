@@ -16,7 +16,8 @@
  #
 
 from redbomba.home.Func import *
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 from redbomba.home.models import League
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound
@@ -32,7 +33,7 @@ def matchmaker(round):
   team_b = []
   timearray = []
   array = getarray(round)
-  start = round.start.replace(hour=0, minute=0, second=0, microsecond=0)
+  start = starttime(round)
 
   for i in array:
     size = countvalues(i)
@@ -40,6 +41,7 @@ def matchmaker(round):
 
   indexholder = sortindex(sizeholder)
   for i in range(len(indexholder)):
+
     if indexholder[i] != -1:
       time = gettime(array[indexholder[i]])
       for j in range(len(indexholder)):
@@ -97,7 +99,7 @@ def getarray(round):
   teamtimes = time_array(round)
   thearray = []
   for i in teamtimes:
-    teamtimesa = map(int, i.split(','))
+    teamtimesa = stoa(i)
     thearray.append(teamtimesa)
   return thearray
 
@@ -113,6 +115,10 @@ def insertteam(team_a,team_b,date):
 #-----------------------------------------------
 #---------- functions in main function----------
 #-----------------------------------------------
+#Convert string to array
+def stoa(string):
+  array = map(int, string.split(','))
+  return array
 
 #Get size of availiable time
 def countvalues(array):
@@ -166,14 +172,18 @@ def sortindex(array):
 
 #Get values(times) in an array
 def gettime(array):
-  """result = []
-  for i in array:
-    if i != 0 :
-      result.append(i)
-  return result"""
-  return [e for e in array if e != 0]
+  recotime = [20,19,18,21,17,14,15,13,12,16,22,23,0,1,2,11,10,9,7,8,3,4,5,6]
+  result = []
+  for i in recotime:
+    for j in range(len(array)):
+      if i == array[j]%24:
+        result.append(array[j])
+  return result
 
 #Time calculator
+def starttime(round):
+  query = round.start
+  return query.replace(hour=0, minute=0, second=0, microsecond=0)
 
 def timecal(datetime,n):
-  return datetime + timedelta(hours=n)
+  return datetime + timedelta(hours=n-9)

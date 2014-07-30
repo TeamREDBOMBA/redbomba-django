@@ -16,9 +16,6 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 
-from datetime import date, datetime, timedelta
-from django.utils.timezone import utc
-from django.utils import timezone
 from django import template
 from django.template.loader import get_template
 from django.template import Context
@@ -43,7 +40,7 @@ def setLeagueteam(request):
     action = request.POST.get("action")
     if action == "insert":
         feasible_time = request.POST["feasible_time"]
-        group_id = get_or_none(GroupMember,uid=request.user).gid
+        group_id = get_or_none(GroupMember,uid=request.user)
         if group_id :
             group_id = group_id.gid
         round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
@@ -52,7 +49,7 @@ def setLeagueteam(request):
             round=round,
             feasible_time=feasible_time
         )
-        if request.POST.get("round",0) > 1 :
+        if request.POST.get("round",0) >= 2 :
             lr = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=int(request.POST["round"])-1)
             for lt in LeagueTeam.objects.filter(round=lr) :
                 for lm in LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt))&~Q(state=10)):

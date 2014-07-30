@@ -7,6 +7,7 @@ import datetime
 from redbomba.home.models import GroupMember
 from redbomba.home.models import GameLink
 from redbomba.home.models import Notification
+from django.contrib.auth import logout, authenticate, login
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -50,10 +51,10 @@ def fromMobile(request):
           gl = None
         try:
           gm = GroupMember.objects.get(uid=user)
-          state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"groupname":gm.gid.name,"groupimg":gm.gid.group_icon});
+          state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"gid":gm.gid.id,"groupname":gm.gid.name,"groupimg":gm.gid.group_icon});
         except Exception as e:
           gm = None
-          state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"groupname":0,"groupimg":0});
+          state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"gid":0,"groupname":0,"groupimg":0});
         return HttpResponse(json.dumps(state), content_type="application/json")
       except Exception as e:
         return HttpResponse(e.message)
