@@ -87,12 +87,10 @@ def setMatchmaker(request):
 
 def getLargeCardBtn(request):
     if request.user :
-        try:
-            league = League.objects.get(id=request.POST['lid'])
-            user = GroupMember.objects.get(uid__id=request.POST['uid'])
-        except Exception as e:
-            league = None
-            user = None
+        league = get_or_none(League, id=request.POST.get('lid'))
+        user = get_or_none(User, id=request.POST.get('uid'))
+        if user is None :
+            user = request.user
         context = {
             'state':LeagueState(league,user)
         }
@@ -137,6 +135,13 @@ def cardDetail_sorter(request, league_id):
     league = get_or_none(League,id=league_id)
     user = get_or_none(GroupMember,uid=request.user)
 
+    if user :
+        user_group = user.gid
+        user = user.uid
+    else :
+        user = request.user
+        user_group = None
+
     info = get_or_none(Contents,uto=league.id,utotype='l',ctype='inf')
     if info :
         info = info.con
@@ -167,6 +172,7 @@ def cardDetail_sorter(request, league_id):
 
     context = {
         'user': user,
+        'user_group': user_group,
         'league':league,
         'contents':con,
         'groups':groups,

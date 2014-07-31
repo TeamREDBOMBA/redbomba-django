@@ -1,7 +1,7 @@
 {% load extras %}
 <div id="div_left">
   <input type="hidden" name="lid" id="lid" value="{{league.id}}">
-  <input type="hidden" name="uid" id="uid" value="{{user.uid.id}}">
+  <input type="hidden" name="uid" id="uid" value="{{user.id}}">
 	<div id="div_left_top">
 		<i class="fa fa-arena"></i>콜로세움
 	</div>
@@ -314,7 +314,7 @@ $('#btnDone').click(function(){
     'league_id':{{league.id}},
     'feasible_time':feasible_time
     },function(res,status){
-      socket.emit('sendNotification', {'gid':{{user.gid.id}},'lid':{{league.id}},'tablename':'home_league'});
+      socket.emit('sendNotification', {'gid':0{{user_group.id}},'lid':{{league.id}},'tablename':'home_league'});
       $('#div_join').fadeOut('fast');
       $('#div_join_done').fadeIn('fast');
     });
@@ -339,9 +339,11 @@ $('#btn_done_back').click(function(){
 readFeed("#div_right_feed", 10, 0, {{league.id}});
 </script>
 <script>
+$('#div_main_cal').html(drawCal({{league.start_apply|date:'Y,N,j'}},{{league.end_apply|date:'Y,N,j'}},{{SR.min|date:'Y,N,j'}},{{ER.max|date:'Y,N,j'}}));
+</script>
+<script>
 $("#div_right_btn").html("<div style='width:100%;text-align:center'><img src='/static/img/ajax-loader.gif'></div>");
 $("#div_right_btn").hide().load("/cardbtn/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"lid":$("#div_left #lid").val(),"uid":$("#div_left #uid").val()}).fadeIn('500');
-$('#div_main_cal').html(drawCal({{league.start_apply|date:'Y,N,j'}},{{league.end_apply|date:'Y,N,j'}},{{SR.min|date:'Y,N,j'}},{{ER.max|date:'Y,N,j'}}));
 </script>
 <script>
 $('#btn_feed_write').click(function(){

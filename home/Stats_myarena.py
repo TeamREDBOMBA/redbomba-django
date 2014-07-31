@@ -13,17 +13,19 @@ from django.shortcuts import render
 ######################################## Views ########################################
 
 def getMyarena(request):
-  if request.POST.get('username') == request.user.username :
-    user = get_or_none(GroupMember,uid=request.user)
+  if request.POST.get('username') :
+    user = get_or_none(User,username=request.POST['username'])
   else :
-    user = get_or_none(GroupMember,uid=User.objects.get(username=request.POST['username']))
-  if user : league = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user.gid).values_list('round__league_id', flat=True))
-  else : league = None
+    user = request.user
+  user_group = get_or_none(GroupMember,uid=user)
+  if user_group :
+    league = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user_group.gid).values_list('round__league_id', flat=True))
+  else:
+    league = []
 
   state = []
-  if league and user :
-    for l in league :
-      state.append(LeagueState(l,user))
+  for l in league :
+    state.append(LeagueState(l,user))
 
   context = {
     "user":request.user,

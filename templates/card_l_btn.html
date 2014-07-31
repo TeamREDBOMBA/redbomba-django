@@ -1,6 +1,6 @@
 {% load extras %}
     {% if state.no == -1 %}
-      {% if groups|length == league.max_team and league.uid == state.user.uid %}
+      {% if groups|length == league.max_team and league.uid == state.user %}
       <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>
       <input type="hidden" id="round_id" name="round_id" value="{{state.lr.id}}" />
       <input type="hidden" id="round_no" name="round_no" value="{{state.lr.round}}" />
@@ -9,7 +9,7 @@
       title="
       <b>참가조건이 안됨</b><br/>
       <p style='width:93%;text-align:left;margin-left:13px;text-indent:-6px'>
-        {% if state.user %}<font color='#40d47e'><i class='fa fa-check-circle'>{% else %}
+        {% if state.user_gid %}<font color='#40d47e'><i class='fa fa-check-circle'>{% else %}
         <font color='#e74c3c'><i class='fa fa-times-circle'>{% endif %}</i></font> 소속그룹이 있어야 합니다.
       </p>
       <p style='width:93%;text-align:left;margin-left:13px;text-indent:-6px'>
@@ -33,7 +33,7 @@
       <img src="/static/img/arena_card_div.png">
       <button class="btn btn-danger" id="btnWish"><i class="fa fa-heart"></i> 관심있어요!</button>
     {% elif state.no == 1 %}
-      {% if state.league.uid == state.user.uid %}
+      {% if state.league.uid == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lt.round.round}}</button>
         <input type="hidden" id="round_id" name="round_id" value="{{state.lt.round.id}}" />
         <input type="hidden" id="round_no" name="round_no" value="{{state.lt.round.round}}" />
@@ -114,11 +114,11 @@ $('#btnAbstain').click(function(){
 });
 
 $("#btnAskAbstain").click(function(){
-  socket.emit('chatGroup', {"name":"redbomba","con":"'{{user.uid.username}}'님이 '{{league.name}}'대회의 참가 취소를 요청하셨습니다."});
+  socket.emit('chatGroup', {"name":"redbomba","con":"'{{user.username}}'님이 '{{league.name}}'대회의 참가 취소를 요청하셨습니다."});
 });
 
 $("#btnAskCancel").click(function(){
-  socket.emit('chatGroup', {"name":"redbomba","con":"'{{user.uid.username}}'님이 '{{league.name}}'대회의 참가 취소를 요청하셨습니다."});
+  socket.emit('chatGroup', {"name":"redbomba","con":"'{{user.username}}'님이 '{{league.name}}'대회의 참가 취소를 요청하셨습니다."});
 });
 
 $('#btnjoin').click(function(){
