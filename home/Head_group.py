@@ -3,7 +3,6 @@
 # Create your views here.
 from redbomba.home.Func import *
 from redbomba.home.models import *
-from bs4 import BeautifulSoup
 from django import template
 from django.db.models import Q
 from django.contrib.auth.models import User

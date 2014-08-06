@@ -12,6 +12,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_PASSWORD = ''
+DATABASE_HOST = '0.0.0.0'
 
 try:
    from settings_secret import *
@@ -25,7 +26,7 @@ DATABASES = {
         # The following settings are not used with sqlite3:
         'USER': 'root',
         'PASSWORD': DATABASE_PASSWORD,
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'HOST': DATABASE_HOST,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
 }
@@ -59,7 +60,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = '/var/www/redbomba.net/src/redbomba/redbomba/media'
+MEDIA_ROOT = 'redbomba/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -70,7 +71,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/var/www/redbomba.net/src/redbomba/redbomba/static'
+STATIC_ROOT = 'redbomba/static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -81,10 +82,10 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    ('css', '/var/www/redbomba.net/src/redbomba/redbomba/static/css'),
-    ('js', '/var/www/redbomba.net/src/redbomba/redbomba/static/js'),
-    ('img', '/var/www/redbomba.net/src/redbomba/redbomba/static/img'),
-    ('less', '/var/www/redbomba.net/src/redbomba/redbomba/static/less'),
+    ('css', 'redbomba/static/css'),
+    ('js', 'redbomba/static/js'),
+    ('img', 'redbomba/static/img'),
+    ('less', 'redbomba/static/less'),
 )
 
 # List of finder classes that know how to find static files in
@@ -121,7 +122,7 @@ ROOT_URLCONF = 'redbomba.urls'
 WSGI_APPLICATION = 'redbomba.wsgi.application'
 
 TEMPLATE_DIRS = (
-    "/var/www/redbomba.net/src/redbomba/redbomba/templates"
+    "redbomba/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

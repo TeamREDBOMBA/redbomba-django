@@ -4,8 +4,9 @@
     <data-source source="LOCAL" name="Django default" uuid="4ff9461c-cda8-4c16-bb4f-5fd1208e7d24">
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql:///redbomba</jdbc-url>
+      <jdbc-url>jdbc:mysql://redbomba.net/redbomba</jdbc-url>
       <user-name>root</user-name>
+      <user-password>dfccdfdadfcfdfc7dfdbdfc1dfcbdfdbdfc1df89df8cdf9fdf9d</user-password>
       <libraries />
     </data-source>
   </component>

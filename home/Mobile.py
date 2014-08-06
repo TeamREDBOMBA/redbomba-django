@@ -58,6 +58,17 @@ def fromMobile(request):
         return HttpResponse(json.dumps(state), content_type="application/json")
       except Exception as e:
         return HttpResponse(e.message)
+    elif request.GET["mode"] == "getGroupList" :
+        state = []
+        memlist = []
+        user = User.objects.get(id=request.GET.get("uid",0))
+        group = get_or_none(GroupMember,uid=user)
+        gms = GroupMember.objects.filter(gid=group.gid)
+        if group :
+            for gm in gms :
+                memlist.append({"username":gm.uid.username, "user_icon":gm.uid.get_profile().user_icon})
+            state.append({"name":group.gid.name,"nick":group.gid.nick,"uid":group.gid.uid.id,"icon":group.gid.group_icon,"game":group.gid.game.name,"memlist":memlist})
+        return HttpResponse(json.dumps(state), content_type="application/json")
     elif request.GET["mode"] == "Notification" :
       try:
         user = User.objects.get(id=request.GET["uid"])

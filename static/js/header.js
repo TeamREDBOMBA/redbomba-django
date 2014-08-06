@@ -5,7 +5,7 @@ $(window).load(function() {
 
   $('.dropdown-toggle').dropdown();
 
-  socket = io.connect('http://14.63.186.76:8080');
+  socket = io.connect('http://redbomba.net:3000/');
   socket.emit('leaveGroup','leave');
   $.post("/forsocket/",
     {
