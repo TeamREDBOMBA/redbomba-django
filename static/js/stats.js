@@ -2,8 +2,8 @@
   feed_pri_len = 10;
   readFeed("#feed_pri", feed_pri_len, 0, $("#p_profile_username").text());
   var ran_no = Math.floor((Math.random() * 621) + 1);
-  $("#profile").css({"background-image":"url(/media/stat/lol/"+ran_no+".jpg)"});
-  $("#profileBG").css({"background-image":"url(/media/stat/lol/"+ran_no+".jpg)"});
+  $("#profile").css({"background-image":"url(http://re01-xv2938.ktics.co.kr/stat_lol_"+ran_no+".jpg)"});
+  $("#profileBG").css({"background-image":"url(http://re01-xv2938.ktics.co.kr/stat_lol_"+ran_no+".jpg)"});
 });
 
 $(window).load(function() {

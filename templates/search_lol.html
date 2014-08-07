@@ -26,7 +26,7 @@
   {% endif %}
   {% endif %}
   <div class="li_left_stat">
-    <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_medal_{{summoner_stat.tier}}.png" id="img_left_medal">
+    <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_medal_{{summoner_stat.tier}}.png" id="img_left_medal">
     <p id="p_left_line1">{{summoner_stat.tier}} <b>{{summoner_stat.rank}}</b></p>
     <p id="p_left_line2">{{summoner_stat.lp}} LP</p>
     <p id="p_left_line3">승 {{summoner_stat.wins}}&nbsp;&nbsp;패 {{summoner_stat.losses}}</p>
@@ -45,10 +45,10 @@
     {% for r in summoner_recent %}
     <li class="li_right_league">
       <p class="p_league_win {% if r.win_bool %}win{% else %}lose{% endif %}">{{r.win}}</p>
-      <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_cham_{{r.cid}}.png" class="img_league_img" id="img_league_img1">
+      <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_cham_{{r.cid}}.png" class="img_league_img" id="img_league_img1">
       <p class="p_league_spell">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_spell_{{r.spell1}}.png" class="img_league_spell">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_spell_{{r.spell2}}.png" class="img_league_spell">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_spell_{{r.spell1}}.png" class="img_league_spell">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_spell_{{r.spell2}}.png" class="img_league_spell">
       </p>
       <p class="p_league_kda">
         <span class='kda'>{{r.kill}} / <font class='kda_r'>{{r.death}}</font> / {{r.assists}}</span><br/>
@@ -59,12 +59,12 @@
         <span class='cs'>CS {{r.cs}}</span>
       </p>
       <p class="p_league_item">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item0}}.png" class="img_league_item">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item1}}.png" class="img_league_item">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item2}}.png" class="img_league_item"><br/>
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item3}}.png" class="img_league_item">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item4}}.png" class="img_league_item">
-        <img src="http://jt01-eo2801.ktics.co.kr/gamelink_lol_item_{{r.item5}}.png" class="img_league_item">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item0}}.png" class="img_league_item">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item1}}.png" class="img_league_item">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item2}}.png" class="img_league_item"><br/>
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item3}}.png" class="img_league_item">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item4}}.png" class="img_league_item">
+        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item5}}.png" class="img_league_item">
       </p>
       <p class="p_league_type">
         <span id="type_sub" style="color:{{r.mathchtype.color}};background-color:{{r.mathchtype.bc}};">{{r.mathchtype.name}}</span><br/>
