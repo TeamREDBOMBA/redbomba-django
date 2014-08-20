@@ -17,6 +17,7 @@ $(window).load(function() {
         $("#div_signup_passerror").text("");
         $("#div_signup_passerror2").text("");
         $("#div_signup_nickerror").text("");
+        $('#button_signup_complete').html("회원가입 완료 !");
         $('#backBG').show();
         $('._aside').show();
         $('._aside').animate({"right":"0%"}, 'slow');
@@ -49,9 +50,16 @@ $(window).load(function() {
     });
 
     $('#button_signup_complete').click(function(){
+        var val_username = $('._aside #id_username').val();
+        var val_password1 = $('._aside #id_password1').val();
+        var val_email = $('._aside #id_email').val();
         if($("#div_signup_iderror").text()==""&&$("#div_signup_passerror").text()==""&&$("#div_signup_passerror2").text()==""&&$("#div_signup_nickerror").text()==""&&
             $('._aside #id_email').val()!=""&&$('._aside #id_password1').val()!=""&&$('._aside #id_password2').val()!=""&&$('._aside #id_username').val()!=""){
-            $('#signupForm').submit();
+            $('#button_signup_complete').html("<img src='/static/img/ajax-loader_btn.gif'>로딩 중...");
+            $("._aside_done #signup").load("/auth/signup/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email}, function(){
+                $('._aside_done').show();
+                $('._aside_done').animate({"right":"0%"}, 'slow');
+            });
         }
     });
 

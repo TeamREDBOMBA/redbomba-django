@@ -88,22 +88,11 @@
                 <div id="div_info_line2">
                     <div class="div_info_ele">
                         <ul>
-                            <li><img src="/static/img/login_line2_icon1.png"></li>
-                            <li>Gamers Connection</li>
-                            <li>게임에 대한 당신의 기억은 소중합니다.<br>
-                                또한 자랑스러운 업적입니다.<br>
-                                마음껏 뽐내 주세요.</li>
-                        </ul>
-                    </div>
-                    <div class="div_info_ele">
-                        <ul>
                             <li><img src="/static/img/login_line2_icon2.png"></li>
                             <li>ARENA</li>
                             <li>5분 만에 게임 대회를 만들고<br>5초 만에 대회에 참가할 수 있습니다.<br>새로운 차원의 경쟁과 보상을 받아가세요. </li>
                         </ul>
                     </div>
-                </div>
-                <div id="div_info_line3">
                     <div class="div_info_ele">
                         <ul>
                             <li><img src="/static/img/login_line3_icon1.png"></li>
@@ -111,9 +100,20 @@
                             <li>당신의 길드, 클랜, 팀원들은<br>지금 어디에 있나요?<br><font color="e84c3d">RED</font>BOMBA에서 모여 보세요.</li>
                         </ul>
                     </div>
-                    <div class="div_info_ele">
+                </div>
+                <div id="div_info_line3">
+                    <div class="div_info_ele developing">
                         <ul>
-                            <li><img src="/static/img/login_line3_icon2.png"></li>
+                            <li><img src="/static/img/login_line2_icon1.png"><span>개발중</span></li>
+                            <li>Gamers Connection</li>
+                            <li>게임에 대한 당신의 기억은 소중합니다.<br>
+                                또한 자랑스러운 업적입니다.<br>
+                                마음껏 뽐내 주세요.</li>
+                        </ul>
+                    </div>
+                    <div class="div_info_ele developing">
+                        <ul>
+                            <li><img src="/static/img/login_line3_icon2.png"><span>개발중</span></li>
                             <li>Live</li>
                             <li>더욱 선명하고,<br>더욱 빠르며,<br>더욱 쿨한 게임 방송이 시작됩니다.</li>
                         </ul>
@@ -132,7 +132,7 @@
                 <div id="div_signup_line1">
                     <p id="p_line1_title">회원가입</p>
                 </div>
-                <form role="form" id="signupForm" method="post" action="../auth/signup/">{% csrf_token %}
+                <form role="form" id="signupForm">{% csrf_token %}
                     <div id="div_signup_line2">
                         <p id="p1"><font id="font1">E-mail</font></p>
                         <p><input id="id_email" maxlength="254" name="email" type="email" class="form-control " placeholder="예 : i@me.com" /></p>
@@ -159,8 +159,13 @@
                     </div>
                     <div id="div_signup_line4">
                         <button id="button_signup_cancle" class="btn btn-default" type="button">취소</button>
-                        <button id="button_signup_complete" class="btn btn-warning" type="button">회원가입 완료 !</button>
+                        <button id="button_signup_complete" class="btn btn-warning" type="button" >회원가입 완료 !</button>
                     </div>
+                </form>
+            </div>
+        </div>
+        <div class="_aside_done">
+            <div id="signup">
             </div>
         </div>
     </div>
@@ -181,38 +186,7 @@
 <script src="/static/js/jquery.stacktable.js" type="text/javascript"></script>
 <script src="/static/js/application.js" type="text/javascript"></script>
 <script src="/static/js/login.js" type="text/javascript"></script>
-{% if msg == '201' %}
-    <!-- Modal -->
-    <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/static/img/arena_modal_close.png"></button>
-                {% if title %}<div class="modal-header"><h4 class="modal-title">{{ title }}</h4></div>{% endif %}
-                <div class="modal-body">
-                    <p>{{con}}</p>
-                    <p>가입을 완료하시려면 이메일 인증을 받으세요.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    {% if site == 'naver.com' %}
-                        <button type="button" class="btn btn-success" onclick="location.href='http://{{site}}/';">네이버으로 이동</button>
-                    {% elif site == 'daum.net' or site == 'hanmail.net' %}
-                        <button type="button" class="btn btn-warning" onclick="location.href='http://{{site}}/';">다음으로 이동</button>
-                    {% elif site == 'nate.com' %}
-                        <button type="button" class="btn btn-danger" onclick="location.href='http://{{site}}/';">네이트로 이동</button>
-                    {% elif site == 'google.com' %}
-                        <button type="button" class="btn btn-warning" onclick="location.href='http://{{site}}/';">구글로 이동</button>
-                    {% else %}
-                        <button type="button" class="btn btn-warning" onclick="location.href='http://{{site}}/';">{{site}}으로 이동</button>
-                    {% endif %}
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <script>
-        $('#error').modal('show');
-    </script>
-{% elif msg %}
+{% if msg %}
     <div class="alert alert-warning">{{ con }}</div>
 {% endif %}
 </body>

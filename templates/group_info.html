@@ -266,7 +266,8 @@
     if(e.keyCode==13&&$('#GroupInfo #chatMsg').val()!=""){
       var username = $('#p_head_username').text();
       var con = $('#GroupInfo #chatMsg').val();
-      socket.emit('chatGroup', {"name":username,"con":con});
+      var icon = "{{ user.get_profile.user_icon }}";
+      socket.emit('chatGroup', {"name":username,"con":con,"icon":icon});
       $('#GroupInfo #chatMsg').val("");
     }
   });

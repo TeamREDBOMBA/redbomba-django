@@ -241,7 +241,7 @@ def setGroupList(request):
 
 def getChatting(request):
   if request.user :
-    len = int(request.POST["len"])
+    len = int(request.POST.get("len",0))
     group = Group.objects.get(name=request.POST["group_name"])
     chatting = Chatting.objects.filter(gid=group).order_by("-date_updated")
     val = ""
