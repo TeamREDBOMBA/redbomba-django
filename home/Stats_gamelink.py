@@ -27,19 +27,22 @@ def summoner(request):
     random.shuffle(apikey)
     json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.4/summoner/by-name/%s?api_key=%s' %(user,apikey[0])))
     summoner_info = json_res[user]
-    
+    summoner_id = str(summoner_info['id'])
+
     random.shuffle(apikey)
-    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.4/league/by-summoner/%s?api_key=%s' %(summoner_info['id'],apikey[0])))
-    
+    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.4/league/by-summoner/%s?api_key=%s' %(summoner_id,apikey[0])))
+
+    return HttpResponse(json.dumps(json_res), content_type="application/json")
+
+    tier = json_res['tier']
     for res in json_res[0]['entries'] :
-      if res['playerOrTeamId'] == str(summoner_info['id']) :
-        tier = res['tier']
+      if res['playerOrTeamId'] == summoner_id :
         rank = res['rank']
         lp = res['leaguePoints']
         break
 
     random.shuffle(apikey)
-    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.3/stats/by-summoner/%s/summary?season=SEASON4&api_key=%s' %(summoner_info['id'],apikey[0])))
+    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.3/stats/by-summoner/%s/summary?season=SEASON4&api_key=%s' %(summoner_id,apikey[0])))
     for res in json_res['playerStatSummaries'] :
       if res['playerStatSummaryType'] == "RankedSolo5x5" :
         wins = res['wins']
@@ -63,7 +66,7 @@ def summoner(request):
 
     summoner_recent = []
     random.shuffle(apikey)
-    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.3/game/by-summoner/%s/recent?api_key=%s' %(summoner_info['id'],apikey[0])))['games']
+    json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.4/game/by-summoner/%s/recent?api_key=%s' %(summoner_info['id'],apikey[0])))['games']
     for res in json_res[0:8] :
       if setStatsValue(res, 'win') == True :
         win = "승"

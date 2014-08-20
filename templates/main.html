@@ -12,7 +12,6 @@
     <link href="static/css/header.css" rel="stylesheet" />
     <link href="/static/css/main.css" rel="stylesheet" />
     <link href="/static/css/icon.css" rel="stylesheet">
-    <link href="/static/css/feed_main.css" rel="stylesheet" />
     <link href="/static/css/group_info.css" rel="stylesheet">
     <link href="/static/css/gamelink.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -41,73 +40,19 @@
 	<div id="content">
     	<!-- Profile -->
         <div id="profile" class="div_feed">
-        	<div id="div_profile_link">
-        	  {% if gamelink %}
-            {% for gl in gamelink %}
-          	    <div class="div_link_game game_{{gl.game.id}}" style="height:{{ height }}%; background-image:url(/static/img/main_link_game{{gl.game.id}}_bg.png)">
-              	  {% if gl.game.id == 1 %}<img src="/static/img/game_leagueoflegends.jpg" class="img_gamelink_icon">
-                  {% endif %}
-              	  <p class="p_gamelink_name">{{ gl.name }}</p>
-              	</div>
-          	{% endfor %}
-          {% else %}
-          <button class="btn btn-danger" id="btnGamelink"><i class="fa fa-link"></i> 게임 연결하기</button>
-        	{% endif %}
-        	</div>
-            <div id="div_profile_feedInput">
-              <form role="form" id="div_feedInput_form" name="div_feedInput_form" method="post" action="/">
-              	<textarea id="textarea_feedinput_input" class="form-control" placeholder="당신의 위대한 업적을 공유해보세요!"></textarea>
-                  <div id="div_feedInput_btn">
-                  <div class="btn-group" id="div_btn_to">
-                    <button type="button" id="btn_feedInput_to" class="btn btn-success dropdown-toggle" data-toggle="dropdown" value="u">
-                      <i class="fa fa-user fa-1"></i> | All <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">All</a></li>
-                    </ul>
-                  </div>
-                  <div class="btn-group" id="div_btn_game">
-                    <button type="button" id="btn_feedInput_game" class="btn btn-success dropdown-toggle" data-toggle="dropdown" value="League Of Legends">
-                      <i class="fa fa-gamepad fa-1"></i> | League Of Legends <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">League Of Legends</a></li>
-                    </ul>
-                  </div>
-                  <button type="button" id="btn_feedInput_post" class="btn btn-primary">올리기</button>
-                  </div>
-                  <div id="div_feedInput_arrow" class="arrow_box">
-                    <div id="div_arrow_icon1" class="div_arrow_icon imgbtn">
-                      <p class="icon"><i class="fa fa-camera"></i></p>
-                      <p class="name">사진</p>
-                    </div>
-                    <div id="div_arrow_icon2" class="div_arrow_icon imgbtn">
-                      <p class="icon"><i class="fa fa-film"></i></p>
-                      <p class="name">동영상</p>
-                    </div>
-                    <div id="div_arrow_icon3" class="div_arrow_icon imgbtn">
-                      <p class="icon"><i class="fa fa-flag"></i></p>
-                      <p class="name">로그</p>
-                    </div>
-                    <div id="div_arrow_icon4" class="div_arrow_icon imgbtn">
-                      <p class="icon"><i class="fa fa-question-circle"></i></p>
-                      <p class="name">질문</p>
-                    </div>
-                  </div>
-                </form>
-            </div>
+
         </div>
         <!-- //Profile -->
         <!-- News Feed -->
         <div id="feed_pub">
-        <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
+
         </div>
         <!-- //News Feed -->
 	</div>
 	<div id="aside">
     <!-- Pri. Feed -->
     <div id="feed_pri">
-    <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
+
     </div>
     <!-- //Pri. Feed -->
 	</div>
