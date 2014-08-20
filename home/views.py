@@ -119,6 +119,7 @@ def arena(request):
       context = {'user': request.user}
     return render(request, 'arena.html', context)
 
+@csrf_exempt
 def test(request):
-  #send_complex_message(request.user.username)
-  return HttpResponse('ok?')
+  text = request.POST.get("id",0)
+  return HttpResponse(text)

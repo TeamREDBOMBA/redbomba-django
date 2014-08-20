@@ -3,7 +3,6 @@
 # Create your views here.
 from redbomba.home.Func import *
 from redbomba.home.models import *
-from bs4 import BeautifulSoup
 from django import template
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -242,7 +241,7 @@ def setGroupList(request):
 
 def getChatting(request):
   if request.user :
-    len = int(request.POST["len"])
+    len = int(request.POST.get("len",0))
     group = Group.objects.get(name=request.POST["group_name"])
     chatting = Chatting.objects.filter(gid=group).order_by("-date_updated")
     val = ""
