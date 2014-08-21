@@ -5,3 +5,16 @@
 #container #gamelink_tutor a {margin-left:20px;font-weight: normal;font-size: 14px;color:#fff}
 
 #container #content{}
+#container #content #top_information { margin: 10px;margin-bottom: 20px;padding: 0 15px;line-height: 50px;border-radius: 4px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
+#container #content #top_information .close { line-height:inherit }
+#container #content #top_information .btn { float: right;margin-right: 10px;margin-top: 10px; }
+
+#aside #profile .profile_subtitle { border-top:1px solid #eee;border-bottom:1px solid #eee;padding:5px}
+#aside #profile #profile_top {width:100%;height:60px}
+#aside #profile #profile_top #img_usericon { width:50px;border-radius:50px;border:1px solid #ddd;margin:5px;float:left}
+#aside #profile #profile_top #p_username { font-size:18px;font-weight:bold;padding-top:7px}
+#aside #profile #profile_top #p_groupname { color:#999 }
+#aside #profile #profile_bottom .div_link_game{position:relative;width:100%;height:60px;overflow:hidden;border-top:1px solid #999999;background-position: 50% 50%;cursor:pointer;}
+#aside #profile #profile_bottom .div_link_game .img_gamelink_icon{width:50px;margin:5px;border: 1px solid #666;background-color: #ddd;border-radius: 50px;}
+#aside #profile #profile_bottom .div_link_game p{position:absolute;right:10px;bottom:5px;color:#FFF;font-size:15px}
+#aside #profile #profile_bottom #btnGamelink {width: 170px;height: 70px;}
