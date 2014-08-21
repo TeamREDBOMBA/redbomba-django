@@ -137,7 +137,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .order-pre {background-color:#999;}
 
 #GroupInfo .modal-chat {position:relative;width: 557px;height:600px;padding:10px;background-color:#fff;border-left:1px solid #d5ddde;float:right}
-#GroupInfo .modal-chat .div_chat{width:100%;height:540px;font-size:16px;line-height:25px;padding-top:10px;padding-left:10px;overflow-y:scroll;}
+#GroupInfo .modal-chat .div_chat{width:100%;height:540px;font-size:16px;line-height:25px;padding-top:10px;padding-left:10px;overflow-y:scroll;overflow-x: hidden;word-wrap: break-word;}
 #GroupInfo .modal-chat .div_chat .myname{font-weight:900}
 #GroupInfo .modal-chat .div_input{position:absolute;bottom:0;left:0;width:100%;height:40px;background-color:rgba(0,0,0,0.7)}
 #GroupInfo .modal-chat .div_input #chatMsg{width: 540px;height: 25px;border-radius: 5px;font-size: 12px;margin: 8px;border: 0;padding-left: 8px;}
