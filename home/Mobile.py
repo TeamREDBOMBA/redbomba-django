@@ -8,11 +8,9 @@ from redbomba.home.models import GroupMember
 from redbomba.home.models import GameLink
 from redbomba.home.models import Notification
 from redbomba.home.models import Chatting
-from django.contrib.auth import logout, authenticate, login
-from django.db.models import Q
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.utils.timezone import utc
 from django.utils.dateformat import format
 from django.views.decorators.csrf import csrf_exempt
 
@@ -75,7 +73,7 @@ def getNotification(request):
         user = User.objects.get(id=request.GET["uid"])
         noti = Notification.objects.filter(uid=user)
         state = []
-        now = format(datetime.utcnow().replace(tzinfo=utc), u'U')
+        now = format(timezone.localtime(timezone.now()), u'U')
         for n in noti :
             unixtime = format(n.date_updated, u'U')
             ret = NotificationMsg(n,GroupMember.objects.filter(uid=user)[0])

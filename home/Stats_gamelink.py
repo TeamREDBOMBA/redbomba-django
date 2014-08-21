@@ -6,13 +6,11 @@ import random
 from redbomba.home.Func import *
 from redbomba.home.models import Game
 from redbomba.home.models import GameLink
-from redbomba.home.models import Notification
 from bs4 import BeautifulSoup
 from datetime import datetime
 from django.utils.timezone import utc
-from django.db.models import Q
 from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 ######################################## Views ########################################
 

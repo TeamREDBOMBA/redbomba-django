@@ -1,32 +1,19 @@
 # -*- coding: utf-8 -*-
 
 # Create your views here.
-import base64
 import re, urlparse
 import json
 import urllib2
-from redbomba.home.models import Smile
 from redbomba.home.models import Group
 from redbomba.home.models import GroupMember
-from redbomba.home.models import Game
 from redbomba.home.models import GameLink
-from redbomba.home.models import Notification
-from redbomba.home.models import League
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound
 from redbomba.home.models import LeagueMatch
-from datetime import date, datetime, timedelta
-from django import template
+from datetime import timedelta
 from django.db.models import Q
-from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response
-from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.template import RequestContext, Context
-from django.template.loader import get_template, render_to_string
-from django.utils.html import strip_tags
-from django.utils.timezone import utc
+from django.http import HttpResponse
 from django.utils import timezone
 
 def get_user(email):
@@ -128,7 +115,7 @@ def LeagueState(league, user):
 
     try:
         all1_lt = LeagueTeam.objects.filter(round=lr[1],round__league_id=league)
-        now = datetime.utcnow().replace(tzinfo=utc)
+        now = timezone.localtime(timezone.now())
         if all1_lt.count():
             all2_lt = LeagueTeam.objects.filter(id__in=all1_lt,group_id=user_gid)
             if all2_lt.count() == 0:
@@ -165,7 +152,7 @@ def LeagueState(league, user):
         return state
 
     try:
-        now = datetime.utcnow().replace(tzinfo=utc) + timedelta(minutes=30)
+        now = timezone.localtime(timezone.now()) + timedelta(minutes=30)
         lm = LeagueMatch.objects.filter(id=lm.id,date_match__lte=now).order_by("-game")[0]
     except Exception as e:
         state = {"no":2,"lm":lm,"last_lm":last_lm,"e":e.message,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league}

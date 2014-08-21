@@ -3,8 +3,7 @@
 # Create your views here.
 from redbomba.home.Func import *
 from django.contrib.auth import logout, authenticate, login
-from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 ######################################## Views ########################################
 

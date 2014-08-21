@@ -3,7 +3,6 @@
 import datetime
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.timezone import utc
 from django.utils import timezone
 
 class Game(models.Model):
@@ -32,7 +31,7 @@ class Feed(models.Model):
   
   def get_time_diff(self):
     if self.date_updated:
-      now = datetime.datetime.utcnow().replace(tzinfo=utc)
+      now = timezone.localtime(timezone.now())
       timediff = now - self.date_updated
       timediff = timediff.total_seconds()
       if timediff > 259200:
@@ -56,7 +55,7 @@ class Reply(models.Model):
   
   def get_time_diff(self):
     if self.date_updated:
-      now = datetime.datetime.utcnow().replace(tzinfo=utc)
+      now = timezone.localtime(timezone.now())
       timediff = now - self.date_updated
       timediff = timediff.total_seconds()
       if timediff > 259200:
@@ -101,7 +100,7 @@ class Notification(models.Model):
 
   def get_time_diff(self):
     if self.date_updated:
-      now = datetime.datetime.utcnow().replace(tzinfo=utc)
+      now = timezone.localtime(timezone.now())
       timediff = now - self.date_updated
       timediff = timediff.total_seconds()
       if timediff > 259200:
@@ -158,7 +157,7 @@ class League(models.Model):
 
   def get_time_diff(self):
     if self.end_apply:
-      now = datetime.datetime.utcnow().replace(tzinfo=utc)
+      now = timezone.localtime(timezone.now())
       if self.start_apply > now :
         return -1
       timediff = self.end_apply - now
@@ -178,7 +177,7 @@ class LeagueRound(models.Model):
 
   def get_time_diff(self):
     if self.start:
-      now = datetime.datetime.utcnow().replace(tzinfo=utc)
+      now = timezone.localtime(timezone.now())
       timediff = self.start - now
       timediff = timediff.total_seconds()
       if timediff < 0 :

@@ -17,11 +17,7 @@
 
 from redbomba.home.Func import *
 from datetime import timedelta
-from django.utils import timezone
-from redbomba.home.models import League
 from redbomba.home.models import LeagueTeam
-from redbomba.home.models import LeagueRound
-from redbomba.home.models import LeagueReward
 from redbomba.home.models import LeagueMatch
 
 # Create your views here.

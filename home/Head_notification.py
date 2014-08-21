@@ -3,14 +3,9 @@
 # Create your views here.
 from redbomba.home.Func import *
 from redbomba.home.models import *
-from django.db.models import Q
-from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.template import RequestContext, Context
-from django.template.loader import get_template, render_to_string
-from datetime import date, datetime, timedelta
-from django.utils.timezone import utc
-from django.utils import timezone
+from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
 
 ######################################## Views ########################################
 
@@ -55,7 +50,7 @@ def read_Notification(request) :
         except Exception as e:
             return HttpResponse("새로운 소식이 없습니다."+e.message)
     else :
-        return HttpResponse("새로운 소식이 없습니다."+e.message)
+        return HttpResponse("새로운 소식이 없습니다.")
 
 def NotificationMsg(notiElem, user):
     try :

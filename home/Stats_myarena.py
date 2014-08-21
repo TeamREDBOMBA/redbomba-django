@@ -4,10 +4,8 @@
 from redbomba.home.Func import *
 from redbomba.home.models import User
 from redbomba.home.models import GroupMember
-from redbomba.home.models import GameLink
 from redbomba.home.models import League
 from redbomba.home.models import LeagueTeam
-from django.db.models import Q
 from django.shortcuts import render
 
 ######################################## Views ########################################

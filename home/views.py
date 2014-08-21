@@ -15,6 +15,7 @@ from redbomba.home.Main import *
 from redbomba.home.Mobile import *
 from redbomba.home.Stats_gamelink import *
 from redbomba.home.Stats_myarena import *
+from django.utils import timezone
 
 def home(request):
   context = ''
@@ -121,5 +122,6 @@ def arena(request):
 
 @csrf_exempt
 def test(request):
-  text = request.POST.get("id",0)
+  text = "datetime.now = %s <br>"%(datetime.now())
+  text += "timezone.localtime(timezone.now()) = %s" %(timezone.localtime(timezone.now()))
   return HttpResponse(text)

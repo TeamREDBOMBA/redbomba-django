@@ -5,17 +5,12 @@ from redbomba.home.Func import *
 import base64
 import requests
 import random
-from redbomba.home.forms import *
 from redbomba.home.models import UserProfile
 from redbomba.home.models import Group
-from django.db.models import Q
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
-from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render_to_response
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.template import RequestContext, Context
-from django.template.loader import get_template, render_to_string
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.html import strip_tags
 
 ######################################## Views ########################################
