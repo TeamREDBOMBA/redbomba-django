@@ -9,6 +9,9 @@ em,address{font-style:normal}
 a{text-decoration:none;cursor:pointer;color:inherit;}
 a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 
+.div_feed{margin:10px;margin-bottom: 20px;background-color: #fff;border:1px solid #ddd;border-radius: 4px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);box-shadow: 0 1px 1px rgba(0,0,0,0.05);min-width:50px;min-height:50px;overflow:hidden}
+.div_feed i{position: relative;top: 1px;font-size: 14px;}
+
 /* Layout */
 .imgbtn{cursor:pointer}
 .arrow_box {position: relative;background: #ffffff;border: 1px solid #e3e3e3;}

@@ -58,7 +58,7 @@ def mode2(request) :
     except Exception as e:
         return HttpResponse(e.message)
 
-def getGroupList(request):
+def getGroupListForMobile(request):
     state = []
     memlist = []
     user = User.objects.get(id=request.GET.get("uid",0))
@@ -112,7 +112,7 @@ def fromMobile(request):
         elif request.GET["mode"] == "2" :
             return mode2(request)
         elif request.GET["mode"] == "getGroupList" :
-            return getGroupList(request)
+            return getGroupListForMobile(request)
         elif request.GET["mode"] == "Notification" :
             return getNotification(request)
         elif request.GET["mode"] == "NotificationDel" :
