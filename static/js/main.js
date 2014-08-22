@@ -1,5 +1,6 @@
 ﻿$(document).ready(function(){
-
+    var query_no=0;
+    getDisplayContent(query_no);
 });
 
 $(window).load(function() {
@@ -30,6 +31,10 @@ $(window).load(function() {
     	$('#Gamelink').modal('show');
 	});
 });
+
+function getDisplayContent(no){
+    $('#display').load("/league/display/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'query_no':no});
+}
 
 function findId(from){
   var str = $('#input_gamelink_searchbar').val();

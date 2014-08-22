@@ -3,7 +3,7 @@ $(document).ready(function(){
 });
 $(window).load(function() {
 
-	socket = io.connect('http://14.63.186.76:8080');
+	socket = io.connect('http://redbomba.net:3000/');
 	socket.emit('leaveGroup','leave');
 	socket.emit('leaveRound','leave');
 
