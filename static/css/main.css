@@ -13,16 +13,31 @@
 #container #content #display .display_title { height:50px;background-color:#232b34 }
 #container #content #display .display_title .display_title_live { background-color:#e74c3c ; color: #fff; font-size: 15px; padding: 5px 10px; letter-spacing: 3px; line-height: 50px; border-radius: 3px; margin-left: 10px;}
 #container #content #display .display_title .display_title_name { color: #fff;font-size: 14px;margin-left: 10px; }
-#container #content #display .display_body { position:relative;width:100%;height:100%;color:#fff }
-#container #content #display .display_body .groupicon {width:60px}
+#container #content #display .display_body { position:relative;width:100%;color:#fff }
 
-#container #content #display .display_body .display_body_left {width:50%;float:left;text-align:right;padding-top: 20px;padding-right: 50px;}
-#container #content #display .display_body .display_body_left .display_left_name {margin:0 10px;font-size:20px}
+#container #content #display .display_body .display_body_left {width:50%;float:left;text-align:right;padding-top: 5px;padding-right: 50px;}
+#container #content #display .display_body .display_body_left .display_left_groupicon {width:60px;margin-left: 10px;float: right;}
+#container #content #display .display_body .display_body_left .display_left_text .display_left_name {font-size:20px}
+#container #content #display .display_body .display_body_left .display_left_text .display_left_bos { position:relative ; margin-top: 8px; letter-spacing: 3px;}
+#container #content #display .display_body .display_body_left .display_left_text .display_lose { color: #505861;}
+#container #content #display .display_body .display_body_left .display_left_member { position:relative ; padding-top: 20px;}
+#container #content #display .display_body .display_body_left .display_left_member .display_member {float: right;width: 62px;padding: 0 6px;text-align: center;}
+#container #content #display .display_body .display_body_left .display_left_member .display_member img {width: 35px;border-radius: 35px;}
+#container #content #display .display_body .display_body_left .display_left_member .display_member p {font-size:12px;word-break: break-word;line-height: 10px;margin-top: 5px;}
 
-#container #content #display .display_body .display_body_right {width:50%;float:right;text-align:left;padding-top: 20px; padding-left: 50px;}
-#container #content #display .display_body .display_body_right .display_right_name {margin:0 10px;font-size:20px}
+#container #content #display .display_body .display_body_right {width:50%;float:right;text-align:left;padding-top: 5px; padding-left: 50px;}
+#container #content #display .display_body .display_body_right .display_right_groupicon {width:60px;margin-right: 10px;float: left;}
+#container #content #display .display_body .display_body_right .display_right_text .display_right_name {font-size:20px}
+#container #content #display .display_body .display_body_right .display_right_text .display_right_bos { position:relative ;margin-top: 8px; letter-spacing: 3px;}
+#container #content #display .display_body .display_body_right .display_right_text .display_lose { color: #505861;}
+#container #content #display .display_body .display_body_right .display_right_member { position:relative ; padding-top: 20px;}
+#container #content #display .display_body .display_body_right .display_right_member .display_member {float:left;width: 62px;padding: 0 6px;text-align: center;}
+#container #content #display .display_body .display_body_right .display_right_member .display_member img {width: 35px;border-radius: 35px;}
+#container #content #display .display_body .display_body_right .display_right_member .display_member p {font-size:12px;word-break: break-word;line-height: 10px;margin-top: 5px;}
 
 #container #content #display .display_body .display_body_center {position:absolute;top:0;left:50%;margin-left:-50px;width:100px;height:100%;text-align:center}
+#container #content #display .display_body .display_body_center .center_vs { position: relative; top: 30px; font-size: 30px; font-weight: bold;}
+#container #content #display .display_body .display_body_center .center_gamename { position: relative; top: 40px; font-size: 9px;}
 
 #aside #profile .profile_subtitle { border-top:1px solid #eee;border-bottom:1px solid #eee;padding:5px}
 #aside #profile #profile_top {width:100%;height:60px}
