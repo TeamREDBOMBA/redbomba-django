@@ -33,10 +33,6 @@
         <!-- //Header -->
         <!-- Container -->
         <div id="container">
-            {% if gamelink %}
-            {% else %}
-                <div class="alert alert-danger" id='gamelink_tutor'><span><u>게임계정을 연결</u>해보세요! REDBOMBA에서는 당신의 게임계정이 중심입니다.</span><a data-dismiss="alert" href="#" aria-hidden="true">다음에 하기</a></div>
-            {% endif %}
             <div id="content">
 
                 <div class="alert alert-info fade in" id="top_information">
@@ -73,8 +69,14 @@
                                     <p class="p_gamelink_name">{{ gl.name }}</p>
                                 </div>
                             {% endfor %}
+                            <div class="div_link_btn_s">
+                                <b>게임계정</b>이 더 있으신가요? <button class="btn btn-danger btn-sm" id="btnGamelink_s"><i class="fa fa-link"></i> 게임 연결하기</button>
+                            </div>
                         {% else %}
-                            <button class="btn btn-danger" id="btnGamelink"><i class="fa fa-link"></i> 게임 연결하기</button>
+                            <div class="div_link_btn">
+                                <b>게임계정을 연결해보세요!</b><br/>REDBOMBA에서는 당신의 게임계정이 중심입니다.
+                                <button class="btn btn-danger" id="btnGamelink" style="margin-top: 4px;"><i class="fa fa-link"></i> 게임 연결하기</button>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

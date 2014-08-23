@@ -21,8 +21,8 @@ $(window).load(function() {
 
   socket.on('html', function (data) {
     $(data.name).html(data.html);
-    if($('#noti_value').text()) $("#div_head_icon1 i").css({"color":"RGBA(255,255,255,1)"});
-    if($('#field_value').text()) $("#div_head_icon2 i").css({"color":"RGBA(255,255,255,1)"});
+    if($('#noti_value').text()) $("#div_head_icon1 i").css({"color":"RGBA(102,117,127,1)"});
+    if($('#field_value').text()) $("#div_head_icon2 i").css({"color":"RGBA(102,117,127,1)"});
   });
   
   socket.on('group', function (data) {
@@ -105,7 +105,7 @@ $(window).load(function() {
             $.post('/db/noti/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'read','uid':uid});
             $("#title_noti_value").hide();
             $("#noti_value").hide();
-            $("#div_head_icon1 i").css({"color":"RGBA(255,255,255,0.3)"});
+            $("#div_head_icon1 i").css({"color":"RGBA(102,117,127,0.3)"});
           	$('#div_head_icon1 .popover-content').html($("#div_noti_step1").html()+res);
         });
 	});

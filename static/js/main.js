@@ -8,7 +8,7 @@ $(window).load(function() {
 	var userArray = $('#header #groupmem_uid').map(function() { return $(this).val(); }).get();
   socket.emit('isOnline',userArray);
 
-	$('#btnGamelink').click(function(){
+	$('#btnGamelink, #btnGamelink_s').click(function(){
 	    $('#gamelink_tutor').hide();
 	    $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),"user":""});
     	$('#Gamelink').modal('show');

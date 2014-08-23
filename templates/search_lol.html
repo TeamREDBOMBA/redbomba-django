@@ -4,10 +4,10 @@
   <div id="div_gamelink_games">
     <p id="p_gamelink_games">
     <img src="/static/img/game_leagueoflegends.jpg" class="img_games_game {% if name == 1 %}active{% endif %}" id="img_games_game1" title="League of Legends">
-    <img src="/static/img/game_dota2.jpg" class="img_games_game {% if name == 2 %}active{% endif %}" id="img_games_game2" title="Dota2">
-    <img src="/static/img/game_starcraft2.jpg" class="img_games_game {% if name == 3 %}active{% endif %}" id="img_games_game3" title="Startcraft2">
-    <img src="/static/img/game_suddenattack.jpg" class="img_games_game {% if name == 4 %}active{% endif %}" id="img_games_game4" title="Sudden Attack">
-    <img src="/static/img/game_fifa3.jpg" class="img_games_game {% if name == 5 %}active{% endif %}" id="img_games_game5" title="FiFA Online 3">
+    <img src="/static/img/game_dota2.jpg" class="developing_img img_games_game {% if name == 2 %}active{% endif %}" id="img_games_game2" title="Dota2">
+    <img src="/static/img/game_starcraft2.jpg" class="developing_img img_games_game {% if name == 3 %}active{% endif %}" id="img_games_game3" title="Startcraft2">
+    <img src="/static/img/game_suddenattack.jpg" class="developing_img img_games_game {% if name == 4 %}active{% endif %}" id="img_games_game4" title="Sudden Attack">
+    <img src="/static/img/game_fifa3.jpg" class="developing_img img_games_game {% if name == 5 %}active{% endif %}" id="img_games_game5" title="FiFA Online 3">
     </p>
   </div>
   <input class="form-control input-lg" type="text" id="input_gamelink_searchbar" placeholder="소환사명을 입력하세요." value="{{summoner_info.name}}" onKeyPress="if(event.keyCode==13){ findId('{{ from }}'); return false; }">
@@ -37,7 +37,7 @@
       <img src="{{s.img}}" class="img_most_img" id="img_most_img1">
       <p class="p_most_name">{{s.name}}</p>
       <p class="p_most_kda">{{s.kda}}</p>
-      <p class="p_most_played">{{s.played}}</p>
+      <p class="p_most_played">{{s.played}}</p>q
     </li>
     {% endfor %}
   </ul>
@@ -85,10 +85,10 @@
   <div id="div_gamelink_games">
     <p id="p_gamelink_games">
     <img src="/static/img/game_leagueoflegends.jpg" class="img_games_game" id="img_games_game1" title="League of Legends">
-    <img src="/static/img/game_dota2.jpg" class="img_games_game" id="img_games_game2" title="Dota2">
-    <img src="/static/img/game_starcraft2.jpg" class="img_games_game" id="img_games_game3" title="Startcraft2">
-    <img src="/static/img/game_suddenattack.jpg" class="img_games_game" id="img_games_game4" title="Sudden Attack">
-    <img src="/static/img/game_fifa3.jpg" class="img_games_game" id="img_games_game5" title="FiFA Online 3">
+    <img src="/static/img/game_dota2.jpg" class="developing_img img_games_game" id="img_games_game2" title="Dota2">
+    <img src="/static/img/game_starcraft2.jpg" class="developing_img img_games_game" id="img_games_game3" title="Startcraft2">
+    <img src="/static/img/game_suddenattack.jpg" class="developing_img img_games_game" id="img_games_game4" title="Sudden Attack">
+    <img src="/static/img/game_fifa3.jpg" class="developing_img img_games_game" id="img_games_game5" title="FiFA Online 3">
     </p>
   </div>
   <input class="form-control input-lg" type="text" id="input_gamelink_searchbar" placeholder="소환사명을 입력하세요." onKeyPress="if(event.keyCode==13){ findId('{{ from }}'); return false; }">
