@@ -1,7 +1,7 @@
 ﻿#container{}
 #container #gamelink_tutor {position: absolute;top: 45px;left:50%;text-align:center;margin-left:-400px;margin-top:5px;width: 800px;padding:10px;background-color:#e74c3c;border:0;z-index: 1000;cursor: pointer;}
 #container #gamelink_tutor:hover{background-color:#c0392b;}
-#container #gamelink_tutor span {font-size: 15px;font-weight: 900;color:#fff;}
+#container #gamelink_tutor span {font-size: 15px;font-family:'RixSGo B';color:#fff;}
 #container #gamelink_tutor a {margin-left:20px;font-weight: normal;font-size: 14px;color:#fff}
 
 #container #content{}
@@ -36,13 +36,13 @@
 #container #content #display .display_body .display_body_right .display_right_member .display_member p {font-size:12px;word-break: break-word;line-height: 10px;margin-top: 5px;}
 
 #container #content #display .display_body .display_body_center {position:absolute;top:0;left:50%;margin-left:-50px;width:100px;height:100%;text-align:center}
-#container #content #display .display_body .display_body_center .center_vs { position: relative; top: 30px; font-size: 30px; font-weight: bold;}
+#container #content #display .display_body .display_body_center .center_vs { position: relative; top: 30px; font-size: 30px; font-family:'RixSGo B';}
 #container #content #display .display_body .display_body_center .center_gamename { position: relative; top: 40px; font-size: 9px;}
 
 #aside #profile .profile_subtitle { border-top:1px solid #eee;border-bottom:1px solid #eee;padding:5px}
 #aside #profile #profile_top {width:100%;height:60px}
 #aside #profile #profile_top #img_usericon { width:50px;border-radius:50px;border:1px solid #ddd;margin:5px;float:left}
-#aside #profile #profile_top #p_username { font-size:18px;font-weight:bold;padding-top:7px}
+#aside #profile #profile_top #p_username { font-size:18px;font-family:'RixSGo B';padding-top:7px}
 #aside #profile #profile_top #p_groupname { color:#999 }
 #aside #profile #profile_bottom .div_link_game{position:relative;width:100%;height:60px;overflow:hidden;border-top:1px solid #999999;background-position: 50% 50%;cursor:pointer;}
 #aside #profile #profile_bottom .div_link_game .img_gamelink_icon{width:50px;margin:5px;border: 1px solid #666;background-color: #ddd;border-radius: 50px;}

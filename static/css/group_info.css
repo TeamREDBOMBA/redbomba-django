@@ -17,11 +17,11 @@
 
 #GroupInfo .modal-info #div_info_1 .div_info_body{position:relative;width:330px;height:600px;background-color:#ecf0f1;text-align:center;float:left;}
 #GroupInfo .modal-info #div_info_1 .div_info_body #group_icon{width:256px;height:256px;margin-top:20px;}
-#GroupInfo .modal-info #div_info_1 .div_info_body H1{font-size:25px;color:#2c2c2c;font-weight:bolder;margin:10px 0;padding:0;}
+#GroupInfo .modal-info #div_info_1 .div_info_body H1{font-size:25px;color:#2c2c2c;font-family:'RixSGo EB';margin:10px 0;padding:0;}
 #GroupInfo .modal-info #div_info_1 .div_info_body H2{font-size:25px;color:#2c2c2c;margin-top:-10px;padding:0;}
 #GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host{width:100%;height:120px;border-top:1px solid #fff;border-bottom:1px solid #fff;margin-top:0px;margin-bottom:20px}
 #GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host .info_title{font-size:15px;margin:5px;}
-#GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host .memnum{font-size:50px;font-weight:bold}
+#GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host .memnum{font-size:50px;font-family:'RixSGo B'}
 #GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host ul{width:100%;}
 #GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host li{width:50%;float:left;height:120px;}
 #GroupInfo .modal-info #div_info_1 .div_info_body #div_info_host li:first-child{border-right:1px solid #fff}
@@ -37,10 +37,10 @@
 #GroupInfo .modal-info #div_info_1 #div_info_sub1 .ul_sub_member li{height:70px;border-bottom:1px solid #fff}
 #GroupInfo .modal-info #div_info_1 #div_info_sub1 .ul_sub_member li:hover{background-color:RGBA(0,0,0,0.03)}
 #GroupInfo .modal-info #div_info_1 #div_info_sub1 .ul_sub_member li img{height:50px;margin: 10px;border-radius: 50px;float: left;}
-#GroupInfo .modal-info #div_info_1 #div_info_sub1 .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-weight:bold;width: 250px;line-height: 17px;}
+#GroupInfo .modal-info #div_info_1 #div_info_sub1 .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-family:'RixSGo B';width: 250px;line-height: 17px;}
 #GroupInfo .modal-info #div_info_1 #div_info_sub1 .ul_sub_member li .gameid{color:#999;}
 #GroupInfo .modal-info #div_info_1 #div_info_sub2 img{width: 60%;margin-top: 23%;margin-bottom: 5px;}
-#GroupInfo .modal-info #div_info_1 #div_info_sub2 H2{font-size: 18px;font-weight: bold;}
+#GroupInfo .modal-info #div_info_1 #div_info_sub2 H2{font-size: 18px;font-family:'RixSGo B';}
 #GroupInfo .modal-info #div_info_1 #div_info_sub2 p{font-size: 14px;}
 #GroupInfo .modal-info #div_info_1 #div_info_sub2 #btnOK{margin-top: 30px;width: 40%;}
 #GroupInfo .modal-info #div_info_1 #div_info_sub2 #btnCancel{margin-top: 10px;width: 40%;}
@@ -57,7 +57,7 @@
 #GroupInfo .modal-info #div_info_2 .div_info_body #brn_admin_submem{width:300px;margin:10px;}
 #GroupInfo .modal-info #div_info_2 .div_info_sub{position:absolute;top:0;left:330px;width:330px;height:600px;background-color:#ecf0f1;border-left:1px solid #d5ddde;text-align:center;float:left;}
 #GroupInfo .modal-info #div_info_2 .div_info_sub .div_sub_title{height: 40px;line-height: 40px;padding: 0 5px;text-align: left;border-bottom: 1px solid #fff;}
-#GroupInfo .modal-info #div_info_2 .div_info_sub .div_sub_title #btnBack{background-color:#ecf0f1;margin-top:5px;color:666;border:0;font-size:14px;font-weight:bold}
+#GroupInfo .modal-info #div_info_2 .div_info_sub .div_sub_title #btnBack{background-color:#ecf0f1;margin-top:5px;color:666;border:0;font-size:14px;font-family:'RixSGo B'}
 
 #GroupInfo .modal-info #div_info_2 #div_info_subChange H1{font-size: 20px;margin: 10px;text-align:left}
 #GroupInfo .modal-info #div_info_2 #div_info_subChange H4{margin: 10px;font-size: 13px;color: #666;text-align:left}
@@ -66,7 +66,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li{position:relative;height:70px;border-bottom:1px solid #fff}
 #GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li:hover{background-color:RGBA(0,0,0,0.03)}
 #GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li img{height:50px;margin: 10px;border-radius: 50px;float: left;}
-#GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-weight:bold;width: 250px;line-height: 17px;}
+#GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-family:'RixSGo B';width: 250px;line-height: 17px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li .gameid{color:#999;}
 #GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member li .btn-change{position:absolute;top:50%;margin-top:-15px;right:10px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subChange .ul_sub_member .no_list{position:relative;height:70px;line-height:70px;color:#a5a7a8;border-bottom:1px solid #fff;text-align:center;font-size:15px}
@@ -78,7 +78,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li{position:relative;height:70px;border-bottom:1px solid #fff}
 #GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li:hover{background-color:RGBA(0,0,0,0.03)}
 #GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li img{height:50px;margin: 10px;border-radius: 50px;float: left;}
-#GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-weight:bold;width: 250px;line-height: 17px;}
+#GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-family:'RixSGo B';width: 250px;line-height: 17px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li .gameid{color:#999;}
 #GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member li .btn-del{position:absolute;top:50%;margin-top:-15px;right:10px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subDel .ul_sub_member .no_list{position:relative;height:70px;line-height:70px;color:#a5a7a8;border-bottom:1px solid #fff;text-align:center;font-size:15px}
@@ -91,7 +91,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .form-group{margin:10px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .alert-danger{letter-spacing:-1px}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .form-group .div_subNew_memlist{ position: absolute;width: 300px;max-height:300px;overflow-y: scroll;top: 278px;left: 15px;
-																					background-color: RGBA(255,255,255,0.93);line-height: 30px;font-weight: bold;color: #383838;
+																					background-color: RGBA(255,255,255,0.93);line-height: 30px;font-family:'RixSGo B';color: #383838;
 																					border-radius: 3px; display: none; z-index: 100;}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .form-group .div_subNew_memlist #ul_memlist_list li{height:51px;border-bottom:1px solid #ddd}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .form-group .div_subNew_memlist #ul_memlist_list li:hover{background-color:RGBA(0,0,0,0.03)}
@@ -101,7 +101,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li{position:relative;height:70px;border-bottom:1px solid #fff}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li:hover{background-color:RGBA(0,0,0,0.03)}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li img{height:50px;margin: 10px;float: left;}
-#GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-weight:bold;width: 250px;line-height: 17px;}
+#GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-family:'RixSGo B';width: 250px;line-height: 17px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li .gameid{color:#999;}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member li .btn-del{position:absolute;top:50%;margin-top:-15px;right:10px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subNew .ul_sub_member .no_list{position:relative;height:70px;line-height:70px;color:#a5a7a8;border-bottom:1px solid #fff;text-align:center;font-size:15px}
@@ -114,7 +114,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li{position:relative;height:70px;border-bottom:1px solid #fff}
 #GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li:hover{background-color:RGBA(0,0,0,0.03)}
 #GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li img{height:50px;margin: 10px;border-radius: 50px;float: left;}
-#GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-weight:bold;width: 250px;line-height: 17px;}
+#GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li .username{padding-top: 10px;color:#444;font-size: 15px;font-family:'RixSGo B';width: 250px;line-height: 17px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li .gameid{color:#999;}
 #GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li .btn-yes{position:absolute;top:50%;margin-top:-25px;right:10px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subWait .ul_sub_member li .btn-no{position:absolute;top:50%;margin-top:3px;right:10px;}
@@ -129,7 +129,7 @@
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .list{position:relative;height:70px;border-bottom:1px solid #fff;z-index: 1;opacity: 1;filter: alpha(opacity=100);top: 0px;left: 0px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .list:hover{background-color:RGBA(0,0,0,0.03)}
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member img{height:50px;margin: 10px;border-radius: 50px;float: left;}
-#GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .username{padding-top: 10px;color:#444;font-size: 15px;font-weight:bold;width: 250px;line-height: 17px;}
+#GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .username{padding-top: 10px;color:#444;font-size: 15px;font-family:'RixSGo B';width: 250px;line-height: 17px;}
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .gameid{color:#999;}
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member .drag{z-index: 100;position:absolute;opacity: .50;filter: alpha(opacity=50);}
 #GroupInfo .modal-info #div_info_2 #div_info_subSubmem .ul_sub_member i {position: absolute;top: 22px;right: 15px;font-size: 25px;color: #bbb;}
@@ -138,6 +138,6 @@
 
 #GroupInfo .modal-chat {position:relative;width: 557px;height:600px;padding:10px;background-color:#fff;border-left:1px solid #d5ddde;float:right}
 #GroupInfo .modal-chat .div_chat{width:100%;height:540px;font-size:16px;line-height:25px;padding-top:10px;padding-left:10px;overflow-y:scroll;overflow-x: hidden;word-wrap: break-word;}
-#GroupInfo .modal-chat .div_chat .myname{font-weight:900}
+#GroupInfo .modal-chat .div_chat .myname{font-family:'RixSGo B'}
 #GroupInfo .modal-chat .div_input{position:absolute;bottom:0;left:0;width:100%;height:40px;background-color:rgba(0,0,0,0.7)}
 #GroupInfo .modal-chat .div_input #chatMsg{width: 540px;height: 25px;border-radius: 5px;font-size: 12px;margin: 8px;border: 0;padding-left: 8px;}

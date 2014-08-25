@@ -13,7 +13,7 @@
 .feed_pri {position: relative;margin:0;border-bottom: 1px solid #e0e0e0;}
 .feed_pri .div_feedpri_icon{float:left;position:relative;width:50px;height:50px;margin:0 5px}
 .feed_pri .div_feedpri_icon img{width:100%;border-radius: 50px;}
-.feed_pri h1{color:#4d4d4d;font-size:13px;font-weight:bold;margin-right:5px;line-height:14px;margin-top:5px;}
+.feed_pri h1{color:#4d4d4d;font-size:13px;font-family:'RixSGo B';margin-right:5px;line-height:14px;margin-top:5px;}
 .feed_pri .div_feedpri_date{position: absolute;top: 0;right: 0;color:#b3b3b3;font-size:10px;line-height:20px}
 .feed_pri h2{margin-top: 5px;float:none;color:#7e7e7e;font-size:12px;min-height:30px;word-break:break-all}
 .feed_pri .div_feedpri_brn{width:100%;text-align:right;padding-top:3px;letter-spacing:2px}
@@ -29,6 +29,6 @@
 .reply_pri{margin-top:0px}
 .reply_pri .div_replypri_icon{float:left;position:relative;width:30px;height:30px;margin-right:10px;}
 .reply_pri .div_replypri_icon img{width:30px;border-radius: 30px;}
-.reply_pri h1{position:relative;float:left;color:#4d4d4d;font-size:12px;font-weight:bold;margin-top:0px;margin-right:10px;line-height:12px}
+.reply_pri h1{position:relative;float:left;color:#4d4d4d;font-size:12px;font-family:'RixSGo B';margin-top:0px;margin-right:10px;line-height:12px}
 .reply_pri .div_replypri_date{position:relative;color:#b3b3b3;font-size:10px;margin:0;padding:0;line-height:12px}
 .reply_pri h2{position:relative;float:none;color:#7e7e7e;font-size:12px;min-height:20px;margin:0px;margin-top:5px;margin-left:40px;word-break:break-all}

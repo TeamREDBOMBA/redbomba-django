@@ -1,7 +1,7 @@
 /* Common */
 html,body{width:100%;height:100%}
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
-body,input,textarea,select,button,table,p,h1,h2,h3,h4,h5,h6{font-family:"나눔고딕","맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
+body,input,textarea,select,button,table,p,h1,h2,h3,h4,h5,h6{font-family:'RixSGo L',"나눔고딕","맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
 img,fieldset{border:0}
 ul,ol{list-style:none}
 em,address{font-style:normal}
@@ -28,18 +28,18 @@ a:hover,a:active,a:focus{text-decoration:underline}
 	background-image:url(/static/img/battle_team_title.png);background-repeat:no-repeat;background-position:center top;z-index:2}
 #container #content #div_con_title H1{text-align:center;color:#fff;font-size:25px;line-height:72px;}
 #container #content #div_con_title .arc-wrapper{width:100%;text-align:center}
-#container #content #div_con_title .main h4{margin-top: 78px;font-size: 15px;color:#fff;font-weight:bold}
-#container #content #div_con_title .team_win {position:absolute;color:#fff;font-size: 50px;left: 50%;font-weight: bold;}
+#container #content #div_con_title .main h4{margin-top: 78px;font-size: 15px;color:#fff;font-family:'RixSGo B'}
+#container #content #div_con_title .team_win {position:absolute;color:#fff;font-size: 50px;left: 50%;font-family:'RixSGo B'}
 #container #content #div_con_title #team_win_a{margin-left: -170px;}
 #container #content #div_con_title #team_win_b{margin-left: 140px;}
 #container #content #img_team_table{position:absolute;top:85px;z-index:1}
 #container #content .img_ready{position:absolute;top:85px;left:0;z-index:100;display:none}
 #container #content .div_con_team{position:absolute;top:85px;width:352px;height:550px;z-index:2}
-#container #content .div_con_team H1{font-size:20px;font-weight:bold;color:#fff;margin-top:57px;line-height:57px;text-align:center}
+#container #content .div_con_team H1{font-size:20px;font-family:'RixSGo B';color:#fff;margin-top:57px;line-height:57px;text-align:center}
 #container #content .div_con_team .h3{text-align:center;height:75px;padding:10px;}
-#container #content .div_con_team .h3 span{font-size:18px;font-weight:bold;color:#fff;line-height:30px;}
+#container #content .div_con_team .h3 span{font-size:18px;font-family:'RixSGo B';color:#fff;line-height:30px;}
 #container #content .div_con_team .h3 span font{font-size:13px;color:#fff;line-height:12px}
-#container #content .div_con_team span{font-size:12px;font-weight:bold;color:#fff;text-align:right;line-height:12px}
+#container #content .div_con_team span{font-size:12px;font-family:'RixSGo B';color:#fff;text-align:right;line-height:12px}
 #container #content #div_con_teama H1{transform:rotate(17.5deg);-ms-transform:rotate(17.5deg);-webkit-transform:rotate(17.5deg);}
 #container #content #div_con_teamb H1{transform:rotate(-17.5deg);-ms-transform:rotate(-17.5deg);-webkit-transform:rotate(-17.5deg);}
 #container #content #div_con_teama .h3{transform:rotate(17.5deg);-ms-transform:rotate(17.5deg);-webkit-transform:rotate(17.5deg);}
@@ -56,13 +56,13 @@ a:hover,a:active,a:focus{text-decoration:underline}
 	padding-bottom:73px;background-color:#fff;z-index:1500}
 #Chatting #title{width: 100%;background-color: #34495e;color: #fff;padding: 3px;padding-left: 10px;margin-bottom: 5px;}
 #Chatting .div_chat{width:390px;height:100%;font-size:12px;line-height:20px;padding-top:10px;margin-left:5px;padding-left:10px;overflow-y:scroll;border: 1px solid #ddd;}
-#Chatting .div_chat .myname{font-weight:900}
+#Chatting .div_chat .myname{font-family:'RixSGo B'}
 #Chatting .div_input{position:absolute;bottom:0;left:0;width:100%;height:40px;background-color:rgba(0,0,0,0.7)}
 #Chatting .div_input #chatMsg{width:385px;height: 25px;border-radius: 5px;font-size: 12px;margin: 8px;border: 0;padding-left: 8px;}
 
 .modal-dialog {padding-top: 200px;}
 #state_1 .modal-dialog {width:360px;}
-#state_1 .modal-dialog .modal-body H1{font-size:20px;font-weight:bold;line-height:40px;}
+#state_1 .modal-dialog .modal-body H1{font-size:20px;font-family:'RixSGo B';line-height:40px;}
 #state_1 .modal-dialog .modal-body p{font-size:13px;line-height:22px;}
 #state_1 .modal-dialog .modal-body > ul > li:nth-child(3){margin-left:10px}
 #state_1 .modal-dialog .modal-body > ul > li .panel{margin:5px;}
@@ -76,7 +76,7 @@ a:hover,a:active,a:focus{text-decoration:underline}
 #state_1 .modal-dialog .modal-body > ul > li #room > li .form-group{margin-left:0px;margin-bottom:0}
 
 #state_2 .modal-dialog {width:360px;}
-#state_2 .modal-dialog .modal-body H1{font-size:20px;font-weight:bold;line-height:40px;letter-spacing: -2px;}
+#state_2 .modal-dialog .modal-body H1{font-size:20px;font-family:'RixSGo B';line-height:40px;letter-spacing: -2px;}
 #state_2 .modal-dialog .modal-body p{font-size:13px;line-height:22px;}
 #state_2 .modal-dialog .modal-body > ul > li:nth-child(3){margin: 5px 0;}
 #state_2 .modal-dialog .modal-body > ul > li:nth-child(3) p{line-height: 18px}
@@ -114,16 +114,16 @@ a:hover,a:active,a:focus{text-decoration:underline}
 #lock #btn_lock_ready{position:absolute;width:250px;height:80px;top:50%;left:50%;margin-top:200px;margin-left:-125px;font-size:13px;display:none}
 #lock #desc{position:absolute;width:600px;top:50%;left:50%;margin-top:130px;margin-left:-300px;color:#fff;font-size:18px}
 
-#winner .modal-dialog .modal-body H1{font-size:20px;font-weight:bold;line-height:40px;}
-#winner .modal-dialog .modal-body H3{font-size:15px;font-weight:bold;line-height:30px;}
+#winner .modal-dialog .modal-body H1{font-size:20px;font-family:'RixSGo B';line-height:40px;}
+#winner .modal-dialog .modal-body H3{font-size:15px;font-family:'RixSGo B';line-height:30px;}
 #winner .modal-dialog .modal-body p{font-size:15px;line-height:30px;}
 #winner .modal-dialog .modal-body > ul > li{text-align:center;}
 #winner .modal-dialog .modal-body > ul > li:last-child{padding-right:10px;margin-top:20px;}
 #winner .modal-dialog .modal-body > ul > li:last-child p{font-size:13px;}
 #winner .modal-dialog .modal-body > ul > li:last-child button{width:150px;font-size:18px;}
 
-#loser .modal-dialog .modal-body H1{font-size:20px;font-weight:bold;line-height:40px;}
-#loser .modal-dialog .modal-body H3{font-size:15px;font-weight:bold;line-height:30px;}
+#loser .modal-dialog .modal-body H1{font-size:20px;font-family:'RixSGo B';line-height:40px;}
+#loser .modal-dialog .modal-body H3{font-size:15px;font-family:'RixSGo B';line-height:30px;}
 #loser .modal-dialog .modal-body p{font-size:15px;line-height:30px;}
 #loser .modal-dialog .modal-body > ul > li{text-align:center;}
 #loser .modal-dialog .modal-body > ul > li:last-child{padding-right:10px;margin-top:20px;}
@@ -135,22 +135,22 @@ a:hover,a:active,a:focus{text-decoration:underline}
 #settime .modal-content{border:3px solid #f1c40f;overflow:hidden;}
 #settime .modal-body{padding:0}
 #settime .div_modal_mouseover{width:100%;height:100%;top:0;left:0;z-index:100;display:inline-block;}
-#settime .div_modal_mouseover .div_modal_title{width:100%;height:70px;background-color:#f1c40f;color:#fff;font-size:25px;font-weight:bold;line-height:70px;padding-left:20px;}
+#settime .div_modal_mouseover .div_modal_title{width:100%;height:70px;background-color:#f1c40f;color:#fff;font-size:25px;font-family:'RixSGo B';line-height:70px;padding-left:20px;}
 #settime .div_modal_mouseover #div_modal_left{float:left;position:relative;width:auto;display:table-cell}
 #settime .div_modal_mouseover #div_modal_left .div_left_time{margin:20px 0}
 #settime .div_modal_mouseover #div_modal_left .div_left_time .div_time_name{float:left;width:157px;height:60px;margin-top:145px;margin-right:20px;line-height:60px;background-image:url("/static/img/arena_time_name.png");}
-#settime .div_modal_mouseover #div_modal_left .div_left_time .div_time_name p{width:110px;text-align:center;margin-left:10px;font-size:23px;font-weight:bold;color:#8e7511}
+#settime .div_modal_mouseover #div_modal_left .div_left_time .div_time_name p{width:110px;text-align:center;margin-left:10px;font-size:23px;font-family:'RixSGo B';color:#8e7511}
 #settime .div_modal_mouseover #div_modal_left .div_left_time .wheelcanvas{cursor:pointer;}
 #settime .div_modal_mouseover #div_modal_right{float:right;position:relative;width:300px;height:100%;padding:10px;background-color:#f1f1f1}
 #settime .div_modal_mouseover #div_modal_right .div_time_tag{position:relative;width:100%;height:auto;padding:10px 0;border-bottom:1px solid #e5e5e5}
-#settime .div_modal_mouseover #div_modal_right .div_time_tag h1{position:relative;font-size:15px;margin-bottom:10px;font-weight:bold;color:#676767}
+#settime .div_modal_mouseover #div_modal_right .div_time_tag h1{position:relative;font-size:15px;margin-bottom:10px;font-family:'RixSGo B';color:#676767}
 #settime .div_modal_mouseover #div_modal_right .wheelcanvas_tag{position:relative;display:inline-table;max-width:280px;padding:0 10px;}
 #settime .div_modal_mouseover #div_modal_right .wheelcanvas_tag span{position:relative;float:left;margin:3px;}
 #settime .div_modal_mouseover #div_modal_right #btndone{width:100%;margin:10px 0}
 
 #settime .div_modal_done{position:absolute;width:100%;height:100%;top:0;left:0;text-align:center;display:none;z-index:100}
 #settime .div_modal_done #ex{margin-top:50px;margin-bottom:20px;}
-#settime .div_modal_done h1{font-size:20px;font-weight:bold;color:#e2b70c;margin-bottom:10px}
+#settime .div_modal_done h1{font-size:20px;font-family:'RixSGo B';color:#e2b70c;margin-bottom:10px}
 #settime .div_modal_done h3{font-size:15px;color:#666;line-height:30px;margin-bottom:20px}
 #settime .div_modal_done #btn_done_arena{margin:5px;cursor:pointer;}
 #settime .div_modal_done #btn_done_back{margin-right:10px;cursor:pointer;}
