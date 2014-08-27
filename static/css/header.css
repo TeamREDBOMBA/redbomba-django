@@ -65,11 +65,11 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #header #content > ul > li .div_head_icon{position:relative;height:46px;text-align:left;line-height:46px;font-size:15px}
 #header #content > ul > li #div_head_icon1{float:left;width:46px;text-align:center;line-height:46px;font-size:10px}
 #header #content > ul > li #div_head_icon1 #noti_value{position:absolute;top:6px;right:5px;line-height:normal;font-size:10px;background-color:#e74c3c;padding:2px 5px;}
-#header #content > ul > li #div_head_icon1 > a > i{color: #66757F;line-height:45px}
+#header #content > ul > li #div_head_icon1 > a > i{color: RGBA(102,117,127,0.3);line-height:45px}
 #header #content > ul > li #div_head_icon1 .popover-content {width:260px;text-align:center;font-size: 12px;background-color:#f7fbff;padding:0;}
 #header #content > ul > li #div_head_icon2{float:left;width:46px;text-align:center;line-height:46px;font-size:12px;}
 #header #content > ul > li #div_head_icon2 #field_value{position:absolute;top:6px;right:5px;line-height:normal;font-size:10px;background-color:#e74c3c;padding:2px 5px;}
-#header #content > ul > li #div_head_icon2 > a > i{color: #66757F;line-height:45px}
+#header #content > ul > li #div_head_icon2 > a > i{color: RGBA(102,117,127,0.3);line-height:45px}
 #header #content > ul > li #div_head_icon2 .popover-content {width:260px;text-align:center;font-size: 12px;background-color:#f7fbff;padding:0;}
 #header #content > ul > li #div_head_icon3{float:left;width:46px;text-align:center;line-height:46px;font-size:10px}
 #header #content > ul > li #div_head_icon3 i{color: RGBA(0,0,0,0.3);line-height:45px}

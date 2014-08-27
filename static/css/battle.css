@@ -57,7 +57,7 @@ a:hover,a:active,a:focus{text-decoration:underline}
 #Chatting #title{width: 100%;background-color: #34495e;color: #fff;padding: 3px;padding-left: 10px;margin-bottom: 5px;}
 #Chatting .div_chat{width:390px;height:100%;font-size:12px;line-height:20px;padding-top:10px;margin-left:5px;padding-left:10px;overflow-y:scroll;border: 1px solid #ddd;}
 #Chatting .div_chat .myname{font-family:'RixSGo B'}
-#Chatting .div_input{position:absolute;bottom:0;left:0;width:100%;height:40px;background-color:rgba(0,0,0,0.7)}
+#Chatting .div_input{position:absolute;bottom:0;left:0;width:100%;height: 42px;background-color:rgba(0,0,0,0.7)}
 #Chatting .div_input #chatMsg{width:385px;height: 25px;border-radius: 5px;font-size: 12px;margin: 8px;border: 0;padding-left: 8px;}
 
 .modal-dialog {padding-top: 200px;}
