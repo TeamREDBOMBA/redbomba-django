@@ -8,6 +8,8 @@ from redbomba.home.models import GroupMember
 from redbomba.home.models import GameLink
 from redbomba.home.models import Notification
 from redbomba.home.models import Chatting
+from redbomba.home.models import League
+# from redbomba.home.models import Contents
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -102,12 +104,30 @@ def getMobileChatting(request):
         return HttpResponse(json.dumps(state), content_type="application/json")
     return HttpResponse('ERROR')
 
+#League information for mobile
+def getLeaugeInfo(request):
+    state = []
+    try:
+        lgs = League.objects.filter(game_id="1")
+        for lg in lgs:
+            # poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
+            state.append({"id": lg.id, "name": lg.name,
+                          "game_id": lg.game_id, "uid_d": lg.uid_id,
+                          "level": lg.level, "method": lg.method,
+                          "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
+                          "min_team": lg.min_team, "max_team": lg.max_team,
+                          "date_updated": str(lg.date_updated)})
+            # , "poster": poster})
+        return HttpResponse(json.dumps(state), content_type="application/json")
+    except Exception as e:
+        return HttpResponse(e.message)
+
 @csrf_exempt
 def fromMobile(request):
     if 'mode' in request.GET:
-        if request.GET["mode"] == "1" :
+        if request.GET["mode"] == "1":
             return mode1(request)
-        elif request.GET["mode"] == "2" :
+        elif request.GET["mode"] == "2":
             return mode2(request)
         elif request.GET["mode"] == "getGroupList" :
             return getGroupListForMobile(request)
@@ -117,6 +137,8 @@ def fromMobile(request):
             return NotificationDel(request)
         elif request.GET["mode"] == "getChatting" :
             return getMobileChatting(request)
+        elif request.GET["mode"] == "getLeagueInfo":
+            return getLeaugeInfo(request)
         return HttpResponse('0')
     else:
         return HttpResponse('0')

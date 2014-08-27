@@ -1,8 +1,7 @@
 ﻿/* Common */
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 html,body{width:100%;height:100%;background:#f5f5f5}
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
-body,input,textarea,select,button,table,p,h1,h2,h3,h4,h5,h6{font-family:'Nanum Gothic',"맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
+body,input,textarea,select,button,table,p,h1,h2,h3,h4,h5,h6{font-family:'RixSGo L',"맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
 img,fieldset{border:0}
 ul,ol{list-style:none}
 em,address{font-style:normal}
@@ -37,7 +36,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 
 #header{background-color: #fff;box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),0 1px 0 0 rgba(0, 0, 0, 0.1);}
 #header #content > ul > #img_head_logo{margin-right:4px;}
-#header #content > ul > .btn_top_menu{font-size:13px;font-weight:600;color: #333;padding:0 16px;line-height: 46px;cursor:pointer}
+#header #content > ul > .btn_top_menu{font-size:13px;font-family: 'RixSGo B';color: #333;padding:0 16px;line-height: 46px;cursor:pointer}
 #header #content > ul > #img_head_menu1{padding-left:12px;}
 #header #content > ul > #img_head_menu1 img{margin-right:2px}
 #header #content > ul > .btn_top_menu img{margin-right:3px}
@@ -50,13 +49,13 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #header #content > ul > li .input-group #input_search_bar{background-color: #fff;border: 1px solid #ddd;height:24px;}
 #header #content > ul > li .input-group #input_search_btn{background-color:#fff;border: 1px solid #ddd;height:24px;color:#bdc3c7}
 #header #content > ul > li #div_head_searchlist{position:relative;width:250px;min-height:50px;top: -10px;left: 50%;margin-left:-20px;background-color:#fff;border:1px solid #999;display:none}
-#header #content > ul > li #div_head_searchlist .div_searchbar_top{height:30px;line-height:30px;border-bottom:2px solid #f5f6f7;background-color:#fff;font-size:13px;font-weight:bold;text-align:left;padding-left:10px;}
+#header #content > ul > li #div_head_searchlist .div_searchbar_top{height:30px;line-height:30px;border-bottom:2px solid #f5f6f7;background-color:#fff;font-size:13px;font-family:'RixSGo B';text-align:left;padding-left:10px;}
 #header #content > ul > li #div_head_searchlist .div_searchbar_non{min-height:60px;line-height:60px;text-align:center;font-size: 12px;background-color:#f7fbff;padding:5px;border-bottom:1px solid #eee}
 #header #content > ul > li #div_head_searchlist .div_searchbar_more{min-height:30px;line-height:30px;text-align:center;font-size: 12px;background-color:#f7fbff;padding:5px;border-bottom:1px solid #eee}
 #header #content > ul > li #div_head_searchlist .div_searchbar_con{min-height:60px;text-align:left;font-size: 12px;background-color:#f7fbff;padding:5px;border-bottom:1px solid #eee;cursor:pointer;}
 #header #content > ul > li #div_head_searchlist .div_searchbar_con:hover{background-color:#e9eef3;}
 #header #content > ul > li #div_head_searchlist .div_searchbar_con #li_icon img{width:50px;border-radius: 50px;margin-right:10px;float:left}
-#header #content > ul > li #div_head_searchlist .div_searchbar_con #li_name {font-size: 13px;font-weight: bold;}
+#header #content > ul > li #div_head_searchlist .div_searchbar_con #li_name {font-size: 13px;font-family: 'RixSGo B'}
 #header #content > ul > li #div_head_searchlist .div_searchbar_con #li_game {font-size:12px;color:#666;}
 #header #content > ul > li #div_head_searchlist .div_searchbar_con #li_game i {width:12px;height:12px;float:none;top:2px;margin-right:2px}
 #header #content > ul > li #div_head_searchlist .div_searchbar_con #li_game img{width:12px;height:12px;margin-right:2px}
@@ -66,17 +65,17 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #header #content > ul > li .div_head_icon{position:relative;height:46px;text-align:left;line-height:46px;font-size:15px}
 #header #content > ul > li #div_head_icon1{float:left;width:46px;text-align:center;line-height:46px;font-size:10px}
 #header #content > ul > li #div_head_icon1 #noti_value{position:absolute;top:6px;right:5px;line-height:normal;font-size:10px;background-color:#e74c3c;padding:2px 5px;}
-#header #content > ul > li #div_head_icon1 > a > i{color: #66757F;line-height:45px}
+#header #content > ul > li #div_head_icon1 > a > i{color: RGBA(102,117,127,0.3);line-height:45px}
 #header #content > ul > li #div_head_icon1 .popover-content {width:260px;text-align:center;font-size: 12px;background-color:#f7fbff;padding:0;}
 #header #content > ul > li #div_head_icon2{float:left;width:46px;text-align:center;line-height:46px;font-size:12px;}
 #header #content > ul > li #div_head_icon2 #field_value{position:absolute;top:6px;right:5px;line-height:normal;font-size:10px;background-color:#e74c3c;padding:2px 5px;}
-#header #content > ul > li #div_head_icon2 > a > i{color: #66757F;line-height:45px}
+#header #content > ul > li #div_head_icon2 > a > i{color: RGBA(102,117,127,0.3);line-height:45px}
 #header #content > ul > li #div_head_icon2 .popover-content {width:260px;text-align:center;font-size: 12px;background-color:#f7fbff;padding:0;}
 #header #content > ul > li #div_head_icon3{float:left;width:46px;text-align:center;line-height:46px;font-size:10px}
 #header #content > ul > li #div_head_icon3 i{color: RGBA(0,0,0,0.3);line-height:45px}
 
 #div_noti_step1{display:none;}
-#div_noti_top{height:30px;line-height:30px;border-bottom:2px solid #f5f6f7;background-color:#fff;font-size:13px;font-weight:bold;text-align:left;padding-left:10px;}
+#div_noti_top{height:30px;line-height:30px;border-bottom:2px solid #f5f6f7;background-color:#fff;font-size:13px;font-family:'RixSGo B';text-align:left;padding-left:10px;}
 #div_noti_top #title_noti_value{position: relative;font-size:10px;background-color: #e74c3c;padding: 4px 6px;top: -2px;}
 .div_noti_cell{position:relative;width:100%;padding:5px;border-bottom:1px solid #eee;display:inline-block;}
 .div_noti_cell.read{background-color:#fff}
@@ -87,22 +86,22 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 .div_noti_cell .div_cell_bottom{position:relative;float:right;font-size:10px;line-height:10px;color:#aaa;}
 .div_noti_cell .div_cell_bottom .div_bottom_date{margin-top: 5px}
 
-.field-content .div_field_top{height:30px;line-height:30px;border-bottom:2px solid #f5f6f7;background-color:#fff;font-size:13px;font-weight:bold;text-align:left;padding-left:10px;}
+.field-content .div_field_top{height:30px;line-height:30px;border-bottom:2px solid #f5f6f7;background-color:#fff;font-size:13px;font-family:'RixSGo B';text-align:left;padding-left:10px;}
 .field-content .div_field_top .btn{float:right;margin:3px;}
 .field-content .div_field_con{min-height:80px;text-align:left;font-size: 12px;background-color:#f7fbff;padding:10px;border-bottom:1px solid #eee;cursor:pointer;}
 .field-content .div_field_con.read{background-color:#fff}
 .field-content .div_field_con:hover{background-color:#e9eef3;}
 .field-content .div_field_group #li_icon{width:40px;height:40px;float:left;margin-top: 5px;margin-bottom: 0;margin-left:10px;margin-right:15px;}
 .field-content .div_field_group #li_icon img{height: 100%}
-.field-content .div_field_group #li_name {font-size: 13px;font-weight: bold;line-height: normal;margin-top:10px;margin-bottom:6px;}
+.field-content .div_field_group #li_name {font-size: 13px;font-family: 'RixSGo B';line-height: normal;margin-top:10px;margin-bottom:6px;}
 .field-content .div_field_group #li_nick {font-size:12px;color:#666;line-height: normal;float:left;margin-right:10px}
 .field-content .div_field_group #li_game {font-size:12px;color:#666;line-height: normal;margin-bottom: 7px;}
 .field-content .div_field_group #li_game i {width:12px;height:12px;float:none;top:2px;margin-right:2px}
-.field-content .div_field_group #li_count{font-size: 15px;font-weight: bold;text-align: center;width: 60px;float:left;line-height: normal;}
+.field-content .div_field_group #li_count{font-size: 15px;font-family: 'RixSGo B';text-align: center;width: 60px;float:left;line-height: normal;}
 .field-content .div_field_group #li_count i{color:#000;}
 .field-content .div_field_group #li_btn {position:relative;line-height: normal;margin-bottom: 5px;width:100%;text-align:center;}
 .field-content .div_field_group #li_btn .btn{width: 170px;margin-right: 10px;}
-.field-content .div_field_arena #li_name {font-size: 13px;font-weight: bold;line-height: normal;margin:5px;}
+.field-content .div_field_arena #li_name {font-size: 13px;font-family: 'RixSGo B';line-height: normal;margin:5px;}
 .field-content .div_field_arena #li_group {font-size:12px;color:#666;line-height: normal;margin-bottom: 7px;}
 .field-content .div_field_arena #li_group img {width:15px;height:15px;float:none;top:2px;margin:0 5px}
 .field-content .div_field_arena #li_msg {width:100%;text-align:center;font-size:11px;color:#666;line-height: normal;margin-top: 15px;}

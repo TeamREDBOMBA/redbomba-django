@@ -4,14 +4,37 @@
 </p>
 <div class="display_body">
     <div class="display_body_left">
-        <span class="display_left_name">{{ league.team_a.group_id.name }}</span>
-        <img class="groupicon" src="/media/group_icon/{{ league.team_a.group_id.group_icon }}">
+        <img class="display_left_groupicon" src="/media/group_icon/{{ league.team_a.group_id.group_icon }}">
+        <div class="display_left_text">
+            <p class="display_left_bos"><i class="fa fa-circle-thin display_lose"></i><i class="fa fa-circle-thin display_lose"></i><i class="fa fa-circle-thin display_lose"></i></p>
+            <p class="display_left_name">{{ league.team_a.group_id.name }}</p>
+        </div>
+        <div class="display_left_member">
+            {% for member in league.team_a.group_id.get_member|slice:":5" %}
+            <div class="display_member">
+                <img src="/static/img/icon/usericon_{{ member.uid.get_profile.user_icon }}.jpg">
+                <p>{{ member.uid.username }}</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     <div class="display_body_right">
-        <img class="groupicon" src="/media/group_icon/{{ league.team_b.group_id.group_icon }}">
-        <span class="display_right_name">{{ league.team_b.group_id.name }}</span>
+        <img class="display_right_groupicon" src="/media/group_icon/{{ league.team_b.group_id.group_icon }}">
+        <div class="display_right_text">
+            <p class="display_right_bos"><i class="fa fa-circle-thin display_lose"></i><i class="fa fa-circle-thin display_lose"></i><i class="fa fa-circle-thin display_lose"></i></p>
+            <p class="display_right_name">{{ league.team_b.group_id.name }}</p>
+        </div>
+        <div class="display_right_member">
+            {% for member in league.team_b.group_id.get_member|slice:":5" reversed %}
+            <div class="display_member">
+                <img src="/static/img/icon/usericon_{{ member.uid.get_profile.user_icon }}.jpg">
+                <p>{{ member.uid.username }}</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     <div class="display_body_center">
-        b
+        <p class="center_vs">VS</p>
+        <p class="center_gamename">{{ league.team_a.round.league_id.game.name }}</p>
     </div>
 </div>

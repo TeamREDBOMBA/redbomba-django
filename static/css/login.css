@@ -1,7 +1,7 @@
 ﻿/* Common */
 html,body{width:100%;height:100%; overflow:hidden;background:#e84c3d}
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
-body,input,textarea,select,button,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table{font-family:"나눔고딕","맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
+body,input,textarea,select,button,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table{font-family:'RixSGo L',"나눔고딕","맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
 img,fieldset{border:0}
 ul,ol{list-style:none}
 em,address{font-style:normal}
@@ -33,7 +33,7 @@ filter:alpha(opacity=90); opacity:0.9; -moz-opacity:0.9;
 #wrap{}
 
 #container{}
-#content #login #p_login_welcom_b{color:#FFF; font-size:27px;font-weight:500; line-height:30px;}
+#content #login #p_login_welcom_b{color:#FFF; font-size:27px;font-family:'RixSGo B'; line-height:30px;}
 #content #login #p_login_welcom_s{color:#f4ada6; font-size:15px; line-height:30px;letter-spacing: -.5px;}
 #content #login .form_login{width:300px}
 #content #login #p_login_id{margin-top:20px}
@@ -46,7 +46,7 @@ filter:alpha(opacity=90); opacity:0.9; -moz-opacity:0.9;
 .aside #img_main_bg_eyes{position:absolute;left:-426px;top:170px;z-index:0}
 .aside #info{position:relative;width:100%;height:100%;background-color:#2d3e50;z-index:2}
 .aside #info #div_info_line1{width:100%;height:85px}
-.aside #info #p_line1_title{color:#FFF;font-size:33px;font-weight:bold;line-height:40px;padding:25px}
+.aside #info #p_line1_title{color:#FFF;font-size:33px;font-family: 'RixSGo B';line-height:40px;padding:25px}
 .aside #info #div_info_line2{width:100%;height:225px;background-color:#283848;margin-bottom:1px}
 .aside #info #div_info_line3{width:100%;height:225px;background-color:#2d3e50}
 .aside #info #div_info_line4{width:100%;height:160px;background-color:#283848}

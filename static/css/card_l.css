@@ -1,12 +1,12 @@
 #LargeCard .modal-dialog {width:1120px;}
 #LargeCard .modal-dialog .modal-content {overflow:hidden}
 #LargeCard #div_left{position:absolute;top:0;left:0;width:200px;height:700px;background-color:#282828;float:left;}
-#LargeCard #div_left #div_left_top{position:relative;width:100%;height:75px;background-color:#34495e;line-height:75px;color:#fff;font-size:22px;font-weight:bold;text-align:center;cursor: pointer;}
+#LargeCard #div_left #div_left_top{position:relative;width:100%;height:75px;background-color:#34495e;line-height:75px;color:#fff;font-size:22px;font-family:'RixSGo B';text-align:center;cursor: pointer;}
 #LargeCard #div_left #div_left_top .fa-arena {width:40px;height:40px;float:none;top:10px;margin-right: 10px}
 #LargeCard #div_left #div_left_body{padding:20px;}
-#LargeCard #div_left #div_left_body h3{font-size:11px;color:#7b7b7b;font-weight:bold;}
+#LargeCard #div_left #div_left_body h3{font-size:11px;color:#7b7b7b;font-family:'RixSGo B';}
 #LargeCard #div_left #div_left_body ul{margin-top:10px;}
-#LargeCard #div_left #div_left_body ul li{color:#aaa;font-size: 12px;line-height:27px;font-weight:bold;cursor:pointer;}
+#LargeCard #div_left #div_left_body ul li{color:#aaa;font-size: 12px;line-height:27px;font-family:'RixSGo B';cursor:pointer;}
 #LargeCard #div_left #div_left_body ul li:hover{color:#ddd}
 #LargeCard #div_left #div_left_body ul li.active{color:#fff}
 #LargeCard #div_left #div_left_body ul li i{font-size:13px;margin-right:5px;}
@@ -14,33 +14,33 @@
 #LargeCard #div_body{position:relative;margin-left:200px;width:660px;height:700px;border-bottom:1px solid #dfe3eb;}
 #LargeCard #div_body #div_body_top {position:relative;width:100%;height:265px;background-color:#396da8;background-repeat:no-repeat;background-position:top center;background-size:100% auto}
 #LargeCard #div_body #div_body_top img{position:absolute;bottom:0;left:0;}
-#LargeCard #div_body #div_body_top h1{position:relative;padding-top:200px;margin-left:20px;color:#fff;font-size:25px;font-weight:bold;}
+#LargeCard #div_body #div_body_top h1{position:relative;padding-top:200px;margin-left:20px;color:#fff;font-size:25px;font-family:'RixSGo B';}
 #LargeCard #div_body #div_body_top .p_poster_info{position:relative;margin-left:20px;padding-top: 10px;color:#fff;font-size:12px;float:left}
 #LargeCard #div_body #div_body_top .p_poster_info .fa-lol{width: 12px;height: 12px;margin: 2px;}
-#LargeCard #div_body #div_body_top .p_poster_icon{position:absolute;bottom:15px;right:25px;color:#fff;font-size:22px;font-weight:bold;letter-spacing:2px}
+#LargeCard #div_body #div_body_top .p_poster_icon{position:absolute;bottom:15px;right:25px;color:#fff;font-size:22px;font-family:'RixSGo B';letter-spacing:2px}
 #LargeCard #div_body #div_body_top .p_poster_icon i:nth-child(2) {color:#e74c3c;}
 #LargeCard #div_body #div_body_main {position:relative;width:440px;height:310px;padding-top:10px;padding-left:30px;background-color:#fff;border-bottom:1px solid #dfe3eb;border-right:1px solid #dfe3eb;}
-#LargeCard #div_body h3 {padding-top:20px;color:#414141;font-size:15px;font-weight:bold;}
+#LargeCard #div_body h3 {padding-top:20px;color:#414141;font-size:15px;font-family:'RixSGo B';}
 #LargeCard #div_body #div_body_main #p_main_con1 {color:#414141;font-size:12px;margin: 5px 10px;height: 50px;overflow: hidden;}
 #LargeCard #div_body #div_body_main #p_main_con2 {color:#414141;font-size:12px;margin: 5px 10px;line-height:22px;height: 130px;overflow: hidden;}
 #LargeCard #div_body #div_body_main .p_more{color:#2980b9;font-size:12px;margin-right: 10px;cursor:pointer;float: right;}
 #LargeCard #div_body .div_main_bottom {position:relative;width:220px;height:125px;padding-top:10px;padding-left:30px;border-right:1px solid #dfe3eb;float:left;}
 #LargeCard #div_body #div_main_bottom1 img{width: 45px;margin-top: 5px;margin-right: 8px;border: 1px solid #e5e5e5;border-radius: 45px;float: left;}
-#LargeCard #div_body #div_main_bottom1 #p_bottom_hostname {font-size: 16px;margin-top:6px;font-weight: bold;}
+#LargeCard #div_body #div_main_bottom1 #p_bottom_hostname {font-size: 16px;margin-top:6px;font-family:'RixSGo B';}
 #LargeCard #div_body #div_main_bottom1 #p_bottom_game {font-size: 12px;color:#acacac;}
 
-#LargeCard #div_body #div_body_main #p_main_con2 h1{font-weight:bold;border-bottom: 1px solid #ddd;padding: 2px 0;margin: 2px 0;}
-#LargeCard #div_body #div_body_main #p_main_con2 h2{font-weight:bold;margin:5px 10px 2px 0px;float: left;}
-#LargeCard #div_body #div_body_main #p_main_con2 h3{font-weight:bold;border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
-#LargeCard #div_body #div_body_main #p_main_con2 h4{font-weight:bold;border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
-#LargeCard #div_body #div_body_main #p_main_con2 h5{font-weight:bold;border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
-#LargeCard #div_body #div_body_main #p_main_con2 h6{font-weight:bold;border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
+#LargeCard #div_body #div_body_main #p_main_con2 h1{font-family:'RixSGo B';border-bottom: 1px solid #ddd;padding: 2px 0;margin: 2px 0;}
+#LargeCard #div_body #div_body_main #p_main_con2 h2{font-family:'RixSGo B';margin:5px 10px 2px 0px;float: left;}
+#LargeCard #div_body #div_body_main #p_main_con2 h3{font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
+#LargeCard #div_body #div_body_main #p_main_con2 h4{font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
+#LargeCard #div_body #div_body_main #p_main_con2 h5{font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
+#LargeCard #div_body #div_body_main #p_main_con2 h6{font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 2px 0;margin: 2px 0;}
 #LargeCard #div_body #div_body_main #p_main_con2 p{padding-bottom: 0px;}
 #LargeCard #div_body #div_body_main #p_main_con2 ul > li{margin-left: 15px;}
 #LargeCard #div_body #div_body_main #p_main_con2 ul > li > ul > li{list-style:circle;margin-left: 15px;padding:0}
 #LargeCard #div_body #div_body_main #p_main_con2 ol > li{list-style:decimal;}
-#LargeCard #div_body #div_body_main #p_main_con2 b {font-weight:bold;}
-#LargeCard #div_body #div_body_main #p_main_con2 em {font-weight:bold;}
+#LargeCard #div_body #div_body_main #p_main_con2 b {font-family:'RixSGo B';}
+#LargeCard #div_body #div_body_main #p_main_con2 em {font-family:'RixSGo B';}
 #LargeCard #div_body #div_body_main #p_main_con2 u {text-decoration:underline;}
 
 #LargeCard #div_body .div_main_right{position:absolute;top:265px;right:0;width:220px;height:310px;z-index: 0;}
@@ -49,7 +49,7 @@
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel #div_main_cal{width:100%;height:100%;}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel #div_main_round{width:100%;height:100%;}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel h3 {margin:5px 10px;color:#414141;font-size:12px;font-weight:normal;}
-#LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .p_cal_title {background-color:#fee5e5;color:#c0392b;font-size:12px;font-weight:bold;padding: 5px 10px;margin-right:5px;border-radius:12px}
+#LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .p_cal_title {background-color:#fee5e5;color:#c0392b;font-size:12px;font-family:'RixSGo B';padding: 5px 10px;margin-right:5px;border-radius:12px}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .p_cal_title.red{background-color:#fee5e5;color:#c0392b;}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .p_cal_title.blue{background-color:#e5f3fe;color:#2980b9;}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .carousel-control.left{background:inherit;}
@@ -62,11 +62,11 @@
 #LargeCard #div_body .div_main_right #div_main_group {position:relative;width:100%;height:220px}
 #LargeCard #div_body .div_main_right #div_main_group .div_group_icon{width:73px;height:73px;float:left;overflow:hidden;background-repeat:no-repeat;background-position: 50% 50%;background-size: 160%;}
 #LargeCard #div_body .div_main_right #div_main_group #div_group_count{position:absolute;bottom:0;right:0;width:73px;height:73px;background-color:RGBA(230,126,34,0.5);
-																	color:#fff;font-size:30px;font-weight:bold;text-align:center;line-height:73px}
+																	color:#fff;font-size:30px;font-family:'RixSGo B';text-align:center;line-height:73px}
 
 #LargeCard #div_detailRule {position:relative;margin-left:200px;width:660px;height:700px;border-bottom:1px solid #dfe3eb;display:none}
 #LargeCard #div_detailRule {position:relative;width:660px;height:700px;padding:20px;}
-#LargeCard #div_detailRule #p_detailRule_title{font-size: 20px;margin-bottom: 10px;font-weight: bold;}
+#LargeCard #div_detailRule #p_detailRule_title{font-size: 20px;margin-bottom: 10px;font-family:'RixSGo B';}
 #LargeCard #div_detailRule #p_detailRule_desc{font-size: 13px;margin-bottom: 10px;margin-left: 40px;text-indent: -40px;height: 50px;}
 #LargeCard #div_detailRule .tab-content{padding: 20px;border: 1px solid #dddddd;border-top: 0;height: 522px;overflow-y:auto;padding-top:0}
 #LargeCard #div_detailRule .tab-content .tab_editor{display:none}
@@ -74,18 +74,18 @@
 
 #LargeCard #div_detailRule .tab-content .tab_markdown {font-size:14px;line-height: 160%;}
 #LargeCard #div_detailRule .tab-content .tab_markdown p:first-child {display:none}
-#LargeCard #div_detailRule .tab-content .tab_markdown h1{font-size:18px;font-weight:bold;border-bottom: 1px solid #ddd;padding: 10px 0;margin: 10px 0;}
-#LargeCard #div_detailRule .tab-content .tab_markdown h2{font-size:18px;font-weight:bold;border-bottom: 1px solid #ddd;padding: 10px 0;margin: 10px 0;}
-#LargeCard #div_detailRule .tab-content .tab_markdown h3{font-size:18px;font-weight:bold;border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
-#LargeCard #div_detailRule .tab-content .tab_markdown h4{font-size:18px;font-weight:bold;border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
-#LargeCard #div_detailRule .tab-content .tab_markdown h5{font-size:18px;font-weight:bold;border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
-#LargeCard #div_detailRule .tab-content .tab_markdown h6{font-size:18px;font-weight:bold;border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
+#LargeCard #div_detailRule .tab-content .tab_markdown h1{font-size:18px;font-family:'RixSGo B';border-bottom: 1px solid #ddd;padding: 10px 0;margin: 10px 0;}
+#LargeCard #div_detailRule .tab-content .tab_markdown h2{font-size:18px;font-family:'RixSGo B';border-bottom: 1px solid #ddd;padding: 10px 0;margin: 10px 0;}
+#LargeCard #div_detailRule .tab-content .tab_markdown h3{font-size:18px;font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
+#LargeCard #div_detailRule .tab-content .tab_markdown h4{font-size:18px;font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
+#LargeCard #div_detailRule .tab-content .tab_markdown h5{font-size:18px;font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
+#LargeCard #div_detailRule .tab-content .tab_markdown h6{font-size:18px;font-family:'RixSGo B';border-bottom:1px solid #ddd;padding: 10px 0;margin: 10px 0;}
 #LargeCard #div_detailRule .tab-content .tab_markdown p{padding-bottom: 10px;font-size: 14px;}
 #LargeCard #div_detailRule .tab-content .tab_markdown ul > li{list-style:disc;margin-left: 15px;padding-bottom: 10px;}
 #LargeCard #div_detailRule .tab-content .tab_markdown ul > li > ul > li{list-style:circle;margin-left: 15px;padding:0}
 #LargeCard #div_detailRule .tab-content .tab_markdown ol > li{list-style:decimal;}
-#LargeCard #div_detailRule .tab-content .tab_markdown b {font-weight:bold;}
-#LargeCard #div_detailRule .tab-content .tab_markdown em {font-weight:bold;}
+#LargeCard #div_detailRule .tab-content .tab_markdown b {font-family:'RixSGo B';}
+#LargeCard #div_detailRule .tab-content .tab_markdown em {font-family:'RixSGo B';}
 #LargeCard #div_detailRule .tab-content .tab_markdown u {text-decoration:underline;}
 
 #LargeCard #div_right{position:absolute;top:0;right:0;width:240px;height:700px;background-color:#ecf0f1;}
@@ -99,7 +99,7 @@
 #LargeCard #div_right #div_right_btn .p_btn_winner{position: relative;top: -10px;font-size: 13px;line-height: 30px;}
 #LargeCard #div_right #div_right_btn .p_btn_winner .medal{margin:3px 5px 3px 0px;}
 #LargeCard #div_right #div_right_btn .p_btn_winner .group_icon{margin:0;height:35px;}
-#LargeCard #div_right #div_right_btn #win_1{margin-left:35px;text-indent:-35px;font-weight: bold;}
+#LargeCard #div_right #div_right_btn #win_1{margin-left:35px;text-indent:-35px;font-family:'RixSGo B';}
 #LargeCard #div_right #div_right_btn #win_3_1{margin-left:35px;text-indent:-35px}
 #LargeCard #div_right #div_right_btn #win_3_1 .medal{margin-right:0;}
 #LargeCard #div_right #div_right_btn #win_3_1 .group_icon:last-child{margin-left:5px;}
@@ -113,17 +113,17 @@
 
 #LargeCard #div_join {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;display:none;z-index: 1;}
 #LargeCard #div_join #div_join_left{position:relative;width:660px;height:700px;padding:20px;}
-#LargeCard #div_join #div_join_left #p_join_title{font-size: 20px;margin-bottom: 10px;font-weight: bold;}
+#LargeCard #div_join #div_join_left #p_join_title{font-size: 20px;margin-bottom: 10px;font-family:'RixSGo B';}
 #LargeCard #div_join #div_join_left #p_join_desc{font-size: 13px;margin-bottom: 10px;margin-left: 40px;text-indent: -40px;}
 #LargeCard #div_join #div_join_left .div_left_time{text-align: center;padding:70px;border: 1px solid #dddddd;border-top: 0;}
 #LargeCard #div_join #div_join_right{position:absolute;top:0;right:0;width:240px;height:700px;padding: 20px;padding-top:100px;background-color:#ecf0f1;}
 #LargeCard #div_join #div_join_right #div_right_top{position:absolute;top:0;right:0;width:240px;height:85px;background-color:#fff}
 #LargeCard #div_join #div_join_right #div_right_top .close{margin:15px;}
-#LargeCard #div_join #div_join_right H1{font-size: 15px;font-weight: bold;}
+#LargeCard #div_join #div_join_right H1{font-size: 15px;font-family:'RixSGo B';}
 #LargeCard #div_join #div_join_right .wheelcanvas_tag{padding:10px 0;}
 #LargeCard #div_join #div_join_right .wheelcanvas_tag .label{margin:2px;display: inline-block;}
 #LargeCard #div_join #div_join_right #btnDone{width:100%;}
 
 #LargeCard #div_join_done {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;padding: 60px;text-align: center;display:none;}
-#LargeCard #div_join_done H1{font-size: 20px;font-weight: bold;margin: 10px;}
+#LargeCard #div_join_done H1{font-size: 20px;font-family:'RixSGo B';margin: 10px;}
 #LargeCard #div_join_done H3{font-size: 13px;line-height: 30px;margin: 20px;}
