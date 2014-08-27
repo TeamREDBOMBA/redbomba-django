@@ -3,41 +3,15 @@
 # Create your views here.
 from redbomba.home.Func import *
 from redbomba.home.models import *
-from django import template
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.template import RequestContext, Context
-from django.template.loader import get_template, render_to_string
+from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
 from django.utils import simplejson
 
 ######################################## Views ########################################
-
-def getField(request) :
-  if request.user is not None :
-    try :
-      query_g = GroupMember.objects.filter(uid=request.user)
-      groups = []
-      for val in query_g:
-        try :
-          gm_count = GroupMember.objects.filter(gid=val.gid,is_active=1).count()
-        except Exception as e:
-          gm_count = 0
-        groups.append({'gid':val.gid,'count':gm_count})
-
-      user = GroupMember.objects.get(uid=request.user)
-      query_l = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user.gid).values_list('round__league_id', flat=True))
-      leagues = []
-      for val in query_l:
-        ls = remakeLeagueState(val,user)
-        leagues.append(ls)
-      context = {"groups":groups,"leagues":leagues}
-      return render(request, 'field.html', context)
-    except Exception as e:
-      context = {"groups":None,"leagues":None}
-      return render(request, 'field.html', context)
-  return HttpResponse("error")
     
 def getGroup(request):
   if request.method=='POST':
@@ -314,28 +288,3 @@ def groupmembersorter(uid,gid):
   else :
     val = None
   return val
-
-
-def remakeLeagueState(l, u):
-  ls = LeagueState(l,u)
-  if ls['no'] == 1 :
-    try :
-      noti = Notification.objects.get(tablename='home_league',contents=ls['league'].id,uid=ls['user'].uid)
-    except Exception as e:
-      noti = None
-    state = {"no":ls['no'],"league":ls['league'],"user":ls['user'],"round":ls['lt'].round,"noti":noti}
-  elif ls['no'] == 2 :
-    try :
-      noti = Notification.objects.get(tablename='home_leagueround',contents=ls['lm'].team_a.round.id,uid=ls['user'].uid)
-    except Exception as e:
-      noti = None
-    state = {"no":ls['no'],"league":ls['league'],"user":ls['user'],"lm":ls['lm'],"noti":noti}
-  elif ls['no'] == 3 :
-    try :
-      noti = Notification.objects.get(tablename='home_leaguematch',contents=ls['lm'].id,uid=ls['user'].uid)
-    except Exception as e:
-      noti = None
-    state = {"no":ls['no'],"league":ls['league'],"user":ls['user'],"msg":"배틀페이지 입장이 가능합니다.","lr":ls['lm'].team_a.round.id,"noti":noti}
-  else :
-    state = None
-  return state

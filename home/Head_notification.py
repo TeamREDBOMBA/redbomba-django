@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Create your views here.
+from django.shortcuts import render
 from redbomba.home.Func import *
 from redbomba.home.models import *
 from django.http import HttpResponse
@@ -8,6 +9,31 @@ from django.template import Context
 from django.template.loader import get_template
 
 ######################################## Views ########################################
+
+def getField(request) :
+  if request.user is not None :
+    try :
+      query_g = GroupMember.objects.filter(uid=request.user)
+      groups = []
+      for val in query_g:
+        try :
+          gm_count = GroupMember.objects.filter(gid=val.gid,is_active=1).count()
+        except Exception as e:
+          gm_count = 0
+        groups.append({'gid':val.gid,'count':gm_count})
+
+      user = GroupMember.objects.get(uid=request.user)
+      query_l = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user.gid).values_list('round__league_id', flat=True))
+      leagues = []
+      for val in query_l:
+        ls = remakeLeagueState(val,user.uid)
+        leagues.append(ls)
+      context = {"groups":groups,"leagues":leagues}
+      return render(request, 'field.html', context)
+    except Exception as e:
+      context = {"groups":None,"leagues":None}
+      return render(request, 'field.html', context)
+  return HttpResponse("error")
 
 def write_Notification(request) :
     action = request.POST.get("action")

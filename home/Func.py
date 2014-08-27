@@ -4,7 +4,7 @@
 import re, urlparse
 import json
 import urllib2
-from redbomba.home.models import Group
+from redbomba.home.models import Group, Notification
 from redbomba.home.models import GroupMember
 from redbomba.home.models import GameLink
 from redbomba.home.models import LeagueTeam
@@ -64,6 +64,21 @@ def iriToUri(iri):
         part.encode('idna') if parti==1 else urlEncodeNonAscii(part.encode('utf-8'))
         for parti, part in enumerate(parts)
     )
+
+def remakeLeagueState(l, u):
+    ls = LeagueState(l,u)
+    if ls['no'] == 1 :
+        noti = get_or_none(Notification,tablename='home_league',contents=ls['league'].id,uid=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,uid=ls['user']),"round":ls['lt'].round,"noti":noti}
+    elif ls['no'] == 2 :
+        noti = get_or_none(Notification,tablename='home_leagueround',contents=ls['lm'].team_a.round.id,uid=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,uid=ls['user']),"lm":ls['lm'],"noti":noti}
+    elif ls['no'] == 3 :
+        noti = get_or_none(Notification,tablename='home_leaguematch',contents=ls['lm'].id,uid=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,uid=ls['user']),"msg":"배틀페이지 입장이 가능합니다.","lr":ls['lm'].team_a.round.id,"noti":noti}
+    else :
+        state = None
+    return state
 
 def LeagueState(league, user):
     state = {}
