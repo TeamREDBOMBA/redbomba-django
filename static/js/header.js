@@ -3,7 +3,7 @@ $(window).load(function() {
   uid = 0;
   memOnline = 1;
 
-  $('.dropdown-toggle').dropdown();
+  $('.dropdown-head-toggle').dropdown();
 
   socket = io.connect('http://redbomba.net:3000/');
   socket.emit('leaveGroup','leave');
@@ -59,19 +59,19 @@ $(window).load(function() {
     $("#GroupInfo .div_chat").scrollTop($("#GroupInfo .div_chat")[0].scrollHeight);
   });
 	
-	$('#img_head_logo').click(function(){
+	$('#li_head_home, #li_head_logo').click(function(){
 		location.href="/";
 	});
-	
-	$('#img_head_menu1').click(function(){
-		location.href="/stats/";
-	});
-	
-	$('#img_head_menu2').click(function(){
+
+	$('#li_head_arena').click(function(){
 		location.href="/arena/";
 	});
 
-	$('.dropdown #Logout').click(function(){
+    $('#li_head_profile').click(function(){
+		location.href="/stats/";
+	});
+
+	$('.dropdown_head #Logout').click(function(){
 		location.href="/auth/logout/";
 	});
 

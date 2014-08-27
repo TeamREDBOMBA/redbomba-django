@@ -1,4 +1,4 @@
-#header #content > ul > li:nth-child(3){border-bottom:5px solid #c0392b;}
+#header #content > ul > li#li_head_arena {border-bottom:5px solid #c0392b;}
 
 #btnTutorialOk{position:absolute;bottom:20px;left:50%;width: 200px;margin-left: -100px;background-color: transparent;color: #fff;}
 

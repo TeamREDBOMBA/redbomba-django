@@ -1,4 +1,6 @@
-﻿#container{}
+﻿#header #content > ul > li#li_head_home {border-bottom:5px solid #c0392b;}
+
+#container{}
 #container #gamelink_tutor {position: absolute;top: 45px;left:50%;text-align:center;margin-left:-400px;margin-top:5px;width: 800px;padding:10px;background-color:#e74c3c;border:0;z-index: 1000;cursor: pointer;}
 #container #gamelink_tutor:hover{background-color:#c0392b;}
 #container #gamelink_tutor span {font-size: 15px;font-family:'RixSGo B';color:#fff;}
