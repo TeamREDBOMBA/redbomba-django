@@ -12,6 +12,8 @@ $(window).load(function() {
     $('#button_login_signup').click(function(){
         // alert("2014년 4월 25일 정식서비스를 기다려주세요.\nCOMING SOON!");
 
+        mixpanel.track("Try to sign up");
+
         $("form").each(function(){ if(this.id == "signupForm") this.reset(); });
         $("#div_signup_iderror").text("");
         $("#div_signup_passerror").text("");
@@ -25,6 +27,7 @@ $(window).load(function() {
     });
 
     $('#button_signup_cancle').click(function(){
+        mixpanel.track("Cancel to sign up");
         $('._aside').animate({"right":"-800px"}, 'slow', function(){
             $('._aside').hide();
             $('#backBG').hide();
@@ -57,6 +60,7 @@ $(window).load(function() {
             $('._aside #id_email').val()!=""&&$('._aside #id_password1').val()!=""&&$('._aside #id_password2').val()!=""&&$('._aside #id_username').val()!=""){
             $('#button_signup_complete').html("<img src='/static/img/ajax-loader_btn.gif'>로딩 중...");
             $("._aside_done #signup").load("/auth/signup/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email}, function(){
+                mixpanel.track("Success to sign up");
                 $('._aside_done').show();
                 $('._aside_done').animate({"right":"0%"}, 'slow');
             });

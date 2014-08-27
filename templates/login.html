@@ -72,7 +72,7 @@
                         <input id="id_password" name="password" type="password" class="form-control form_login" placeholder="비밀번호" />
                     </p>
                     <input type="hidden" name="next" value="/" />
-                    <p id="p_login_signin"><button id="button_login_signin" class="btn btn-success">로그인</button></p>
+                    <p id="p_login_signin"><button id="button_login_signin" class="btn btn-success" onclick="mixpanel.track('Try to sign in');">로그인</button></p>
                     <p id="p_login_or"><img src="/static/img/login_login_or.png" id="img_logo_or"></p>
                     <p id="p_login_hello_s">처음이신가요?</p>
                     <p id="p_login_signup"><button id="button_login_signup" class="btn btn-warning" type="button">회원가입</button></p>
