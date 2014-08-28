@@ -14,19 +14,48 @@ from django.http import HttpResponseRedirect
 
 ######################################## Views ########################################
 
+def reloadSummoner(request, name, sinfo):
+    gl = get_or_none(GameLink,name=name)
+    if gl :
+        if gl.name != sinfo['name'] :
+            gl.name = sinfo['name']
+            gl.sid = sinfo['id']
+            gl.save()
+        elif gl.sid != sinfo['id'] :
+            gl.name = sinfo['name']
+            gl.sid = sinfo['id']
+            gl.save()
+
 def summoner(request):
-    apikey = [
-        "fa072bf3-4b01-4719-8036-e3c32c1fd108",
-        "382f860d-58b6-420e-b769-049b36c6f862",
-        "1cb3ed80-344a-47e3-b03d-1344bde33f30"
-    ]
     user = request.POST.get('user')
-    if user :
-        random.shuffle(apikey)
-        json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.4/summoner/by-name/%s?api_key=%s' %(user,apikey[0])))
-        # return HttpResponse(json.dumps(), content_type="application/json")
-        summoner_info = dict(json_res).values()[0]
-        summoner_id = str(summoner_info['id'])
+    sid = request.POST.get('sid')
+    if user is None :
+        sid = get_or_none(GameLink,name=sid)
+        if sid :
+            sid = sid.sid
+
+    apikey = [
+        #"fa072bf3-4b01-4719-8036-e3c32c1fd108",
+        "382f860d-58b6-420e-b769-049b36c6f862"
+        #"1cb3ed80-344a-47e3-b03d-1344bde33f30"
+    ]
+
+    if user or sid :
+        if user :
+            random.shuffle(apikey)
+            json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.4/summoner/by-name/%s?api_key=%s' %(user,apikey[0])))
+            summoner_info = dict(json_res).values()[0]
+            summoner_id = str(summoner_info['id'])
+            user = summoner_info['name']
+            reloadSummoner(request,user,summoner_info)
+
+        elif sid :
+            random.shuffle(apikey)
+            json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.4/summoner/%s?api_key=%s' %(sid,apikey[0])))
+            summoner_info = dict(json_res).values()[0]
+            summoner_id = str(summoner_info['id'])
+            user = summoner_info['name']
+            reloadSummoner(request,user,summoner_info)
 
         random.shuffle(apikey)
         json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.4/league/by-summoner/%s/entry?api_key=%s' %(summoner_id,apikey[0])))
@@ -120,6 +149,7 @@ def summoner(request):
             'name':1,
             'from':request.GET['from']
         }
+
     else :
         context = {
             'uid' : request.user.id,
@@ -133,7 +163,8 @@ def write_GameLink(request):
         uid = request.user
         game = get_or_none(Game,name=request.POST.get("gid"))
         name = request.POST.get("name")
-        insertGameLink(uid, game, name)
+        sid = request.POST.get("sid")
+        insertGameLink(uid, game, name, sid)
         return HttpResponseRedirect(dfrom)
     else :
         try :
@@ -144,16 +175,17 @@ def write_GameLink(request):
         except Exception as e:
             return HttpResponseRedirect(dfrom)
 
-def insertGameLink(uid=None, game=None, name=None):
-    if uid and game and name :
+def insertGameLink(uid=None, game=None, name=None, sid=None):
+    if uid and game and name and sid :
         gl = GameLink.objects.filter(uid=uid,game=game)
         if int(gl.count()) > 0 :
             gl = GameLink.objects.get(uid=uid,game=game)
             gl.game = game
             gl.name = name
+            gl.sid = sid
             gl.save()
         else:
-            GameLink.objects.create(uid=uid,game=game,name=name)
+            GameLink.objects.create(uid=uid,game=game,name=name,sid=sid)
 
 def setStatsValue(j, s):
     try:

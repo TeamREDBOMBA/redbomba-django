@@ -65,7 +65,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #header #content > ul > li#li_head_search{float: left;border-left:0;text-align:center;margin-left: 100px;}
 #header #content > ul > li#li_head_noti{float:right;border-left:0;text-align:center}
 #header #content > ul > li#li_head_profile{float: right;border-left:0;text-align:center;cursor:pointer}
-#header #content > ul > li#li_head_more{float: right;border-left:0;text-align:center;}
+#header #content > ul > li#li_head_more{float: right;border-left:0;text-align:center;color: #333;}
 
 #header #content > ul > li .div_head_icon{position:relative;height:46px;text-align:left;line-height:46px;font-size:15px}
 #header #content > ul > li #div_head_icon1{float:left;width:46px;text-align:center;line-height:46px;font-size:10px}

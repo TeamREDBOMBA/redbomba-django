@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class Game(models.Model):
-  name = models.TextField(db_column='name')
-  is_active = models.IntegerField(default=1, db_column='is_active')
+  name = models.TextField()
+  is_active = models.IntegerField(default=1)
 
   def __unicode__(self):
     return u'[%d] %s(active:%d)' %(self.id, self.name, self.is_active)
@@ -19,7 +19,7 @@ class UserProfile(models.Model):
 
 class Tutorial(models.Model):
   uid = models.ForeignKey(User, unique=True)
-  is_pass1 = models.IntegerField(default=0, db_column='is_pass1')
+  is_pass1 = models.IntegerField(default=0)
  
 class Feed(models.Model):
   ufrom = models.IntegerField(default=0)
@@ -70,10 +70,10 @@ class Reply(models.Model):
         return "방금 전"
   
 class Contents(models.Model):
-  uto = models.IntegerField(default=0, db_column='uto')
-  utotype = models.CharField(max_length=1, db_column='utotype')
-  ctype = models.CharField(max_length=3, db_column='ctype')
-  con = models.TextField(db_column='con')
+  uto = models.IntegerField(default=0)
+  utotype = models.CharField(max_length=1)
+  ctype = models.CharField(max_length=3)
+  con = models.TextField()
   
 class Smile(models.Model):
   fid = models.ForeignKey(Feed)
@@ -86,16 +86,17 @@ class Check(models.Model):
 class GameLink(models.Model):
   uid = models.ForeignKey(User)
   game = models.ForeignKey(Game)
-  name = models.TextField(db_column='name')
+  name = models.TextField()
+  sid = models.IntegerField(default=0)
 
   def __unicode__(self):
     return u'[%d] %s (%s)' %(self.id, self.uid, self.game)
   
 class Notification(models.Model):
   uid = models.ForeignKey(User)
-  tablename = models.TextField(db_column='tablename')
-  contents = models.TextField(db_column='contents')
-  date_read = models.IntegerField(default=-1, db_column='date_read')
+  tablename = models.TextField()
+  contents = models.TextField()
+  date_read = models.IntegerField(default=-1)
   date_updated = models.DateTimeField(auto_now_add=True)
 
   def get_time_diff(self):
@@ -115,10 +116,10 @@ class Notification(models.Model):
         return "방금 전"
   
 class Group(models.Model):
-  name = models.TextField(db_column='name')
-  nick = models.TextField(db_column='nick')
+  name = models.TextField()
+  nick = models.TextField()
   uid = models.ForeignKey(User)
-  group_icon = models.TextField(db_column='group_icon',default='common.jpg')
+  group_icon = models.TextField(default='common.jpg')
   game = models.ForeignKey(Game)
   date_updated = models.DateTimeField(auto_now_add=True)
 
@@ -132,8 +133,8 @@ class Group(models.Model):
 class GroupMember(models.Model):
   gid = models.ForeignKey(Group)
   uid = models.ForeignKey(User)
-  order = models.IntegerField(default=0, db_column='order')
-  is_active = models.IntegerField(default=0, db_column='is_active')
+  order = models.IntegerField(default=0)
+  is_active = models.IntegerField(default=0)
   date_updated = models.DateTimeField(auto_now_add=True)
 
   def __unicode__(self):
@@ -144,15 +145,15 @@ class GroupMember(models.Model):
       return GameLink.objects.get(uid=self.uid)
   
 class League(models.Model):
-  name = models.TextField(db_column='name')
+  name = models.TextField()
   uid = models.ForeignKey(User)
   game = models.ForeignKey(Game)
-  level = models.IntegerField(default=1, db_column='level')
-  method = models.IntegerField(default=0, db_column='method')
+  level = models.IntegerField(default=1)
+  method = models.IntegerField(default=0)
   start_apply = models.DateTimeField(editable=True)
   end_apply = models.DateTimeField(editable=True)
-  min_team = models.IntegerField(default=0, db_column='min_team')
-  max_team = models.IntegerField(default=0, db_column='max_team')
+  min_team = models.IntegerField(default=0)
+  max_team = models.IntegerField(default=0)
   date_updated = models.DateTimeField(auto_now_add=True)
 
   def get_time_diff(self):
@@ -169,11 +170,11 @@ class League(models.Model):
   
 class LeagueRound(models.Model):
   league_id = models.ForeignKey(League)
-  round = models.IntegerField(default=1, db_column='round')
+  round = models.IntegerField(default=1)
   start = models.DateTimeField(editable=True)
   end = models.DateTimeField(editable=True)
-  bestof = models.IntegerField(default=1, db_column='bestof')
-  is_finish = models.IntegerField(default=0, db_column='is_finish')
+  bestof = models.IntegerField(default=1)
+  is_finish = models.IntegerField(default=0)
 
   def get_time_diff(self):
     if self.start:
@@ -195,8 +196,8 @@ class LeagueRound(models.Model):
     return u'[%d] R%d(%s)' %(self.id, self.round, self.league_id)
   
 class LeagueInfo(models.Model):
-  name = models.TextField(db_column='name')
-  is_required = models.IntegerField(default=0, db_column='is_required')
+  name = models.TextField()
+  is_required = models.IntegerField(default=0)
   
 class LeagueTeam(models.Model):
   group_id = models.ForeignKey(Group)

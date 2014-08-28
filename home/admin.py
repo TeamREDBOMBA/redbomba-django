@@ -38,7 +38,7 @@ class GameAdmin(admin.ModelAdmin):
   list_display = ('id','name','is_active')
   
 class GameLinkAdmin(admin.ModelAdmin):
-  list_display = ('id','uid','game','name')
+  list_display = ('id','uid','game','name','sid')
   
 class NotificationAdmin(admin.ModelAdmin):
   list_display = ('id','uid','tablename','contents','date_read','date_updated')

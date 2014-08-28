@@ -1,6 +1,10 @@
 <p class="display_title">
     <span class="display_title_live">LIVE</span>
     <span class="display_title_name">{{ league.team_a.round.league_id.name }}</span>
+    <span class="display_title_btn">
+        <i class="fa fa-chevron-up display_btn_up" onclick="getDisplayContent('+')"></i>
+        <i class="fa fa-chevron-down display_btn_down" onclick="getDisplayContent('-')"></i>
+    </span>
 </p>
 <div class="display_body">
     <div class="display_body_left">
