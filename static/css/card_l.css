@@ -59,6 +59,7 @@
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .carousel-control .icon-prev:before {content:none;}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .carousel-control .icon-next:before {content:none;}
 #LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .carousel-control .icon-prev, .carousel-control .icon-next{top:83%;}
+#LargeCard #div_body .div_main_right #div_main_schedule #div_main_carousel .carousel-inner {height:163px}
 #LargeCard #div_body .div_main_right #div_main_group {position:relative;width:100%;height:220px}
 #LargeCard #div_body .div_main_right #div_main_group .div_group_icon{width:73px;height:73px;float:left;overflow:hidden;background-repeat:no-repeat;background-position: 50% 50%;background-size: 160%;}
 #LargeCard #div_body .div_main_right #div_main_group #div_group_count{position:absolute;bottom:0;right:0;width:73px;height:73px;background-color:RGBA(230,126,34,0.5);
