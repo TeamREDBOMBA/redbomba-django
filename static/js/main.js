@@ -36,7 +36,7 @@ $(window).load(function() {
 function getDisplayContent(dir){
     if(dir == "+") query_no+=1;
     if(dir == "-") query_no-=1;
-    $('#display').load("/league/display/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'query_no':query_no});
+    $('#display_con').hide().load("/league/display/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'query_no':query_no}).fadeIn(200);
 }
 
 function findId(from){

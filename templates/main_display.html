@@ -29,7 +29,7 @@
             <p class="display_right_name">{{ league.team_b.group_id.name }}</p>
         </div>
         <div class="display_right_member">
-            {% for member in league.team_b.group_id.get_member|slice:":5" reversed %}
+            {% for member in league.team_b.group_id.get_member|slice:":5" %}
             <div class="display_member">
                 <img src="/static/img/icon/usericon_{{ member.uid.get_profile.user_icon }}.jpg">
                 <p>{{ member.uid.username }}</p>

@@ -15,7 +15,7 @@
 #container #content #display .display_title { height:50px;background-color:#232b34 }
 #container #content #display .display_title .display_title_live { background-color:#e74c3c ; color: #fff; font-size: 15px; padding: 5px 10px; letter-spacing: 3px; line-height: 50px; border-radius: 3px; margin-left: 10px;}
 #container #content #display .display_title .display_title_name { color: #fff;font-size: 14px;margin-left: 10px; }
-#container #content #display .display_title_btn { float: right;line-height: 50px;margin-right: 10px;color: #fff; font-size: 20px;cursor:pointer}
+#container #content #display .display_title_btn { float: right;line-height: 50px;margin-right: 10px;color: #fff; font-size: 20px;cursor:pointer;-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;}
 #container #content #display .display_title_btn i:hover { color:#aaa }
 #container #content #display .display_body { position:relative;width:100%;color:#fff }
 
