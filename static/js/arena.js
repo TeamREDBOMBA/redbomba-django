@@ -21,10 +21,6 @@ $(window).load(function() {
 	})
 });
 
-function readFeed(loc, len, fid, league_id){
-  $(loc).load("/feed/card/?len="+len+"&fid="+fid+"&league_id="+league_id);
-}
-
 function drawCal(ySA,mSA,dSA,yEA,mEA,dEA,ySR,mSR,dSR,yER,mER,dER){
 	var start_apply = new Date(ySA,mSA-1,dSA);
 	var daySA = start_apply.getDay();

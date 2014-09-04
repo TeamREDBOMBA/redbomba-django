@@ -120,6 +120,18 @@ def arena(request):
       context = {'user': request.user}
     return render(request, 'arena.html', context)
 
+def league_for_link(request,lid=None):
+    lid = int(lid)
+    lid = get_or_none(League,id=lid)
+    if lid:
+        con = {'text':'','img':''}
+        con['text']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='txt').con
+        con['img']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='img').con
+        context = {'user': request.user, 'lid':lid, 'con':con}
+    else :
+        context = {'user': request.user}
+    return render(request, 'league_for_link.html', context)
+
 @csrf_exempt
 def test(request):
   text = "datetime.now = %s <br>"%(datetime.now())

@@ -43,7 +43,7 @@ def setLeagueteam(request):
         group_id = get_or_none(GroupMember,uid=request.user)
         if group_id :
             group_id = group_id.gid
-        round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
+        round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST.get("league_id")),round=request.POST["round"])
         LeagueTeam.objects.create(
             group_id=group_id,
             round=round,
@@ -131,15 +131,21 @@ def cardsorter():
         val = val+output;
     return val
 
-def cardDetail_sorter(request, league_id):
+def cardDetail_sorter(request=None, league_id=None):
+    user = None
+    if request.user.id :
+        user = get_or_none(GroupMember,uid=request.user)
+
     league = get_or_none(League,id=league_id)
-    user = get_or_none(GroupMember,uid=request.user)
 
     if user :
         user_group = user.gid
         user = user.uid
-    else :
+    elif request.user.id :
         user = request.user
+        user_group = None
+    else :
+        user = None
         user_group = None
 
     info = get_or_none(Contents,uto=league.id,utotype='l',ctype='inf')
