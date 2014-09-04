@@ -114,7 +114,15 @@
     <div id="div_right_top">
         {% if user %}<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/static/img/group_modal_closeB.png"></button>{% endif %}
     </div>
-    <div id="div_right_btn">&nbsp;</div>
+    {% if user %}
+        <div id="div_right_btn">&nbsp;</div>
+    {% else %}
+        <div id="div_right_btn" style="display: block;">
+            <button class="btn btn-primary"><i class="fa fa-check-circle"></i> 참가신청</button>
+            <img src="/static/img/arena_card_div.png">
+            <button class="btn btn-danger" id="btnWish"><i class="fa fa-heart"></i> 관심있어요!</button>
+        </div>
+    {% endif %}
     <div id='div_right_feedTitle'>실시간 반응 {% if user %}<i id='btn_feed_write' class="fa fa-pencil-square-o"></i>
         <div id='div_feedTitle_input'>
             <form role="form" id="div_feedInput_form" name="div_feedInput_form" method="post" action="/">

@@ -14,32 +14,39 @@
             </div>
             <div id="div_head_searchlist"></div>
         </li>
-        <li id="li_head_noti">
-            <div id="div_head_icon1" class="imgbtn div_head_icon" title="알림">
-                <a href="#" id="a_head_noti" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
-                    <i class="fa fa-bell fa-2x"></i>
-                </a>
-                <span class="badge" id='noti_value'>{{ noti }}</span>
-            </div>
-            <div id="div_head_icon2" class="imgbtn div_head_icon" title="필드">
-                <a href="#" id="a_head_field" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
-                    <i class="fa fa-globe fa-2x"></i>
-                </a>
-                <span class="badge" id='field_value'>{{ field }}</span>
-            </div>
-        </li>
-        <li id="li_head_more">
-            <div class="dropdown_head">
-                <i class="fa fa-caret-down" id="i_profile_btn" class="imgbtn dropdown-head-toggle" data-toggle="dropdown"></i>
-                <ul class="dropdown-menu pull-center" role="menu" aria-labelledby="dLabel">
-                    <li><a id="Logout"><i class="fa fa-sign-out"></i> 로그아웃</a></li>
-                </ul>
-            </div>
-        </li>
-        <li id="li_head_profile">
-            <img id="img_head_usericon" src="/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg" alt="usericon_{{ uinfo.user_icon }}" />
-            <p id="p_head_username">{{ user.username }}</p>
-        </li>
+        {% if user.id %}
+            <li id="li_head_noti">
+                <div id="div_head_icon1" class="imgbtn div_head_icon" title="알림">
+                    <a href="#" id="a_head_noti" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
+                        <i class="fa fa-bell fa-2x"></i>
+                    </a>
+                    <span class="badge" id='noti_value'>{{ noti }}</span>
+                </div>
+                <div id="div_head_icon2" class="imgbtn div_head_icon" title="필드">
+                    <a href="#" id="a_head_field" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
+                        <i class="fa fa-globe fa-2x"></i>
+                    </a>
+                    <span class="badge" id='field_value'>{{ field }}</span>
+                </div>
+            </li>
+            <li id="li_head_more">
+                <div class="dropdown_head">
+                    <i class="fa fa-caret-down" id="i_profile_btn" class="imgbtn dropdown-head-toggle" data-toggle="dropdown"></i>
+                    <ul class="dropdown-menu pull-center" role="menu" aria-labelledby="dLabel">
+                        <li><a id="Logout"><i class="fa fa-sign-out"></i> 로그아웃</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li id="li_head_profile">
+                <img id="img_head_usericon" src="/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg" alt="usericon_{{ uinfo.user_icon }}" />
+                <p id="p_head_username">{{ user.username }}</p>
+            </li>
+        {% else %}
+            <li id="li_head_profile">
+                <p id="p_head_username">이미 REDBOMBA에 가입하셨나요?&nbsp;&nbsp;<button class="btn btn-xs btn-default">로그인</button></p>
+            </li>
+        {% endif %}
+
     </ul>
 </div>
 {% for gm in groupmem %}

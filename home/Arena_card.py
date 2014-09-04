@@ -86,15 +86,16 @@ def setMatchmaker(request):
     return HttpResponse('ERROR')
 
 def getLargeCardBtn(request):
-    if request.user :
-        league = get_or_none(League, id=request.POST.get('lid'))
+    user = None
+    league = get_or_none(League, id=request.POST.get('lid'))
+    if request.user.id is not None :
         user = get_or_none(User, id=request.POST.get('uid'))
         if user is None :
             user = request.user
-        context = {
-            'state':LeagueState(league,user)
-        }
-        return render(request, 'card_l_btn.html', context)
+    context = {
+        'state':LeagueState(league,user)
+    }
+    return render(request, 'card_l_btn.html', context)
 
 def setTutorial(request):
     if request.user :
