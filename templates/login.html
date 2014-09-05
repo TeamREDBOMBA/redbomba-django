@@ -130,6 +130,10 @@
         </div>
         <!-- //Signup -->
         <div id="backBG"></div>
+        <div id="try_msg">
+            <p id="title">{{ try.title }}</p>
+            <p id="con">{{ try.con }}</p>
+        </div>
         <div class="_aside">
             <div id="signup">
                 <div id="div_signup_line1">
@@ -194,6 +198,12 @@
     var FHChat = {product_id: "9cf6240931e7"};
     FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
 </script>
+{% if try %}
+<script>
+$("#try_msg").fadeIn();
+btn_signup();
+</script>
+{% endif %}
 {% if msg %}
     <div class="alert alert-warning">{{ con }}</div>
 {% endif %}

@@ -118,7 +118,7 @@
         <div id="div_right_btn">&nbsp;</div>
     {% else %}
         <div id="div_right_btn" style="display: block;">
-            <button class="btn btn-primary"><i class="fa fa-check-circle"></i> 참가신청</button>
+            <button class="btn btn-primary" id="btnJoin"><i class="fa fa-check-circle"></i> 참가신청</button>
             <img src="/static/img/arena_card_div.png">
             <button class="btn btn-danger" id="btnWish"><i class="fa fa-heart"></i> 관심있어요!</button>
         </div>
@@ -374,5 +374,14 @@
                 }).fadeIn('500');
             }
         });
+    </script>
+{% else %}
+    <script>
+    $("#btnJoin").click(function(){
+        location.href="/home/?try=leauge_join";
+    });
+    $("#btnWish").click(function(){
+        location.href="/home/?try=leauge_wish";
+    });
     </script>
 {% endif %}

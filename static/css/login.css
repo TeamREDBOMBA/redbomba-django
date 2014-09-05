@@ -103,4 +103,8 @@ filter:alpha(opacity=90); opacity:0.9; -moz-opacity:0.9;
 ._aside_done #signup #div_done_line4 #button_signup_close{ width: 100px;margin-right: 10px;margin-left: 75px;margin-top: 65px; }
 ._aside_done #signup #div_done_line4 #button_signup_checkemail{ margin-top: 65px;width: 230px; }
 
+#try_msg { position:absolute; bottom: 50%; right:50%;width:43%; height: 150px;background-color:RGBA(0,0,0,0.6);border-radius:30px; color: #fff;display:none;z-index:100}
+#try_msg #title { width:100% ; text-align: center; font-size: 30px; font-family: "RixSGo B"; margin-top: 35px;}
+#try_msg #con { width: 100%; text-align: center; font-size: 15px; margin-top: 20px; }
+
 #container #bottom{position:absolute;left:0;bottom:0;width:100%;height:40px;line-height:40px;color:#fff;font-size:15px;background-color:#c0392b;padding-left: 16%;}

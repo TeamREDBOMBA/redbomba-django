@@ -11,23 +11,12 @@
 $(window).load(function() {
     $('#button_login_signup').click(function(){
         // alert("2014년 4월 25일 정식서비스를 기다려주세요.\nCOMING SOON!");
-
-        mixpanel.track("Try to sign up");
-
-        $("form").each(function(){ if(this.id == "signupForm") this.reset(); });
-        $("#div_signup_iderror").text("");
-        $("#div_signup_passerror").text("");
-        $("#div_signup_passerror2").text("");
-        $("#div_signup_nickerror").text("");
-        $('#button_signup_complete').html("회원가입 완료 !");
-        $('#backBG').show();
-        $('._aside').show();
-        $('._aside').animate({"right":"0%"}, 'slow');
-
+        btn_signup();
     });
 
     $('#button_signup_cancle').click(function(){
         mixpanel.track("Cancel to sign up");
+        $('#try_msg').fadeOut();
         $('._aside').animate({"right":"-800px"}, 'slow', function(){
             $('._aside').hide();
             $('#backBG').hide();
@@ -99,3 +88,17 @@ $(window).load(function() {
         });
     };
 })(jQuery);
+
+function btn_signup(){
+    mixpanel.track("Try to sign up");
+
+    $("form").each(function(){ if(this.id == "signupForm") this.reset(); });
+    $("#div_signup_iderror").text("");
+    $("#div_signup_passerror").text("");
+    $("#div_signup_passerror2").text("");
+    $("#div_signup_nickerror").text("");
+    $('#button_signup_complete').html("회원가입 완료 !");
+    $('#backBG').show();
+    $('._aside').show();
+    $('._aside').animate({"right":"0%"}, 'slow');
+}
