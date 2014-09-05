@@ -130,11 +130,34 @@ def arena(request):
 def league_for_link(request,lid=None):
     lid = int(lid)
     lid = get_or_none(League,id=lid)
+
+    user, user_profile = None, None
+
+    if request.user.id :
+        user = request.user
+        user_profile = request.user.get_profile
+
+    group = GroupMember.objects.filter(Q(uid=user)&~Q(is_active=-1))
+    if group.count() :
+        group = group[0].gid
+        groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+    else : groupmem = None
+
+    get_group = request.GET.get('group')
+
     if lid:
         con = {'text':'','img':''}
         con['text']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='txt').con
         con['img']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='img').con
-        context = {'user': request.user, 'lid':lid, 'con':con}
+        context = {
+        'user': user,
+        'uinfo' : user_profile,
+        'group':group,
+        'groupmem':groupmem,
+        'lid':lid, 'con':con,
+        'get_group':get_group,
+        'from' : '/league/'
+    }
     else :
         context = {'user': request.user}
     return render(request, 'league_for_link.html', context)
