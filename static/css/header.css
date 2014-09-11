@@ -22,8 +22,9 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 
 #wrap{position:relative;width:100%;min-width:1140px;min-height:100%;margin:0 auto}
 
-#header{position:fixed;width:100%;height:46px;top:0;left:0;z-index:10}
-#header #content{position:relative;width:1140px;height:100%;left:50%;margin-left:-570px;}
+#header{position:fixed;width:100%;top:0;left:0;z-index:10}
+#header #is_not_active {position:relative;width: 100%;line-height: 40px;text-align: center;}
+#header #content{position:relative;width:1140px;height:46px;left:50%;margin-left:-570px;}
 
 #container{position:relative;width:1140px;min-height:100%;left:50%;margin-left:-570px;padding-top:46px;z-index:0}
 #container:after{display:block;clear:both;content:''}
@@ -35,8 +36,13 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #wrap{background:#f5f5f5}
 
 #header{background-color: #fff;box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),0 1px 0 0 rgba(0, 0, 0, 0.1);}
+
+#header #is_not_active {background-color: #F0E2E2;border-bottom: 1px solid RGBA(0,0,0,0.1);}
+
 #header #content > ul > #li_head_logo{margin-right:4px;}
 #header #content > ul > .btn_top_menu{font-size:13px;font-family: 'RixSGo B';color: #333;padding:0 16px;line-height: 46px;cursor:pointer}
+#header #content > ul > #li_head_signup{padding-left:12px;font-size:13px;font-family: 'RixSGo B';color: #333;padding:0 16px;line-height: 46px;cursor:pointer}
+#header #content > ul > #li_head_signin{float: right;border-left:0;text-align:center;cursor:pointer}
 #header #content > ul > #li_head_home{padding-left:12px;}
 #header #content > ul > #li_head_home img{margin-right:2px}
 #header #content > ul > .btn_top_menu img{margin-right:3px}

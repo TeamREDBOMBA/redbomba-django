@@ -1,10 +1,14 @@
 {% load extras %}
+
+<div id="div_top">
+    <div id="div_top_logo">
+        <i class="fa fa-arena"></i>콜로세움
+    </div>
+    <button type="button" id="btn_top_close" class="close" data-dismiss="modal" aria-hidden="true"><img src="/static/img/group_modal_closeB.png"></button>
+</div>
 <div id="div_left">
     <input type="hidden" name="lid" id="lid" value="{{league.id}}">
     <input type="hidden" name="uid" id="uid" value="{{user.id}}">
-    <div id="div_left_top">
-        <i class="fa fa-arena"></i>콜로세움
-    </div>
     <div id="div_left_body">
         <h3>메뉴</h3>
         <ul>
@@ -23,7 +27,7 @@
         <p class='p_poster_info'><i class="fa fa-lol"></i>&nbsp;리그오브레전드</p>
         <p class='p_poster_info'><span style='color:#2ecc71'>●</span> 참가신청 가능</p>
         <p class='p_poster_info'><i class="fa fa-globe"></i>&nbsp;온라인 대회</p>
-        <p class='p_poster_icon'><i class="fa fa-check-circle"></i> {{groups|length}}/{{league.max_team}} | <i class="fa fa-heart"></i> 0</p>
+        <p class='p_poster_icon'><i class="fa fa-heart"></i> 0</p>
     </div>
     <div id="div_body_main">
         <h3>대회 설명</h3>
@@ -61,21 +65,13 @@
                         {% endfor %}
                     </div>
                 </div>
-
-                <!-- Controls -->
-                <a class="left carousel-control" href="#div_main_carousel" data-slide="prev">
-                    <span class="icon-prev">&lt;</span>
-                </a>
-                <a class="right carousel-control" href="#div_main_carousel" data-slide="next">
-                    <span class="icon-next">&gt;</span>
-                </a>
             </div>
         </div>
         <div id="div_main_group">
             {% for group in groups|slice:":9" %}
                 <div class="div_group_icon" style="background-image:url(/media/group_icon/{{ group.group_icon }})"></div>
             {% endfor %}
-            <div id="div_group_count">{{groups|length}}</div>
+            <div id="div_group_count">{{groups|length}}/{{league.max_team}}</div>
         </div>
     </div>
 </div>
@@ -98,9 +94,6 @@
         {% endfor %}
     </div>
     <div id="div_join_right">
-        <div id="div_right_top">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/static/img/group_modal_closeB.png"></button>
-        </div>
         {% for i in round1.day %}
             <div class="div_time_tag">
                 <h1>{{SR.league.start|date_add:i|date:'m월 d일'}}</h1>
@@ -111,9 +104,6 @@
     </div>
 </div>
 <div id="div_right">
-    <div id="div_right_top">
-        {% if user %}<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="/static/img/group_modal_closeB.png"></button>{% endif %}
-    </div>
     {% if user %}
         <div id="div_right_btn">&nbsp;</div>
     {% else %}
@@ -174,7 +164,7 @@
      });
      */
 
-    $("#div_left_top").click(function(){
+    $("#div_top_logo").click(function(){
         $(".li_menu").removeClass("active");
         $("#li_menu_summary").addClass("active");
         $(".div_contents").hide();
@@ -377,11 +367,17 @@
     </script>
 {% else %}
     <script>
-    $("#btnJoin").click(function(){
-        location.href="/home/?try=leauge_join";
-    });
-    $("#btnWish").click(function(){
-        location.href="/home/?try=leauge_wish";
-    });
+        $("#li_head_signup").click(function(){
+            $('#modal_signup').modal('show');
+        });
+        $("#li_head_signin").click(function(){
+            $('#modal_signin').modal('show');
+        });
+        $("#btnJoin").click(function(){
+            $('#modal_signup').modal('show');
+        });
+        $("#btnWish").click(function(){
+            $('#modal_signup').modal('show');
+        });
     </script>
 {% endif %}

@@ -33,7 +33,7 @@
 #container #content .line .card_line .div_card .div_card_bottom p{font-size:14px;font-family:'RixSGo B';line-height:45px}
 #container #content .line .card_line .div_card .div_card_bottom p .font_btn_main{font-size:150%}
 
-#container #content .line .card_line .div_card .div_card_mouseover{position:absolute;width:250px;height:400px;top:0;left:0;background-color:RGBA(255,255,255,0.95);display:none;z-index:1}
+#container #content .line .card_line .div_card .div_card_mouseover{position:absolute;width:250px;height:400px;top:0;left:0;background-color: #FFF;display:none;z-index:1}
 #container #content .line .card_line .div_card .div_card_mouseover .cal{margin-top:0px}
 #container #content .line .card_line .div_card .div_card_mouseover .div_card_award{margin-top:10px;margin-left:15px;text-align:left}
 #container #content .line .card_line .div_card .div_card_mouseover .div_card_award li{margin-top:5px;font-size:15px;font-family:'RixSGo B';line-height:40px}

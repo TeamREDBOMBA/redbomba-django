@@ -16,7 +16,6 @@ $(window).load(function() {
 
     $('#button_signup_cancle').click(function(){
         mixpanel.track("Cancel to sign up");
-        $('#try_msg').fadeOut();
         $('._aside').animate({"right":"-800px"}, 'slow', function(){
             $('._aside').hide();
             $('#backBG').hide();
@@ -38,7 +37,7 @@ $(window).load(function() {
     });
 
     $('._aside #id_username').keyup(function(event){
-        $("#div_signup_nickerror").load("/auth/fnc/nick/?nick="+$("._aside #id_username").val());
+        $("#div_signup_nickerror").load("/auth/fnc/nick/",{"nick":$("._aside #id_username").val(),"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val()});
     });
 
     $('#button_signup_complete').click(function(){
@@ -49,9 +48,7 @@ $(window).load(function() {
             $('._aside #id_email').val()!=""&&$('._aside #id_password1').val()!=""&&$('._aside #id_password2').val()!=""&&$('._aside #id_username').val()!=""){
             $('#button_signup_complete').html("<img src='/static/img/ajax-loader_btn.gif'>로딩 중...");
             $("._aside_done #signup").load("/auth/signup/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email}, function(){
-                mixpanel.track("Success to sign up");
-                $('._aside_done').show();
-                $('._aside_done').animate({"right":"0%"}, 'slow');
+                location.href="/";
             });
         }
     });
@@ -90,8 +87,6 @@ $(window).load(function() {
 })(jQuery);
 
 function btn_signup(){
-    mixpanel.track("Try to sign up");
-
     $("form").each(function(){ if(this.id == "signupForm") this.reset(); });
     $("#div_signup_iderror").text("");
     $("#div_signup_passerror").text("");
@@ -101,4 +96,5 @@ function btn_signup(){
     $('#backBG').show();
     $('._aside').show();
     $('._aside').animate({"right":"0%"}, 'slow');
+    window.mixpanel.track("Try to sign up");
 }

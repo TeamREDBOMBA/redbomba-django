@@ -1,7 +1,11 @@
+{% if user.is_active == False %}
+<div id="is_not_active">메일인증을 받고 오시오. RIGHT NOW !!!</div>
+{% endif %}
 <div id="content">
     {% csrf_token %}
     <ul>
         <li id="li_head_logo"><img src="/static/img/main_head_logoS.png" alt="REDBOMBA" class="imgbtn" /></li>
+        {% if user.id %}
         <li class="btn_top_menu" id="li_head_home"><img src="/static/img/main_head_menu_home.png" alt="HOME" class="imgbtn" title="HOME" /> 홈</li>
         <li class="btn_top_menu" id="li_head_arena"><img src="/static/img/main_head_menu2S.png" alt="ARENA" class="imgbtn" title="ARENA" /> 아레나</li>
         <!-- <li class="btn_top_menu" id="li_head_menu3"><img src="/static/img/main_head_menu3S.png" alt="LIVE" class="imgbtn" title="LIVE" /> 밤바스트림</li> -->
@@ -14,7 +18,6 @@
             </div>
             <div id="div_head_searchlist"></div>
         </li>
-        {% if user.id %}
             <li id="li_head_noti">
                 <div id="div_head_icon1" class="imgbtn div_head_icon" title="알림">
                     <a href="#" id="a_head_noti" data-toggle="popover" data-placement="bottom" role="button" data-html="true" data-content="<img src='/static/img/ajax-loader_s.gif'>">
@@ -42,7 +45,10 @@
                 <p id="p_head_username">{{ user.username }}</p>
             </li>
         {% else %}
-            <li id="li_head_profile">
+            <li id="li_head_signup">
+                <button class="btn btn-xs btn-default">가입하기</button>
+            </li>
+            <li id="li_head_signin">
                 <p id="p_head_username">이미 REDBOMBA에 가입하셨나요?&nbsp;&nbsp;<button class="btn btn-xs btn-default">로그인</button></p>
             </li>
         {% endif %}

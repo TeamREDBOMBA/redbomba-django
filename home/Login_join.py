@@ -7,9 +7,10 @@ import requests
 import random
 from redbomba.home.models import UserProfile
 from redbomba.home.models import Group
+from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.html import strip_tags
 
@@ -25,8 +26,11 @@ def register_page(request):
         user.save()
         UserProfile.objects.create(user_id=user.id,user_icon=random.randint(1,10))
         send_complex_message(request.POST['username'])
-        context = { 'site':request.POST['email'].split('@', 1)[-1] }
-        return render(request, 'login_success.html', context)
+        user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+        if user is not None:
+            login(request, user)
+            request.session.set_expiry(31536000)
+            return HttpResponse("Success")
     else:
         return HttpResponseRedirect('/home/?msg=200')
 
@@ -40,20 +44,39 @@ def verifyEmail(request,id,date_joined):
             user.is_active = True
             user.save()
     if user.is_active == True:
-        msg = '''
-      <html>
-      <head>
-      <script>
-      setInterval("location.href='http://redbomba.net/';",3000);
-      </script>
-      </head>
-      <body>
-      <H1>인증 성공!</H1><br>
-      3초 후 메인페이지로 자동 이동합니다.<br>
-      페이지 이동이 안되면 <b><a href='http://redbomba.net'>여기</a></b>를 클릭하세요.<br>
-      </body>
-      </html>
-      '''
+        auth_user = authenticate(username=user.username, password=user.password)
+        if auth_user is not None:
+            login(request, auth_user)
+            request.session.set_expiry(31536000)
+            msg = '''
+              <html>
+              <head>
+              <script>
+              setInterval("location.href='/';",3000);
+              </script>
+              </head>
+              <body>
+              <H1>인증 성공!</H1><br>
+              3초 후 자동으로 로그인 됩니다.<br>
+              페이지 이동이 안되면 <b><a href='/'>여기</a></b>를 클릭하세요.<br>
+              </body>
+              </html>
+              '''
+        else :
+            msg = '''
+              <html>
+              <head>
+              <script>
+              setInterval("location.href='/';",3000);
+              </script>
+              </head>
+              <body>
+              <H1>인증 성공!</H1><br>
+              3초 후 메인페이지로 자동 이동합니다.<br>
+              페이지 이동이 안되면 <b><a href='/'>여기</a></b>를 클릭하세요.<br>
+              </body>
+              </html>
+              '''
     else:
         msg = "인증 실패!"
 
@@ -67,7 +90,7 @@ def fncSignupEmail(request):
         return HttpResponse("이미 등록된 이메일입니다.")
 
 def fncSignupNick(request):
-    username = request.GET["nick"]
+    username = request.POST.get("nick")
     res = get_or_none(User,username=username)
     if res==None:
         return HttpResponse("")

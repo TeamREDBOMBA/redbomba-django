@@ -2,3 +2,21 @@ html,body{ margin:0;padding:0;width:100%;height:100% }
 body { background-color:#f3f6f6 }
 
 #LargeCard {position:relative;width:1100px;min-height:100px;left:50%;margin:10px 0;margin-left:-550px;background-color:#fff;border-radius:10px;border-bottom:1px solid #ddd;overflow:hidden}
+
+#modal_signin #div_form {position: relative;width: 300px;left: 50%;margin-left: -150px;}
+#modal_signin #div_form #button_login_signin {width:100%}
+
+#modal_signup #signup_title {font-size: 20px;text-align: center;font-family: "RixSGo B";margin-top: 20px;}
+#modal_signup #signup_msg {font-size: 14px;text-align: center;margin-bottom: 20px;}
+#modal_signup #div_form {position: relative;width: 400px;left: 50%;margin-left: -200px;}
+#modal_signup #div_form .form-control {}
+#modal_signup #div_form .signup_title {font-size: 14px}
+#modal_signup #div_form .error {text-align: right;margin-bottom: 20px;color: red;}
+#modal_signup #div_form #div_signup_line2 .signup_title:first-child {padding-right: 155px;}
+#modal_signup #div_form #div_signup_line2 #id_password1 {width:48%;float:left;margin-right:4%;}
+#modal_signup #div_form #div_signup_line2 #id_password2 {width:48%;}
+#modal_signup #div_form #div_signup_line3 .p_line3_nick {font-size: 14px}
+#modal_signup #div_form #div_signup_line3 .form-control {margin-bottom:3px}
+#modal_signup #div_form #div_signup_line3 .p_line3_nick:nth-child(3) {text-align:right}
+#modal_signup #div_form #div_signup_line3 #li_line3_info {margin-bottom: 20px;padding: 0 30px;text-indent: -7px;}
+#modal_signup #div_form #div_signup_line4 #button_signup_complete {width:100%}

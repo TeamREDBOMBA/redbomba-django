@@ -22,13 +22,6 @@ def home(request):
     if request.GET.get('msg'):
         context= errorMsg(request.GET.get('msg'))
         context['site'] = request.GET.get('site')
-    try_msg = request.GET.get('try')
-    if try_msg :
-        if try_msg == "leauge_join" :
-            try_msg = {"msg":request.GET.get('try'),"title":"아직 계정이 없으신가요?","con":"대회 참가를 위한 계정을 만들어보세요!"}
-        elif try_msg == "leauge_wish" :
-            try_msg = {"msg":request.GET.get('try'),"title":"아직 계정이 없으신가요?","con":"대회 참가를 위한 계정을 만들어보세요!"}
-        context = {"try":try_msg}
     return render(request, 'login.html', context)
 
 def main(request):

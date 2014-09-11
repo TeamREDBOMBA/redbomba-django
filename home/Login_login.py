@@ -17,19 +17,14 @@ def email_login_view(request):
     email = request.POST["email"]
     password = request.POST["password"]
     username = get_user(email)
+    next = request.POST["next"]
     if username is None:
       return HttpResponseRedirect('/home/?msg=101')
     else :
       user = authenticate(username=username, password=password)
-      if user is not None:
-          if user.is_active:
-              login(request, user)
-              request.session.set_expiry(31536000)
-              return HttpResponseRedirect('/')
-          else:
-              return HttpResponseRedirect('/home/?msg=110')
-      else:
-          return HttpResponseRedirect('/home/?msg=102')
+      login(request, user)
+      request.session.set_expiry(31536000)
+      return HttpResponseRedirect(next)
   except ValueError:
     return HttpResponseRedirect('/home/?msg=100')
   except ZeroDivisionError:
