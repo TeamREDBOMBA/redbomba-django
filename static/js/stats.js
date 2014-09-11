@@ -7,6 +7,9 @@
 });
 
 $(window).load(function() {
+
+     $("#profileBG").css({"top":$("#header").height()+"px"});
+
     memOnline--;
     $('#div_gamelink_gameadd').click(function(){
         $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
