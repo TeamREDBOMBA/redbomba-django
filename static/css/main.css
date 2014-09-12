@@ -43,6 +43,15 @@
 #container #content #display .display_body .display_body_center .center_vs { position: relative; top: 30px; font-size: 30px; font-family:'RixSGo B';}
 #container #content #display .display_body .display_body_center .center_gamename { position: relative; top: 40px; font-size: 10px;}
 
+#container #content #link_league {height:200px;border:3px solid #FFDB6B;margin-top:20px}
+#container #content #link_league #link_league_img {float:left}
+#container #content #link_league #link_league_img img {height:200px}
+#container #content #link_league #link_league_con {float:right;position: relative;width: 247px;height: 100%;margin: 0 10px;}
+#container #content #link_league #link_league_con p {width:100%;font-size: 15px;text-align:center;line-height: 150px;}
+#container #content #link_league #link_league_con button {width:100%;bottom: 10px;position: absolute;}
+
+#container #content #feed_pub {margin-bottom: 10px;}
+
 #aside #profile .profile_subtitle { border-top:1px solid #eee;border-bottom:1px solid #eee;padding:5px; font-size: 12px;}
 #aside #profile #profile_top {width:100%;height:60px}
 #aside #profile #profile_top #img_usericon { width:50px;border-radius:50px;border:1px solid #ddd;margin:5px;float:left}

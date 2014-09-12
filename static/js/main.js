@@ -1,10 +1,21 @@
 ﻿var query_no=0;
+var feedSize = [
+    ["size23","size23","size23","size43"],
+    ["size23","size23","size33","size33"],
+    ["size23","size43","size43"],
+    ["size23","size33","size53"],
+    ["size33","size33","size43"],
+    ["size53","size53"]];
 
 $(document).ready(function(){
     getDisplayContent('');
 });
 
 $(window).load(function() {
+
+    $("#feed_pub").load("http://redbomba.net/feed/news/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
+        $('.focuspoint').focusPoint();
+    });
 
     var userArray = $('#header #groupmem_uid').map(function() { return $(this).val(); }).get();
     socket.emit('isOnline',userArray);
@@ -48,4 +59,25 @@ function findId(from){
         $('#input_gamelink_searchbar').attr("disabled","disabled");
         $('.input_gamelink_btn').show();
     }).fadeIn('500');
+}
+
+function setSize(){
+    var count = 0;
+    var arr = new Array();
+    var box_size = $("#feed_pub .box").size();
+    while(1){
+        feedSize=shuffle(feedSize);
+        for(i=0;i<feedSize.length;i++){
+            feedSize[i]=shuffle(feedSize[i]);
+            for(j=0;j<feedSize[i].length;j++){
+                arr[count++] = feedSize[i][j];
+                if (count == box_size) return arr;
+            }
+        }
+    }
+}
+
+function shuffle(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
 }

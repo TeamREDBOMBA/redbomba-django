@@ -1,10 +1,34 @@
-        <div id="feed_news1" class="div_feed feed_news">
-        	<div class="div_feednews_link"></div>
-            <h1>뉴스피드 제목이 들어갑니다.</h1><p class="div_feednews_date">2013. 11. 14.</p>
-            <h2>세줄요약</h2>
-            <ul>
-            	<li>- 세줄요약 첫 줄입니다.</li>
-                <li>- 뉴스에 대한 요약본입니다.</li>
-                <li>- ex) 다양한 e스포츠 행사가 진행될 예정</li>
-            </ul>
+{% for new in news %}
+    <div class="div_feed box">
+        <div class="div_box_img focuspoint" data-focus-x="0" data-focus-y="0">
+            <img src="{{ new.img }}">
         </div>
+        <div class="div_box_con">
+            <p class="p_con_title">{{ new.title }}</p>
+            <p class="p_con_txt">{{ new.txt }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+
+    var box_size = $("#feed_pub .box").size();
+    var arr = setSize();
+    for(i=1;i<=box_size;i++){
+        $("#feed_pub .box:nth-child("+i+")").addClass(arr[i-1]);
+        $("#feed_pub .box:nth-child("+i+")").css({"background-color":"#7f8c8d"});
+    }
+
+    $('#feed_pub').nested({
+        minWidth:68,
+        gutter:10,
+        resizeToFit: false
+    });
+    $("#feed_pub").hide().delay( 800 ).fadeIn();
+
+    setTimeout(function(){
+        $('.div_box_img img').fadeIn();
+        $('.focuspoint').adjustFocus();
+    }, 1500);
+
+</script>

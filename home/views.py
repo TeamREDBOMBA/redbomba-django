@@ -26,6 +26,12 @@ def home(request):
 
 def main(request):
     try:
+
+        link = request.GET.get("link")
+        link = get_or_none(League,id=link)
+        if link :
+            link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name}
+
         gl = GameLink.objects.filter(uid=request.user)
         if gl.count() :
             gl_h = 100.0/int(gl.count())
@@ -49,7 +55,8 @@ def main(request):
             'get_group':get_group,
             'gamelink':gl,
             'height':gl_h,
-            'from':'/'
+            'from':'/',
+            'link':link
         }
     except Exception as e:
         context = {'user': request.user}

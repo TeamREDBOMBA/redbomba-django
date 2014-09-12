@@ -8,11 +8,14 @@ from django.db.models import Q
 ######################################## Views ########################################
 
 def getLeagueListForDisplay(request):
-
     query_no = int(request.POST.get("query_no",0))
-
     leagues = LeagueMatch.objects.filter(~Q(state=10)&~Q(state=0))
-
     context = {'user':request.user,'league':leagues[query_no%len(leagues)]}
-
     return render(request, 'main_display.html', context)
+
+def getGlobarFeed(request):
+    news = []
+    for i in range(0,10):
+        news.append({"img":"/media/poster/poster_redbomba.png","title":"제목이 들어갑니다.","txt":"내용이 들어갑니다. 몇 줄이 들어갈까요?"})
+    context = {'user':request.user,'news':news}
+    return render(request, 'feed_news.html', context)
