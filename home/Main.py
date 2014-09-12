@@ -4,6 +4,7 @@
 from django.shortcuts import render
 from redbomba.home.models import LeagueMatch
 from django.db.models import Q
+from redbomba.home.Func import *
 
 ######################################## Views ########################################
 
@@ -15,7 +16,8 @@ def getLeagueListForDisplay(request):
 
 def getGlobarFeed(request):
     news = []
-    for i in range(0,10):
-        news.append({"img":"/media/poster/poster_redbomba.png","title":"제목이 들어갑니다.","txt":"내용이 들어갑니다. 몇 줄이 들어갈까요?"})
+    user = get_or_none(User,username='gugg')
+    for i in range(0,6):
+        news.append({"img":"/media/poster/poster_redbomba.png","title":"제목이 들어갑니다.","txt":"내용이 들어갑니다. 몇 줄이 들어갈까요?","user":user})
     context = {'user':request.user,'news':news}
     return render(request, 'feed_news.html', context)

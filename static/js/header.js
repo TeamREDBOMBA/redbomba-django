@@ -92,15 +92,19 @@ $(window).load(function() {
         evt.stopPropagation();
     });
 
-    $('#a_head_gamelink').on('shown.bs.popover', function () {
-        $('#div_linkstep2_body').hide();
+});
+
+$(document).ready(function(){
+
+    $('#a_head_noti').popover();
+    $('#a_head_field').popover();
+
+    $(document).on('click',function(){
+        $('#a_head_noti').popover('hide');
+        $('#a_head_field').popover('hide');
     });
 
-    $('#a_head_gamelink').on('show.bs.popover', function () {
-        $(this).attr("data-content",$("#div_gamelink_step1").html());
-    });
-
-    $('#a_head_noti').on('show.bs.popover', function () {
+    $('#a_head_noti').click(function(){
         $.post('/noti/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
@@ -110,9 +114,10 @@ $(window).load(function() {
             $("#div_head_icon1 i").css({"color":"RGBA(102,117,127,0.3)"});
             $('#div_head_icon1 .popover-content').html($("#div_noti_step1").html()+res);
         });
+        return false;
     });
 
-    $('#a_head_field').on('show.bs.popover', function () {
+    $('#a_head_field').click(function(){
         $.post('/field/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
@@ -120,6 +125,7 @@ $(window).load(function() {
             $("#field_value").hide();
             $('#div_head_icon2 .popover-content').html(res);
         });
+        return false;
     });
 
 });

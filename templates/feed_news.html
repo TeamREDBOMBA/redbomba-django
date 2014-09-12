@@ -3,6 +3,9 @@
         <div class="div_box_img focuspoint" data-focus-x="0" data-focus-y="0">
             <img src="{{ new.img }}">
         </div>
+        <div class="div_box_user">
+            <img src="/static/img/icon/usericon_{{ new.user.get_profile.user_icon }}.jpg">{{ new.user.username }}
+        </div>
         <div class="div_box_con">
             <p class="p_con_title">{{ new.title }}</p>
             <p class="p_con_txt">{{ new.txt }}</p>
