@@ -147,3 +147,9 @@ function getSearchList(){
 function click_name(username){
     location.href="/stats/"+username;
 }
+
+function goGroupPage(gid){
+    $('.modal').modal('hide');
+    $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':gid});
+    $('#GroupInfo').modal('show');
+}

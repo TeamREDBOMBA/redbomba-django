@@ -94,10 +94,11 @@
 #LargeCard #div_detailRule .tab-content .tab_markdown u {text-decoration:underline;}
 
 #LargeCard #div_right{position:absolute;top:0;right:0;width:240px;height:710px;background-color:#ecf0f1;padding-top: 60px;}
-#LargeCard #div_right #div_right_btn{height:180px;padding: 10px;}
+#LargeCard #div_right #div_right_btn{height: 205px;padding: 10px;}
 #LargeCard #div_right #div_right_btn .tooltip{width:100%}
 #LargeCard #div_right #div_right_btn .tooltip .tooltip-inner {max-width: 220px;margin-left: 10px;padding: 10px;}
 #LargeCard #div_right #div_right_btn .tooltip .tooltip-inner .p_tooltip_con {width:93%;text-align:left;margin-left:13px;text-indent:-6px;font-size: 12px;letter-spacing: -0.6px;}
+#LargeCard #div_right #div_right_btn .tooltip .tooltip-inner #btn_solve {margin-top:5px}
 #LargeCard #div_right #div_right_btn .processMsg{text-align:center;margin-top: 4px;color:#999;}
 #LargeCard #div_right #div_right_btn .btn {width:100%;}
 #LargeCard #div_right #div_right_btn #btnjoin{margin-top:5px}

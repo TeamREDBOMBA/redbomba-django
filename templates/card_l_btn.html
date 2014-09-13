@@ -15,17 +15,32 @@
                         <font color='#e74c3c'><i class='fa fa-times-circle'>{% endif %}</i></font> 소속그룹이 있어야 합니다.
                 </p>
                 <p class="p_tooltip_con">
-                    {% if state.isAdmin == 0 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
-                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹장이어야 합니다.
+                    {% if state.gamelink != state.groupmem %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 모두 게임계정 연결을 해야 합니다.
                 </p>
                 <p class="p_tooltip_con">
                     {% if state.groupmem < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
                         <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 5명 이상이어야 합니다.
                 </p>
                 <p class="p_tooltip_con">
-                    {% if state.gamelink < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
-                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 모두 게임계정 연결을 해야 합니다.
+                    {% if state.isAdmin == 0 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹장이어야 합니다.
                 </p>
+                {% if state.user_gid == None %}
+                    <a href="/stats/"><button id="btn_solve" class="btn btn-danger btn-xs">그룹 만들기</button></a>
+                {% elif state.user.get_profile.get_gamelink.id ==  None %}
+                    <a href="/"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
+                {% elif state.gamelink != state.groupmem %}
+                    <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 현황보기</button></a>
+                {% elif state.groupmem < 5 %}
+                    {% if state.isAdmin == 0 %}
+                        <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">건의하기</button></a>
+                    {% else %}
+                        <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 초대하기</button></a>
+                    {% endif %}
+                {% elif state.isAdmin == 0 %}
+                    <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">참가 건의하기</button></a>
+                {% endif %}
             </div>
         </div>
     {% endif %}
@@ -136,4 +151,5 @@
             history.go(0);
         });
     });
+
 </script>
