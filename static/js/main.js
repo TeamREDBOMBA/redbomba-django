@@ -1,9 +1,12 @@
 ﻿var query_no=0;
 var feedSize = [
-    ["size23","size23","size23","size43"],
-    ["size23","size23","size33","size33"],
-    ["size23","size43","size43"],
-    ["size23","size33","size53"],
+    ["size33","size33","size43"],
+    ["size33","size33","size43"],
+    ["size53","size53"],
+    ["size33","size33","size43"],
+    ["size33","size33","size43"],
+    ["size33","size33","size43"],
+    ["size53","size53"],
     ["size33","size33","size43"],
     ["size53","size53"]];
 

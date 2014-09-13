@@ -1,7 +1,7 @@
 {% for new in news %}
     <div class="div_feed box">
-        <div class="div_box_img focuspoint" data-focus-x="0" data-focus-y="0">
-            <img src="{{ new.img }}">
+        <div class="div_box_img focuspoint" data-focus-x="{{ new.img.focusx }}" data-focus-y="{{ new.img.focusy }}">
+            <img src="{{ new.img.src }}">
         </div>
         <div class="div_box_user">
             <img src="/static/img/icon/usericon_{{ new.user.get_profile.user_icon }}.jpg">{{ new.user.username }}

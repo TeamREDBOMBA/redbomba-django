@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
  
 # Create your views here.
+import random
 from django.shortcuts import render
 from redbomba.home.models import LeagueMatch
 from django.db.models import Q
@@ -17,7 +18,8 @@ def getLeagueListForDisplay(request):
 def getGlobarFeed(request):
     news = []
     user = get_or_none(User,username='gugg')
-    for i in range(0,6):
-        news.append({"img":"/media/poster/poster_redbomba.png","title":"제목이 들어갑니다.","txt":"내용이 들어갑니다. 몇 줄이 들어갈까요?","user":user})
+    for i in range(0,12):
+        img = {"src":"http://re01-xv2938.ktics.co.kr/stat_lol_%d.jpg" %(random.randrange(1,620)),"focusx":0.7,"focusy":0.4}
+        news.append({"img":img,"title":"제목이 들어갑니다.","txt":"내용이 들어갑니다. 몇 줄이 들어갈까요?","user":user})
     context = {'user':request.user,'news':news}
     return render(request, 'feed_news.html', context)
