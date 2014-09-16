@@ -226,8 +226,20 @@
     </script>
     {% if get_group %}
         <script>
-            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ get_group }}'});
+            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ get_group }}'},function(){
+                {% if getval == "madegroup" %}
+                    $('#GroupInfo .div_info_sub').css({"left":"330px"});
+                    $('#GroupInfo .div_info').hide();
+                    $('#GroupInfo #div_info_2').show();
+                    $('#GroupInfo #div_info_2 #div_info_subNew').animate({"left":"0px"}, "fast");
+                {% endif %}
+            });
             $('#GroupInfo').modal('show');
+        </script>
+    {% endif %}
+    {% if getval == "mkgroup" %}
+        <script>
+            $('#groupaddModal').modal('show');
         </script>
     {% endif %}
     </body>

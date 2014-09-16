@@ -19,6 +19,9 @@ class UserProfileAdmin(admin.ModelAdmin):
 class TutorialAdmin(admin.ModelAdmin):
   list_display = ('id','uid','is_pass1')
 
+class ChattingAdmin(admin.ModelAdmin):
+    list_display = ('gid','uid','con','date_updated')
+
 class FeedAdmin(admin.ModelAdmin):
   list_display = ('id','ufrom','ufromtype','uto','utotype','feedtype','date_updated')
   
@@ -71,6 +74,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Tutorial, TutorialAdmin)
+admin.site.register(Chatting, ChattingAdmin)
 admin.site.register(Feed, FeedAdmin)
 admin.site.register(Reply, ReplyAdmin)
 admin.site.register(Contents, ContentsAdmin)

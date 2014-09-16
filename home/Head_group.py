@@ -150,7 +150,7 @@ def write_Group(request):
           uid=request.user,
           is_active=1
           )
-      return HttpResponse("Success")
+      return HttpResponse(group.id)
     else :
       gid = request.POST["gid"]
       group = Group.objects.get(id=gid)

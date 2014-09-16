@@ -27,7 +27,7 @@ def forsocket(request):
     if request.method=='POST':
         try:
             uid = request.user
-            gid = GroupMember.objects.get(uid=uid).gidx
+            gid = GroupMember.objects.get(uid=uid).gid
             val = val + "<uid>%s</uid>" %(uid.id)
             val = val + "<gid>%s</gid>" %(gid.id)
         except Exception as e:

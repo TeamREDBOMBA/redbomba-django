@@ -79,7 +79,7 @@ $(window).load(function() {
             $("#groupaddModal #nick").val("");
             $("#groupaddModal #game").val("");
             $('#groupaddModal').modal('hide');
-            location.href="/stats/";
+            location.href="/stats/?get=madegroup&group="+res;
         });
     });
 

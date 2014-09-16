@@ -27,7 +27,7 @@
                         <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹장이어야 합니다.
                 </p>
                 {% if state.user_gid == None %}
-                    <a href="/stats/"><button id="btn_solve" class="btn btn-danger btn-xs">그룹 만들기</button></a>
+                    <a href="/stats/?get=mkgroup"><button id="btn_solve" class="btn btn-danger btn-xs">그룹 만들기</button></a>
                 {% elif state.user.get_profile.get_gamelink.id ==  None %}
                     <a href="/"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
                 {% elif state.gamelink != state.groupmem %}
