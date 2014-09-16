@@ -26,10 +26,15 @@
                 {% endif %}
             {% endif %}
             <div class="li_left_stat">
-                <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_medal_{{summoner_stat.tier}}.png" id="img_left_medal">
-                <p id="p_left_line1">{{summoner_stat.tier}} <b>{{summoner_stat.rank}}</b></p>
-                <p id="p_left_line2">{{summoner_stat.lp}} LP</p>
-                <p id="p_left_line3">승 {{summoner_stat.wins}}&nbsp;&nbsp;패 {{summoner_stat.losses}}</p>
+                {% if summoner_stat.tier %}
+                    <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_medal_{{summoner_stat.tier}}.png" id="img_left_medal">
+                    <p id="p_left_line1">{{summoner_stat.tier}} <b>{{summoner_stat.rank}}</b></p>
+                    <p id="p_left_line2">{{summoner_stat.lp}} LP</p>
+                    <p id="p_left_line3">승 {{summoner_stat.wins}}&nbsp;&nbsp;패 {{summoner_stat.losses}}</p>
+                {% else %}
+                    <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_medal_DEFAULT.png" id="img_left_medal_unrank">
+                    <p id="p_left_unrank">UNRANKED</p>
+                {% endif %}
             </div>
             <ul id="ul_gamelink_left">
                 {% for s in summoner_most %}
@@ -37,7 +42,7 @@
                         <img src="{{s.img}}" class="img_most_img" id="img_most_img1">
                         <p class="p_most_name">{{s.name}}</p>
                         <p class="p_most_kda">{{s.kda}}</p>
-                        <p class="p_most_played">{{s.played}}</p>q
+                        <p class="p_most_played">{{s.played}}</p>
                     </li>
                 {% endfor %}
             </ul>
@@ -144,7 +149,7 @@
             'sid':'{{ summoner_info.id }}',
             'from':'{{ from }}'
         },function(res,status){
-            location.reload();
+            location.href="/stats/";
         });
     });
     $('#brn_gamelink_delete').click(function(){

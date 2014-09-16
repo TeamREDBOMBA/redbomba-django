@@ -58,19 +58,27 @@ def summoner(request):
             reloadSummoner(request,user,summoner_info)
 
         random.shuffle(apikey)
-        json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.4/league/by-summoner/%s/entry?api_key=%s' %(summoner_id,apikey[0])))
-        tier = json_res[summoner_id][0]['tier']
-        rank = json_res[summoner_id][0]['entries'][0]['division']
-        lp = json_res[summoner_id][0]['entries'][0]['leaguePoints']
+        try:
+            json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v2.4/league/by-summoner/%s/entry?api_key=%s' %(summoner_id,apikey[0])))
+            tier = json_res[summoner_id][0]['tier']
+            rank = json_res[summoner_id][0]['entries'][0]['division']
+            lp = json_res[summoner_id][0]['entries'][0]['leaguePoints']
+        except Exception as e:
+            tier = rank = lp = None
 
         random.shuffle(apikey)
-        json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.3/stats/by-summoner/%s/summary?season=SEASON4&api_key=%s' %(summoner_id,apikey[0])))
+        wins = losses = None
+        try :
+            json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.3/stats/by-summoner/%s/summary?season=SEASON4&api_key=%s' %(summoner_id,apikey[0])))
 
-        for res in json_res['playerStatSummaries'] :
-            if res['playerStatSummaryType'] == "RankedSolo5x5" :
-                wins = res['wins']
-                losses = res['losses']
-                break
+            for res in json_res['playerStatSummaries'] :
+                if res['playerStatSummaryType'] == "RankedSolo5x5" :
+                    wins = res['wins']
+                    losses = res['losses']
+                    break
+        except Exception as e:
+            wins = losses = None
+
         summoner_stat = {'tier':tier,'rank':rank,'lp':lp,'wins':wins,'losses':losses}
 
         summoner_most = []
@@ -81,7 +89,7 @@ def summoner(request):
                     "img":cham[i].findAll('img')[0]['src'],
                     "name":cham[i].findAll('span', {'class': 'name'})[0].contents[0],
                     "kda":cham[i].findAll('span', {'class': 'kda'})[0].contents[0][:-2],
-                    "title":cham[i].findAll('span', {'class': 'title'})[0].contents[0]
+                    "played":cham[i].findAll('div', {'class': 'ChampionPlayed'})[0].findAll('span')[1].contents[0]
                 }
                 summoner_most.append(cham_res)
         except Exception as e:
