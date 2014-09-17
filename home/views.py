@@ -26,7 +26,7 @@ def home(request):
 
 def main(request):
     try:
-
+        getval = request.GET.get('get','')
         link = request.GET.get("link")
         link = get_or_none(League,id=link)
         if link :
@@ -53,6 +53,7 @@ def main(request):
             'group':group,
             'groupmem':groupmem,
             'get_group':get_group,
+            'getval':getval,
             'gamelink':gl,
             'height':gl_h,
             'from':'/',

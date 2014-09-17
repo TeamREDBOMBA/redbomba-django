@@ -24,9 +24,7 @@ $(window).load(function() {
     socket.emit('isOnline',userArray);
 
     $('#btnGamelink, #btnGamelink_s').click(function(){
-        $('#gamelink_tutor').hide();
-        $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
-        $('#Gamelink').modal('show');
+        getGameLinkContent();
     });
 
     $('.div_link_game.game_1').click(function(){
@@ -51,6 +49,12 @@ function getDisplayContent(dir){
     if(dir == "+") query_no+=1;
     if(dir == "-") query_no-=1;
     $('#display_con').hide().load("/league/display/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'query_no':query_no}).fadeIn(200);
+}
+
+function getGameLinkContent(){
+    $('#gamelink_tutor').hide();
+    $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
+    $('#Gamelink').modal('show');
 }
 
 function findId(from){

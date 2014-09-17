@@ -320,7 +320,7 @@
                 'league_id':{{league.id}},
                 'feasible_time':feasible_time
             },function(res,status){
-                socket.emit('sendNotification', {'gid':0{{user_group.id}},'lid':{{league.id}},'tablename':'home_league'});
+                socket.emit('sendNotification', {'gid':0{{user_group.id}},'lid':{{league.id}},'action':'JoinLeague'});
                 $('#div_join').fadeOut('fast');
                 $('#div_join_done').fadeIn('fast');
             });

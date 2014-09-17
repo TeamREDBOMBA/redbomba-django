@@ -23,8 +23,14 @@ $(window).load(function() {
 
     socket.on('html', function (data) {
         $(data.name).html(data.html);
-        if($('#noti_value').text()) $("#div_head_icon1 i").css({"color":"RGBA(102,117,127,1)"});
-        if($('#field_value').text()) $("#div_head_icon2 i").css({"color":"RGBA(102,117,127,1)"});
+        if($('#noti_value').text()){
+            $("#div_head_icon1 i").css({"color":"RGBA(102,117,127,1)"});
+            $('#noti_value').show();
+        }
+        if($('#field_value').text()){
+            $("#div_head_icon2 i").css({"color":"RGBA(102,117,127,1)"});
+            $('#field_value').show();
+        }
     });
 
     socket.on('group', function (data) {

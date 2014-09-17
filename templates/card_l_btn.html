@@ -29,14 +29,14 @@
                 {% if state.user_gid == None %}
                     <a href="/stats/?get=mkgroup"><button id="btn_solve" class="btn btn-danger btn-xs">그룹 만들기</button></a>
                 {% elif state.user.get_profile.get_gamelink.id ==  None %}
-                    <a href="/"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
+                    <a href="/?get=GameLink"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
                 {% elif state.gamelink != state.groupmem %}
                     <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 현황보기</button></a>
                 {% elif state.groupmem < 5 %}
                     {% if state.isAdmin == 0 %}
                         <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">건의하기</button></a>
                     {% else %}
-                        <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 초대하기</button></a>
+                        <button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 초대하기</button>
                     {% endif %}
                 {% elif state.isAdmin == 0 %}
                     <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">참가 건의하기</button></a>
@@ -101,6 +101,20 @@
     $("[data-toggle='tooltip']").tooltip();
 </script>
 <script>
+    {% if state.groupmem < 5 %}
+        {% if state.isAdmin != 0 %}
+            $('#btn_solve').click(function () {
+                $('.modal').modal('hide');
+                $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ state.user_gid.id }}'},function(){
+                    $('#GroupInfo .div_info_sub').css({"left":"330px"});
+                    $('#GroupInfo .div_info').hide();
+                    $('#GroupInfo #div_info_2').show();
+                    $('#GroupInfo #div_info_2 #div_info_subNew').animate({"left":"0px"}, "fast");
+                });
+                $('#GroupInfo').modal('show');
+            });
+        {% endif %}
+    {% endif %}
     $('#btnCancel').click(function(){
         $.post('/db/leagueteam/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
@@ -146,7 +160,7 @@
         $.post("/matchmaker/?round="+round_id,{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
-            socket.emit('sendNotification', {'lid':round_id,'round':round_no,'tablename':'home_leagueround'});
+            socket.emit('sendNotification', {'lid':round_id,'round':round_no,'action':'RunMatchMaker'});
             alert(res);
             history.go(0);
         });

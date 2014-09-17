@@ -297,8 +297,9 @@
     $.post('/db/grouplist/',{
       'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
       'action':'Join',
-      'gid':'{{ group.id }}',
+      'gid':'{{ group.id }}'
     },function(res,status){
+        socket.emit('sendNotification', {'group_uid':'{{ group.uid.id }}','uid':'{{ user.id }}','action':'Group_AskAddMember'});
     });
   });
 
@@ -310,7 +311,7 @@
     $.post('/db/grouplist/',{
       'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
       'action':'Quit',
-      'gid':'{{ group.id }}',
+      'gid':'{{ group.id }}'
     });
     location.reload();
   });
@@ -319,7 +320,7 @@
     $.post('/db/grouplist/',{
       'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
       'action':'Quit',
-      'gid':'{{ group.id }}',
+      'gid':'{{ group.id }}'
     });
     location.reload();
   });

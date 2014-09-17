@@ -5,7 +5,7 @@
         <div class='div_bottom_date'>{{ ele.get_time_diff }}</div>
     </div>
 </div>
-{% if ele.tablename == 'home_league' %}
+{% if ele.action == 'League_JoinLeague' %}
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
@@ -13,7 +13,23 @@
         });
     </script>
 {% endif %}
-{% if ele.tablename == 'home_group' %}
+{% if ele.action == 'League_RunMatchMaker' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='/stats/?get=myarena';
+        });
+    </script>
+{% endif %}
+{% if ele.action == 'League_StartMatch' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='/battle/?round={{state.this.team_a.round.id}}';
+        });
+    </script>
+{% endif %}
+{% if ele.action == 'Group_InviteMember' %}
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
@@ -21,19 +37,26 @@
         });
     </script>
 {% endif %}
-{% if ele.tablename == 'home_leagueround' %}
+{% if ele.action == 'Group_AskAddMember' %}
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/stats/?get=myarena';
+            $('.modal').modal('hide');
+            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ state.this.gid.id }}'},function(){
+                $('#GroupInfo .div_info_sub').css({"left":"330px"});
+                $('#GroupInfo .div_info').hide();
+                $('#GroupInfo #div_info_2').show();
+                $('#GroupInfo #div_info_2 #div_info_subWait').animate({"left":"0px"}, "fast");
+            });
+            $('#GroupInfo').modal('show');
         });
     </script>
 {% endif %}
-{% if ele.tablename == 'home_leaguematch' %}
+{% if ele.action == 'Group_AddMember' %}
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/battle/?round={{state.this.team_a.round.id}}';
+            location.href='/stats/';
         });
     </script>
 {% endif %}

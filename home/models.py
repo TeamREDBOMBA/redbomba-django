@@ -97,7 +97,7 @@ class GameLink(models.Model):
 
 class Notification(models.Model):
     uid = models.ForeignKey(User)
-    tablename = models.TextField()
+    action = models.TextField()
     contents = models.TextField()
     date_read = models.IntegerField(default=-1)
     date_updated = models.DateTimeField(auto_now_add=True)
