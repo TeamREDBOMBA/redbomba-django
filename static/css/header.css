@@ -126,3 +126,5 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 .field-content .div_field_arena .progress #progress1 {background-color:#b9534f}
 .field-content .div_field_arena .progress #progress2 {}
 .field-content .div_field_arena .progress #progress3 {background-color:RGBA(255,255,255,0);box-shadow:none}
+
+#fchat {display: none}

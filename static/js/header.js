@@ -134,6 +134,12 @@ $(document).ready(function(){
         return false;
     });
 
+    setTimeout(function(){
+        $("#fchat").show();
+        $("#fchat-header-label").css({"font-family":"RixSGo L"});
+        $("#fchat").css({"bottom":"-256px"});
+    },3000);
+
 });
 
 function clickGamelink(iconid) {
