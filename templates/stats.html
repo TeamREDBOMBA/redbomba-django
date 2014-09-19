@@ -246,5 +246,11 @@
     </html>
 {% else %}
     <p>Checking session...</p>
-    <script>location.href="/home/";</script>
+    <script>
+        if(location.href.indexOf("www.") != -1 ){
+            location.href = location.href.replace("www.","");
+        }else {
+            location.href = "/home/";
+        }
+    </script>
 {% endif %}

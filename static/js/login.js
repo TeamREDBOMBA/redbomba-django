@@ -9,6 +9,11 @@
 });
 
 $(window).load(function() {
+
+    if(location.href.indexOf("www.") != -1 ){
+            location.href = location.href.replace("www.","");
+     }
+
     $('#button_login_signup').click(function(){
         // alert("2014년 4월 25일 정식서비스를 기다려주세요.\nCOMING SOON!");
         btn_signup();

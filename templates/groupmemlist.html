@@ -22,7 +22,7 @@
                 {% if mode == "insert" %}
                     socket.emit('setGroup',{'to':'user','id':uid});
                     socket.emit('setGroup',{'to':'group','id':'{{ gid }}'});
-                    socket.emit('sendNotification', {'gid':{{gid}},'uid':uid,'action':'InviteMember'});
+                    socket.emit('sendNotification', {'gid':{{gid}},'uid':uid,'action':'Group_InviteMember'});
                 {% else %}
                     socket.emit('setGroup',{'to':'group','id':'{{ gid }}'});
                 {% endif %}

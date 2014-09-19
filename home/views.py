@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Create your views here.
+import sys
 from redbomba.home.Func import *
 from redbomba.home.Arena_card import *
 from redbomba.home.Arena_matchmaker import *
@@ -17,6 +18,9 @@ from redbomba.home.Stats_gamelink import *
 from redbomba.home.Stats_myarena import *
 from django.utils import timezone
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 def home(request):
     context = ''
     if request.GET.get('msg'):
@@ -28,9 +32,14 @@ def main(request):
     try:
         getval = request.GET.get('get','')
         link = request.GET.get("link")
-        link = get_or_none(League,id=link)
-        if link :
-            link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name}
+        if link.startswith('league') :
+            link = link.replace("league","")
+            link = get_or_none(League,id=link)
+            link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"type":"league"}
+        elif link.startswith('group') :
+            link = link.replace("group","")
+            link = get_or_none(Group,id=link)
+            link = {"id":link.id,"img":link.group_icon,"title":link.name,"type":"group"}
 
         gl = GameLink.objects.filter(uid=request.user)
         if gl.count() :
@@ -128,9 +137,13 @@ def arena(request):
         context = {'user': request.user}
     return render(request, 'arena.html', context)
 
-def league_for_link(request,lid=None):
-    lid = int(lid)
-    lid = get_or_none(League,id=lid)
+def page_for_link(request,lid=None,gid=None):
+    if lid :
+        lid = int(lid)
+        lid = get_or_none(League,id=lid)
+    if gid :
+        gid = int(gid)
+        gid = get_or_none(Group,id=gid)
 
     user, user_profile = None, None
 
@@ -158,10 +171,23 @@ def league_for_link(request,lid=None):
         'lid':lid, 'con':con,
         'get_group':get_group,
         'from' : '/league/'
-    }
+        }
+    elif gid :
+        con = {'text':'','img':''}
+        con['text']="%s 그룹에 당신을 초대합니다."%(gid.name)
+        con['img']=gid.group_icon
+        context = {
+        'user': user,
+        'uinfo' : user_profile,
+        'group':gid,
+        'groupmem':groupmem,
+        'gid':gid, 'con':con,
+        'get_group':get_group,
+        'from' : '/league/'
+        }
     else :
         context = {'user': request.user}
-    return render(request, 'league_for_link.html', context)
+    return render(request, 'page_for_link.html', context)
 
 @csrf_exempt
 def test(request):

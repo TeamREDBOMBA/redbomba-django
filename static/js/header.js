@@ -1,5 +1,9 @@
 $(window).load(function() {
 
+     if(location.href.indexOf("www.") != -1 ){
+            location.href = location.href.replace("www.","");
+     }
+
     uid = 0;
     memOnline = 1;
 

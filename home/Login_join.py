@@ -2,6 +2,7 @@
 
 # Create your views here.
 from redbomba.home.Func import *
+import sys
 import base64
 import requests
 import random
@@ -108,6 +109,7 @@ def fncGroupName(request):
 
 def fncGroupNick(request):
     groupnick = request.GET["nick"]
+    print str(unicode(groupnick))
     res = get_or_none(Group,nick=groupnick)
     if res==None:
         return HttpResponse("")
@@ -130,7 +132,6 @@ def send_complex_message(username):
     user = User.objects.get(username=username)
     email = user.email
     url_link = "http://redbomba.net/auth/%s/%s" %(user.id,base64.urlsafe_b64encode(str(user.date_joined)))
-    # html_content = render_to_string('email.html', {'url_link':url_link})
     html_content = render_to_response('email.html', {'url_link':url_link})
     text_content = strip_tags(html_content) # this strips the html, so people will have the text as well.
     # create the email, and attach the HTML version as well.

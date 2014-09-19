@@ -11,22 +11,30 @@
 
     <!-- Loading Flat UI -->
     <link href="/static/css/header.css" rel="stylesheet">
-    <link href="/static/css/league_for_link.css" rel="stylesheet">
     <link href="/static/css/card_l.css" rel="stylesheet">
     <link href="/static/css/icon.css" rel="stylesheet">
     <link href="/static/css/feed_arena.css" rel="stylesheet">
     <link href="/static/css/calendar.css" rel="stylesheet">
     <link href="/static/css/group_info.css" rel="stylesheet">
+    <link href="/static/css/page_for_link.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
 
     <!-- Set Facebook Thumbnail -->
-    <meta property="og:title" content="{{ lid.name }}"/>
-    <meta property="og:image" content="http://redbomba.net{{ con.img }}"/>
-    <meta property="og:site_name" content="REDBOMBA"/>
-    <meta property="og:url" content="http://redbomba.net/league/{{ lid.id }}"/>
-    <meta property="og:description" content="{{ con.text }}"/>
+    {% if lid %}
+        <meta property="og:title" content="{{ lid.name }}"/>
+        <meta property="og:image" content="http://redbomba.net{{ con.img }}"/>
+        <meta property="og:site_name" content="REDBOMBA"/>
+        <meta property="og:url" content="http://redbomba.net/league/{{ lid.id }}"/>
+        <meta property="og:description" content="{{ con.text }}"/>
+    {% elif gid %}
+        <meta property="og:title" content="{{ gid.name }}"/>
+        <meta property="og:image" content="http://redbomba.net/media/group_icon/{{ con.img }}"/>
+        <meta property="og:site_name" content="REDBOMBA"/>
+        <meta property="og:url" content="http://redbomba.net/group/{{ gid.id }}"/>
+        <meta property="og:description" content="{{ con.text }}"/>
+    {% endif %}
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
@@ -40,8 +48,11 @@
         {% include "header.html" %}
     </div>
     <div id="container">
-        <div id="LargeCard">
-        </div>
+        {% if lid %}
+            <div id="LargeCard"></div>
+        {% elif gid %}
+            <div id="GroupInfo"></div>
+        {% endif %}
     </div>
 </div>
 
@@ -131,44 +142,64 @@
 <script src="/static/js/application.js" type="text/javascript"></script>
 <script src="/static/js/markdown.js" type="text/javascript"></script>
 <script src="/static/js/header.js" type="text/javascript"></script>
-<script src="/static/js/arena.js" type="text/javascript"></script>
+{% if lid %}
+    <script src="/static/js/arena.js" type="text/javascript"></script>
+{% endif %}
 <script src="/static/js/group_info_drop.js" type="text/javascript"></script>
 <script type="text/javascript">
-    {% if lid != None %}
+    {% if lid %}
         $('#LargeCard').load("/card/",{ "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"league_id":{{lid.id}} });
-
-        $('#modal_signup #id_email').keyup(function(event){
-            $("#div_signup_iderror").load("/auth/fnc/email/?email="+$("#modal_signup #id_email").val());
-        });
-
-        $('#modal_signup #id_password1').keyup(function(event){
-            if($(this).val().length<8) $("#div_signup_passerror").text("비밀번호는 8자리 이상이어야 합니다.");
-            else $("#div_signup_passerror").text("");
-        });
-
-        $('#modal_signup #id_password2').keyup(function(event){
-            if($(this).val()!=$('#modal_signup #id_password1').val()) $("#div_signup_passerror2").text("비밀번호가 일치하지 않습니다.");
-            else $("#div_signup_passerror2").text("");
-        });
-
-        $('#modal_signup #id_username').keyup(function(event){
-            $("#div_signup_nickerror").load("/auth/fnc/nick/",{"nick":$("#modal_signup #id_username").val(),"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val()});
-        });
-
-        $('#button_signup_complete').click(function(){
-            var val_username = $('#modal_signup #id_username').val();
-            var val_password1 = $('#modal_signup #id_password1').val();
-            var val_email = $('#modal_signup #id_email').val();
-            if($("#div_signup_iderror").text()==""&&$("#div_signup_passerror").text()==""&&$("#div_signup_passerror2").text()==""&&$("#div_signup_nickerror").text()==""&&
-                    $('#modal_signup #id_email').val()!=""&&$('#modal_signup #id_password1').val()!=""&&$('#modal_signup #id_password2').val()!=""&&$('#modal_signup #id_username').val()!=""){
-                $('#button_signup_complete').html("<img src='/static/img/ajax-loader_btn.gif'>로딩 중...");
-                $("#modal_signup .modal-body").load("/auth/signup/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email}, function(){
-                    location.href="/?link={{ lid.id }}";
-                });
-            }
-        });
-
+    {% elif gid %}
+        $('#GroupInfo').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ gid.id }}'});
     {% endif %}
+
+    $("#li_head_signup").click(function(){
+        $('#modal_signup').modal('show');
+    });
+    $("#li_head_signin").click(function(){
+        $('#modal_signin').modal('show');
+    });
+    $("#btnJoin").click(function(){
+        $('#modal_signup').modal('show');
+    });
+    $("#btnWish").click(function(){
+        $('#modal_signup').modal('show');
+    });
+
+    $('#modal_signup #id_email').keyup(function(event){
+        $("#div_signup_iderror").load("/auth/fnc/email/?email="+$("#modal_signup #id_email").val());
+    });
+
+    $('#modal_signup #id_password1').keyup(function(event){
+        if($(this).val().length<8) $("#div_signup_passerror").text("비밀번호는 8자리 이상이어야 합니다.");
+        else $("#div_signup_passerror").text("");
+    });
+
+    $('#modal_signup #id_password2').keyup(function(event){
+        if($(this).val()!=$('#modal_signup #id_password1').val()) $("#div_signup_passerror2").text("비밀번호가 일치하지 않습니다.");
+        else $("#div_signup_passerror2").text("");
+    });
+
+    $('#modal_signup #id_username').keyup(function(event){
+        $("#div_signup_nickerror").load("/auth/fnc/nick/",{"nick":$("#modal_signup #id_username").val(),"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val()});
+    });
+
+    $('#button_signup_complete').click(function(){
+        var val_username = $('#modal_signup #id_username').val();
+        var val_password1 = $('#modal_signup #id_password1').val();
+        var val_email = $('#modal_signup #id_email').val();
+        if($("#div_signup_iderror").text()==""&&$("#div_signup_passerror").text()==""&&$("#div_signup_passerror2").text()==""&&$("#div_signup_nickerror").text()==""&&
+                $('#modal_signup #id_email').val()!=""&&$('#modal_signup #id_password1').val()!=""&&$('#modal_signup #id_password2').val()!=""&&$('#modal_signup #id_username').val()!=""){
+            $('#button_signup_complete').html("<img src='/static/img/ajax-loader_btn.gif'>로딩 중...");
+            $("#modal_signup .modal-body").load("/auth/signup/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email}, function(){
+                {% if lid %}
+                    location.href="/?link=league{{ lid.id }}";
+                {% elif gid %}
+                    location.href="/?link=group{{ gid.id }}";
+                {% endif %}
+            });
+        }
+    });
 </script>
 </body>
 </html>

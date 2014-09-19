@@ -53,17 +53,17 @@
                 </div>
                 <!-- //Display -->
                 {% if link %}
-                <!-- Link League -->
-                <div id="link_league" class="div_feed">
-                    <div id="link_league_img">
-                        <img src="{{ link.img }}">
+                    <!-- Link League -->
+                    <div id="link_league" class="div_feed">
+                        <div id="link_league_img">
+                            <img src="{{ link.img }}">
+                        </div>
+                        <div id="link_league_con">
+                            <p>{{ link.title }}</p>
+                            <button class="btn btn-warning" id="btnDetail">자세히 보기</button>
+                        </div>
                     </div>
-                    <div id="link_league_con">
-                        <p>{{ link.title }}</p>
-                        <button class="btn btn-warning" id="btnDetail">자세히 보기</button>
-                    </div>
-                </div>
-                <!-- //Link League -->
+                    <!-- //Link League -->
                 {% endif %}
                 <!-- Global Feed -->
                 <div id="feed_pub">&nbsp;</div>
@@ -151,9 +151,15 @@
     {% endif %}
     {% if link %}
         <script>
-            $("#link_league_con #btnDetail").click(function(){
-                location.href="/arena/?get={{ link.id }}";
-            });
+            {% if link.type == "league" %}
+                $("#link_league_con #btnDetail").click(function(){
+                    location.href="/arena/?get={{ link.id }}";
+                });
+            {% elif link.type == "group" %}
+                $("#link_league_con #btnDetail").click(function(){
+                    location.href="/?group={{ link.id }}";
+                });
+            {% endif %}
         </script>
     {% endif %}
     {% if getval == "GameLink" %}
@@ -165,5 +171,11 @@
     </html>
 {% else %}
     <p>Checking session...</p>
-    <script>location.href="/home/";</script>
+    <script>
+        if(location.href.indexOf("www.") != -1 ){
+            location.href = location.href.replace("www.","");
+        }else {
+            location.href = "/home/";
+        }
+    </script>
 {% endif %}

@@ -1,7 +1,11 @@
 $(document).ready(function(){
-	
+
 });
 $(window).load(function() {
+
+    if(location.href.indexOf("www.") != -1 ){
+            location.href = location.href.replace("www.","");
+     }
 
 	socket = io.connect('http://redbomba.net:3000/');
 	socket.emit('leaveGroup','leave');
