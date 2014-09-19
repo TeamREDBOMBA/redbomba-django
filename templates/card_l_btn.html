@@ -15,11 +15,11 @@
                         <font color='#e74c3c'><i class='fa fa-times-circle'>{% endif %}</i></font> 소속그룹이 있어야 합니다.
                 </p>
                 <p class="p_tooltip_con">
-                    {% if state.gamelink != state.groupmem %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+                    {% if state.gamelink != state.groupmem %}<font color='#f1c40f'><i class='fa fa-exclamation-circle'>{% else %}
                         <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 모두 게임계정 연결을 해야 합니다.
                 </p>
                 <p class="p_tooltip_con">
-                    {% if state.groupmem < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+                    {% if state.groupmem < 5 %}<font color='#f1c40f'><i class='fa fa-exclamation-circle'>{% else %}
                         <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 5명 이상이어야 합니다.
                 </p>
                 <p class="p_tooltip_con">

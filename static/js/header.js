@@ -39,7 +39,7 @@ $(window).load(function() {
 
     socket.on('group', function (data) {
         $("#group").html("<div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>");
-        $("#group").hide().load("/group/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val()}).fadeIn('500');
+        $("#group").hide().load("/getgroup/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val()}).fadeIn('500');
     });
 
     socket.on('leagueReload', function (data) {

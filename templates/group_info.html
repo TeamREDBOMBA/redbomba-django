@@ -430,6 +430,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
         },function(res,status){
             socket.emit('setGroup',{'to':'user','id':uid});
             socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
+            socket.emit('sendNotification', {'gid':'{{ group.id }}','uid':uid,'action':'Group_AddMember'});
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
         });
     });

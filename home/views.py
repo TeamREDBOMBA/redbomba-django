@@ -32,14 +32,15 @@ def main(request):
     try:
         getval = request.GET.get('get','')
         link = request.GET.get("link")
-        if link.startswith('league') :
-            link = link.replace("league","")
-            link = get_or_none(League,id=link)
-            link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"type":"league"}
-        elif link.startswith('group') :
-            link = link.replace("group","")
-            link = get_or_none(Group,id=link)
-            link = {"id":link.id,"img":link.group_icon,"title":link.name,"type":"group"}
+        if link:
+            if link.startswith('league') :
+                link = link.replace("league","")
+                link = get_or_none(League,id=link)
+                link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"type":"league"}
+            elif link.startswith('group') :
+                link = link.replace("group","")
+                link = get_or_none(Group,id=link)
+                link = {"id":link.id,"img":"/media/group_icon/%s"%(link.group_icon),"title":link.name,"type":"group"}
 
         gl = GameLink.objects.filter(uid=request.user)
         if gl.count() :
@@ -83,6 +84,8 @@ def stats(request,username=None):
         getval = request.GET.get('get','')
         gl = GameLink.objects.filter(uid=target_uid)
 
+        wait_group = GroupMember.objects.filter(uid=target_uid,is_active=-1)
+
         group = GroupMember.objects.filter(Q(uid=target_uid)&~Q(is_active=-1))
         if group.count() :
             group = group[0].gid
@@ -98,6 +101,7 @@ def stats(request,username=None):
             'group':group,
             'groupmem':groupmem,
             'get_group':get_group,
+            'wait_group':wait_group,
             'gamelink' : gl,
             'getval':getval,
             'from' : '/stats/'

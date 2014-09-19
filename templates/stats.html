@@ -137,6 +137,15 @@
             </div>
             <div id="aside">
                 <!-- Group -->
+                {% if wait_group %}
+                    {% if target_user == user %}<p class="title">나의 신청 대기중인 그룹<p>
+                        <div id="wait_group">
+                            {% for wg in wait_group %}
+                                <p><img src="/media/group_icon/{{ wg.gid.group_icon }}">{{ wg.gid.name }} <button class="btn btn-primary btn-sm" onclick="goGroupPage({{ wg.gid.id }})">그룹 페이지</button></p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
                 <p class="title">{% if target_user == user %}내가 소속된 그룹{% else %}{{target_user.username}}님이 소속된 그룹{% endif %}<p>
                 <div id="group">
                     <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>

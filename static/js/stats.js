@@ -28,7 +28,7 @@ $(window).load(function() {
     });
 
     $("#group").html("<div style='width:100%;text-align:center'><img src='/static/img/ajax-loader.gif'></div>");
-    $("#group").hide().load("/group/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"username":$("#p_profile_username").text()}).fadeIn('500');
+    $("#group").hide().load("/getgroup/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"username":$("#p_profile_username").text()}).fadeIn('500');
 
     $("#myarenalist").html("<div style='width:100%;text-align:center'><img src='/static/img/ajax-loader.gif'></div>");
     $("#myarenalist").hide().load("/myarena/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"username":$("#p_profile_username").text()}).fadeIn('500');
