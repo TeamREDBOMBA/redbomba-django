@@ -12,27 +12,23 @@ from django.template.loader import get_template
 
 def getField(request) :
     if request.user is not None :
-        try :
-            query_g = GroupMember.objects.filter(uid=request.user)
-            groups = []
-            for val in query_g:
-                try :
-                    gm_count = GroupMember.objects.filter(gid=val.gid,is_active=1).count()
-                except Exception as e:
-                    gm_count = 0
-                groups.append({'gid':val.gid,'count':gm_count})
+        query_g = GroupMember.objects.filter(uid=request.user)
+        groups = []
+        for val in query_g:
+            try :
+                gm_count = GroupMember.objects.filter(gid=val.gid,is_active=1).count()
+            except Exception as e:
+                gm_count = 0
+            groups.append({'gid':val.gid,'count':gm_count})
 
-            user = GroupMember.objects.get(uid=request.user)
-            query_l = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user.gid).values_list('round__league_id', flat=True))
-            leagues = []
-            for val in query_l:
-                ls = remakeLeagueState(val,user.uid)
-                leagues.append(ls)
-            context = {"groups":groups,"leagues":leagues}
-            return render(request, 'field.html', context)
-        except Exception as e:
-            context = {"groups":None,"leagues":None}
-            return render(request, 'field.html', context)
+        user = get_or_none(GroupMember,uid=request.user)
+        query_l = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user.gid).values_list('round__league_id', flat=True))
+        leagues = []
+        for val in query_l:
+            ls = remakeLeagueState(val,user.uid)
+            leagues.append(ls)
+        context = {"groups":groups,"leagues":leagues}
+        return render(request, 'field.html', context)
     return HttpResponse("error")
 
 def write_Notification(request) :
@@ -47,6 +43,20 @@ def write_Notification(request) :
             noti.date_read = 1
             noti.save()
     return HttpResponse(' ')
+
+def post_Notification(request) :
+    uid = request.user
+    gm = get_or_none(GroupMember,uid=uid)
+    if gm :
+        lt = get_or_none(LeagueTeam,group_id=gm.gid,is_complete=0)
+        if lt :
+            gms = GroupMember.objects.filter(gid=lt.group_id,is_active=1).values_list('uid', flat=True)
+            gls = GameLink.objects.filter(uid__in=gms)
+            if len(gms)>=5 and (len(gms) == len(gls)) :
+                lt.is_complete = 1
+                lt.save()
+                return HttpResponse(json.dumps({'gid':gm.gid.id,'lid':lt.round.league_id.id,'action':'League_JoinLeague'}))
+    return HttpResponse(0)
 
 def read_Notification(request) :
     if request.method=='POST':

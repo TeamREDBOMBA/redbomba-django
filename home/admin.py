@@ -62,7 +62,7 @@ class LeagueInfoAdmin(admin.ModelAdmin):
   list_display = ('id','name','is_required')
 
 class LeagueTeamAdmin(admin.ModelAdmin):
-  list_display = ('id','group_id','round','feasible_time','date_updated')
+  list_display = ('id','group_id','round','feasible_time','date_updated','is_complete')
   
 class LeagueMatchAdmin(admin.ModelAdmin):
   list_display = ('id','game','team_a','team_b','host','state','result','date_match')

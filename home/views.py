@@ -3,7 +3,7 @@
 # Create your views here.
 import sys
 from redbomba.home.Func import *
-from redbomba.home.Arena_card import *
+from redbomba.home.Arena_league import *
 from redbomba.home.Arena_matchmaker import *
 from redbomba.home.Battle import *
 from redbomba.home.Feed import *
@@ -36,7 +36,7 @@ def main(request):
             if link.startswith('league') :
                 link = link.replace("league","")
                 link = get_or_none(League,id=link)
-                link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"type":"league"}
+                link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"inf":Contents.objects.get(uto=link.id,utotype='l',ctype='txt').con,"type":"league"}
             elif link.startswith('group') :
                 link = link.replace("group","")
                 link = get_or_none(Group,id=link)

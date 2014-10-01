@@ -185,7 +185,7 @@ def setGroupList(request):
                 try:
                     gm=GroupMember.objects.get(gid=group,uid=request.user)
                 except Exception as e:
-                    GroupMember.objects.create(gid=group,uid=request.user,is_active=-1)
+                    gm=GroupMember.objects.create(gid=group,uid=request.user,is_active=-1)
             elif action == "Quit" :
                 GroupMember.objects.filter(gid=group,uid=request.user).delete()
             elif group == Group.objects.get(uid=request.user) :
@@ -194,7 +194,7 @@ def setGroupList(request):
                     try:
                         gm=GroupMember.objects.get(gid=group,uid=user)
                     except Exception as e:
-                        GroupMember.objects.create(gid=group,uid=user,is_active=0)
+                        gm=GroupMember.objects.create(gid=group,uid=user,is_active=0)
                 elif action == "changeLeader" :
                     if GroupMember.objects.filter(gid=group,uid=user).count() :
                         group.uid = user

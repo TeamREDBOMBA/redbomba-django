@@ -149,7 +149,15 @@
             'sid':'{{ summoner_info.id }}',
             'from':'{{ from }}'
         },function(res,status){
-            location.href="/stats/";
+            $.post('/db/post_noti/',{
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },function(res,status){
+                if(res != "0"){
+                    res = jQuery.parseJSON(res);
+                    socket.emit('sendNotification', {'gid':res.gid,'lid':res.lid,'action':res.action});
+                }
+                location.href="/stats/";
+            });
         });
     });
     $('#brn_gamelink_delete').click(function(){

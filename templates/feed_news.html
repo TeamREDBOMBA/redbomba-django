@@ -8,7 +8,10 @@
         </div>
         <div class="div_box_con">
             <p class="p_con_title">{{ new.title }}</p>
+            {% if new.txt %}
             <p class="p_con_txt">{{ new.txt }}</p>
+            {% endif %}
+            <div class="div_gra"></div>
         </div>
     </div>
 {% endfor %}

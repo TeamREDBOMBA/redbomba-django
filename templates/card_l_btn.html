@@ -1,15 +1,59 @@
 {% load extras %}
-{% if state.no == -1 %}
+{% if state.no == -2 or state.no == -1 %}
     {% if groups|length == league.max_team and league.uid == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>
         <input type="hidden" id="round_id" name="round_id" value="{{state.lr.id}}" />
         <input type="hidden" id="round_no" name="round_no" value="{{state.lr.round}}" />
     {% else %}
-        <button class="btn btn-primary disabled"><i class="fa fa-check-circle"></i> 참가신청</button>
+        {% if state.no == -1 %}
+            <button class="btn btn-primary" id="btnReserve"><i class="fa fa-check-circle"></i> 참가신청</button>
+        {% else %}
+            <button class="btn btn-primary disabled"><i class="fa fa-check-circle"></i> 참가신청</button>
+        {% endif %}
         <div class="tooltip fade bottom in" style="display: block; top: 104px; left: 0px;">
             <div class="tooltip-arrow"></div>
             <div class="tooltip-inner">
                 <b>참가조건이 안됨</b><br/>
+                <p class="p_tooltip_con">
+                    {% if state.user_gid %}<font color='#40d47e'><i class='fa fa-check-circle'>{% else %}
+                        <font color='#e74c3c'><i class='fa fa-times-circle'>{% endif %}</i></font> 소속그룹이 있어야 합니다.
+                </p>
+                <p class="p_tooltip_con">
+                    {% if state.gamelink != state.groupmem %}<font color='#f1c40f'><i class='fa fa-exclamation-circle'>{% else %}
+                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 모두 게임계정 연결을 해야 합니다.
+                </p>
+                <p class="p_tooltip_con">
+                    {% if state.groupmem < 5 %}<font color='#f1c40f'><i class='fa fa-exclamation-circle'>{% else %}
+                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 소속그룹 인원이 5명 이상이어야 합니다. {{ state.groupmem }}
+                </p>
+                <p class="p_tooltip_con">
+                    {% if state.isAdmin == 0 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}
+                        <font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹장이어야 합니다.
+                </p>
+                {% if state.user_gid == None %}
+                    <a href="/stats/?get=mkgroup"><button id="btn_solve" class="btn btn-danger btn-xs">그룹 만들기</button></a>
+                {% elif state.user.get_profile.get_gamelink.id ==  None %}
+                    <a href="/?get=GameLink"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
+                {% elif state.gamelink != state.groupmem %}
+                    <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 현황보기</button></a>
+                {% elif state.groupmem < 5 %}
+                    {% if state.isAdmin == 0 %}
+                        <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">건의하기</button></a>
+                    {% else %}
+                        <button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 초대하기</button>
+                    {% endif %}
+                {% elif state.isAdmin == 0 %}
+                    <a href="#" onclick="goGroupPage({{ state.user_gid.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">참가 건의하기</button></a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% elif state.no == 0 %}
+    <button class="btn btn-primary" id="btnjoin"><i class="fa fa-check-circle"></i> 참가신청</button>
+    <div class="tooltip fade bottom in" style="display: block; top: 104px; left: 0px;">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-inner">
+                <b>참가조건이 완벽합니다.</b><br/>
                 <p class="p_tooltip_con">
                     {% if state.user_gid %}<font color='#40d47e'><i class='fa fa-check-circle'>{% else %}
                         <font color='#e74c3c'><i class='fa fa-times-circle'>{% endif %}</i></font> 소속그룹이 있어야 합니다.
@@ -43,10 +87,8 @@
                 {% endif %}
             </div>
         </div>
-    {% endif %}
-{% elif state.no == 0 %}
-    <button class="btn btn-primary" id="btnjoin"><i class="fa fa-check-circle"></i> 참가신청</button>
 {% elif state.no == 1 %}
+    상태 : <b>{{ state.lt.is_complete }}</b> (0:예약, 1:참가)
     {% if state.league.uid == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lt.round.round}}</button>
         <input type="hidden" id="round_id" name="round_id" value="{{state.lt.round.id}}" />
@@ -150,6 +192,12 @@
     });
 
     $('#btnjoin').click(function(){
+        is_complete = 1;
+        $('#div_join').show();
+    });
+
+    $('#btnReserve').click(function(){
+        is_complete = 0;
         $('#div_join').show();
     });
 </script>

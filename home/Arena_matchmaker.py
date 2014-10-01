@@ -75,7 +75,7 @@ def matchmaker(round):
 #Get array of team_id from database
 def team_id(round):
   team = []
-  query = LeagueTeam.objects.filter(round=round)
+  query = LeagueTeam.objects.filter(round=round,is_complete=1)
   for i in query:
     if i != None:
       team.append(i)
@@ -84,7 +84,7 @@ def team_id(round):
 #Get array of time from database
 def time_array(round):
   feasible_time = []
-  query = LeagueTeam.objects.filter(round=round).values_list('feasible_time', flat=True)
+  query = LeagueTeam.objects.filter(round=round,is_complete=1).values_list('feasible_time', flat=True)
   for i in query:
     if i != None:
       feasible_time.append(i)

@@ -136,7 +136,7 @@
             <H1>초대하기</H1>
             <H4>아래의 URL주소를 복사하여 그룹초대를 원하는 신규 멤버에게 전달해주세요.</H4>
             <div class="form-group">
-                <input type="text" id="grouo_url" class="form-control" readonly="readonly" value="http://redbomba.net/?group={{group.id}}">
+                <input type="text" id="grouo_url" class="form-control" readonly="readonly" value="http://redbomba.net/group/{{group.id}}">
             </div><!-- /input-group -->
             <img class='group_sub_div' src="/static/img/group_sub_div.png">
             <H4>이미 REDBOMB에 가입된 사용자의 닉네임을 아신다면, 닉네임을 검색해주세요.</H4>
@@ -368,7 +368,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             'action':'changeLeader',
             'username':$(this).attr('id'),
-            'gid':'{{ group.id }}',
+            'gid':'{{ group.id }}'
         },function(res,status){
             socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
@@ -380,7 +380,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             'action':'delete',
             'username':$(this).attr('id'),
-            'gid':'{{ group.id }}',
+            'gid':'{{ group.id }}'
         },function(res,status){
             socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
@@ -412,7 +412,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             'action':'delete',
             'username':$(this).attr('id'),
-            'gid':'{{ group.id }}',
+            'gid':'{{ group.id }}'
         },function(res,status){
             socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
@@ -431,7 +431,15 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             socket.emit('setGroup',{'to':'user','id':uid});
             socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
             socket.emit('sendNotification', {'gid':'{{ group.id }}','uid':uid,'action':'Group_AddMember'});
-            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
+            $.post('/db/post_noti/',{
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },function(res,status){
+                if(res != "0"){
+                    res = jQuery.parseJSON(res);
+                    socket.emit('sendNotification', {'gid':res.gid,'lid':res.lid,'action':res.action});
+                }
+                $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
+            });
         });
     });
 

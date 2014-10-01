@@ -295,6 +295,8 @@
         }
     </script>
     <script>
+        var is_complete = 0;
+
         $('#btnDone').click(function(){
             var feasible_time = "";
             var unfeasible_time = new Array();
@@ -318,9 +320,10 @@
                 'action':'insert',
                 'round':'1',
                 'league_id':{{league.id}},
-                'feasible_time':feasible_time
+                'feasible_time':feasible_time,
+                'is_complete':is_complete
             },function(res,status){
-                socket.emit('sendNotification', {'gid':0{{user_group.id}},'lid':{{league.id}},'action':'JoinLeague'});
+                socket.emit('sendNotification', {'gid':0{{user_group.id}},'lid':{{league.id}},'action':'League_JoinLeague'});
                 $('#div_join').fadeOut('fast');
                 $('#div_join_done').fadeIn('fast');
             });

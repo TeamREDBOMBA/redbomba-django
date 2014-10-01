@@ -144,6 +144,9 @@ $(document).ready(function(){
         $("#fchat").css({"bottom":"-256px"});
     },3000);
 
+     $("#fchat-header").click(function(){
+            $("#fchat").css({"bottom":"0"});
+        });
 });
 
 function clickGamelink(iconid) {

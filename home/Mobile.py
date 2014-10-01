@@ -213,6 +213,45 @@ def getRule(request):
     except Exception as e:
         return HttpResponse(e.message)
 
+def getSimpleLeagueInfo(request):
+    state=[]
+    try:
+        lgs = League.objects.filter(game_id="1")  # 추후 game_id 를 request.GET 해야함
+        for lg in lgs:
+            poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
+            lrounds = LeagueRound.objects.get(league_id_id=lg.id, round=1)
+            now_team = LeagueTeam.objects.filter(round_id=lrounds.id)
+            state.append({"id": lg.id, "name": lg.name,
+                          "game_id": lg.game_id,
+                          "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
+                          "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
+                          "poster": poster.con})
+        return HttpResponse(json.dumps(state), content_type="application/json")
+    except Exception as e:
+        return HttpResponse(e.message)
+
+def getDetailLeagueInfo(request):
+    state=[]
+    leagueid = request.GET["id"]
+    try:
+        lg = League.objects.get(game_id="1", id=leagueid)  # 추후 game_id 를 request.GET 해야함
+        poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
+        descrip = Contents.objects.get(uto=lg.id, utotype="l", ctype="txt")
+        hosticon = UserProfile.objects.get(user_id=lg.uid_id)
+        hostname = User.objects.get(id=lg.uid_id)
+        firstroundid = LeagueRound.objects.get(league_id_id=lg.id, round=1)
+        now_team = LeagueTeam.objects.filter(round_id=firstroundid.id)
+        state.append({"id": lg.id, "name": lg.name,
+                      "game_id": lg.game_id, "uid_d": lg.uid_id,
+                      "level": lg.level, "method": lg.method,
+                      "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
+                      "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
+                      "date_updated": str(lg.date_updated), "poster": poster.con, "descrip": descrip.con,
+                      "hosticon": hosticon.user_icon, "hostname": hostname.username, "firstround": firstroundid.id})
+        return HttpResponse(json.dumps(state), content_type="application/json")
+    except Exception as e:
+        return HttpResponse(e.message)
+
 @csrf_exempt
 def fromMobile(request):
     if 'mode' in request.GET:
@@ -242,6 +281,10 @@ def fromMobile(request):
             return getArenaTicket(request)
         elif request.GET["mode"] == "getRule":
             return getRule(request)
+        elif request.GET["mode"] == "getSimpleLeagueInfo":
+            return getSimpleLeagueInfo(request)
+        elif request.GET["mode"] == "getDetailLeagueInfo":
+            return getDetailLeagueInfo(request)
 
         return HttpResponse('0')
     else:

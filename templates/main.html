@@ -19,7 +19,7 @@
         <link href="/static/css/icon.css" rel="stylesheet">
         <link href="/static/css/group_info.css" rel="stylesheet">
         <link href="/static/css/gamelink.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon" />
 
@@ -53,19 +53,22 @@
                 </div>
                 <!-- //Display -->
                 {% if link %}
+                    <p class="title">이 대회에 관심이 있으신가요?<p>
                     <!-- Link League -->
                     <div id="link_league" class="div_feed">
                         <div id="link_league_img">
                             <img src="{{ link.img }}">
                         </div>
                         <div id="link_league_con">
-                            <p>{{ link.title }}</p>
+                            <p id="link_league_title">{{ link.title }}</p>
+                            <p id="link_league_inf">{{ link.inf }}</p>
                             <button class="btn btn-warning" id="btnDetail">자세히 보기</button>
                         </div>
                     </div>
                     <!-- //Link League -->
                 {% endif %}
                 <!-- Global Feed -->
+                <p class="title"><i class="fa fa-newspaper-o"></i> 글로벌 아티클<p>
                 <div id="feed_pub">&nbsp;</div>
                 <!-- //Global Feed -->
             </div>

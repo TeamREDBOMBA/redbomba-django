@@ -70,7 +70,11 @@
                         <p id="p_login_pw" class="form-group">
                             <input id="id_password" name="password" type="password" class="form-control form_login" placeholder="비밀번호" />
                         </p>
-                        <input type="hidden" name="next" value="/league/{{ lid.id }}" />
+                        {% if lid %}
+                            <input type="hidden" name="next" value="/league/{{ lid.id }}" />
+                        {% elif gid %}
+                            <input type="hidden" name="next" value="/group/{{ gid.id }}" />
+                        {% endif %}
                         <p id="p_login_signin"><button id="button_login_signin" class="btn btn-success" onclick="mixpanel.track('Try to sign in');">로그인</button></p>
                     </form>
                 </div>

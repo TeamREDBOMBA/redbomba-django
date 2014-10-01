@@ -206,6 +206,7 @@ class LeagueTeam(models.Model):
     group_id = models.ForeignKey(Group)
     round = models.ForeignKey(LeagueRound)
     feasible_time = models.TextField()
+    is_complete = models.IntegerField(default=1)
     date_updated = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

@@ -19,7 +19,7 @@
         <link href="/static/css/feed_stats.css" rel="stylesheet">
         <link href="/static/css/group_info.css" rel="stylesheet">
         <link href="/static/css/gamelink.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
 
@@ -237,10 +237,11 @@
         <script>
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ get_group }}'},function(){
                 {% if getval == "madegroup" %}
-                    $('#GroupInfo .div_info_sub').css({"left":"330px"});
-                    $('#GroupInfo .div_info').hide();
-                    $('#GroupInfo #div_info_2').show();
-                    $('#GroupInfo #div_info_2 #div_info_subNew').animate({"left":"0px"}, "fast");
+                    $('.div_chat').html($('#div_made_group').html()+$('.div_chat').html());
+                    //$('#GroupInfo .div_info_sub').css({"left":"330px"});
+                    //$('#GroupInfo .div_info').hide();
+                    //$('#GroupInfo #div_info_2').show();
+                    //$('#GroupInfo #div_info_2 #div_info_subNew').animate({"left":"0px"}, "fast");
                 {% endif %}
             });
             $('#GroupInfo').modal('show');
