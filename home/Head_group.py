@@ -2,7 +2,7 @@
 
 # Create your views here.
 from redbomba.home.Func import *
-from redbomba.home.models import *
+from redbomba.home.models import Game, Chatting
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.shortcuts import render
@@ -12,6 +12,7 @@ from django.template.loader import get_template
 from django.utils import simplejson
 
 ######################################## Views ########################################
+
 
 def getGroup(request):
     if request.POST.get('username') :
@@ -146,6 +147,11 @@ def write_Group(request):
                     uid=request.user,
                     is_active=1
                 )
+            Chatting.objects.create(
+                gid=group,
+                uid=User.objects.get(id=1),
+                con='"%s" 게이밍 그룹이 성공적으로 개설 되었습니다.'%(group.name)
+            )
             return HttpResponse(group.id)
         else :
             gid = request.POST["gid"]

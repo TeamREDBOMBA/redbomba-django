@@ -237,11 +237,7 @@
         <script>
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ get_group }}'},function(){
                 {% if getval == "madegroup" %}
-                    $('.div_chat').html($('#div_made_group').html()+$('.div_chat').html());
-                    //$('#GroupInfo .div_info_sub').css({"left":"330px"});
-                    //$('#GroupInfo .div_info').hide();
-                    //$('#GroupInfo #div_info_2').show();
-                    //$('#GroupInfo #div_info_2 #div_info_subNew').animate({"left":"0px"}, "fast");
+                    $('#div_made_group').show();
                 {% endif %}
             });
             $('#GroupInfo').modal('show');

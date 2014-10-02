@@ -63,7 +63,7 @@ def setLeagueteam(request):
     elif action == "delete":
         group_id = GroupMember.objects.get(uid=request.user).gid
         round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
-        LeagueTeam.objects.filter(group_id=group_id,round=round,is_complete=1).delete()
+        LeagueTeam.objects.filter(group_id=group_id,round=round).delete()
         return HttpResponse("Success")
     elif action == "abstain":
         try :
@@ -193,5 +193,6 @@ def cardDetail_sorter(request=None, league_id=None):
         'rounds':rounds,
         'SR':SR,
         'ER':ER,
+        'state':LeagueState(league,user)
         }
     return render(request, 'card_l.html', context)

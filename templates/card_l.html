@@ -17,7 +17,6 @@
             <!-- <li><i class="fa fa-check-circle"></i> 참가팀 보기</li> -->
             <li id="li_menu_detailRule" class="li_menu"><i class="fa fa-book"></i> 자세한 롤 보기</li>
         </ul>
-        {{state}}
     </div>
 </div>
 <div id="div_body" class="div_contents">
@@ -74,6 +73,23 @@
             <div id="div_group_count">{{groups|length}}/{{league.max_team}}</div>
         </div>
     </div>
+</div>
+<div id="div_reserve">
+    <h1><i class="fa fa-exclamation-circle"></i> 잠시만요!</h1>
+    <p class="p_reserve_txt">
+        <a href="#" id="a_reserve_msg" data-toggle="popover" data-trigger="hover" data-placement="left" title="" data-content="해당 ‘아레나 참가 조건’을 만족시키지 못한 상태에서 참가 신청을 진행할 경우, 참가 신청 완료가 아닌 일종의 예약 신청인 ‘참가 대기 신청 완료’가 됩니다. 참가 대기 신청 후 해당 조건을 만족하면 자동으로 참가 완료가 됩니다. (단, 위 조건이 만족되기 전에 참가 마감이 될 경우 자동으로 참가 취소가 됩니다. 서둘러 주세요!)" role="button" data-original-title="참가 대기">
+            참가 대기 상태<i class="fa fa-question-circle"></i>
+        </a>로 신청되는데 괜찮으신가요?
+    </p>
+    <ul>
+        <li class="title">아레나 참가 조건</li>
+        <li>{% if state.groupmem < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}<font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹 멤버가 5명 이상</li>
+        <li>{% if state.gamelink != state.groupmem %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}<font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹 멤버 전원의 게임(League of Legends) 계정 연결</li>
+    </ul>
+    <p class="p_reserve_btn">
+        <button class="btn btn-default" id="btn_reserve_cancel">취소</button>
+        <button class="btn btn-success" id="btn_reserve_continue">참가 대기로 신청하기</button>
+    </p>
 </div>
 <div id="div_join">
     <div id="div_join_left">
@@ -297,6 +313,17 @@
     <script>
         var is_complete = 0;
 
+        $('#a_reserve_msg').popover('hide');
+
+        $("#btn_reserve_cancel").click(function(){
+            $("#div_reserve").hide();
+        });
+
+        $("#btn_reserve_continue").click(function(){
+            $("#div_reserve").hide();
+            $('#div_join').show();
+        });
+
         $('#btnDone').click(function(){
             var feasible_time = "";
             var unfeasible_time = new Array();
@@ -333,7 +360,7 @@
                 'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
                 'action':'delete',
                 'round':'1',
-                'league_id':{{league.id}},
+                'league_id':{{league.id}}
             },function(res,status){
                 $('#div_join_done').fadeOut('fast');
                 $('#div_join').fadeIn('fast');

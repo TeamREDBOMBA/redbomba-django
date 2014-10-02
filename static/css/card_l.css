@@ -118,11 +118,21 @@
 #LargeCard #div_right #div_right_feedTitle #div_feedInput_btn{text-align: right;padding: 3px 0;}
 #LargeCard #div_right #div_right_feed{width:100%;height:405px;overflow-y: auto;}
 
+#LargeCard #div_reserve {position:absolute;top:0;right:0;width:900px;height:700px;padding: 225px;background-color: RGBA(0,0,0,0.9);display:none;z-index: 10;}
+#LargeCard #div_reserve H1{font-size:20px;font-family: "RixSGo B";color: #e74c3c;padding: 5px 0;}
+#LargeCard #div_reserve .p_reserve_txt {font-size: 16px;padding: 5px 0;color: #fff;}
+#LargeCard #div_reserve .p_reserve_txt a{color:#428bca}
+#LargeCard #div_reserve ul {padding: 15px;border: 1px solid #999;border-radius: 10px;width: 450px;}
+#LargeCard #div_reserve ul li {font-size: 14px;line-height: 25px;margin-left: 10px;color: #fff;}
+#LargeCard #div_reserve ul li.title {font-family: "RixSGo B";margin-left: 0;}
+#LargeCard #div_reserve .p_reserve_btn {text-align:right;margin-top: 10px;}
+#LargeCard #div_reserve .popover {color:#000;font-size: 12px;}
+
 #LargeCard #div_join {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;display:none;z-index: 1;}
-#LargeCard #div_join #div_join_left{position:relative;width:660px;height:700px;padding:20px;}
+#LargeCard #div_join #div_join_left{position:relative;width:660px;height:700px;padding:  20px;padding-top: 80px;}
 #LargeCard #div_join #div_join_left #p_join_title{font-size: 20px;margin-bottom: 10px;font-family:'RixSGo B';}
 #LargeCard #div_join #div_join_left #p_join_desc{font-size: 13px;margin-bottom: 10px;margin-left: 40px;text-indent: -40px;}
-#LargeCard #div_join #div_join_left .div_left_time{text-align: center;padding:70px;border: 1px solid #dddddd;border-top: 0;}
+#LargeCard #div_join #div_join_left .div_left_time{text-align: center;padding: 55px;border: 1px solid #dddddd;border-top: 0;}
 #LargeCard #div_join #div_join_right{position:absolute;top:0;right:0;width:240px;height:700px;padding: 20px;padding-top:100px;background-color:#ecf0f1;}
 #LargeCard #div_join #div_join_right #div_right_top{position:absolute;top:0;right:0;width:240px;height:85px;background-color:#fff}
 #LargeCard #div_join #div_join_right #div_right_top .close{margin:15px;}

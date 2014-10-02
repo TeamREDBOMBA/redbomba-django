@@ -220,7 +220,17 @@
 <div class="modal-chat">
     {% if info.isMem  %}
         <div class="div_chat">
-            Loading...
+            <div id="div_made_group">
+                <H1>레드밤바 게이밍 그룹에 오신 것을 환영합니다!</H1>
+                <ul>
+                    <li class="li_made_img"><img src="/static/img/login_line3_icon1.png"></li>
+                    <li class="li_made_txt">준비가 되셨다면, <a onclick="showInviteMem()">동료들을 불러모아 볼까요?</a></li>
+                    <li class="li_made_txt">(그룹 리더 변경, 그룹원 추가/삭제, 대회 참가 멤버 설정 등 다양한 그룹 설정은 우측 메뉴의 있는 <a onclick="showAdminPage()">"관리자"페이지</a>를 통해서 가능합니다.)</li>
+                </ul>
+            </div>
+            <div id="div_chat_body">
+                Loading...
+            </div>
         </div>
         <div class="div_input">
             <input type='text' id='chatMsg' placeholder="메세지를 입력해주세요. (전송:ㄴ, 줄바꿈:shift+ㄴ)">
@@ -263,8 +273,8 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
 
         $("#GroupInfo .div_chat").scroll(function(){
             if($(this).scrollTop() == 0){
-                $("#GroupInfo .div_chat").html("<div width='100%' align='center'><img src='/static/img/ajax-loader_s.gif'></div>"+$("#GroupInfo .div_chat").html());
-                $("#GroupInfo .div_chat").load("/chatting/",{
+                $("#GroupInfo .div_chat #div_chat_body").html("<div width='100%' align='center'><img src='/static/img/ajax-loader_s.gif'></div>"+$("#GroupInfo .div_chat #div_chat_body").html());
+                $("#GroupInfo .div_chat #div_chat_body").load("/chatting/",{
                     "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
                     "len":GroupChatLen,
                     "group_name":$("#GroupInfo #group_name").text()},function(){
@@ -284,7 +294,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             }
         });
 
-        $("#GroupInfo .div_chat").load("/chatting/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(), "len":GroupChatLen, "group_name":$("#GroupInfo #group_name").text()}, function(){
+        $("#GroupInfo .div_chat #div_chat_body").load("/chatting/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(), "len":GroupChatLen, "group_name":$("#GroupInfo #group_name").text()}, function(){
             GroupChatLen+=30;
             $('#GroupInfo .div_chat').scrollTop(600);
         });
@@ -457,6 +467,20 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ group.id }}'});
         });
     });
+
+
+    function showInviteMem(){
+        $('#GroupInfo .div_info_sub').css({"left":"330px"});
+        $('#GroupInfo .div_info').hide();
+        $('#GroupInfo #div_info_2').show();
+        $('#GroupInfo #div_info_2 #div_info_subNew').animate({"left":"0px"}, "fast");
+    }
+
+    function showAdminPage(){
+        $('#GroupInfo .div_info_sub').css({"left":"330px"});
+        $('#GroupInfo .div_info').hide();
+        $('#GroupInfo #div_info_2').show();
+    }
 
     var start_ele = "";
 
