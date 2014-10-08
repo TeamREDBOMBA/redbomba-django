@@ -1,4 +1,5 @@
 {% load extras %}
+{{ state }}
 {% if state.no == -2 or state.no == -1 %}
     {% if groups|length == league.max_team and league.uid == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>

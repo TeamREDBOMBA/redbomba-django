@@ -53,9 +53,13 @@ def setSmile(request):
 def write_Feed(request):
     action = request.POST.get("action")
     uid = request.user.id
-    uto = get_or_none(User,username=request.POST.get("uto"))
-    if uto : uto = uto.id
     utotype = request.POST.get("utotype")
+    if utotype == 'u' :
+        uto = get_or_none(User,username=request.POST.get("uto"))
+    elif utotype == 'l':
+        uto = get_or_none(League,id=int(request.POST.get("uto")))
+    if uto :
+        uto = uto.id
     feedtype = 1
     txt = request.POST.get("txt")
     tag = request.POST.get("tag")

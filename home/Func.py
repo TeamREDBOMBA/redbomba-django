@@ -139,7 +139,7 @@ def LeagueState(league, user):
             if all2_lt.count() == 0:
                 state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"lt":all1_lt.filter(group_id=user_gid)[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":1}
                 return state
-        elif LeagueTeam.objects.filter(round=lr[0],round__league_id=league,is_complete=1).count() == 0 and lr[0].league_id.end_apply < now :
+        elif LeagueTeam.objects.filter(round=lr[0],group_id=user_gid,round__league_id=league,is_complete=1).count() == 0 and lr[0].league_id.end_apply < now :
             state = {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":2}
             return state
     except Exception as e:
