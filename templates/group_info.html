@@ -39,8 +39,12 @@
             {% if info.isWait %}
                 <button type='button' class='btn btn-danger' id='btnQuit'>가입 신청 취소<br/><font size='1'>(가입 승인대기 중)</font></button>
             {% else %}
-                <button type='button' class='btn btn-success' id='btnJoin'>가입 신청</button>
-                <button type='button' class='btn btn-danger' id='btnQuit' style='display:none'>가입 신청 취소<br/><font size='1'>(가입 승인대기 중)</font></button>
+                {% if user.get_profile.get_group %}
+                    <button type='button' class='btn btn-danger' id='btnDisable'>가입 불가<br/><font size='1'>(이미 소속된 그룹이 있습니다.)</font></button>
+                {% else %}
+                    <button type='button' class='btn btn-success' id='btnJoin'>가입 신청</button>
+                    <button type='button' class='btn btn-danger' id='btnQuit' style='display:none'>가입 신청 취소<br/><font size='1'>(가입 승인대기 중)</font></button>
+                {% endif %}
             {% endif %}
         {% endif %}
     </div>

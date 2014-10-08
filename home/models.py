@@ -20,6 +20,9 @@ class UserProfile(models.Model):
     def get_gamelink(self):
         return get_or_none(GameLink,uid=self.user)
 
+    def get_group(self):
+        return get_or_none(GroupMember,uid=self.user)
+
 class Tutorial(models.Model):
     uid = models.ForeignKey(User, unique=True)
     is_pass1 = models.IntegerField(default=0)

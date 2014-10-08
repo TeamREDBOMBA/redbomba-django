@@ -30,6 +30,7 @@
 #GroupInfo .modal-info #div_info_1 .div_info_body #btnDel{width:85%;margin:5px;}
 #GroupInfo .modal-info #div_info_1 .div_info_body #btnJoin{width:85%;margin:5px;}
 #GroupInfo .modal-info #div_info_1 .div_info_body #btnQuit{width:85%;margin:5px;padding:0;}
+#GroupInfo .modal-info #div_info_1 .div_info_body #btnDisable{width:85%;margin:5px;padding:0;}
 #GroupInfo .modal-info #div_info_1 .div_info_sub{position:absolute;top:0;left:330px;width:330px;height:600px;background-color:#ecf0f1;border-left:1px solid #d5ddde;text-align:center;float:left;}
 #GroupInfo .modal-info #div_info_1 .div_info_sub .div_sub_title{height: 40px;line-height: 40px;padding: 0 5px;text-align: left;border-bottom: 1px solid #fff;}
 #GroupInfo .modal-info #div_info_1 .div_info_sub .div_sub_title #btnBack{background-color:#ecf0f1;margin-top:5px;color:666;border:0;font-size:14px;font-weight:bold}
