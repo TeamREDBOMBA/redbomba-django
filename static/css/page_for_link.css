@@ -21,6 +21,15 @@ body { background-color:#f3f6f6 }
 #modal_signup #div_form #div_signup_line3 #li_line3_info {margin-bottom: 20px;padding: 0 30px;text-indent: -7px;}
 #modal_signup #div_form #div_signup_line4 #button_signup_complete {width:100%;margin-bottom: 15px;}
 
-#GroupInfo {position:relative;width:1100px;min-height:100px;left:50%;margin:10px 0;margin-left:-550px;background-color:#fff;border-radius:10px;border-bottom:1px solid #ddd;overflow:hidden}
-#GroupInfo .modal-chat { width: 680px;}
-#GroupInfo .modal-chat .div_input #chatMsg { width: 660px;}
+#GroupInfo {position:relative;width:600px;min-height:100px;left:50%;margin:10px 0;margin-left:-300px;margin-top:50px;padding: 20px;background-color:#fff;border-radius:10px;border-bottom:1px solid #ddd;overflow:hidden}
+#GroupInfo #login_title {font-size: 20px;text-align: center;font-family: "RixSGo B";margin-top: 20px;}
+#GroupInfo #login_msg {font-size: 14px;text-align: center;}
+#GroupInfo #div_form {position: relative;width: 400px;left: 50%;margin-left: -200px;}
+#GroupInfo #div_form .form-control {}
+#GroupInfo #div_form #p1 {margin-top: 20px}
+#GroupInfo #div_form #p2 {margin-top: 20px}
+#GroupInfo #div_form .login_title {font-size: 14px;}
+#GroupInfo #div_form #div_login_line2 .signup_title:first-child {padding-right: 155px;}
+#GroupInfo #div_form #div_login_line4 #button_login_signin {width:100%;margin-top: 20px;margin-bottom: 10px;}
+#GroupInfo #div_form #div_login_line4 #p_line4_or {text-align: center;color:#999}
+#GroupInfo #div_form #div_login_line4 #button_login_signup {width:100%;margin-top: 10px;margin-bottom: 15px;}

@@ -37,10 +37,6 @@ def main(request):
                 link = link.replace("league","")
                 link = get_or_none(League,id=link)
                 link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"inf":Contents.objects.get(uto=link.id,utotype='l',ctype='txt').con,"type":"league"}
-            elif link.startswith('group') :
-                link = link.replace("group","")
-                link = get_or_none(Group,id=link)
-                link = {"id":link.id,"img":"/media/group_icon/%s"%(link.group_icon),"title":link.name,"type":"group"}
 
         gl = GameLink.objects.filter(uid=request.user)
         if gl.count() :

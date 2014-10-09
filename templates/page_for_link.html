@@ -51,7 +51,35 @@
         {% if lid %}
             <div id="LargeCard"></div>
         {% elif gid %}
-            <div id="GroupInfo"></div>
+            <div id="GroupInfo">
+                <p id="login_title">레드밤바 회원이신가요?</p>
+                <p id="login_msg">계속 진행하려면 로그인을 해주세요.</p>
+                <div id="div_form">
+                    <form role="form" id="loginForm" method="post" action="../auth/login/">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="/stats/?group={{ gid.id }}" />
+                        <div id="div_login_line2">
+                            <p id="p1">
+                                <span class="login_title">E-mail</span>
+                            </p>
+                            <p>
+                                <input id="id_email" maxlength="254" name="email" type="email" class="form-control " placeholder="예 : i@me.com">
+                            </p>
+                            <p id="p2">
+                                <span class="login_title">비밀번호</span>
+                            </p>
+                            <p>
+                                <input id="id_password" name="password" type="password" class="form-control " placeholder="********">
+                            </p>
+                        </div>
+                        <div id="div_login_line4">
+                            <button id="button_login_signin" class="btn btn-success" onclick="mixpanel.track('Try to sign in');">로그인</button>
+                            <p id="p_line4_or">또는</p>
+                            <button id="button_login_signup" class="btn btn-warning">회원가입</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         {% endif %}
     </div>
 </div>
@@ -153,8 +181,6 @@
 <script type="text/javascript">
     {% if lid %}
         $('#LargeCard').load("/card/",{ "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"league_id":{{lid.id}} });
-    {% elif gid %}
-        $('#GroupInfo').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ gid.id }}'});
     {% endif %}
 
     $("#li_head_signup").click(function(){
@@ -167,6 +193,10 @@
         $('#modal_signup').modal('show');
     });
     $("#btnWish").click(function(){
+        $('#modal_signup').modal('show');
+    });
+
+    $("#button_login_signup").click(function(){
         $('#modal_signup').modal('show');
     });
 
