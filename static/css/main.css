@@ -14,7 +14,7 @@
 #container #content #top_information .close { line-height:inherit }
 #container #content #top_information .btn { float: right;margin-right: 10px;margin-top: 10px; }
 
-#container #content #display { height: 220px;background-color:#2F343D }
+#container #content #display { height: 220px;background-color:#2F343D ; display: none;}
 #container #content #display .display_title { height:50px;background-color:#232b34 }
 #container #content #display .display_title .display_title_live { background-color:#e74c3c ; color: #fff; font-size: 15px; padding: 5px 10px; letter-spacing: 3px; line-height: 50px; border-radius: 3px; margin-left: 10px;}
 #container #content #display .display_title .display_title_name { color: #fff; font-size: 1.1em;margin-left: 10px; }

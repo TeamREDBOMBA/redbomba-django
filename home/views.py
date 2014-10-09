@@ -195,6 +195,7 @@ def page_for_link(request,lid=None,gid=None):
 
 @csrf_exempt
 def test(request):
-    text = "datetime.now = %s <br>"%(datetime.now())
-    text += "timezone.localtime(timezone.now()) = %s" %(timezone.localtime(timezone.now()))
-    return HttpResponse(text)
+    action = request.GET.get("action");
+    if action == None :
+        return HttpResponse("")
+    return HttpResponse("1")

@@ -1,5 +1,4 @@
 {% load extras %}
-{{ state }}
 {% if state.no == -2 or state.no == -1 %}
     {% if groups|length == league.max_team and league.uid == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>
@@ -226,7 +225,7 @@
         $.post("/matchmaker/?round="+round_id,{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
-            socket.emit('sendNotification', {'lid':round_id,'round':round_no,'action':'RunMatchMaker'});
+            socket.emit('sendNotification', {'lid':round_id,'round':round_no,'action':'League_RunMatchMaker'});
             alert(res);
             history.go(0);
         });
