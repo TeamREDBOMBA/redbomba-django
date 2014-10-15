@@ -1,0 +1,23 @@
+.feed_body {border: 1px solid #ecf0f1;width: 100%;padding: 10px;}
+
+.feed_body .div_feed_icon {width:30px;height:30px;overflow:hidden;border-radius: 30px;margin-right: 5px;float:left}
+.feed_body .div_feed_icon img{width:100%}
+.feed_body .p_feed_username {padding-right: 5px;font-family: "RixSGo B";float:left;line-height: 1.5;}
+.feed_body .h2_feed_con {line-height: 1.5;margin-left: 35px;min-height: 30px;}
+.feed_body .p_feed_date {float: left;line-height: 30px;font-size: 10px;color: #999;}
+.feed_body .div_feed_brn {width: 100%;height: 30px;padding-top: 5px;text-align: right;}
+.feed_body .div_feed_brn .btn-smile{height:20px;padding:0 3px;font-size:9px;color:#FFF;background-color:#f1c40f;letter-spacing:1px}
+.feed_body .div_feed_brn .btn-smile-done{height:20px;padding:0 3px;font-size:9px;color:#f1c40f;border:1px solid #f1c40f;background-color:#FFF;letter-spacing:1px}
+.feed_body .div_feed_brn .btn-reply{height:20px;padding:0 3px;font-size:9px;color:#FFF;background-color:#5fcf80;letter-spacing:1px}
+.feed_body .div_feed_brn .btn-reply-done{height:20px;padding:0 3px;font-size:9px;color:#5fcf80;border:1px solid #5fcf80;background-color:#FFF;letter-spacing:1px}
+.feed_body .div_feed_brn .btn-share{height:20px;padding:0 3px;font-size:9px;color:#FFF;background-color:#2980b9;letter-spacing:1px}
+.feed_body .div_feed_brn .btn-share-done{height:20px;padding:0 3px;font-size:9px;color:#2980b9;border:1px solid #2980b9;background-color:#FFF;letter-spacing:1px}
+.feed_body .div_feed_brn .btn-more{height:20px;padding:0 3px;font-size:9px;color:#d2d2d2;background-color:#FFF;border:1px solid #d2d2d2}
+.feed_body .div_btn_more{display:none;}
+
+.reply_body {background-color: #ecf0f1;width: 100%;padding: 10px;padding-left:5%;}
+.reply_body .div_reply_icon {width:30px;height:30px;overflow:hidden;border-radius: 30px;margin-right: 5px;float:left}
+.reply_body .div_reply_icon img{width:100%}
+.reply_body H1 {padding-right: 5px;font-family: "RixSGo B";float:left;line-height: 1.5;}
+.reply_body H2 {line-height: 1.5;margin-left: 35px;min-height: 30px;}
+.reply_body .div_reply_date {margin-top: 10px;font-size: 10px;color: #999;}

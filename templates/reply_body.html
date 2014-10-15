@@ -1,0 +1,7 @@
+<div id="reply_body_{{ rid }}" class="div_reply reply_body">
+    <input type="hidden" id="fid" value="{{ fid }}">
+    <div class="div_reply_icon imgbtn"><a class="username" onclick="click_name('{{ ufrom }}')"><img src="/static/img/icon/usericon_{{ ufromicon }}.jpg"></a></div>
+    <h1><a class="username" onclick="click_name('{{ ufrom }}')">{{ ufrom }}</a></h1>
+    <h2>{{ con_txt|linebreaks }}</h2>
+    <p class="div_reply_date">{{ date_updated }}</p>
+</div>

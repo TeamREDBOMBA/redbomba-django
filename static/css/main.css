@@ -69,3 +69,5 @@
 #aside #profile #profile_bottom .div_link_btn #btnGamelink { width: 100% }
 #aside #profile #profile_bottom .div_link_btn_s { text-align:center; height:49px ; line-height: 49px; font-size: 12px;}
 #aside #profile #profile_bottom .div_link_btn_s #btnGamelink_s { margin-left:10px }
+
+#GlobalFeedModal {overflow: hidden}

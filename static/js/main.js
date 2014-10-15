@@ -68,10 +68,9 @@ function findId(from){
     }).fadeIn('500');
 }
 
-function setSize(){
+function setSize(box_size){
     var count = 0;
     var arr = new Array();
-    var box_size = $("#feed_pub .box").size();
     while(1){
         feedSize=shuffle(feedSize);
         for(i=0;i<feedSize.length;i++){

@@ -4,6 +4,7 @@
 from redbomba.home.Func import *
 from redbomba.home.models import Contents
 from redbomba.home.models import Reply
+from redbomba.home.models import GlobalFeed
 from redbomba.home.models import Feed
 from redbomba.home.models import Smile
 from redbomba.home.models import League
@@ -13,6 +14,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.template import Context
 from django.template.loader import get_template
+from django.shortcuts import render
 
 ######################################## Views ########################################
 
@@ -34,6 +36,30 @@ def read_Feed_card(request) :
     fid = int(request.GET.get("fid",0))
     lid = int(request.GET.get("league_id",0))
     return HttpResponse(feedsorter("card", lid, len, fid, request))
+
+def read_Feed_news_detail(request, fid=None):
+    len = int(request.GET.get("len",0))
+    fid = int(request.GET.get("fid",0))
+    gfid = int(request.GET.get("gfid",0))
+    return HttpResponse(feedsorter("globalfeed", gfid, len, fid, request))
+
+def read_Feed_news(request):
+    news = []
+    globalfeed = GlobalFeed.objects.filter().order_by("-date_updated")
+    for gf in globalfeed :
+        news.append({"id":gf.id,"title":gf.title,"txt":gf.con,"img":{"src":"/media/%s"%(gf.src),"focusx":gf.focus_x,"focusy":gf.focus_y},"user":gf.uid})
+    context = {'user':request.user,'news':news}
+    return render(request, 'card_news.html', context)
+
+def read_Feed_news_page(request, fid=None):
+    if fid :
+        globalfeed = get_or_none(GlobalFeed,id=fid)
+        context = {
+            'user':request.user,
+            'news':globalfeed
+        }
+        return render(request, 'card_news_large.html', context)
+    return HttpResponse(None)
 
 def setSmile(request):
     if request.user :
@@ -58,6 +84,8 @@ def write_Feed(request):
         uto = get_or_none(User,username=request.POST.get("uto"))
     elif utotype == 'l':
         uto = get_or_none(League,id=int(request.POST.get("uto")))
+    elif utotype == 'g':
+        uto = get_or_none(GlobalFeed,id=int(request.POST.get("uto")))
     if uto :
         uto = uto.id
     feedtype = 1
@@ -178,7 +206,7 @@ def feedsorter(loc, uid, len, fid, request):
             feed = Feed.objects.filter((Q(ufrom=lid.id)&Q(ufromtype="l"))|(Q(uto=lid.id)&Q(utotype="l"))).order_by("-date_updated")
         else :
             feed = Feed.objects.filter(id=fid).order_by("-date_updated")
-        template = get_template('feed_card.html')
+        template = get_template('feed_body.html')
         val = ""
         i=0
         for feedElem in feed:
@@ -205,13 +233,50 @@ def feedsorter(loc, uid, len, fid, request):
         else :
             btnMore=""
         return val+btnMore
+    elif loc == "globalfeed" :
+        if request.user.id :
+            user = request.user
+        else :
+            user = None
+        gfid = get_or_none(GlobalFeed,id=uid)
+        if fid==0 :
+            feed = Feed.objects.filter((Q(ufrom=gfid.id)&Q(ufromtype="g"))|(Q(uto=gfid.id)&Q(utotype="g"))).order_by("-date_updated")
+        else :
+            feed = Feed.objects.filter(id=fid).order_by("-date_updated")
+        template = get_template('feed_body.html')
+        val = ""
+        i=0
+        for feedElem in feed:
+            variables = Context({
+                'ele':fid,
+                'fid' : feedElem.id,
+                'uid' : uid,
+                'user' : user,
+                'ufrom': User.objects.get(id=feedElem.ufrom).username,
+                'uto': GlobalFeed.objects.get(id=feedElem.uto).title,
+                'ufromicon':User.objects.get(id=feedElem.ufrom).get_profile().user_icon,
+                'date_updated':feedElem.get_time_diff(),
+                'con_txt':Contents.objects.get(uto=feedElem.id, utotype='f', ctype='txt').con,
+                'smile':Smile.objects.filter(fid=feedElem),
+                'isDone_smile':get_or_none(Smile,fid=feedElem,uid=user),
+                'reply_len':Reply.objects.filter(ufrom=uid,fid=feedElem)
+            })
+            if i==len: break
+            output = template.render(variables)
+            val = val+output;
+            i=i+1;
+        if feed.count() > i :
+            btnMore = "<div class='div_feedcard_morebtn' onclick='clickMore()'> more </div>"
+        else :
+            btnMore=""
+        return val+btnMore
     else :
         return "Loc Error"
 
 
 def replysorter(uid,len,fid):
     reply = Reply.objects.filter(fid=Feed.objects.get(id=fid)).order_by("-date_updated")
-    template = get_template('reply_pri.html')
+    template = get_template('reply_body.html')
     val = ""
     i=0
     for replyElem in reply:

@@ -212,7 +212,7 @@
     $("#div_right_feed").load("/feed/card/?len=10&fid=0&league_id={{league.id}}");
 </script>
 <script>
-    $('#div_main_cal').html(drawCal({{league.start_apply|date:'Y,N,j'}},{{league.end_apply|date:'Y,N,j'}},{{SR.min|date:'Y,N,j'}},{{ER.max|date:'Y,N,j'}}));
+    $('#div_main_cal').html(drawCal({{league.start_apply|date:'Y,n,j'}},{{league.end_apply|date:'Y,n,j'}},{{SR.min|date:'Y,n,j'}},{{ER.max|date:'Y,n,j'}}));
 </script>
 {% if user %}
     <script>

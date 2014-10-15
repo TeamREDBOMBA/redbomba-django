@@ -1,5 +1,6 @@
 {% for new in news %}
-    <div class="div_feed box">
+    <div class="div_feed box div_globalfeed" id="news_{{ new.id }}">
+    <input type="hidden" id="fid" value="{{ new.id }}">
         <div class="div_box_img focuspoint" data-focus-x="{{ new.img.focusx }}" data-focus-y="{{ new.img.focusy }}">
             <img src="{{ new.img.src }}">
         </div>
@@ -17,13 +18,17 @@
 {% endfor %}
 
 <script>
-
     var box_size = $("#feed_pub .box").size();
-    var arr = setSize();
-    for(i=1;i<=box_size;i++){
-        $("#feed_pub .box:nth-child("+i+")").addClass(arr[i-1]);
-        $("#feed_pub .box:nth-child("+i+")").css({"background-color":"#7f8c8d"});
+    var arr = setSize(box_size);
+    for(i=0;i<box_size;i++){
+        $("#feed_pub .box:nth-child("+(i+1)+")").addClass(arr[i]);
+        $("#feed_pub .box:nth-child("+(i+1)+")").css({"background-color":"#7f8c8d"});
     }
+
+    $(".div_globalfeed").click(function(){
+        $("#GlobalFeedModal").modal("show");
+        $("#GlobalFeedModal .modal-content").load("/feed/news/"+$(this).children("#fid").val(),{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val()});
+    });
 
     $('#feed_pub').nested({
         minWidth:68,
@@ -36,5 +41,10 @@
         $('.div_box_img img').fadeIn();
         $('.focuspoint').adjustFocus();
     }, 1500);
+    {% for new in news %}
+        {% if new.txt %}
+            $("#news_{{ new.id }} .p_con_txt").html(markdown.toHTML($("#news_{{ new.id }} .p_con_txt").text()));
+        {% endif %}
+    {% endfor %}
 
 </script>

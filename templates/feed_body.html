@@ -1,0 +1,102 @@
+{% if ele == 0 %}
+    <div id="feed_body_{{ fid }}" class="feed_body">
+{% endif %}
+<div class="div_feed_icon imgbtn">
+    <a onclick="click_name('{{ ufrom }}')">
+        <img src="/static/img/icon/usericon_{{ ufromicon }}.jpg">
+    </a>
+</div>
+<p class="p_feed_username"><a onclick="click_name('{{ ufrom }}')">{{ ufrom }}</a></p>
+<h2 class="h2_feed_con">{{ con_txt|linebreaks }}</h2>
+<p class="p_feed_date">{{ date_updated }}</p>
+{% if user %}
+    <div class="div_feed_brn">
+            <span class="div_btn_more">
+              {% if isDone_smile %}
+                  <button class="btn btn-smile-done imgbtn">{{ smile|length }} | <i class="fa fa-smile-o fa-1"></i> 취소</button>
+              {% else %}
+                  <button class="btn btn-smile imgbtn">{{ smile|length }} | <i class="fa fa-smile-o fa-1"></i> 스마일</button>
+              {% endif %}
+                <button id="btn-share" class="btn btn-share imgbtn"><i class="fa fa-share-square-o fa-1"></i> 공유</button>
+            </span>
+        <button id="btn-more" class="btn btn-more imgbtn">
+            자세히 보기
+        </button>
+    </div>
+{% endif %}
+<div class="div_feed_reply">
+    <div class="div_btn_more">
+        <div class="input-group">
+            <input type="text" class="input_reply_replytxt form-control" placeholder="댓글을 남겨주세요.">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn_reply_replybtn">입력</button>
+            </span>
+        </div>
+    </div>
+    <div id="div_reply_body">&nbsp;</div>
+</div>
+<script>
+    var feed_reply_len_{{ fid }} = 3;
+    $('#feed_body_{{ fid }} #div_reply_body').hide().load('/reply/?loc=card&len=3&fid={{ fid }}').fadeIn('500');
+
+    $("#feed_body_{{ fid }} .btn-more").click(function(){
+        $("#feed_body_{{ fid }} .div_btn_more").toggle();
+    });
+
+    $("#feed_body_{{ fid }} .btn-smile").click(function(){
+        var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+        var fid = {{ fid }};
+        var uid=0;
+        $.post("/forsocket/",{"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').attr('value')},function(data,status){
+            uid = $(data).filter('uid').text();
+            $('#feed_body_{{ fid }}').hide().load('/db/smile/?action=insert&fid={{ fid }}&loc=pri',function(response, status) {
+                socket.emit('sendNotification', {'ufrom':uid,'uto':{{ fid }},'tablename':'home_smile'});
+                $('#feed_body_{{ fid }} .input_reply_replytxt').val("");
+            }).fadeIn('500');
+        });
+    });
+
+    $("#feed_body_{{ fid }} .btn-smile-done").click(function(){
+        var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+        var fid = {{ fid }};
+        var uid=0;
+        $.post("/forsocket/",{"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').attr('value')},function(data,status){
+            uid = $(data).filter('uid').text();
+            $('#feed_body_{{ fid }}').hide().load('/db/smile/?action=delete&fid={{ fid }}&loc=pri',function(response, status) {
+                socket.emit('sendNotification', {'ufrom':uid,'uto':{{ fid }},'tablename':'home_smile'});
+                $('#feed_body_{{ fid }} .input_reply_replytxt').val("");
+            }).fadeIn('500');
+        });
+    });
+
+    $("#feed_body_{{ fid }} .btn_reply_replybtn").click(function(){
+        var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+        var fid = {{ fid }};
+        var txt = $('#feed_body_{{ fid }} .input_reply_replytxt').val();
+        var uid=0;
+        if(txt!=""){
+            $.post("/forsocket/",{"csrfmiddlewaretoken":csrfmiddlewaretoken},function(data,status){
+                uid = $(data).filter('uid').text();
+                $('#feed_body_{{ fid }} #div_reply_body').hide().load('/db/reply/',{'action':'insert','csrfmiddlewaretoken':csrfmiddlewaretoken,'fid':fid,'txt':txt,'loc':'card'},function(response, status) {
+                    //socket.emit('sendNotification', {'ufrom':uid,'uto':fid,'tablename':'home_reply'});
+                    $('#feed_body_{{ fid }} .input_reply_replytxt').val("");
+                }).fadeIn('500');
+            });
+        }
+    });
+
+    $("#feed_body_{{ fid }} .input_reply_replytxt").keypress(function(e){
+        if(e.keyCode==13){
+            btnreply_{{ fid }}();
+            return false;
+        }
+    });
+
+    function clickMore_card_{{ fid }}(){
+        feed_pri_len_{{ fid }}+=10;
+        $('#feed_body_{{ fid }} #div_reply_body').hide().load('/reply/?loc=card&len='+feed_pri_len_{{ fid }}+'&fid={{ fid }}').fadeIn('500');
+    }
+</script>
+{% if ele == 0 %}
+    </div>
+{% endif %}

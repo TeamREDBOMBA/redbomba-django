@@ -51,6 +51,11 @@
         {% if lid %}
             <div id="LargeCard"></div>
         {% elif gid %}
+            {% if user.id %}
+                <script>
+                location.href="/stats/?group={{ gid.id }}";
+                </script>
+            {% endif %}
             <div id="GroupInfo">
                 <p id="login_title">레드밤바 회원이신가요?</p>
                 <p id="login_msg">계속 진행하려면 로그인을 해주세요.</p>
@@ -75,7 +80,7 @@
                         <div id="div_login_line4">
                             <button id="button_login_signin" class="btn btn-success" onclick="mixpanel.track('Try to sign in');">로그인</button>
                             <p id="p_line4_or">또는</p>
-                            <button id="button_login_signup" class="btn btn-warning">회원가입</button>
+                            <button type="button" id="button_login_signup" class="btn btn-warning">회원가입</button>
                         </div>
                     </form>
                 </div>

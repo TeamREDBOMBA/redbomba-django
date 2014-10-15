@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import os
+import pwd
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.dateformat import format
 
 class Game(models.Model):
     name = models.TextField()
@@ -26,6 +29,20 @@ class UserProfile(models.Model):
 class Tutorial(models.Model):
     uid = models.ForeignKey(User, unique=True)
     is_pass1 = models.IntegerField(default=0)
+
+class GlobalFeed(models.Model) :
+    uid = models.ForeignKey(User)
+    title = models.TextField()
+    con = models.TextField()
+    src = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
+    focus_x = models.FloatField(default=0.0)
+    focus_y = models.FloatField(default=0.0)
+    date_updated = models.DateTimeField(auto_now_add=True)
+
+    def set_src(self,request):
+        self.src = upload(request)
+        self.save()
+        return self.src
 
 class Feed(models.Model):
     ufrom = models.IntegerField(default=0)
@@ -261,3 +278,21 @@ def get_or_none(model, **kwargs):
         return model.objects.get(**kwargs)
     except model.DoesNotExist:
         return None
+
+def upload(request):
+    UPLOAD_DIR = "upload/files_%s/" %(format(timezone.localtime(timezone.now()), u'U'))
+    if request.method == 'POST':
+        if 'file' in request.FILES:
+            if not os.path.exists(UPLOAD_DIR):
+                os.makedirs(UPLOAD_DIR)
+                uid, gid =  pwd.getpwnam('root').pw_uid, pwd.getpwnam('root').pw_uid
+                os.chown(UPLOAD_DIR, uid, gid)
+            file = request.FILES['file']
+            filename = file._name
+
+            fp = open('redbomba/%s/%s' % (UPLOAD_DIR, filename) , 'wb')
+            for chunk in file.chunks():
+                fp.write(chunk)
+            fp.close()
+            return "/%s/%s"%(UPLOAD_DIR, filename)
+    return None

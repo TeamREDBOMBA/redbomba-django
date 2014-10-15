@@ -164,34 +164,39 @@ def page_for_link(request,lid=None,gid=None):
         con['text']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='txt').con
         con['img']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='img').con
         context = {
-        'user': user,
-        'uinfo' : user_profile,
-        'group':group,
-        'groupmem':groupmem,
-        'lid':lid, 'con':con,
-        'get_group':get_group,
-        'from' : '/league/'
+            'user': user,
+            'uinfo' : user_profile,
+            'group':group,
+            'groupmem':groupmem,
+            'lid':lid, 'con':con,
+            'get_group':get_group,
+            'from' : '/league/'
         }
     elif gid :
         con = {'text':'','img':''}
         con['text']="%s 그룹에 당신을 초대합니다."%(gid.name)
         con['img']=gid.group_icon
         context = {
-        'user': user,
-        'uinfo' : user_profile,
-        'group':gid,
-        'groupmem':groupmem,
-        'gid':gid, 'con':con,
-        'get_group':get_group,
-        'from' : '/league/'
+            'user': user,
+            'uinfo' : user_profile,
+            'group':gid,
+            'groupmem':groupmem,
+            'gid':gid, 'con':con,
+            'get_group':get_group,
+            'from' : '/league/'
         }
     else :
         context = {'user': request.user}
     return render(request, 'page_for_link.html', context)
 
 @csrf_exempt
-def test(request):
+def file(request):
     action = request.GET.get("action");
     if action == None :
-        return HttpResponse("")
-    return HttpResponse("1")
+        return HttpResponse("""
+        <form enctype='multipart/form-data' method='post' action='/file/?action=output'>
+        <input type='file' name='file' id='file'/>
+        <input type='submit'>
+        </form>
+        """)
+    return HttpResponse(upload(request))

@@ -5,76 +5,80 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 # Register your models here.
 
 class UserProfileInline(admin.StackedInline):
- model = UserProfile
- max_num = 1
- can_delete = True
+    model = UserProfile
+    max_num = 1
+    can_delete = True
 
 class UserAdmin(AuthUserAdmin):
-  list_display = ('id','username','email','is_active','date_joined')
-  inlines = [UserProfileInline]
+    list_display = ('id','username','email','is_active','date_joined')
+    inlines = [UserProfileInline]
 
 class UserProfileAdmin(admin.ModelAdmin):
-  list_display = ('id','user','user_icon')
+    list_display = ('id','user','user_icon')
 
 class TutorialAdmin(admin.ModelAdmin):
-  list_display = ('id','uid','is_pass1')
+    list_display = ('id','uid','is_pass1')
 
 class ChattingAdmin(admin.ModelAdmin):
     list_display = ('gid','uid','con','date_updated')
 
+class GlobalFeedAdmin(admin.ModelAdmin):
+    list_display = ('uid','title','con','src','focus_x','focus_y','date_updated')
+
 class FeedAdmin(admin.ModelAdmin):
-  list_display = ('id','ufrom','ufromtype','uto','utotype','feedtype','date_updated')
-  
+    list_display = ('id','ufrom','ufromtype','uto','utotype','feedtype','date_updated')
+
 class ReplyAdmin(admin.ModelAdmin):
-  list_display = ('id','ufrom','fid','date_updated')
-  
+    list_display = ('id','ufrom','fid','date_updated')
+
 class ContentsAdmin(admin.ModelAdmin):
-  list_display = ('id','uto','utotype','ctype','con')
-  
+    list_display = ('id','uto','utotype','ctype','con')
+
 class SmileAdmin(admin.ModelAdmin):
-  list_display = ('id','fid','uid')
-  
+    list_display = ('id','fid','uid')
+
 class CheckAdmin(admin.ModelAdmin):
-  list_display = ('id','uid','fid')
+    list_display = ('id','uid','fid')
 
 class GameAdmin(admin.ModelAdmin):
-  list_display = ('id','name','is_active')
-  
+    list_display = ('id','name','is_active')
+
 class GameLinkAdmin(admin.ModelAdmin):
-  list_display = ('id','uid','game','name','sid')
-  
+    list_display = ('id','uid','game','name','sid')
+
 class NotificationAdmin(admin.ModelAdmin):
-  list_display = ('id','uid','action','contents','date_read','date_updated')
+    list_display = ('id','uid','action','contents','date_read','date_updated')
 
 class GroupAdmin(admin.ModelAdmin):
-  list_display = ('id','name','nick','uid','group_icon','game','date_updated')
-  
+    list_display = ('id','name','nick','uid','group_icon','game','date_updated')
+
 class GroupMemberAdmin(admin.ModelAdmin):
-  list_display = ('id','gid','uid','order','is_active','date_updated')
-  
+    list_display = ('id','gid','uid','order','is_active','date_updated')
+
 class LeagueAdmin(admin.ModelAdmin):
-  list_display = ('id','name','uid','game','level','method','start_apply','end_apply','min_team','max_team','date_updated')
-  
+    list_display = ('id','name','uid','game','level','method','start_apply','end_apply','min_team','max_team','date_updated')
+
 class LeagueRoundAdmin(admin.ModelAdmin):
-  list_display = ('id','league_id','round','start','end','bestof','is_finish')
-  
+    list_display = ('id','league_id','round','start','end','bestof','is_finish')
+
 class LeagueInfoAdmin(admin.ModelAdmin):
-  list_display = ('id','name','is_required')
+    list_display = ('id','name','is_required')
 
 class LeagueTeamAdmin(admin.ModelAdmin):
-  list_display = ('id','group_id','round','feasible_time','date_updated','is_complete')
-  
+    list_display = ('id','group_id','round','feasible_time','date_updated','is_complete')
+
 class LeagueMatchAdmin(admin.ModelAdmin):
-  list_display = ('id','game','team_a','team_b','host','state','result','date_match')
+    list_display = ('id','game','team_a','team_b','host','state','result','date_match')
 
 class LeagueRewardAdmin(admin.ModelAdmin):
-  list_display = ('id','league_id','name','con')
-  
+    list_display = ('id','league_id','name','con')
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Tutorial, TutorialAdmin)
 admin.site.register(Chatting, ChattingAdmin)
+admin.site.register(GlobalFeed, GlobalFeedAdmin)
 admin.site.register(Feed, FeedAdmin)
 admin.site.register(Reply, ReplyAdmin)
 admin.site.register(Contents, ContentsAdmin)

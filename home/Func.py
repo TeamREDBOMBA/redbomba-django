@@ -2,6 +2,8 @@
 
 # Create your views here.
 import sys
+import os
+import pwd
 import re, urlparse
 import json
 import urllib2
@@ -12,11 +14,12 @@ from redbomba.home.models import GameLink
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound
 from redbomba.home.models import LeagueMatch
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import timezone
+from django.utils.dateformat import format
 
 # print >>sys.stderr, "%s"%(gm) # Log
 
@@ -225,3 +228,23 @@ def get_or_none(model, **kwargs):
         return model.objects.get(**kwargs)
     except model.DoesNotExist:
         return None
+
+def upload(request):
+    errorMsg = ""
+    UPLOAD_DIR = "/media/upload/files_%s" %(format(timezone.localtime(timezone.now()), u'U'))
+    errorMsg = errorMsg +"<br/>"+"dir:"+ UPLOAD_DIR
+    if request.method == 'POST':
+        if 'file' in request.FILES:
+            if not os.path.exists("redbomba"+UPLOAD_DIR):
+                os.makedirs("redbomba"+UPLOAD_DIR)
+                uid, gid =  pwd.getpwnam('root').pw_uid, pwd.getpwnam('root').pw_uid
+                os.chown("redbomba"+UPLOAD_DIR, uid, gid)
+            file = request.FILES['file']
+            filename = file._name
+            errorMsg = errorMsg +"<br/>"+"filename:"+ filename
+            fp = open('%s/%s' % ("redbomba"+UPLOAD_DIR, filename) , 'wb')
+            for chunk in file.chunks():
+                fp.write(chunk)
+            fp.close()
+            return "%s/%s"%(UPLOAD_DIR, filename)
+    return 'Failed ' + errorMsg

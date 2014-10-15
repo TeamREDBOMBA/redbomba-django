@@ -115,7 +115,7 @@ def setTutorial(request):
 
 def cardsorter():
     query_league = League.objects.all()
-    template = get_template('card.html')
+    template = get_template('card_league.html')
     val = ""
     for leagueElem in query_league:
         round = LeagueRound.objects.get(league_id=leagueElem,round=1)
