@@ -15,8 +15,8 @@
 
 #GlobalFeedModal #div_gf_left {width:660px;height:100%;overflow:hidden;overflow-y: scroll;float: left;}
 #GlobalFeedModal #div_gf_left #div_left_src {width: 660px;height:200px;overflow:hidden}
-#GlobalFeedModal #div_gf_left #div_left_title {width:660px;font-size: 20px;font-family: "RixSGo B";padding: 20px;padding-bottom: 0;}
-#GlobalFeedModal #div_gf_left #div_left_con {width:660px;font-size: 15px;padding: 20px;padding-top: 10px;line-height: 25px;}
+#GlobalFeedModal #div_gf_left #div_left_title {width:660px;font-size: 20px;font-family: "RixSGo B";padding: 30px 60px;padding-bottom: 0;}
+#GlobalFeedModal #div_gf_left #div_left_con {width:660px;font-size: 15px;padding: 10px 90px;line-height: 25px;}
 #GlobalFeedModal #div_gf_left #div_left_con p {font-size: 15px;line-height: 25px;margin: 15px 0;text-indent: 10px;}
 #GlobalFeedModal #div_gf_left #div_left_con em {font-family: "RixSGo B"}
 #GlobalFeedModal #div_gf_left #div_left_con b {font-family: "RixSGo B"}

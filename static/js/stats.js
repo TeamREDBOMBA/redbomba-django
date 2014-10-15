@@ -1,6 +1,4 @@
 ﻿$(document).ready(function(){
-    feed_pri_len = 10;
-    readFeed("#feed_pri", feed_pri_len, 0, $("#p_profile_username").text());
     var ran_no = Math.floor((Math.random() * 621) + 1);
     $("#profile").css({"background-image":"url(http://re01-xv2938.ktics.co.kr/stat_lol_"+ran_no+".jpg)"});
     $("#profileBG").css({"background-image":"url(http://re01-xv2938.ktics.co.kr/stat_lol_"+ran_no+".jpg)"});
@@ -32,27 +30,6 @@ $(window).load(function() {
 
     $("#myarenalist").html("<div style='width:100%;text-align:center'><img src='/static/img/ajax-loader.gif'></div>");
     $("#myarenalist").hide().load("/myarena/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"username":$("#p_profile_username").text()}).fadeIn('500');
-
-    $('#btn_feedInput_post').click(function(){
-        var csrfmiddlewaretoken = $("#header input[name=csrfmiddlewaretoken]").val();
-        var uto = $("#p_profile_username").text();
-        var utotype = $("#div_profile_feedInput #btn_feedInput_to").val();
-        var tag = $("#div_profile_feedInput #btn_feedInput_game").val();
-        var img = 0;
-        var txt = $("#div_profile_feedInput #textarea_feedinput_input").val();
-        var vid = 0;
-        var log = 0;
-        var hyp = 0;
-        var uid = 0;
-        if(txt!=""){
-            $.post("/forsocket/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val()},function(data,status){uid = $(data).filter('uid').text();});
-            $("#feed_pri").html("<div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>");
-            $("#feed_pri").hide().load("/db/feed/",{"action":"insert","csrfmiddlewaretoken":csrfmiddlewaretoken,"uto":uto,"utotype":utotype,"tag":tag,"img":img,"txt":txt,"vid":vid,"log":log,"hyp":hyp},function(response, status) {
-                //socket.emit('sendNotification', {'ufrom':uid,'uto':uid,'tablename':'home_feed'});
-                $("form").each(function(){ if(this.id == "div_feedInput_form") this.reset(); });
-            }).fadeIn('500');
-        }
-    });
 
     $('#groupaddModal #name').keyup(function(event){
         var str = $('#groupaddModal #name').val();
@@ -87,9 +64,3 @@ $(window).load(function() {
         location.href = "/arena/";
     });
 });
-
-function readFeed(loc, len, fid, username){
-    $(loc).load("/feed/private/?len="+len+"&fid="+fid+"&username="+username,function(){
-        if($(loc).html()=="") $(loc).html("<div width='100%' align='center'><img src='/static/img/main_global_bg.png'></div>");
-    });
-}

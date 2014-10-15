@@ -16,7 +16,6 @@
         <link href="/static/css/header.css" rel="stylesheet">
         <link href="/static/css/stats.css" rel="stylesheet">
         <link href="/static/css/icon.css" rel="stylesheet">
-        <link href="/static/css/feed_stats.css" rel="stylesheet">
         <link href="/static/css/group_info.css" rel="stylesheet">
         <link href="/static/css/gamelink.css" rel="stylesheet">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -65,74 +64,9 @@
             </div>
             <!-- //Profile -->
             <div id="content">
+                <p class="title">{% if target_user == user %}내가 참여중인 대회{% else %}{{target_user.username}}님이 참여중인 대회{% endif %}<p>
                 <div id="feed_menu" class="div_feed">
-                    <div id="div_munu">
-                        <ul class="nav nav-tabs">
-                            <li {% if getval != 'myarena' and getval != 'mylog' and getval != 'setting' %} class='active' {% endif %}>
-                                <a href="#timeline" data-toggle="tab"><img src="/static/img/stats_menu_icon1.png" class="imgbtn"></a></li>
-                            <li {% if getval == 'myarena' %} class='active' {% endif %}><a href="#myarena" data-toggle="tab"><img src="/static/img/stats_menu_icon2.png" class="imgbtn"></a></li>
-                            <li {% if getval == 'mylog' %} class='active' {% endif %}><a href="#mylog" data-toggle="tab"><img src="/static/img/stats_menu_icon3.png" class="imgbtn"></a></li>
-                            <li {% if getval == 'setting' %} class='active' {% endif %}><a href="#setting" data-toggle="tab"><img src="/static/img/stats_menu_icon4.png" class="imgbtn"></a></li>
-                        </ul>
-                    </div>
-                    <div class="tab-content">
-                        <div class="tab-pane {% if getval != 'myarena' and getval != 'mylog' and getval != 'setting' %}active{% endif %}" id="timeline">
-                            <!-- Pri. Feed -->
-                            <div id="div_profile_feedInput">
-                                <form role="form" id="div_feedInput_form" name="div_feedInput_form" method="post" action="/">
-                                    <textarea id="textarea_feedinput_input" class="form-control" placeholder="당신의 위대한 업적을 공유해보세요!"></textarea>
-                                    <div id="div_feedInput_btn">
-                                        <!--
-                                        <div class="btn-group" id="div_btn_to">
-                                            <button type="button" id="btn_feedInput_to" class="btn btn-success dropdown-toggle" data-toggle="dropdown" value="u">
-                                                <i class="fa fa-user fa-1"></i> | All <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">All</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="btn-group" id="div_btn_game">
-                                            <button type="button" id="btn_feedInput_game" class="btn btn-success dropdown-toggle" data-toggle="dropdown" value="League Of Legends">
-                                                <i class="fa fa-gamepad fa-1"></i> | League Of Legends <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">League Of Legends</a></li>
-                                            </ul>
-                                        </div>
-                                        -->
-                                        <button type="button" id="btn_feedInput_post" class="btn btn-primary">올리기</button>
-                                    </div>
-                                    <div id="div_feedInput_arrow" class="arrow_box">
-                                        <div id="div_arrow_icon1" class="div_arrow_icon imgbtn">
-                                            <p class="icon"><i class="fa fa-camera"></i></p>
-                                            <p class="name">사진</p>
-                                        </div>
-                                        <div id="div_arrow_icon2" class="div_arrow_icon imgbtn">
-                                            <p class="icon"><i class="fa fa-film"></i></p>
-                                            <p class="name">동영상</p>
-                                        </div>
-                                        <div id="div_arrow_icon3" class="div_arrow_icon imgbtn">
-                                            <p class="icon"><i class="fa fa-flag"></i></p>
-                                            <p class="name">로그</p>
-                                        </div>
-                                        <div id="div_arrow_icon4" class="div_arrow_icon imgbtn">
-                                            <p class="icon"><i class="fa fa-question-circle"></i></p>
-                                            <p class="name">질문</p>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div id="feed_pri">
-                                <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
-                            </div>
-                            <!-- //Pri. Feed -->
-                        </div>
-                        <div class="tab-pane {% if getval == 'myarena' %}active{% endif %}" id="myarena">
-                            <div id="myarenalist">&nbsp;</div>
-                        </div>
-                        <div class="tab-pane {% if getval == 'mylog' %}active{% endif %}" id="mylog">mylog</div>
-                        <div class="tab-pane {% if getval == 'setting' %}active{% endif %}" id="setting">setting</div>
-                    </div>
+                    <div id="myarenalist">&nbsp;</div>
                 </div>
             </div>
             <div id="aside">
