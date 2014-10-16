@@ -7,6 +7,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.dateformat import format
+from django.db.models import Q
 
 class Game(models.Model):
     name = models.TextField()
@@ -18,20 +19,23 @@ class Game(models.Model):
 class UserProfile(models.Model):
     #required by the auth model
     user = models.ForeignKey(User, unique=True)
-    user_icon = models.IntegerField(default=1)
+    user_icon = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
 
     def get_gamelink(self):
-        return get_or_none(GameLink,uid=self.user)
+        return GameLink.objects.filter(user=self.user)
 
     def get_group(self):
-        return get_or_none(GroupMember,uid=self.user)
+        return GroupMember.objects.filter(Q(user=self.user)&~Q(is_active=-1))
+
+    def get_icon(self):
+        return "/media/%s"%(self.user_icon)
 
 class Tutorial(models.Model):
-    uid = models.ForeignKey(User, unique=True)
+    user = models.ForeignKey(User, unique=True)
     is_pass1 = models.IntegerField(default=0)
 
-class GlobalFeed(models.Model) :
-    uid = models.ForeignKey(User)
+class GlobalCard(models.Model) :
+    user = models.ForeignKey(User)
     title = models.TextField()
     con = models.TextField()
     src = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
@@ -52,6 +56,9 @@ class Feed(models.Model):
     feedtype = models.IntegerField(default=1)
     date_updated = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return u'[%d] %s%s->%s%s' %(self.id,self.ufrom,self.ufromtype,self.uto,self.utotype)
+
     def get_time_diff(self):
         if self.date_updated:
             now = timezone.localtime(timezone.now())
@@ -68,13 +75,19 @@ class Feed(models.Model):
             else :
                 return "방금 전"
 
+class FeedContents(models.Model):
+    feed = models.ForeignKey(Feed)
+    contype = models.CharField(max_length=3)
+    con = models.TextField()
+
     def __unicode__(self):
         return u'[%d] %s%s>%s%s' %(self.id,self.ufrom,self.ufromtype,self.uto,self.utotype)
 
-class Reply(models.Model):
+class FeedReply(models.Model):
+    feed = models.ForeignKey(Feed)
+    user = models.ForeignKey(User)
+    con = models.TextField()
     date_updated = models.DateTimeField(auto_now_add=True)
-    ufrom = models.ForeignKey(User)
-    fid = models.ForeignKey(Feed)
 
     def get_time_diff(self):
         if self.date_updated:
@@ -98,16 +111,16 @@ class Contents(models.Model):
     ctype = models.CharField(max_length=3)
     con = models.TextField()
 
-class Smile(models.Model):
-    fid = models.ForeignKey(Feed)
-    uid = models.ForeignKey(User)
+class FeedSmile(models.Model):
+    feed = models.ForeignKey(Feed)
+    user = models.ForeignKey(User)
 
-class Check(models.Model):
-    uid = models.ForeignKey(User)
-    fid = models.ForeignKey(Feed)
+class FeedCheck(models.Model):
+    feed = models.ForeignKey(Feed)
+    user = models.ForeignKey(User)
 
 class GameLink(models.Model):
-    uid = models.ForeignKey(User)
+    user = models.ForeignKey(User)
     game = models.ForeignKey(Game)
     name = models.TextField()
     sid = models.IntegerField(default=0)
@@ -116,7 +129,7 @@ class GameLink(models.Model):
         return u'[%d] %s (%s)' %(self.id, self.uid, self.game)
 
 class Notification(models.Model):
-    uid = models.ForeignKey(User)
+    user = models.ForeignKey(User)
     action = models.TextField()
     contents = models.TextField()
     date_read = models.IntegerField(default=-1)
@@ -141,7 +154,7 @@ class Notification(models.Model):
 class Group(models.Model):
     name = models.TextField()
     nick = models.TextField()
-    uid = models.ForeignKey(User)
+    leader = models.ForeignKey(User)
     group_icon = models.TextField(default='common.jpg')
     game = models.ForeignKey(Game)
     date_updated = models.DateTimeField(auto_now_add=True)
@@ -151,26 +164,29 @@ class Group(models.Model):
 
     def get_member(self):
         if self.id:
-            return GroupMember.objects.filter(gid=self).order_by("order")
+            return GroupMember.objects.filter(group=self).order_by("order")
 
 class GroupMember(models.Model):
-    gid = models.ForeignKey(Group)
-    uid = models.ForeignKey(User)
+    group = models.ForeignKey(Group)
+    user = models.ForeignKey(User)
     order = models.IntegerField(default=0)
     is_active = models.IntegerField(default=0)
     date_updated = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return u'[%d] %s (%s)' %(self.id, self.uid.username, self.gid)
+        return u'[%d] %s (%s)' %(self.id, self.user.username, self.group)
 
     def get_gamelink(self):
         if self.uid:
-            return GameLink.objects.get(uid=self.uid)
+            return GameLink.objects.get(uid=self.user)
 
 class League(models.Model):
     name = models.TextField()
-    uid = models.ForeignKey(User)
+    host = models.ForeignKey(User)
     game = models.ForeignKey(Game)
+    poster = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
+    concept = models.TextField()
+    rule = models.TextField()
     level = models.IntegerField(default=1)
     method = models.IntegerField(default=0)
     start_apply = models.DateTimeField(editable=True)
@@ -192,7 +208,7 @@ class League(models.Model):
         return u'[%d] %s' %(self.id, self.name)
 
 class LeagueRound(models.Model):
-    league_id = models.ForeignKey(League)
+    league = models.ForeignKey(League)
     round = models.IntegerField(default=1)
     start = models.DateTimeField(editable=True)
     end = models.DateTimeField(editable=True)
@@ -223,7 +239,7 @@ class LeagueInfo(models.Model):
     is_required = models.IntegerField(default=0)
 
 class LeagueTeam(models.Model):
-    group_id = models.ForeignKey(Group)
+    group = models.ForeignKey(Group)
     round = models.ForeignKey(LeagueRound)
     feasible_time = models.TextField()
     is_complete = models.IntegerField(default=1)
@@ -262,13 +278,13 @@ class LeagueMatch(models.Model):
         return u'[%d] A:%s,B:%s (%s)' %(self.id, self.team_a,self.team_b,self.date_match)
 
 class LeagueReward(models.Model):
-    league_id = models.ForeignKey(League)
+    league = models.ForeignKey(League)
     name = models.TextField()
     con = models.TextField()
 
 class Chatting(models.Model):
-    gid = models.ForeignKey(Group)
-    uid = models.ForeignKey(User)
+    group = models.ForeignKey(Group)
+    user = models.ForeignKey(User)
     con = models.TextField()
     date_updated = models.DateTimeField(auto_now_add=True)
 

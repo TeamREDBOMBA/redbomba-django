@@ -45,7 +45,7 @@
             <!-- Profile -->
             <div id="profile">
                 <img id="img_profile_bg" src="/static/img/arena_poster_bg.png">
-                <img src="/static/img/icon/usericon_{{target_user.get_profile.user_icon}}.jpg" id="img_profile_usericon">
+                <img src="{{target_user.get_profile.get_icon}}" id="img_profile_usericon">
                 <p id="p_profile_username">{{target_user.username}}</p>
                 <div id="div_profile_gamelink">
                     {% for gl in gamelink %}

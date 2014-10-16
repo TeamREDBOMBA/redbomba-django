@@ -25,11 +25,11 @@ def register_page(request):
             email=request.POST['email'])
         user.is_active = False
         user.save()
-        UserProfile.objects.create(user_id=user.id,user_icon=random.randint(1,10))
+        UserProfile.objects.create(user=user,user_icon="icon/%d.jpg"%(random.randint(1,10)))
         send_complex_message(request.POST['username'])
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         if user is not None:
-            Tutorial.objects.create(uid=user,is_pass1=0)
+            Tutorial.objects.create(user=user,is_pass1=0)
             login(request, user)
             request.session.set_expiry(31536000)
             return HttpResponse("Success")
@@ -81,7 +81,6 @@ def verifyEmail(request,id,date_joined):
               '''
     else:
         msg = "인증 실패!"
-
     return HttpResponse(msg)
 
 def fncSignupEmail(request):
@@ -98,23 +97,6 @@ def fncSignupNick(request):
         return HttpResponse("")
     else :
         return HttpResponse("%s 은(는) 이미 사용 중 입니다." %(username))
-
-def fncGroupName(request):
-    groupname = request.GET["name"]
-    res = get_or_none(Group,name=groupname)
-    if res==None:
-        return HttpResponse("")
-    else :
-        return HttpResponse("%s 은(는) 이미 사용 중 입니다." %(groupname))
-
-def fncGroupNick(request):
-    groupnick = request.GET["nick"]
-    print str(unicode(groupnick))
-    res = get_or_none(Group,nick=groupnick)
-    if res==None:
-        return HttpResponse("")
-    else :
-        return HttpResponse("%s 은(는) 이미 사용 중 입니다." %(groupnick))
 
 def sendVerifyEmail(username):
     user = User.objects.get(username=username)

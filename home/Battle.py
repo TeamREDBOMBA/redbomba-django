@@ -16,18 +16,18 @@ from django.shortcuts import render
 def battle(request):
     try:
         round = LeagueRound.objects.get(id=request.GET['round'])
-        group = GroupMember.objects.get(uid=request.user,is_active=1).gid
-        lt = LeagueTeam.objects.get(group_id=group,round=round)
+        group = GroupMember.objects.get(user=request.user,is_active=1).gid
+        lt = LeagueTeam.objects.get(group=group,round=round)
         lm = LeagueMatch.objects.filter(Q(team_a=lt)|Q(team_b=lt)).order_by("-game")[0]
         win_a =  LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt)),state=10,result="A")
         win_b =  LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt)),state=10,result="B")
 
         try:
-            next_round = LeagueRound.objects.get(league_id=round.league_id,round=(int(round.round)+1))
+            next_round = LeagueRound.objects.get(league=round.league_id,round=(int(round.round)+1))
         except Exception as e:
             next_round=None
         try:
-            next_lt = LeagueTeam.objects.get(group_id=group,round=next_round)
+            next_lt = LeagueTeam.objects.get(group=group,round=next_round)
         except Exception as e:
             next_lt=None
         try:
@@ -37,14 +37,14 @@ def battle(request):
 
         try:
             if lm.state == 0:
-                group_leader = Group.objects.get(uid=request.user).uid
+                group_leader = Group.objects.get(leader=request.user).uid
                 if group_leader :
                     lm.host = group_leader
                     lm.state = 1
                     lm.result = group_leader.id
                     lm.save()
             else :
-                lm.host = User.objects.get(id=lm.host)
+                lm.host = User.objects.get(id=lm.leader)
         except Exception as e:
             pass
 

@@ -77,9 +77,9 @@
                 <!-- Profile -->
                 <div id="profile" class="div_feed">
                     <div id="profile_top">
-                        <img id="img_usericon" src="http://redbomba.net/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg">
+                        <img id="img_usericon" src="{{ user.get_profile.get_icon }}">
                         <p id="p_username">{{ user.username }}</p>
-                        <p id="p_groupname">{{ group.name }}</p>
+                        <p id="p_groupname">{{ user.email }}</p>
                     </div>
                     <p class="profile_subtitle">연결된 게임 계정</p>
                     <div id="profile_bottom">

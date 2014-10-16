@@ -15,14 +15,14 @@ def getSearchBar(request) :
 	groups = []
 	text = request.POST.get("text","")
 
-	query_u = User.objects.filter(Q(username__icontains=text)|Q(id__in=GameLink.objects.filter(name__icontains=text).values_list('uid', flat=True)))
+	query_u = User.objects.filter(Q(username__icontains=text)|Q(id__in=GameLink.objects.filter(name__icontains=text).values_list('user', flat=True)))
 	for val in query_u:
-		gl = get_or_none(GameLink,uid=val)
-		gm = get_or_none(GroupMember,uid=val)
-		if gm : gm = gm.gid
+		gl = get_or_none(GameLink,user=val)
+		gm = get_or_none(GroupMember,user=val)
+		if gm : gm = gm.group
 		users.append({'uid':val, 'gamelink':gl, 'group':gm})
 
-	query_g = Group.objects.filter(Q(name__icontains=text)|Q(nick__icontains=text)|Q(uid__in=User.objects.filter(username__icontains=text)))
+	query_g = Group.objects.filter(Q(name__icontains=text)|Q(nick__icontains=text)|Q(leader__in=User.objects.filter(username__icontains=text)))
 	for val in query_g:
 		groups.append({'gid':val})
 

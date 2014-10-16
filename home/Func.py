@@ -34,7 +34,7 @@ def forsocket(request):
     if request.method=='POST':
         try:
             uid = request.user
-            gid = GroupMember.objects.get(uid=uid).gid
+            gid = GroupMember.objects.get(user=uid).group
             val = val + "<uid>%s</uid>" %(uid.id)
             val = val + "<gid>%s</gid>" %(gid.id)
         except Exception as e:
@@ -75,37 +75,37 @@ def iriToUri(iri):
 def remakeLeagueState(l, u):
     ls = LeagueState(l,u)
     if ls['no'] == 1 :
-        noti = get_or_none(Notification,action='League_JoinLeague',contents=ls['league'].id,uid=ls['user'])
-        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,uid=ls['user']),"round":ls['lt'].round,"noti":noti}
+        noti = get_or_none(Notification,action='League_JoinLeague',contents=ls['league'].id,user=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,user=ls['user']),"round":ls['lt'].round,"noti":noti}
     elif ls['no'] == 2 :
-        noti = get_or_none(Notification,action='League_RunMatchMaker',contents=ls['lm'].team_a.round.id,uid=ls['user'])
-        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,uid=ls['user']),"lm":ls['lm'],"noti":noti}
+        noti = get_or_none(Notification,action='League_RunMatchMaker',contents=ls['lm'].team_a.round.id,user=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,user=ls['user']),"lm":ls['lm'],"noti":noti}
     elif ls['no'] == 3 :
-        noti = get_or_none(Notification,action='League_StartMatch',contents=ls['lm'].id,uid=ls['user'])
-        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,uid=ls['user']),"msg":"배틀페이지 입장이 가능합니다.","lr":ls['lm'].team_a.round.id,"noti":noti}
+        noti = get_or_none(Notification,action='League_StartMatch',contents=ls['lm'].id,user=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,usdr=ls['user']),"msg":"배틀페이지 입장이 가능합니다.","lr":ls['lm'].team_a.round.id,"noti":noti}
     else :
         state = None
     return state
 
 def LeagueState(league, user):
     state = {}
-    lr = LeagueRound.objects.filter(league_id=league).order_by("round")
+    lr = LeagueRound.objects.filter(league=league).order_by("round")
 
-    user_gid = get_or_none(GroupMember,uid=user)
+    user_gid = get_or_none(GroupMember,user=user)
     if user_gid :
-        user_gid = user_gid.gid
+        user_gid = user_gid.group
 
-    if get_or_none(Group,uid=user) :
+    if get_or_none(Group,leader=user) :
         isAdmin = 1
     else :
         isAdmin = 0
 
     try:
-        if LeagueTeam.objects.filter(group_id=user_gid,round__in=lr,is_complete=1).order_by("-round")[0].round.round != 1 :
-            last_lt = LeagueTeam.objects.filter(group_id=user_gid,round__in=lr,is_complete=1).order_by("-round")[1]
+        if LeagueTeam.objects.filter(group=user_gid,round__in=lr,is_complete=1).order_by("-round")[0].round.round != 1 :
+            last_lt = LeagueTeam.objects.filter(group=user_gid,round__in=lr,is_complete=1).order_by("-round")[1]
             last_lm = LeagueMatch.objects.filter(Q(team_a=last_lt)|Q(team_b=last_lt)).order_by("-game")[0]
         else :
-            last_lt = LeagueTeam.objects.filter(group_id=user_gid,round__in=lr,is_complete=1).order_by("-round")[0]
+            last_lt = LeagueTeam.objects.filter(group=user_gid,round__in=lr,is_complete=1).order_by("-round")[0]
             last_lm = LeagueMatch.objects.filter(Q(team_a=last_lt)|Q(team_b=last_lt)).order_by("-game")[0]
     except Exception as e:
         last_lm = None
@@ -116,48 +116,48 @@ def LeagueState(league, user):
             final = LeagueMatch.objects.filter(team_a__round=last_round[0]).order_by("-game")[0]
             semifinal = LeagueMatch.objects.filter(team_a__in=LeagueTeam.objects.filter(round=last_round[1],is_complete=1)).order_by("-game")[0]
             if final.result == 'A':
-                win_1 = final.team_a.group_id
-                win_2 = final.team_b.group_id
+                win_1 = final.team_a.group
+                win_2 = final.team_b.group
             else:
-                win_2 = final.team_a.group_id
-                win_1 = final.team_b.group_id
+                win_2 = final.team_a.group
+                win_1 = final.team_b.group
             if semifinal[0].result == 'A':
-                win_3_1 = semifinal[0].team_b.group_id
+                win_3_1 = semifinal[0].team_b.group
             else :
-                win_3_1 = semifinal[0].team_a.group_id
+                win_3_1 = semifinal[0].team_a.group
             if semifinal[1].result == 'A':
-                win_3_2 = semifinal[1].team_b.group_id
+                win_3_2 = semifinal[1].team_b.group
             else :
-                win_3_2 = semifinal[1].team_a.group_id
+                win_3_2 = semifinal[1].team_a.group
             state = {"no":5,"win_1":win_1,"win_2":win_2,"win_3_1":win_3_1,"win_3_2":win_3_2,"last_lm":last_lm,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league}
             return state
     except Exception as e:
         pass
 
     try:
-        all1_lt = LeagueTeam.objects.filter(round=lr[1],round__league_id=league,is_complete=1)
+        all1_lt = LeagueTeam.objects.filter(round=lr[1],round__league=league,is_complete=1)
         now = timezone.localtime(timezone.now())
         if all1_lt.count():
-            all2_lt = LeagueTeam.objects.filter(id__in=all1_lt,group_id=user_gid,is_complete=1)
+            all2_lt = LeagueTeam.objects.filter(id__in=all1_lt,group=user_gid,is_complete=1)
             if all2_lt.count() == 0:
-                state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"lt":all1_lt.filter(group_id=user_gid)[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":1}
+                state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"lt":all1_lt.filter(group=user_gid)[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":1}
                 return state
-        elif LeagueTeam.objects.filter(round=lr[0],group_id=user_gid,round__league_id=league,is_complete=1).count() == 0 and lr[0].league_id.end_apply < now :
+        elif LeagueTeam.objects.filter(round=lr[0],group=user_gid,round__league=league,is_complete=1).count() == 0 and lr[0].league_id.end_apply < now :
             state = {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":2}
             return state
     except Exception as e:
-        state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":3,"e":e.message}
+        state = {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":3,"e":e.message}
         return state
 
     try:
-        lt = LeagueTeam.objects.filter(group_id=user_gid,round__in=lr).order_by("-round")[0]
+        lt = LeagueTeam.objects.filter(group=user_gid,round__in=lr).order_by("-round")[0]
     except Exception as e:
         try:
-            groupmem = GroupMember.objects.filter(gid=user_gid,is_active=1).count()
+            groupmem = GroupMember.objects.filter(group=user_gid,is_active=1).count()
         except Exception as e:
             groupmem = 0
         try:
-            gamelink = GameLink.objects.filter(uid__in=GroupMember.objects.filter(gid=user_gid,is_active=1).values_list('uid', flat=True)).count()
+            gamelink = GameLink.objects.filter(user__in=GroupMember.objects.filter(group=user_gid,is_active=1).values_list('user', flat=True)).count()
         except Exception as e:
             gamelink = 0
         if isAdmin == 0 or gamelink < 5 :
@@ -185,35 +185,35 @@ def LeagueState(league, user):
     try:
         lm = LeagueMatch.objects.filter(Q(id=lm.id)&Q(state="10")).order_by("-game")[0]
         if lm.result == 'A' and lm.team_a.group_id == user_gid :
-            next_lt = LeagueTeam.objects.get(Q(group_id=user_gid)&Q(round_round=lm.team_a.round.round+1)&Q(is_complete=1))
+            next_lt = LeagueTeam.objects.get(Q(group=user_gid)&Q(round_round=lm.team_a.round.round+1)&Q(is_complete=1))
         elif lm.result == 'B' and lm.team_b.group_id == user_gid :
-            next_lt = LeagueTeam.objects.get(Q(group_id=user_gid)&Q(round_round=lm.team_a.round.round+1)&Q(is_complete=1))
+            next_lt = LeagueTeam.objects.get(Q(group=user_gid)&Q(round_round=lm.team_a.round.round+1)&Q(is_complete=1))
         else :
             return {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league}
     except Exception as e:
         state = {"no":3,"lm":lm,"last_lm":last_lm,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league}
         return state
 
-    last_lt = LeagueTeam.objects.filter(group_id=user_gid,round__in=lr,is_complete=1).order_by("-round")[0]
+    last_lt = LeagueTeam.objects.filter(group=user_gid,round__in=lr,is_complete=1).order_by("-round")[0]
     last_lm = LeagueMatch.objects.filter(Q(team_a=last_lt)|Q(team_b=last_lt)).order_by("-game")[0]
 
     last_round = lr.order_by("-round")
     final = lm
     semifinal = LeagueMatch.objects.filter(team_a__in=LeagueTeam.objects.filter(round=last_round[1],is_complete=1)).order_by("-game")[0]
     if final.result == 'A':
-        win_1 = final.team_a.group_id
-        win_2 = final.team_b.group_id
+        win_1 = final.team_a.group
+        win_2 = final.team_b.group
     else:
-        win_2 = final.team_a.group_id
-        win_1 = final.team_b.group_id
+        win_2 = final.team_a.group
+        win_1 = final.team_b.group
     if semifinal[0].result == 'A':
-        win_3_1 = semifinal[0].team_b.group_id
+        win_3_1 = semifinal[0].team_b.group
     else :
-        win_3_1 = semifinal[0].team_a.group_id
+        win_3_1 = semifinal[0].team_a.group
     if semifinal[1].result == 'A':
-        win_3_2 = semifinal[1].team_b.group_id
+        win_3_2 = semifinal[1].team_b.group
     else :
-        win_3_2 = semifinal[1].team_a.group_id
+        win_3_2 = semifinal[1].team_a.group
 
     state = {"no":5,"win_1":win_1,"win_2":win_2,"win_3_1":win_3_1,"win_3_2":win_3_2,"last_lm":last_lm,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"last_round":last_round}
     return state

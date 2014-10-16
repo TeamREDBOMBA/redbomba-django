@@ -42,18 +42,18 @@ def setLeagueteam(request):
         feasible_time = request.POST["feasible_time"]
         round = int(request.POST.get("round",'1'))
         is_complete = int(request.POST.get('is_complete',1))
-        group_id = get_or_none(GroupMember,uid=request.user)
-        if group_id :
-            group_id = group_id.gid
-        lr = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST.get("league_id")),round=round)
+        group = get_or_none(GroupMember,user=request.user)
+        if group :
+            group = group.group
+        lr = LeagueRound.objects.get(league=League.objects.get(id=request.POST.get("league_id")),round=round)
         LeagueTeam.objects.create(
-            group_id=group_id,
+            group=group,
             round=lr,
             feasible_time=feasible_time,
             is_complete = is_complete
         )
         if round >= 2 :
-            lr = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=round-1)
+            lr = LeagueRound.objects.get(league=League.objects.get(id=request.POST["league_id"]),round=round-1)
             for lt in LeagueTeam.objects.filter(round=lr,is_complete=1) :
                 for lm in LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt))&~Q(state=10)):
                     return HttpResponse("Not Finish")
@@ -61,15 +61,15 @@ def setLeagueteam(request):
             lr.save()
         return HttpResponse("Success")
     elif action == "delete":
-        group_id = GroupMember.objects.get(uid=request.user).gid
+        group = GroupMember.objects.get(user=request.user).group
         round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
-        LeagueTeam.objects.filter(group_id=group_id,round=round).delete()
+        LeagueTeam.objects.filter(group=group,round=round).delete()
         return HttpResponse("Success")
     elif action == "abstain":
         try :
-            gid = GroupMember.objects.get(uid=request.user).gid
-            lr = LeagueRound.objects.get(league_id__id=request.POST["league_id"],round=request.POST["round"])
-            lt = LeagueTeam.objects.get(group_id=gid,round=lr,is_complete=1)
+            group = GroupMember.objects.get(user=request.user).group
+            lr = LeagueRound.objects.get(league__id=request.POST["league_id"],round=request.POST["round"])
+            lt = LeagueTeam.objects.get(group=group,round=lr,is_complete=1)
             lm = LeagueMatch.objects.get(Q(team_a=lt)|Q(team_b=lt))
             lm.state = 10
             if lm.team_a == lt :
@@ -87,7 +87,7 @@ def setLeagueteam(request):
 def setMatchmaker(request):
     if request.user :
         round = LeagueRound.objects.get(id=request.GET["round"])
-        if request.user == round.league_id.uid :
+        if request.user == round.league.user :
             return HttpResponse(matchmaker(round))
     return HttpResponse('ERROR')
 
@@ -105,12 +105,12 @@ def getLargeCardBtn(request):
 
 def setTutorial(request):
     if request.user :
-        uid = get_or_none(Tutorial,uid=request.user)
+        uid = get_or_none(Tutorial,user=request.user)
         if uid :
             uid.is_pass1 = 1
             uid.save()
         else :
-            Tutorial.objects.create(uid=request.user,is_pass1=1)
+            Tutorial.objects.create(user=request.user,is_pass1=1)
     return HttpResponse('ERROR')
 
 def cardsorter():
@@ -118,21 +118,21 @@ def cardsorter():
     template = get_template('card_league.html')
     val = ""
     for leagueElem in query_league:
-        round = LeagueRound.objects.get(league_id=leagueElem,round=1)
+        round = LeagueRound.objects.get(league=leagueElem,round=1)
         lt = LeagueTeam.objects.filter(round=round,is_complete=1)
         variables = Context({
             'league':leagueElem,
-            'host':leagueElem.uid,
-            'round':LeagueRound.objects.filter(league_id=leagueElem),
-            'SR':LeagueRound.objects.filter(league_id=leagueElem).aggregate(min=Min('start')),
-            'ER':LeagueRound.objects.filter(league_id=leagueElem).aggregate(max=Max('end')),
-            'reward_1':LeagueReward.objects.get(league_id=leagueElem,name='1'),
-            'reward_2':LeagueReward.objects.get(league_id=leagueElem,name='2'),
-            'reward_3':LeagueReward.objects.get(league_id=leagueElem,name='3'),
-            'poster':Contents.objects.get(uto=leagueElem.id,utotype='l',ctype='img').con,
+            'host':leagueElem.host,
+            'round':LeagueRound.objects.filter(league=leagueElem),
+            'SR':LeagueRound.objects.filter(league=leagueElem).aggregate(min=Min('start')),
+            'ER':LeagueRound.objects.filter(league=leagueElem).aggregate(max=Max('end')),
+            'reward_1':LeagueReward.objects.get(league=leagueElem,name='1'),
+            'reward_2':LeagueReward.objects.get(league=leagueElem,name='2'),
+            'reward_3':LeagueReward.objects.get(league=leagueElem,name='3'),
+            'poster':"/media/%s"%(leagueElem.poster),
             'countdown':leagueElem.get_time_diff,
             'isStart': LeagueMatch.objects.filter(Q(team_a__in=lt)|Q(team_b__in=lt)).count(),
-            'joined_team':LeagueTeam.objects.filter(round=LeagueRound.objects.get(league_id=leagueElem,round='1'),is_complete=1).count()
+            'joined_team':LeagueTeam.objects.filter(round=LeagueRound.objects.get(league=leagueElem,round='1'),is_complete=1).count()
         })
         output = template.render(variables)
         val = val+output;
@@ -141,13 +141,13 @@ def cardsorter():
 def cardDetail_sorter(request=None, league_id=None):
     user = None
     if request.user.id :
-        user = get_or_none(GroupMember,uid=request.user)
+        user = get_or_none(GroupMember,user=request.user)
 
     league = get_or_none(League,id=league_id)
 
     if user :
-        user_group = user.gid
-        user = user.uid
+        user_group = user.group
+        user = user.user
     elif request.user.id :
         user = request.user
         user_group = None
@@ -155,33 +155,32 @@ def cardDetail_sorter(request=None, league_id=None):
         user = None
         user_group = None
 
-    info = get_or_none(Contents,uto=league.id,utotype='l',ctype='inf')
-    if info :
-        info = info.con
-        info = info.replace("# ","",1)
-        info = info.split("\n# ")
-        con = {
-            "txt":get_or_none(Contents,uto=league.id,utotype='l',ctype='txt'),
-            "poster":get_or_none(Contents,uto=league.id,utotype='l',ctype='img').con,
-            "info":info
-        }
+    rule = league.rule
+    if rule :
+        rule = rule.replace("# ","",1)
+        rule = rule.split("\n# ")
+    con = {
+        "concept":league.concept,
+        "poster":"/media/%s"%(league.poster),
+        "rule":rule
+    }
 
-    groups = Group.objects.filter(id__in=LeagueTeam.objects.filter(round=get_or_none(LeagueRound,league_id=league,round=1),is_complete=1).values_list('group_id', flat=True))
+    groups = Group.objects.filter(id__in=LeagueTeam.objects.filter(round=get_or_none(LeagueRound,league=league,round=1),is_complete=1).values_list('group', flat=True))
 
     try:
-        round1 = {"day":range((LeagueRound.objects.get(league_id=league,round=1).end - LeagueRound.objects.get(league_id=league,round=1).start).days+1)}
+        round1 = {"day":range((LeagueRound.objects.get(league=league,round=1).end - LeagueRound.objects.get(league=league,round=1).start).days+1)}
     except Exception as e:
         round1 = None
 
-    rounds = LeagueRound.objects.filter(league_id=league)
+    rounds = LeagueRound.objects.filter(league=league)
 
     SR={}
     ER={}
 
-    SR = LeagueRound.objects.filter(league_id=league).aggregate(min=Min('start'))
-    SR['league'] = LeagueRound.objects.filter(league_id=league).annotate(Min('start'))[0]
-    ER = LeagueRound.objects.filter(league_id=league).aggregate(max=Max('end'))
-    ER['league'] = LeagueRound.objects.filter(league_id=league).annotate(Max('end'))[0]
+    SR = LeagueRound.objects.filter(league=league).aggregate(min=Min('start'))
+    SR['league'] = LeagueRound.objects.filter(league=league).annotate(Min('start'))[0]
+    ER = LeagueRound.objects.filter(league=league).aggregate(max=Max('end'))
+    ER['league'] = LeagueRound.objects.filter(league=league).annotate(Max('end'))[0]
 
     context = {
         'user': user,

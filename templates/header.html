@@ -41,7 +41,7 @@
                 </div>
             </li>
             <li id="li_head_profile">
-                <img id="img_head_usericon" src="/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg" alt="usericon_{{ uinfo.user_icon }}" />
+                <img id="img_head_usericon" src="{{ user.get_profile.get_icon }}" alt="usericon_{{ user.get_profile.get_icon }}" />
                 <p id="p_head_username">{{ user.username }}</p>
             </li>
         {% else %}
@@ -56,7 +56,7 @@
     </ul>
 </div>
 {% for gm in groupmem %}
-    <input type="hidden" id="groupmem_uid" value="{{gm.uid.id}}">
+    <input type="hidden" id="groupmem_uid" value="{{gm.user.id}}">
 {% endfor %}
 <div id="div_noti_step1">
     <div id="div_noti_top">

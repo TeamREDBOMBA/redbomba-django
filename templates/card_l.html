@@ -30,16 +30,16 @@
     </div>
     <div id="div_body_main">
         <h3>대회 설명</h3>
-        <p id='p_main_con1'>{{contents.txt.con | safe}}</p>
+        <p id='p_main_con1'>{{contents.concept | safe}}</p>
         <h3>자세한 대회 규정</h3>
         <p id='p_main_con2'>&nbsp;</p>
         <p class='p_more'>...더보기</p>
     </div>
     <div class="div_main_bottom" id="div_main_bottom1">
         <h3>이 대회의 주최자</h3>
-        <a class="username" onclick="click_name('{{league.uid.username}}')"><img src="/static/img/icon/usericon_{{league.uid.get_profile.user_icon}}.jpg"></a>
-        <p id="p_bottom_hostname"><a class="username" onclick="click_name('{{league.uid.username}}')">{{league.uid.username}}</a></p>
-        <p id="p_bottom_game">{{league.uid|get_gamelink}}</p>
+        <a class="username" onclick="click_name('{{league.host.username}}')"><img src="{{league.host.get_profile.get_icon}}"></a>
+        <p id="p_bottom_hostname"><a class="username" onclick="click_name('{{league.host.username}}')">{{league.host.username}}</a></p>
+        <p id="p_bottom_game">{{league.host|get_gamelink}}</p>
     </div>
     <div class="div_main_bottom" id="div_main_bottom2">
         <h3>이 대회의 스폰서</h3>
@@ -147,13 +147,13 @@
     <p id='p_detailRule_title'>{{league.name}}</p>
     <p id='p_detailRule_desc'>경기설명입니다.</p>
     <ul class="nav nav-tabs">
-        {% for tab in contents.info %}<li {% if forloop.counter == 1 %}class="active"{% endif %}><a href="#tab{{forloop.counter}}" data-toggle="tab">{{tab|getLine:0}}</a></li>{% endfor %}
+        {% for tab in contents.rule %}<li {% if forloop.counter == 1 %}class="active"{% endif %}><a href="#tab{{forloop.counter}}" data-toggle="tab">{{tab|getLine:0}}</a></li>{% endfor %}
     </ul>
     <div class="tab-content">
-        {% for info in contents.info %}
+        {% for rule in contents.rule %}
             <div id="tab{{forloop.counter}}" class="tab-pane {% if forloop.counter == 1 %}active{% endif %}">
                 <div class="tab_markdown">-</div>
-                <div class="tab_editor"><textarea class="form-control">{{ info | safe }}</textarea></div>
+                <div class="tab_editor"><textarea class="form-control">{{ rule | safe }}</textarea></div>
             </div>
         {% endfor %}
     </div>
@@ -167,7 +167,7 @@
     <button class="btn btn-success" id="btn_done_ok">확인</button>
 </div>
 <script>
-    {% for i in contents.info %}
+    {% for i in contents.rule %}
         $("#tab{{forloop.counter}} .tab_markdown").html(markdown.toHTML($("#tab{{forloop.counter}} .tab_editor textarea").val()));
     {% endfor %}
     $("#p_main_con2").html(markdown.toHTML($("#tab1 .tab_editor textarea").val()));

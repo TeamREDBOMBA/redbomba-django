@@ -8,9 +8,9 @@
     </div>
     <div id="div_gf_right">
         <div id="div_right_author">
-            <img class="img_author_icon" src="/static/img/icon/usericon_{{ news.uid.get_profile.user_icon }}.jpg">
-            <p class="p_author_name">{{ news.uid.username }}</p>
-            <p class="p_author_email">{{ news.uid.email }}</p>
+            <img class="img_author_icon" src="{{ news.user.get_profile.get_icon }}">
+            <p class="p_author_name">{{ news.user.username }}</p>
+            <p class="p_author_email">{{ news.user.email }}</p>
         </div>
         <div id='div_right_feedTitle'>실시간 반응
             {% if user %}

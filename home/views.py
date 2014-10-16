@@ -38,16 +38,15 @@ def main(request):
                 link = get_or_none(League,id=link)
                 link = {"id":link.id,"img":Contents.objects.get(uto=link.id,utotype='l',ctype='img').con,"title":link.name,"inf":Contents.objects.get(uto=link.id,utotype='l',ctype='txt').con,"type":"league"}
 
-        gl = GameLink.objects.filter(uid=request.user)
+        gl = request.user.get_profile().get_gamelink()
         if gl.count() :
             gl_h = 100.0/int(gl.count())
         else :
             gl_h = 0
 
         try :
-            group = GroupMember.objects.get(Q(uid=request.user)&~Q(is_active=-1))
-            group = group.gid
-            groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+            group = request.user.get_profile().get_group().group
+            groupmem = GroupMember.objects.filter(group=group)
         except Exception as e:
             group = None
             groupmem = None
@@ -55,7 +54,6 @@ def main(request):
         get_group = request.GET.get('group')
         context = {
             'user': request.user,
-            'uinfo':request.user.get_profile,
             'group':group,
             'groupmem':groupmem,
             'get_group':get_group,
@@ -78,14 +76,14 @@ def stats(request,username=None):
             target_uid = myuid
 
         getval = request.GET.get('get','')
-        gl = GameLink.objects.filter(uid=target_uid)
+        gl = GameLink.objects.filter(user=target_uid)
 
-        wait_group = GroupMember.objects.filter(uid=target_uid,is_active=-1)
+        wait_group = GroupMember.objects.filter(user=target_uid,is_active=-1)
 
-        group = GroupMember.objects.filter(Q(uid=target_uid)&~Q(is_active=-1))
+        group = GroupMember.objects.filter(Q(user=target_uid)&~Q(is_active=-1))
         if group.count() :
-            group = group[0].gid
-            groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+            group = group[0].group
+            groupmem = GroupMember.objects.filter(Q(group=group)&~Q(is_active=-1))
         else : groupmem = None
 
         get_group = request.GET.get('group',None)
@@ -110,15 +108,15 @@ def arena(request):
     try:
         getval = request.GET.get('get')
 
-        group = GroupMember.objects.filter(Q(uid=request.user)&~Q(is_active=-1))
+        group = GroupMember.objects.filter(Q(user=request.user)&~Q(is_active=-1))
         if group.count() :
-            group = group[0].gid
-            groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+            group = group[0].group
+            groupmem = GroupMember.objects.filter(Q(group=group)&~Q(is_active=-1))
         else : groupmem = None
 
         get_group = request.GET.get('group')
 
-        is_pass1 = get_or_none(Tutorial,uid=request.user)
+        is_pass1 = get_or_none(Tutorial,user=request.user)
         if is_pass1 : is_pass1 = int(is_pass1.is_pass1)
 
         state = {"is_pass1":is_pass1}
@@ -151,10 +149,10 @@ def page_for_link(request,lid=None,gid=None):
         user = request.user
         user_profile = request.user.get_profile
 
-    group = GroupMember.objects.filter(Q(uid=user)&~Q(is_active=-1))
+    group = GroupMember.objects.filter(Q(user=user)&~Q(is_active=-1))
     if group.count() :
-        group = group[0].gid
-        groupmem = GroupMember.objects.filter(Q(gid=group)&~Q(is_active=-1))
+        group = group[0].group
+        groupmem = GroupMember.objects.filter(Q(group=group)&~Q(is_active=-1))
     else : groupmem = None
 
     get_group = request.GET.get('group')

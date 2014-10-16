@@ -185,15 +185,15 @@ def write_GameLink(request):
 
 def insertGameLink(uid=None, game=None, name=None, sid=None):
     if uid and game and name and sid :
-        gl = GameLink.objects.filter(uid=uid,game=game)
+        gl = GameLink.objects.filter(user=uid,game=game)
         if int(gl.count()) > 0 :
-            gl = GameLink.objects.get(uid=uid,game=game)
+            gl = GameLink.objects.get(user=uid,game=game)
             gl.game = game
             gl.name = name
             gl.sid = sid
             gl.save()
         else:
-            GameLink.objects.create(uid=uid,game=game,name=name,sid=sid)
+            GameLink.objects.create(user=uid,game=game,name=name,sid=sid)
 
 def setStatsValue(j, s):
     try:

@@ -39,13 +39,13 @@
                     <input type='hidden' id='state' value='{{league.state}}'>
                     <input type='hidden' id='gameno' value='{{league.game}}'>
                     <p id="simpleMsg">대회 진행을 도와줄<br/>호스트를 기다리는 중 입니다.<br/><br/>빨리 그룹장이 오도록<br/>독촉하여 주세요.</p>
-                    {% if league.team_a.group_id.name ==  group.name %}
+                    {% if league.team_a.group.name ==  group.name %}
                         <input type='hidden' id='side' value='A'>
-                    {% elif league.team_b.group_id.name ==  group.name %}
+                    {% elif league.team_b.group.name ==  group.name %}
                         <input type='hidden' id='side' value='B'>
                     {% endif %}
                     <div id="div_con_title">
-                        <h1>{{league.team_a.round.league_id.name}} [{% if next_round %}ROUND {{league.team_a.round.round}}{% else %}FINAL ROUND{% endif %}]</h1>
+                        <h1>{{league.team_a.round.league.name}} [{% if next_round %}ROUND {{league.team_a.round.round}}{% else %}FINAL ROUND{% endif %}]</h1>
                         <p class="team_win" id="team_win_a">{{win_a|length}}</p>
                         <p class="team_win" id="team_win_b">{{win_b|length}}</p>
                         <section class="main">
@@ -55,24 +55,24 @@
                         </section>
                     </div>
                     <div id="div_con_teama" class="div_con_team">
-                        <H1>{{league.team_a.group_id.name}}</H1>
-                        {% for gm in league.team_a.group_id.get_member|slice:":5" %}
+                        <H1>{{league.team_a.group.name}}</H1>
+                        {% for gm in league.team_a.group.get_member|slice:":5" %}
                             <p class="h3">
-                                <input type='hidden' class='uid' value='{{ gm.uid.id }}'>
-                                <img src="/static/img/icon/usericon_{{ gm.uid.get_profile.user_icon }}.jpg" class="img_team_icon">
+                                <input type='hidden' class='uid' value='{{ gm.user.id }}'>
+                                <img src="{{ gm.user.get_profile.get_icon }}" class="img_team_icon">
                                 <span>{{ gm.uid }}<br/><font>({{gm.get_gamelink.name}})</font></span>
-                                <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.uid.id }}">
+                                <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.user.id }}">
                             </p>
                         {% endfor %}
                     </div>
                     <div id="div_con_teamb" class="div_con_team">
-                        <H1>{{league.team_b.group_id.name}}</H1>
-                        {% for gm in league.team_b.group_id.get_member|slice:":5" %}
+                        <H1>{{league.team_b.group.name}}</H1>
+                        {% for gm in league.team_b.group.get_member|slice:":5" %}
                             <p class="h3">
-                                <input type='hidden' class='uid' value='{{ gm.uid.id }}'>
-                                <img src="/static/img/icon/usericon_{{ gm.uid.get_profile.user_icon }}.jpg" class="img_team_icon">
+                                <input type='hidden' class='uid' value='{{ gm.user.id }}'>
+                                <img src="{{ gm.user.get_profile.get_icon }}" class="img_team_icon">
                                 <span>{{ gm.uid }}<br/><font>({{gm.get_gamelink.name}})</font></span>
-                                <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.uid.id }}">
+                                <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.user.id }}">
                             </p>
                         {% endfor %}
                     </div>
@@ -109,7 +109,7 @@
                     <p id="p_text">3</p></td></tr></table>
         </div>
         {% if next_round %}
-            {% if user.id|striptags == league.team_a.group_id.uid.id|striptags or user.id|striptags == league.team_b.group_id.uid.id|striptags %}
+            {% if user.id|striptags == league.team_a.group.user.id|striptags or user.id|striptags == league.team_b.group.user.id|striptags %}
                 <!-- Modal3 -->
                 <div class="modal fade" id="settime" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                     <div class="modal-dialog">
@@ -208,7 +208,7 @@
                     'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
                     'action':'delete',
                     'round':'2',
-                    'league_id':{{league.team_a.round.league_id.id}},
+                    'league_id':{{league.team_a.round.league.id}},
                 },function(res,status){
                     $('.div_modal_done').fadeOut('fast');
                     $('.modal-content').css({"overflow":"none","height":"100%"});
@@ -244,7 +244,7 @@
                     'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
                     'action':'insert',
                     'round':{{league.team_a.round.round}}+1,
-                    'league_id':{{league.team_a.round.league_id.id}},
+                    'league_id':{{league.team_a.round.league.id}},
                     'feasible_time':feasible_time
                 },function(res,status){
                     $('.div_modal_mouseover').fadeOut('fast');
@@ -338,9 +338,9 @@
         </script>
         {% if user.id|striptags == league.host.id|striptags  %}
             {% include "battle_host.html" %}
-        {% elif user.id|striptags == league.team_a.group_id.uid.id|striptags %}
+        {% elif user.id|striptags == league.team_a.group.user.id|striptags %}
             {% include "battle_leader.html" %}
-        {% elif user.id|striptags == league.team_b.group_id.uid.id|striptags %}
+        {% elif user.id|striptags == league.team_b.group.user.id|striptags %}
             {% include "battle_leader.html" %}
         {% else %}
             {% include "battle_member.html" %}

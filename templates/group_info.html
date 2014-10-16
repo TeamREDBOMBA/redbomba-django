@@ -23,8 +23,8 @@
             <ul>
                 <li>
                     <p class='info_title'>그룹장</p>
-                    <p><a onclick="click_name('{{ group.uid.username }}')"><img src='/static/img/icon/usericon_{{group.uid.get_profile.user_icon}}.jpg'></a></p>
-                    <p><a class="username" onclick="click_name('{{ group.uid.username }}')">{{ group.uid.username }}</a></p>
+                    <p><a onclick="click_name('{{ group.leader.username }}')"><img src='{{group.leader.get_profile.get_icon}}'></a></p>
+                    <p><a class="username" onclick="click_name('{{ group.leader.username }}')">{{ group.leader.username }}</a></p>
                 </li>
                 <li>
                     <p class='info_title'>멤버 인원 수</p>
@@ -55,9 +55,9 @@
         <ul class='ul_sub_member'>
             {% for gm in groupmem %}
                 <li>
-                    <a onclick="click_name('{{gm.uid.username}}')"><img src='/static/img/icon/usericon_{{gm.uid.get_profile.user_icon}}.jpg'></a>
-                    <p class='username'><a class="username" onclick="click_name('{{gm.uid.username}}')">{{gm.uid.username}}</a></p>
-                    <p class='gameid'>소환사명 : {{gm.uid|get_gamelink}}</p>
+                    <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                    <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
+                    <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                 </li>
             {% endfor %}
         </ul>
@@ -93,12 +93,12 @@
             <ul class='ul_sub_member'>
                 {% if groupmem|length > 1 %}
                     {% for gm in groupmem %}
-                        {% if gm.uid != group.uid %}
+                        {% if gm.user != group.user %}
                             <li>
-                                <a onclick="click_name('{{gm.uid.username}}')"><img src='/static/img/icon/usericon_{{gm.uid.get_profile.user_icon}}.jpg'></a>
-                                <p class='username'><a class="username" onclick="click_name('{{gm.uid.username}}')">{{gm.uid.username}}</a></p>
-                                <p class='gameid'>소환사명 : {{gm.uid|get_gamelink}}</p>
-                                <button class='btn btn-success btn-sm btn-change' id='{{gm.uid.username}}'>임명</button>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
+                                <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
+                                <button class='btn btn-success btn-sm btn-change' id='{{gm.user.username}}'>임명</button>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -117,12 +117,12 @@
             <ul class='ul_sub_member'>
                 {% if groupmem|length > 1 %}
                     {% for gm in groupmem %}
-                        {% if gm.uid != group.uid %}
+                        {% if gm.user != group.user %}
                             <li>
-                                <a onclick="click_name('{{gm.uid.username}}')"><img src='/static/img/icon/usericon_{{gm.uid.get_profile.user_icon}}.jpg'></a>
-                                <p class='username'><a class="username" onclick="click_name('{{gm.uid.username}}')">{{gm.uid.username}}</a></p>
-                                <p class='gameid'>소환사명 : {{gm.uid|get_gamelink}}</p>
-                                <button class='btn btn-danger btn-sm btn-del' id='{{gm.uid.username}}'>탈퇴</button>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
+                                <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
+                                <button class='btn btn-danger btn-sm btn-del' id='{{gm.user.username}}'>탈퇴</button>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -157,12 +157,12 @@
             <ul class='ul_sub_member'>
                 {% if inviting %}
                     {% for gm in inviting %}
-                        {% if gm.uid != group.uid %}
-                            <li id='li_{{gm.uid.username}}'>
-                                <a onclick="click_name('{{gm.uid.username}}')"><img src='/static/img/icon/usericon_{{gm.uid.get_profile.user_icon}}.jpg'></a>
-                                <p class='username'><a class="username" onclick="click_name('{{gm.uid.username}}')">{{gm.uid.username}}</a></p>
-                                <p class='gameid'>소환사명 : {{gm.uid|get_gamelink}}</p>
-                                <button class='btn btn-danger btn-sm btn-del' id='{{gm.uid.username}}'>초대취소</button>
+                        {% if gm.user != group.user %}
+                            <li id='li_{{gm.user.username}}'>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
+                                <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
+                                <button class='btn btn-danger btn-sm btn-del' id='{{gm.user.username}}'>초대취소</button>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -188,17 +188,17 @@
             <ul class='ul_sub_member'>
                 {% if waitting %}
                     {% for gm in waitting %}
-                        {% if gm.uid != group.uid %}
-                            <li id='li_{{gm.uid.username}}'>
-                                <a onclick="click_name('{{gm.uid.username}}')"><img src='/static/img/icon/usericon_{{gm.uid.get_profile.user_icon}}.jpg'></a>
-                                <p class='username'><a class="username" onclick="click_name('{{gm.uid.username}}')">{{gm.uid.username}}</a></p>
-                                <p class='gameid'>소환사명 : {{gm.uid|get_gamelink}}</p>
+                        {% if gm.user != group.leader %}
+                            <li id='li_{{gm.user.username}}'>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
+                                <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                                 {% if groupmem|length >= 5 %}
-                                    <button class='btn btn-success btn-xs btn-yes' id='{{gm.uid.username}}' disabled='disabled'>승인</button>
+                                    <button class='btn btn-success btn-xs btn-yes' id='{{gm.user.username}}' disabled='disabled'>승인</button>
                                 {% else %}
-                                    <button class='btn btn-success btn-xs btn-yes' id='{{gm.uid.id}}' username='{{gm.uid.username}}'>승인</button>
+                                    <button class='btn btn-success btn-xs btn-yes' id='{{gm.user.id}}' username='{{gm.user.username}}'>승인</button>
                                 {% endif %}
-                                <button class='btn btn-danger btn-xs btn-no' id='{{gm.uid.id}}' username='{{gm.uid.username}}'>거절</button>
+                                <button class='btn btn-danger btn-xs btn-no' id='{{gm.user.id}}' username='{{gm.user.username}}'>거절</button>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -241,7 +241,7 @@
         </div>
     {% else %}
         <div class="div_chat">
-            <a class="username" onclick="click_name('{{ group.uid.username }}')">{{ group.uid.username }}</a> : 안녕하세요! '{{ group.name }}'의 그룹장 {{ group.uid.username }}입니다.
+            <a class="username" onclick="click_name('{{ group.leader.username }}')">{{ group.leader.username }}</a> : 안녕하세요! '{{ group.name }}'의 그룹장 {{ group.leader.username }}입니다.
         </div>
         <div class="div_input">
             <input type='text' id='chatMsg' placeholder="멤버만 입력이 가능합니다." disabled  readonly="readonly">
@@ -292,7 +292,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             if(e.keyCode==13&&$('#GroupInfo #chatMsg').val()!=""){
                 var username = $('#p_head_username').text();
                 var con = $('#GroupInfo #chatMsg').val();
-                var icon = "{{ user.get_profile.user_icon }}";
+                var icon = "{{ user.get_profile.get_icon }}";
                 socket.emit('chatGroup', {"name":username,"con":con,"icon":icon});
                 $('#GroupInfo #chatMsg').val("");
             }
@@ -321,7 +321,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
             'action':'Join',
             'gid':'{{ group.id }}'
         },function(res,status){
-            socket.emit('sendNotification', {'group_uid':'{{ group.uid.id }}','uid':'{{ user.id }}','action':'Group_AskAddMember'});
+            socket.emit('sendNotification', {'group_uid':'{{ group.user.id }}','uid':'{{ user.id }}','action':'Group_AskAddMember'});
         });
     });
 

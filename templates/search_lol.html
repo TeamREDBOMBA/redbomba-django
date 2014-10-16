@@ -16,12 +16,12 @@
     <div class="panel panel-default" id="div_gamelink_panel">
         <div class="panel-body" id="div_gamelink_panelbody">
             {% if isLinked %}
-                {% if isLinked.uid.id == uid %}
+                {% if isLinked.user.id == uid %}
                     <button type="button" class="btn btn-danger" id="brn_gamelink_delete">이 게임계정 연결 해제하기</button>
                 {% else %}
                     <div class="alert alert-danger">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        <strong><a class="username" onclick="click_name('{{isLinked.uid.username}}')"><img src="/static/img/icon/usericon_{{isLinked.uid.get_profile.user_icon}}.jpg">{{isLinked.uid.username}}</a></strong> 님에게 연결된 게임계정입니다.
+                        <strong><a class="username" onclick="click_name('{{isLinked.user.username}}')"><img src="{{isLinked.user.get_profile.get_icon}}">{{isLinked.user.username}}</a></strong> 님에게 연결된 게임계정입니다.
                     </div>
                 {% endif %}
             {% endif %}

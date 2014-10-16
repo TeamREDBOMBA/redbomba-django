@@ -46,20 +46,20 @@ def getGroupList(request):
         except Exception as e:
             text = ""
         if action == "insert" :
-            query_g = GroupMember.objects.all().values_list('uid', flat=True)
+            query_g = GroupMember.objects.all().values_list('user', flat=True)
             query_u = User.objects.filter(~Q(id__in=query_g),Q(username__icontains=text))
             query = []
             for val in query_u:
-                query.append({'id':val.id, 'username':val.username, 'user_icon':val.get_profile().user_icon})
-            context = { 'user': query, 'gid':GroupMember.objects.get(uid=uid).gid.id, 'mode':action }
+                query.append({'id':val.id, 'username':val.username, 'user_icon':"/media/%s"%(val.get_profile().get_icon())})
+            context = { 'user': query, 'gid':GroupMember.objects.get(user=uid).group.id, 'mode':action }
             return render(request, 'groupmemlist.html', context)
         else :
-            query_g = GroupMember.objects.filter(~Q(uid=uid),Q(gid=Group.objects.get(id=request.POST["gid"]))).values_list('uid', flat=True)
+            query_g = GroupMember.objects.filter(~Q(user=uid),Q(group=Group.objects.get(id=request.POST["gid"]))).values_list('user', flat=True)
             query_u = User.objects.filter(Q(id__in=query_g),Q(username__icontains=text))
             query = []
             for val in query_u:
-                query.append({'id':val.id, 'username':val.username, 'user_icon':val.get_profile().user_icon})
-            context = { 'user': query, 'gid':GroupMember.objects.get(uid=uid).gid.id, 'mode':action }
+                query.append({'id':val.id, 'username':val.username, 'user_icon':"/media/%s"%(qval.get_profile().get_icon())})
+            context = { 'user': query, 'gid':GroupMember.objects.get(user=uid).group.id, 'mode':action }
             return render(request, 'groupmemlist.html', context)
     else:
         return HttpResponse("Request Error")
@@ -69,19 +69,19 @@ def getGroupInfo(request):
         gid = request.POST['group']
         try:
             group = Group.objects.get(id=gid)
-            groupmem = GroupMember.objects.filter(Q(gid=group)&Q(is_active=1)).order_by("order")
-            inviting = GroupMember.objects.filter(Q(gid=group)&Q(is_active=0))
-            waitting = GroupMember.objects.filter(Q(gid=group)&Q(is_active=-1))
+            groupmem = GroupMember.objects.filter(Q(group=group)&Q(is_active=1)).order_by("order")
+            inviting = GroupMember.objects.filter(Q(group=group)&Q(is_active=0))
+            waitting = GroupMember.objects.filter(Q(group=group)&Q(is_active=-1))
         except Exception as e:
             group = None
             groupmem = None
             inviting = None
             waitting = None
         try:
-            isAdmin = Group.objects.filter(id=gid,uid=request.user).count()
-            isMem = GroupMember.objects.filter(Q(gid=group)&Q(uid=request.user)&Q(is_active=1)).count()
-            isWait = GroupMember.objects.filter(Q(gid=group)&Q(uid=request.user)&Q(is_active=-1)).count()
-            isInv = GroupMember.objects.filter(Q(gid=group)&Q(uid=request.user)&Q(is_active=0)).count()
+            isAdmin = Group.objects.filter(id=gid,leader=request.user).count()
+            isMem = GroupMember.objects.filter(Q(group=group)&Q(user=request.user)&Q(is_active=1)).count()
+            isWait = GroupMember.objects.filter(Q(group=group)&Q(user=request.user)&Q(is_active=-1)).count()
+            isInv = GroupMember.objects.filter(Q(group=group)&Q(user=request.user)&Q(is_active=0)).count()
             info = {"isAdmin":isAdmin, "isMem":isMem, "isWait":isWait, "isInv":isInv}
         except Exception as e:
             info = {"isAdmin":0, "isMem":0, "isWait":0, "isInv":0}
@@ -103,7 +103,7 @@ def getGroupInfoOrder(request):
             gid = request.POST['group']
             try:
                 group = Group.objects.get(id=gid)
-                groupmem = GroupMember.objects.filter(Q(gid=group)&Q(is_active=1)).order_by("order")
+                groupmem = GroupMember.objects.filter(Q(group=group)&Q(is_active=1)).order_by("order")
             except Exception as e:
                 groupmem = None
 
@@ -116,7 +116,7 @@ def getGroupInfoOrder(request):
             num = 0
             for al in arr_list:
                 al = al.replace("div_","")
-                gm = GroupMember.objects.get(uid=al)
+                gm = GroupMember.objects.get(user=al)
                 gm.order = num
                 gm.save()
                 num = num + 1
@@ -131,32 +131,32 @@ def write_Group(request):
             group = Group.objects.create(
                 name=request.POST["name"],
                 nick=request.POST["nick"],
-                uid=request.user,
+                leader=request.user,
                 group_icon='common.png',
                 game=Game.objects.get(name=request.POST["game"])
             )
             try:
                 GroupMember.objects.get(
-                    gid=group,
-                    uid=request.user,
+                    group=group,
+                    user=request.user,
                     is_active=1
                 )
             except Exception as e:
                 GroupMember.objects.create(
-                    gid=group,
-                    uid=request.user,
+                    group=group,
+                    user=request.user,
                     is_active=1
                 )
             Chatting.objects.create(
-                gid=group,
-                uid=User.objects.get(id=1),
+                group=group,
+                user=User.objects.get(id=1),
                 con='"%s" 게이밍 그룹이 성공적으로 개설 되었습니다.'%(group.name)
             )
             return HttpResponse(group.id)
         else :
             gid = request.POST["gid"]
             group = Group.objects.get(id=gid)
-            GroupMember.objects.filter(gid=group).delete()
+            GroupMember.objects.filter(group=group).delete()
             group.delete()
             return HttpResponse("Success")
     else:
@@ -172,12 +172,12 @@ def setGroupMember(request):
             user = request.user
         if action == "yes" :
             group = Group.objects.get(id=request.POST["gid"])
-            gm = GroupMember.objects.get(Q(gid=group)&Q(uid=user)&~Q(is_active=1))
+            gm = GroupMember.objects.get(Q(group=group)&Q(user=user)&~Q(is_active=1))
             gm.is_active = 1
             gm.save()
         else:
             group = Group.objects.get(id=request.POST["gid"])
-            GroupMember.objects.filter(Q(gid=group)&Q(uid=user)&~Q(is_active=1)).delete()
+            GroupMember.objects.filter(Q(group=group)&Q(user=user)&~Q(is_active=1)).delete()
         return HttpResponse("Success")
     else:
         return HttpResponse("error")
@@ -189,24 +189,24 @@ def setGroupList(request):
             group = Group.objects.get(id=request.POST["gid"])
             if action == "Join" :
                 try:
-                    gm=GroupMember.objects.get(gid=group,uid=request.user)
+                    gm=GroupMember.objects.get(group=group,user=request.user)
                 except Exception as e:
-                    gm=GroupMember.objects.create(gid=group,uid=request.user,is_active=-1)
+                    gm=GroupMember.objects.create(group=group,user=request.user,is_active=-1)
             elif action == "Quit" :
-                GroupMember.objects.filter(gid=group,uid=request.user).delete()
-            elif group == Group.objects.get(uid=request.user) :
+                GroupMember.objects.filter(group=group,user=request.user).delete()
+            elif group == Group.objects.get(user=request.user) :
                 user = User.objects.get(username=request.POST["username"])
                 if action == "insert" :
                     try:
-                        gm=GroupMember.objects.get(gid=group,uid=user)
+                        gm=GroupMember.objects.get(group=group,user=user)
                     except Exception as e:
-                        gm=GroupMember.objects.create(gid=group,uid=user,is_active=0)
+                        gm=GroupMember.objects.create(group=group,user=user,is_active=0)
                 elif action == "changeLeader" :
-                    if GroupMember.objects.filter(gid=group,uid=user).count() :
-                        group.uid = user
+                    if GroupMember.objects.filter(group=group,user=user).count() :
+                        group.user = user
                         group.save()
                 else:
-                    GroupMember.objects.filter(gid=group,uid=user).delete()
+                    GroupMember.objects.filter(group=group,user=user).delete()
             else:
                 return HttpResponse("error")
             return HttpResponse("Success")
@@ -219,12 +219,12 @@ def getChatting(request):
     if request.user :
         len = int(request.POST.get("len",0))
         group = Group.objects.get(name=request.POST["group_name"])
-        chatting = Chatting.objects.filter(gid=group).order_by("-date_updated")
+        chatting = Chatting.objects.filter(group=group).order_by("-date_updated")
         val = ""
         i=0
         for chatElem in chatting:
             if i==len: break
-            username = chatElem.uid.username
+            username = chatElem.user.username
             con = chatElem.con
             if username == request.user.username:
                 output = "<span class='username myname'>%s</span> : %s<br/>"%(username,con)
@@ -239,12 +239,12 @@ def getChatting(request):
 
 def groupsorter(uid, request):
     val = ""
-    query_gm = GroupMember.objects.filter(Q(uid=User.objects.get(id=uid))&~Q(is_active=-1))
+    query_gm = GroupMember.objects.filter(Q(user=User.objects.get(id=uid))&~Q(is_active=-1))
     if query_gm :
         template = get_template('group.html')
         for gmElem in query_gm:
-            query_group = Group.objects.get(id=gmElem.gid.id)
-            if query_group.uid.id == gmElem.uid.id:
+            query_group = Group.objects.get(id=gmElem.group.id)
+            if query_group.leader.id == gmElem.user.id:
                 host = "host"
             else :
                 host = ""
@@ -269,19 +269,19 @@ def groupsorter(uid, request):
 
 def groupmembersorter(uid,gid):
     val = ""
-    if GroupMember.objects.get(Q(gid=Group.objects.get(id=gid))&Q(uid=User.objects.get(id=uid))&~Q(is_active=-1)) :
-        query_gm = GroupMember.objects.filter(Q(gid=Group.objects.get(id=gid))&~Q(is_active=-1)).order_by('uid')
+    if GroupMember.objects.get(Q(group=Group.objects.get(id=gid))&Q(user=User.objects.get(id=uid))&~Q(is_active=-1)) :
+        query_gm = GroupMember.objects.filter(Q(group=Group.objects.get(id=gid))&~Q(is_active=-1)).order_by('user')
         template = get_template('groupmember.html')
         for gmElem in query_gm:
-            if Group.objects.get(id=gmElem.gid.id).uid.id == gmElem.uid.id:
+            if Group.objects.get(id=gmElem.group.id).leader.id == gmElem.user.id:
                 host = "host"
             else :
                 host = ""
-            user = User.objects.get(id=gmElem.uid.id)
+            user = User.objects.get(id=gmElem.user.id)
             variables = Context({
                 'group_user' : user,
                 'group_active':gmElem.is_active,
-                'is_active' : GroupMember.objects.get(gid=Group.objects.get(id=gid),uid=User.objects.get(id=uid)).is_active,
+                'is_active' : GroupMember.objects.get(group=Group.objects.get(id=gid),user=User.objects.get(id=uid)).is_active,
                 'host' : host,
                 'uinfo':user.get_profile
             })
@@ -290,3 +290,20 @@ def groupmembersorter(uid,gid):
     else :
         val = None
     return val
+
+def fncGroupName(request):
+    groupname = request.GET["name"]
+    res = get_or_none(Group,name=groupname)
+    if res==None:
+        return HttpResponse("")
+    else :
+        return HttpResponse("%s 은(는) 이미 사용 중 입니다." %(groupname))
+
+def fncGroupNick(request):
+    groupnick = request.GET["nick"]
+    print str(unicode(groupnick))
+    res = get_or_none(Group,nick=groupnick)
+    if res==None:
+        return HttpResponse("")
+    else :
+        return HttpResponse("%s 은(는) 이미 사용 중 입니다." %(groupnick))

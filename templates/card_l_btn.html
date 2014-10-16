@@ -1,6 +1,6 @@
 {% load extras %}
 {% if state.no == -2 or state.no == -1 %}
-    {% if groups|length == league.max_team and league.uid == state.user %}
+    {% if groups|length == league.max_team and league.user == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>
         <input type="hidden" id="round_id" name="round_id" value="{{state.lr.id}}" />
         <input type="hidden" id="round_no" name="round_no" value="{{state.lr.round}}" />
@@ -88,7 +88,7 @@
         </div>
     </div>
 {% elif state.no == 1 %}
-    {% if state.league.uid == state.user %}
+    {% if state.league.user == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lt.round.round}}</button>
         <input type="hidden" id="round_id" name="round_id" value="{{state.lt.round.id}}" />
         <input type="hidden" id="round_no" name="round_no" value="{{state.lt.round.round}}" />

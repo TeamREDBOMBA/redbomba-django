@@ -4,7 +4,7 @@
   {% if users %}
   {% for u in users|slice:":3" %}
   <ul class="div_searchbar_con user" id="{{u.uid.username}}">
-  	<li id="li_icon"><img src="/static/img/icon/usericon_{{ u.uid.get_profile.user_icon }}.jpg"></li>
+  	<li id="li_icon"><img src="{{ u.uid.get_profile.get_icon }}"></li>
   	<li id="li_name">{{u.uid.username}}</li>
   	{% if u.gamelink.name %}<li id="li_game"><span id="span_aka">A.K.A</span>&nbsp;&nbsp;<i class="fa fa-lol-b"></i>{{u.gamelink.name}}</li>
     {% else %}<li id="li_game">연결된 게임계정이 없습니다.</li>{% endif %}
@@ -23,7 +23,7 @@
   <ul class="div_searchbar_con group" id="{{g.gid.id}}">
     <li id="li_icon"><img src="/media/group_icon/{{ g.gid.group_icon }}"></li>
     <li id="li_name">[{{g.gid.nick}}] {{g.gid.name}}</li>
-    <li id="li_game"><span id="span_aka">팀장</span>&nbsp;&nbsp;<img src="/static/img/icon/usericon_{{ g.gid.uid.get_profile.user_icon }}.jpg">{{g.gid.uid.username}}</li>
+    <li id="li_game"><span id="span_aka">팀장</span>&nbsp;&nbsp;<img src="{{ g.gid.uid.get_profile.get_icon }}">{{g.gid.uid.username}}</li>
   </ul>
   {% endfor %}
   {% if groups|length > 3 %}

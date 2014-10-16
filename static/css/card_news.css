@@ -24,8 +24,8 @@
 
 #GlobalFeedModal #div_gf_right {float:right;width: 314px;height: 100%;margin-right: 4px;overflow: hidden;overflow-y: scroll;}
 
-#GlobalFeedModal #div_gf_right #div_right_author {height:80px}
-#GlobalFeedModal #div_gf_right #div_right_author .img_author_icon {width: 50px;border-radius: 50px;border: 1px solid #ddd;margin: 15px;float: left;}
+#GlobalFeedModal #div_gf_right #div_right_author {height: 80px;}
+#GlobalFeedModal #div_gf_right #div_right_author .img_author_icon {width: 50px;border-radius: 50px;border: 1px solid #ddd;margin: 14px;float: left;}
 #GlobalFeedModal #div_gf_right #div_right_author .p_author_name {font-size: 14px;font-family: 'RixSGo B';padding-top: 20px;}
 #GlobalFeedModal #div_gf_right #div_right_author .p_author_email {font-size:12px;color: #999;}
 

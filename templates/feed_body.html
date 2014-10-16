@@ -2,8 +2,8 @@
     <div id="feed_body_{{ fid }}" class="feed_body">
 {% endif %}
 <div class="div_feed_icon imgbtn">
-    <a onclick="click_name('{{ ufrom }}')">
-        <img src="/static/img/icon/usericon_{{ ufromicon }}.jpg">
+    <a onclick="click_name('{{ ufrom.username }}')">
+        <img src="{{ ufrom.get_profile.get_icon }}">
     </a>
 </div>
 <p class="p_feed_username"><a onclick="click_name('{{ ufrom }}')">{{ ufrom }}</a></p>

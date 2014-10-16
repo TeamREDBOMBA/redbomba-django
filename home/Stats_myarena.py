@@ -15,9 +15,9 @@ def getMyarena(request):
     user = get_or_none(User,username=request.POST['username'])
   else :
     user = request.user
-  user_group = get_or_none(GroupMember,uid=user)
+  user_group = get_or_none(GroupMember,user=user)
   if user_group :
-    league = League.objects.filter(id__in=LeagueTeam.objects.filter(group_id=user_group.gid).values_list('round__league_id', flat=True))
+    league = League.objects.filter(id__in=LeagueTeam.objects.filter(group=user_group.group).values_list('round__league', flat=True))
   else:
     league = []
 
