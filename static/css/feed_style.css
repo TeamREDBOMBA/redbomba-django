@@ -15,7 +15,7 @@
 .feed_body .div_feed_brn .btn-more{height:20px;padding:0 3px;font-size:9px;color:#d2d2d2;background-color:#FFF;border:1px solid #d2d2d2}
 .feed_body .div_btn_more{display:none;}
 
-.reply_body {background-color: #ecf0f1;width: 100%;padding: 10px;padding-left:5%;}
+.reply_body {background-color: RGBA(0,0,0,0.05);width: 100%;padding: 10px;padding-left:5%;}
 .reply_body .div_reply_icon {width:30px;height:30px;overflow:hidden;border-radius: 30px;margin-right: 5px;float:left}
 .reply_body .div_reply_icon img{width:100%}
 .reply_body H1 {padding-right: 5px;font-family: "RixSGo B";float:left;line-height: 1.5;}

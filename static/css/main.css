@@ -8,7 +8,7 @@
 
 #container #content{}
 
-#container #content .title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;margin-top: 20px;}
+p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;margin-top: 20px;}
 
 #container #content #top_information { margin: 10px;margin-bottom: 20px;padding: 0 15px;line-height: 50px; font-family: 'RixSGo B'; border-radius: 4px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
 #container #content #top_information .close { line-height:inherit }

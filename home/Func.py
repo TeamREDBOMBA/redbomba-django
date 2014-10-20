@@ -32,14 +32,11 @@ def get_user(email):
 def forsocket(request):
     val = ""
     if request.method=='POST':
-        try:
-            uid = request.user
-            gid = GroupMember.objects.get(user=uid).group
-            val = val + "<uid>%s</uid>" %(uid.id)
-            val = val + "<gid>%s</gid>" %(gid.id)
-        except Exception as e:
-            val = val + "<uid>%s</uid>" %(uid.id)
-            val = val + "<gid>0</gid>"
+        uid = request.user
+        gid =get_or_none(GroupMember,user=uid)
+        if gid == None : gid = 0
+        val = val + "<uid>%s</uid>" %(uid.id)
+        val = val + "<gid>%s</gid>" %(gid.id)
     else:
         val = "POST ERROR"
     return HttpResponse(val)
@@ -142,11 +139,11 @@ def LeagueState(league, user):
             if all2_lt.count() == 0:
                 state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"lt":all1_lt.filter(group=user_gid)[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":1}
                 return state
-        elif LeagueTeam.objects.filter(round=lr[0],group=user_gid,round__league=league,is_complete=1).count() == 0 and lr[0].league_id.end_apply < now :
+        elif LeagueTeam.objects.filter(round=lr[0],group=user_gid,round__league=league,is_complete=1).count() == 0 and lr[0].league.end_apply < now :
             state = {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":2}
             return state
     except Exception as e:
-        state = {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":3,"e":e.message}
+        state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"zz":3,"e":e.message}
         return state
 
     try:
@@ -160,12 +157,15 @@ def LeagueState(league, user):
             gamelink = GameLink.objects.filter(user__in=GroupMember.objects.filter(group=user_gid,is_active=1).values_list('user', flat=True)).count()
         except Exception as e:
             gamelink = 0
-        if isAdmin == 0 or gamelink < 5 :
-            if groupmem < 5 :
+
+        if groupmem < 5 or gamelink < 5 or isAdmin == 1 :
+            if groupmem < 5 or gamelink < 5 :
                 state = {"no":-1,"e":e.message,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"lr":lr[0],"groupmem":groupmem, "gamelink":gamelink}
-            else :
+                return state
+            elif groupmem < 5 and gamelink < 5 :
                 state = {"no":-2,"e":e.message,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"lr":lr[0],"groupmem":groupmem, "gamelink":gamelink}
-            return state
+                return state
+
         state = {"no":0,"e":e.message,"isAdmin":isAdmin,"user":user,"user_gid":user_gid,"league":league,"lr":lr[0],"groupmem":groupmem, "gamelink":gamelink}
         return state
 

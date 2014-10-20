@@ -1,7 +1,7 @@
 <ul id="ul_memlist_list">
     {% if user %}
         {% for val in user %}
-            <li class='imgbtn'><img alt="{{ val.id }}" src='{{ val.get_icon }}'><p>{{ val.username }}</p></li>
+            <li class='imgbtn'><img alt="{{ val.id }}" src='{{ val.get_profile.get_icon }}'><p>{{ val.username }}</p></li>
         {% endfor %}
     {% else %}
         <li class='imgbtn' style='text-align:center'><p>조회내용이 없습니다.</p></li>

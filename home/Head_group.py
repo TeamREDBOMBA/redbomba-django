@@ -48,10 +48,7 @@ def getGroupList(request):
         if action == "insert" :
             query_g = GroupMember.objects.all().values_list('user', flat=True)
             query_u = User.objects.filter(~Q(id__in=query_g),Q(username__icontains=text))
-            query = []
-            for val in query_u:
-                query.append({'id':val.id, 'username':val.username, 'user_icon':"/media/%s"%(val.get_profile().get_icon())})
-            context = { 'user': query, 'gid':GroupMember.objects.get(user=uid).group.id, 'mode':action }
+            context = { 'user': query_u, 'gid':GroupMember.objects.get(user=uid).group.id, 'mode':action }
             return render(request, 'groupmemlist.html', context)
         else :
             query_g = GroupMember.objects.filter(~Q(user=uid),Q(group=Group.objects.get(id=request.POST["gid"]))).values_list('user', flat=True)
@@ -194,7 +191,7 @@ def setGroupList(request):
                     gm=GroupMember.objects.create(group=group,user=request.user,is_active=-1)
             elif action == "Quit" :
                 GroupMember.objects.filter(group=group,user=request.user).delete()
-            elif group == Group.objects.get(user=request.user) :
+            elif group == Group.objects.get(leader=request.user) :
                 user = User.objects.get(username=request.POST["username"])
                 if action == "insert" :
                     try:

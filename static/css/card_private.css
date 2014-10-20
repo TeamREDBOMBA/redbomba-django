@@ -1,0 +1,8 @@
+.div_sys {padding:10px}
+.div_sys .div_feed_type {float:right}
+.div_sys .div_feed_type i{font-size: 20px;margin-left: 10px;color:#aaa}
+.div_sys .div_feed_icon {width:30px;height:30px;overflow:hidden;border-radius: 30px;margin-right: 5px;float:left}
+.div_sys .div_feed_icon img{width:100%}
+.div_sys .p_feed_username {padding-right: 5px;font-family: "RixSGo B";line-height: 1.5;}
+.div_sys .h2_feed_con {line-height: 1.5;margin-left: 35px;min-height: 30px;}
+.div_sys .p_feed_date {float: left;font-size: 10px;color: #999;margin-top: 5px;}

@@ -48,6 +48,12 @@ class GlobalCard(models.Model) :
         self.save()
         return self.src
 
+class PrivateCard(models.Model) :
+    user = models.ForeignKey(User)
+    contype = models.CharField(max_length=3)
+    con = models.TextField()
+    date_updated = models.DateTimeField(auto_now_add=True)
+
 class Feed(models.Model):
     ufrom = models.IntegerField(default=0)
     ufromtype = models.CharField(max_length=1)
@@ -58,6 +64,21 @@ class Feed(models.Model):
 
     def __unicode__(self):
         return u'[%d] %s%s->%s%s' %(self.id,self.ufrom,self.ufromtype,self.uto,self.utotype)
+
+    def get_uto(self):
+        if self.utotype == 'u':
+            return get_or_none(User,id=int(self.uto))
+        elif self.utotype == 'l':
+            return get_or_none(League,id=int(self.uto))
+
+    def get_ufrom(self):
+        if self.ufromtype == 'u':
+            return get_or_none(User,id=int(self.ufrom))
+        elif self.ufromtype == 'l':
+            return get_or_none(League,id=int(self.ufrom))
+
+    def get_con(self,contype='txt'):
+        return get_or_none(FeedContents,feed=self,contype=contype)
 
     def get_time_diff(self):
         if self.date_updated:
@@ -81,7 +102,7 @@ class FeedContents(models.Model):
     con = models.TextField()
 
     def __unicode__(self):
-        return u'[%d] %s%s>%s%s' %(self.id,self.ufrom,self.ufromtype,self.uto,self.utotype)
+        return u'[%d] %s(%s):%s' %(self.id,self.feed,self.contype,self.con)
 
 class FeedReply(models.Model):
     feed = models.ForeignKey(Feed)
@@ -155,7 +176,7 @@ class Group(models.Model):
     name = models.TextField()
     nick = models.TextField()
     leader = models.ForeignKey(User)
-    group_icon = models.TextField(default='common.jpg')
+    group_icon = models.TextField(default='common.png')
     game = models.ForeignKey(Game)
     date_updated = models.DateTimeField(auto_now_add=True)
 
@@ -246,7 +267,7 @@ class LeagueTeam(models.Model):
     date_updated = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return u'[%d] %s(League:%s, Round:%d)' %(self.id, self.group_id.name,self.round.league_id.name,self.round.round)
+        return u'[%d] %s(League:%s, Round:%d)' %(self.id, self.group.name,self.round.league.name,self.round.round)
 
 class LeagueMatch(models.Model):
     game = models.IntegerField(default=1)

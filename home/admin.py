@@ -9,9 +9,14 @@ class UserProfileInline(admin.StackedInline):
     max_num = 1
     can_delete = True
 
+class TutorInline(admin.StackedInline):
+    model = Tutorial
+    max_num = 1
+    can_delete = True
+
 class UserAdmin(AuthUserAdmin):
     list_display = ('id','username','email','is_active','date_joined')
-    inlines = [UserProfileInline]
+    inlines = [UserProfileInline, TutorInline]
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('id','user','user_icon')
@@ -24,6 +29,9 @@ class ChattingAdmin(admin.ModelAdmin):
 
 class GlobalFeedAdmin(admin.ModelAdmin):
     list_display = ('id','user','title','con','src','focus_x','focus_y','date_updated')
+
+class PrivateCardAdmin(admin.ModelAdmin):
+    list_display = ('id','user','contype','con','date_updated')
 
 class FeedAdmin(admin.ModelAdmin):
     list_display = ('id','ufrom','ufromtype','uto','utotype','feedtype','date_updated')
@@ -59,7 +67,7 @@ class GroupMemberAdmin(admin.ModelAdmin):
     list_display = ('id','group','user','order','is_active','date_updated')
 
 class LeagueAdmin(admin.ModelAdmin):
-    list_display = ('id','name','host','game','level','poster','concept','rule','method','start_apply','end_apply','min_team','max_team','date_updated')
+    list_display = ('id','name','host','game','level','poster','method','start_apply','end_apply','min_team','max_team','date_updated','concept','rule')
 
 class LeagueRoundAdmin(admin.ModelAdmin):
     list_display = ('id','league','round','start','end','bestof','is_finish')
@@ -82,6 +90,7 @@ admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Tutorial, TutorialAdmin)
 admin.site.register(Chatting, ChattingAdmin)
 admin.site.register(GlobalCard, GlobalFeedAdmin)
+admin.site.register(PrivateCard, PrivateCardAdmin)
 admin.site.register(Contents, ContentsAdmin)
 admin.site.register(Feed, FeedAdmin)
 admin.site.register(FeedContents, FeedContentsAdmin)

@@ -1,11 +1,12 @@
 {% load extras %}
+
 {% if state.no == -2 or state.no == -1 %}
     {% if groups|length == league.max_team and league.user == state.user %}
         <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.lr.round}}</button>
         <input type="hidden" id="round_id" name="round_id" value="{{state.lr.id}}" />
         <input type="hidden" id="round_no" name="round_no" value="{{state.lr.round}}" />
     {% else %}
-        {% if state.no == -1 %}
+        {% if state.no != -2 and state.user_gid and state.isAdmin == 1 %}
             <button class="btn btn-primary" id="btnReserve"><i class="fa fa-check-circle"></i> 참가신청</button>
         {% else %}
             <button class="btn btn-primary disabled"><i class="fa fa-check-circle"></i> 참가신청</button>

@@ -55,7 +55,7 @@
         <ul class='ul_sub_member'>
             {% for gm in groupmem %}
                 <li>
-                    <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                    <a onclick="click_name('{{gm.user.username}}')"><img src='{{gm.user.get_profile.get_icon}}'></a>
                     <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
                     <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                 </li>
@@ -95,7 +95,7 @@
                     {% for gm in groupmem %}
                         {% if gm.user != group.user %}
                             <li>
-                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='{{gm.user.get_profile.get_icon}}'></a>
                                 <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
                                 <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                                 <button class='btn btn-success btn-sm btn-change' id='{{gm.user.username}}'>임명</button>
@@ -119,7 +119,7 @@
                     {% for gm in groupmem %}
                         {% if gm.user != group.user %}
                             <li>
-                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='{{gm.user.get_profile.get_icon}}'></a>
                                 <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
                                 <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                                 <button class='btn btn-danger btn-sm btn-del' id='{{gm.user.username}}'>탈퇴</button>
@@ -159,7 +159,7 @@
                     {% for gm in inviting %}
                         {% if gm.user != group.user %}
                             <li id='li_{{gm.user.username}}'>
-                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='{{gm.user.get_profile.get_icon}}'></a>
                                 <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
                                 <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                                 <button class='btn btn-danger btn-sm btn-del' id='{{gm.user.username}}'>초대취소</button>
@@ -190,7 +190,7 @@
                     {% for gm in waitting %}
                         {% if gm.user != group.leader %}
                             <li id='li_{{gm.user.username}}'>
-                                <a onclick="click_name('{{gm.user.username}}')"><img src='/static/img/icon/usericon_{{gm.user.get_profile.get_icon}}.jpg'></a>
+                                <a onclick="click_name('{{gm.user.username}}')"><img src='{{gm.user.get_profile.get_icon}}'></a>
                                 <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
                                 <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                                 {% if groupmem|length >= 5 %}
@@ -294,7 +294,7 @@ $('#GroupInfo #div_info_1 #btnBack').click(function(){
                 var con = $('#GroupInfo #chatMsg').val();
                 var icon = "{{ user.get_profile.get_icon }}";
                 socket.emit('chatGroup', {"name":username,"con":con,"icon":icon});
-                $('#GroupInfo #chatMsg').val("");
+                setTimeout(function(){ $('#GroupInfo #chatMsg').val(""); },10);
             }
         });
 

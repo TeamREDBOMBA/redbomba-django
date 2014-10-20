@@ -17,6 +17,8 @@ from redbomba.home.models import UserProfile
 from redbomba.home.models import Feed
 from redbomba.home.models import Group
 from redbomba.home.models import FeedReply
+from redbomba.home.models import FeedContents
+from redbomba.home.models import PrivateCard
 from redbomba.home.Func import *
 from redbomba.home.Feed import *
 from django.conf.global_settings import DEFAULT_CONTENT_TYPE
@@ -25,10 +27,28 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils.dateformat import format
+from django.utils.timezone import utc
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
 ######################################## Views ########################################
+
+def get_date_format(date_updated):
+    now = datetime.utcnow().replace(tzinfo=utc)
+    date_date = ""
+    timediff = now - date_updated
+    timediff = timediff.total_seconds()
+    if timediff > 259200:
+        date_date = date_updated.strftime('%m.%d')
+    elif timediff > 86400:
+        date_date = str(int(timediff/3600/24))+"일 전"
+    elif timediff > 3600:
+        date_date = str(int(timediff/3600))+"시간 전"
+    elif timediff > 60:
+        date_date = str(int(timediff/60))+"분 전"
+    else :
+        date_date = str(int(timediff))+"초 전"
+    return date_date
 
 def mode1(request):
     try:
@@ -56,16 +76,20 @@ def mode2(request) :
     try:
         state = []
         user = User.objects.get(id=request.GET["uid"])
-        try:
-            gl = GameLink.objects.get(user=user).name
-        except Exception as e:
-            gl = None
-        try:
-            gm = GroupMember.objects.get(user=user)
-            state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"gid":gm.group.id,"groupname":gm.group.name,"groupimg":gm.group.group_icon});
-        except Exception as e:
-            gm = None
-            state.append({"username":user.username, "user_icon":user.get_profile().user_icon, "gamelink":gl,"gid":0,"groupname":0,"groupimg":0});
+
+        gl = get_or_none(GameLink,user=user)
+        if gl :
+            gl = gl.name
+
+        gid, groupname, groupimg = 0, 0, 0
+
+        gm = get_or_none(GroupMember,user=user)
+        if gm :
+            gid = gm.group.id
+            groupname = gm.group.name
+            groupimg = gm.group.group_icon
+
+        state.append({"username":user.username, "user_icon":user.get_profile().get_icon(), "gamelink":gl,"gid":gid,"groupname":groupname,"groupimg":groupimg})
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -78,9 +102,74 @@ def getGroupListForMobile(request):
     gms = GroupMember.objects.filter(group=group.group).order_by("order")
     if group :
         for gm in gms :
-            memlist.append({"uid":gm.user.id,"username":gm.user.username, "user_icon":gm.user.get_profile().user_icon})
-        state.append({"gid":group.group.id,"name":group.group.name,"nick":group.group.nick,"uid":group.group.uid.id,"icon":group.group.group_icon,"game":group.group.game.name,"memlist":memlist})
+            memlist.append({"uid":gm.user.id,"username":gm.user.username, "user_icon":gm.user.get_profile().get_icon()})
+        state.append({"gid":group.group.id,"name":group.group.name,"nick":group.group.nick,"uid":group.group.leader.id,"icon":group.group.group_icon,"game":group.group.game.name,"memlist":memlist})
     return HttpResponse(json.dumps(state), content_type="application/json")
+
+def getGlobalListForMobile(request):
+    now = datetime.utcnow().replace(tzinfo=utc)
+    state = []
+    globalfeed = GlobalCard.objects.filter().order_by("-date_updated")
+    if globalfeed :
+        for gf in globalfeed :
+            comment_len = 0
+            comment = Feed.objects.filter(uto=gf.id,utotype="g")
+            if comment :
+                comment_len = comment.count()
+            state.append({"id":gf.id,"title":gf.title,"txt":gf.con,"img":"/media/%s"%(gf.src),"comment_no":comment_len,"user":gf.user.username,"date_updated":get_date_format(gf.date_updated)})
+    return HttpResponse(json.dumps(state), content_type="application/json")
+
+def getPrivateListForMobile(request):
+    user = User.objects.get(id=request.GET.get("uid",0))
+    state = []
+
+    mygroup = GroupMember.objects.filter(user=user).values_list('group', flat=True)
+    if mygroup :
+        gm = GroupMember.objects.filter(Q(group__in=mygroup)&~Q(user=user))
+        if gm :
+            for value in gm :
+                state.append({
+                    'type':'groupmember',
+                    'icon':"/media/group_icon/%s"%value.group.group_icon,
+                    'name':value.group.name,
+                    'con':"%s님이 %s에 새로운 멤버로 함류하였습니다.\n%s님의 도움의 손길과 따뜻한 환영의 메시지가 필요해 보이는 군요!"%(value.user.username,value.group.name,user.username),
+                    'date_updated':get_date_format(value.date_updated),
+                    'date':value.date_updated
+                })
+
+    feed = Feed.objects.filter(ufrom=user.id,ufromtype='u')
+    reply = FeedReply.objects.filter(Q(feed__in=feed)&~Q(user=user)).order_by("-date_updated")
+    uto = ""
+    if reply :
+        for value in reply :
+            if value.feed.utotype == 'l' :
+                uto = get_or_none(League, id=value.feed.uto).name
+            state.append({
+                'type':'reply',
+                'icon':value.user.get_profile().get_icon(),
+                'name':value.user.username,
+                'con':'%s님이 %s에 올리신 "%s"글에 %s님의 댓글"%s"이 달렸습니다.\n지금 확인하세요!'%(user.username, uto, value.feed.get_con().con,value.user.username,value.con),
+                'date_updated':get_date_format(value.date_updated),
+                'date':value.date_updated
+            })
+
+    pc = PrivateCard.objects.filter(user=user).order_by("-date_updated")
+    if pc :
+        for value in pc :
+            state.append({
+                'type':'system',
+                'icon':"/media/icon/redbomba.png",
+                'name':"REDBOMBA",
+                'con':"%s님. 만나서 반가워요!\n이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.\n레드밤바에서 다양한 활동을 즐겨보세요!"%(value.user.username,value.user.username),
+                'date_updated':get_date_format(value.date_updated),
+                'date':value.date_updated})
+
+    state.sort(key=lambda item:item['date'], reverse=True)
+    reS = []
+    for st in state :
+        del st["date"]
+        reS.append(st)
+    return HttpResponse(json.dumps(reS), content_type="application/json")
 
 def getNotification(request):
     try:
@@ -112,7 +201,7 @@ def getMobileChatting(request):
         group = get_or_none(Group,id=request.GET.get("gid"))
         msgs = list(Chatting.objects.filter(group=group).order_by("date_updated"))
         for msg in msgs[-len:] :
-            state.append({"id":msg.id,"uid":msg.user.id,"username":msg.user.username,"usericon":msg.user.get_profile().user_icon,"con":msg.con})
+            state.append({"id":msg.id,"uid":msg.user.id,"username":msg.user.username,"usericon":msg.user.get_profile().get_icon(),"con":msg.con})
         return HttpResponse(json.dumps(state), content_type="application/json")
     return HttpResponse('ERROR')
 
@@ -136,8 +225,8 @@ def getLeagueTeam(request):
         for team in teams:
             group = Group.objects.get(id=team.group_id)
             state.append({"id": team.id, "group_id_id": team.group_id,
-                            "round": team.round_id, "feasible_time": team.feasible_time,
-                            "date_updated": str(team.date_updated), "groupicon": group.group_icon, "gname": group.name})
+                          "round": team.round_id, "feasible_time": team.feasible_time,
+                          "date_updated": str(team.date_updated), "groupicon": group.group_icon, "gname": group.name})
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -149,8 +238,8 @@ def getLeagueRound(request):
         lrounds = LeagueRound.objects.filter(league_id=lidid, round=1)
         for lround in lrounds:
             state.append({"id": lround.id, "league_id_id": lround.league_id,
-                        "round": lround.round, "start": str(lround.start),
-                        "end": str(lround.end), "bestof": lround.bestof, "is_finish": lround.is_finish})
+                          "round": lround.round, "start": str(lround.start),
+                          "end": str(lround.end), "bestof": lround.bestof, "is_finish": lround.is_finish})
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -201,60 +290,61 @@ def getRule(request):
 
 def getSimpleLeagueInfo(request):
     state=[]
-    try:
-        lgs = League.objects.filter(game="1")  # 추후 game_id 를 request.GET 해야함
-        for lg in lgs:
-            poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
-            lrounds = LeagueRound.objects.get(league_id=lg.id, round=1)
-            now_team = LeagueTeam.objects.filter(round_id=lrounds.id)
-            state.append({"id": lg.id, "name": lg.name,
-                          "game_id": lg.game_id,
-                          "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
-                          "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
-                          "poster": poster.con})
-        return HttpResponse(json.dumps(state), content_type="application/json")
-    except Exception as e:
-        return HttpResponse(e.message)
-
-def getDetailLeagueInfo(request):
-    state=[]
-    leagueid = request.GET["id"]
-    try:
-        lg = League.objects.get(game="1", id=leagueid)  # 추후 game_id 를 request.GET 해야함
-        poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
-        descrip = Contents.objects.get(uto=lg.id, utotype="l", ctype="txt")
-        hosticon = UserProfile.objects.get(user=lg.uid_id)
-        hostname = User.objects.get(id=lg.uid)
-        firstroundid = LeagueRound.objects.get(league_id=lg.id, round=1)
-        now_team = LeagueTeam.objects.filter(round=firstroundid.id)
+    # try:
+    lgs = League.objects.filter()
+    for lg in lgs:
+        # poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
+        lrounds = LeagueRound.objects.get(league=lg.id, round=1)
+        now_team = LeagueTeam.objects.filter(round=lrounds.id)
         state.append({"id": lg.id, "name": lg.name,
-                      "game_id": lg.game_id, "uid_d": lg.user_id,
-                      "level": lg.level, "method": lg.method,
+                      "game_id": lg.game.name,
                       "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
                       "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
-                      "date_updated": str(lg.date_updated), "poster": poster.con, "descrip": descrip.con,
-                      "hosticon": hosticon.user_icon, "hostname": hostname.username, "firstround": firstroundid.id})
-        return HttpResponse(json.dumps(state), content_type="application/json")
-    except Exception as e:
-        return HttpResponse(e.message)
+                      "poster": str(lg.poster)})
+    return HttpResponse(json.dumps(state), content_type="application/json")
+    # except Exception as e:
+    #     return HttpResponse(e.message)
+
+def getDetailLeagueInfo(request):
+    state = []
+    lid = request.GET["id"]
+    # try:
+    lg = League.objects.get(id=lid)
+    # poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
+    # descrip = Contents.objects.get(uto=lg.id, utotype="l", ctype="txt")
+    hostprofile = UserProfile.objects.get(user=lg.host_id)
+    host = User.objects.get(id=lg.host_id)
+    firstroundid = LeagueRound.objects.get(league_id=lg.id, round=1)
+    now_team = LeagueTeam.objects.filter(round=firstroundid.id)
+    state.append({"id": lg.id, "name": lg.name,
+                  "game_id": lg.game_id, "host": lg.host_id,
+                  "level": lg.level, "method": lg.method,
+                  "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
+                  "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
+                  "date_updated": str(lg.date_updated), "poster": str(lg.poster), "concept": lg.concept,
+                  "hosticon": str(hostprofile.user_icon), "hostname": host.username, "firstround": firstroundid.id,
+                  "rule": lg.rule})
+    return HttpResponse(json.dumps(state), content_type="application/json")
+    # except Exception as e:
+    #     return HttpResponse(e.message)
 
 def getUserProfile(request):
     state = []
     uid = request.GET["id"]
-    try:
-        userprofile = UserProfile.objects.get(user_id=uid)
-        user = User.objects.get(id=uid)
-        groupmember = GroupMember.objects.get(user_id=uid)
-        group = Group.objects.get(id=groupmember.group_id)
-        numberofmembers = GroupMember.objects.filter(group_id=groupmember.group_id)
+    # try:
+    user = User.objects.get(id=uid)
+    userprofile = UserProfile.objects.get(user=uid)
+    groupmember = GroupMember.objects.get(user_id=uid)
+    group = Group.objects.get(id=groupmember.group_id)
+    numberofmembers = GroupMember.objects.filter(group_id=groupmember.group_id)
 
-        state.append({"usericon": userprofile.user_icon, "username": user.username, "email": user.email,
-                      "groupicon": group.group_icon, "groupname": group.name, "groupini": group.nick,
-                      "gameid": group.game, "numofmem": len(numberofmembers)})
+    state.append({"usericon": str(userprofile.user_icon), "username": user.username, "email": user.email,
+                  "groupicon": group.group_icon, "groupname": group.name, "groupini": group.nick,
+                  "gameid": str(group.game), "numofmem": len(numberofmembers)})
 
-        return HttpResponse(json.dumps(state), content_type="application/json")
-    except Exception as e:
-        return HttpResponse(e.message)
+    return HttpResponse(json.dumps(state), content_type="application/json")
+    # except Exception as e:
+    #     return HttpResponse(e.message)
 
 def getLinkedGames(request):
     state = []
@@ -272,20 +362,22 @@ def getLinkedGames(request):
 def getLeagueFeed(request):
     state = []
     lid = request.GET["lid"]
-    try:
-        feeds = Feed.objects.filter(uto=lid, utotype="l").order_by("-date_updated")
-        for f in feeds:
-            content = Contents.objects.get(uto=f.id, ctype="txt", utotype="f")
-            userprofile = UserProfile.objects.get(user_id=f.ufrom)
-            user = User.objects.get(id=f.ufrom)
-            groupmember = GroupMember.objects.get(uid_id=f.ufrom)
-            group = Group.objects.get(id=groupmember.group_id)
-            state.append({"id": f.id, "con": content.con, "usericon": userprofile.user_icon,
-                          "username": user.username, "groupname": group.name, "update": str(f.date_updated)})
+    # try:
+    feeds = Feed.objects.filter(uto=lid, utotype="l").order_by("-date_updated")
+    lg = League.objects.get(id=lid)
+    for f in feeds:
+        feedcontents = FeedContents.objects.get(feed=f.id, contype="txt")
+        userprofile = UserProfile.objects.get(user=f.ufrom)
+        user = User.objects.get(id=f.ufrom)
+        groupmember = GroupMember.objects.get(user=f.ufrom)
+        group = Group.objects.get(id=groupmember.group_id)
+        state.append({"id": f.id, "con": feedcontents.con, "usericon": str(userprofile.user_icon),
+                      "username": user.username, "groupname": group.name, "update": str(f.date_updated),
+                      "host": lg.host_id, "user": user.id})
 
-        return HttpResponse(json.dumps(state), content_type="application/json")
-    except Exception as e:
-        return HttpResponse(e.message)
+    return HttpResponse(json.dumps(state), content_type="application/json")
+    # except Exception as e:
+    #     return HttpResponse(e.message)
 
 def postLeagueFeed(request):
     # # state = []
@@ -310,12 +402,12 @@ def getFeedComments(request):
     try:
         reply = FeedReply.objects.filter(feed_id=fid).order_by("-date_updated")
         for r in reply:
-            content = Contents.objects.get(utotype="r", uto=r.id)
-            userprofile = UserProfile.objects.get(user_id=r.ufrom_id)
-            user = User.objects.get(id=r.ufrom_id)
+            # content = Contents.objects.get(utotype="r", uto=r.id)
+            userprofile = UserProfile.objects.get(user_id=r.user_id)
+            user = User.objects.get(id=r.user_id)
 
-            state.append({"user_icon": userprofile.user_icon, "user_name": user.username,
-                          "con": content.con, "update": str(r.date_updated)})
+            state.append({"user_icon": str(userprofile.user_icon), "user_name": user.username,
+                          "con": r.con, "update": str(r.date_updated)})
 
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
@@ -328,6 +420,20 @@ def postFeedReply(request):
 
     insertReply(uid, fid, txt)
 
+def getCondition(request):
+    state = []
+    uid = request.GET["uid"]
+    lid = request.GET["lid"]
+    try:
+        s = LeagueState(lid, uid)
+        if s["user_gid"] == None:
+            s["user_gid"] = "0"
+        state.append({"no": s["no"], "isLeader": str(s["isAdmin"]), "group": str(s["user_gid"]),
+                      "groupmem": str(s["groupmem"]), "gamelink": str(s["gamelink"])})
+        return HttpResponse(json.dumps(state), content_type="application/json")
+    except Exception as e:
+        return HttpResponse(e.message)
+
 @csrf_exempt
 def fromMobile(request):
     if 'mode' in request.GET:
@@ -337,6 +443,10 @@ def fromMobile(request):
             return mode2(request)
         elif request.GET["mode"] == "getGroupList" :
             return getGroupListForMobile(request)
+        elif request.GET["mode"] == "getGlobalList" :
+            return getGlobalListForMobile(request)
+        elif request.GET["mode"] == "getPrivateList" :
+            return getPrivateListForMobile(request)
         elif request.GET["mode"] == "Notification" :
             return getNotification(request)
         elif request.GET["mode"] == "NotificationDel" :
@@ -369,6 +479,8 @@ def fromMobile(request):
             return getFeedComments(request)
         elif request.GET["mode"] == "postFeedReply":
             return postFeedReply(request)
+        elif request.GET["mode"] == "getCondition":
+            return getCondition(request)
 
         return HttpResponse('0')
     else:

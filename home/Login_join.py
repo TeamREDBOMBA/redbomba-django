@@ -6,6 +6,7 @@ import sys
 import base64
 import requests
 import random
+from redbomba.home.models import PrivateCard
 from redbomba.home.models import UserProfile, Tutorial
 from redbomba.home.models import Group
 from django.contrib.auth import authenticate, login
@@ -22,10 +23,14 @@ def register_page(request):
         user = User.objects.create_user(
             username=request.POST['username'],
             password=request.POST['password1'],
-            email=request.POST['email'])
+            email=request.POST['email']
+        )
         user.is_active = False
         user.save()
-        UserProfile.objects.create(user=user,user_icon="icon/%d.jpg"%(random.randint(1,10)))
+        UserProfile.objects.create(user=user,user_icon="icon/usericon_%d.jpg"%(random.randint(1,10)))
+        PrivateCard.objects.create(user=user,contype='sys',con="""%s님. 만나서 반가워요!
+이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.
+레드밤바에서 다양한 활동을 즐겨보세요!"""%(user.username,user.username))
         send_complex_message(request.POST['username'])
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         if user is not None:

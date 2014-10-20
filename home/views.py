@@ -16,6 +16,7 @@ from redbomba.home.Main import *
 from redbomba.home.Mobile import *
 from redbomba.home.Stats_gamelink import *
 from redbomba.home.Stats_myarena import *
+from redbomba.home.test import *
 from django.utils import timezone
 
 reload(sys)

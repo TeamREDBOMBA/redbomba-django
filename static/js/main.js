@@ -16,9 +16,11 @@ $(document).ready(function(){
 
 $(window).load(function() {
 
-    $("#feed_pub").load("http://redbomba.net/feed/news/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
+    $("#feed_pub").load("/feed/news/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
         $('.focuspoint').focusPoint();
     });
+
+    $("#feed_private").load("/feed/private/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
 
     var userArray = $('#header #groupmem_uid').map(function() { return $(this).val(); }).get();
     socket.emit('isOnline',userArray);

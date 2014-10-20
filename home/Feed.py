@@ -29,7 +29,7 @@ def read_Feed_pri(request) :
 def read_Feed_card(request) :
     len = int(request.GET.get("len",0))
     fid = int(request.GET.get("fid",0))
-    lid = int(request.GET.get("league_id",0))
+    lid = request.GET.get("league_id",0)
     return HttpResponse(feedsorter("card", lid, len, fid, request))
 
 def read_Feed_news_detail(request, fid=None):
@@ -37,26 +37,6 @@ def read_Feed_news_detail(request, fid=None):
     fid = int(request.GET.get("fid",0))
     gfid = int(request.GET.get("gfid",0))
     return HttpResponse(feedsorter("globalfeed", gfid, len, fid, request))
-
-def read_Feed_news(request):
-    news = []
-    globalfeed = GlobalCard.objects.filter().order_by("-date_updated")
-    if globalfeed :
-        for gf in globalfeed :
-            news.append({"id":gf.id,"title":gf.title,"txt":gf.con,"img":{"src":"/media/%s"%(gf.src),"focusx":gf.focus_x,"focusy":gf.focus_y},"user":gf.user})
-        context = {'user':request.user,'news':news}
-        return render(request, 'card_news.html', context)
-    return HttpResponse("")
-
-def read_Feed_news_page(request, fid=None):
-    if fid :
-        globalfeed = get_or_none(GlobalCard,id=fid)
-        context = {
-            'user':request.user,
-            'news':globalfeed
-        }
-        return render(request, 'card_news_large.html', context)
-    return HttpResponse(None)
 
 def setSmile(request):
     if request.user :
@@ -168,6 +148,7 @@ def feedsorter(loc, uid, len, fid, request):
         val = ""
         i=0
         for feedElem in feed:
+            id = feedElem.id
             variables = Context({
                 'ele':fid,
                 'fid' : feedElem.id,
@@ -176,7 +157,7 @@ def feedsorter(loc, uid, len, fid, request):
                 'ufrom': get_or_none(User,id=feedElem.ufrom),
                 'uto': League.objects.get(id=feedElem.uto).name,
                 'date_updated':feedElem.get_time_diff(),
-                'con_txt':FeedContents.objects.get(feed=feedElem, contype='txt').con,
+                'con_txt':feedElem.get_con('txt').con,
                 'smile':FeedSmile.objects.filter(feed=feedElem),
                 'isDone_smile':get_or_none(FeedSmile,feed=feedElem,user=user),
                 'reply_len':FeedReply.objects.filter(user=uid,feed=feedElem)
@@ -212,7 +193,7 @@ def feedsorter(loc, uid, len, fid, request):
                 'ufrom': get_or_none(User,id=feedElem.ufrom),
                 'uto': GlobalCard.objects.get(id=feedElem.uto).title,
                 'date_updated':feedElem.get_time_diff(),
-                'con_txt':FeedContents.objects.get(feed=feedElem, contype='txt').con,
+                'con_txt':feedElem.get_con('txt'),
                 'smile':FeedSmile.objects.filter(feed=feedElem),
                 'isDone_smile':get_or_none(FeedSmile,feed=feedElem,user=user),
                 'reply_len':FeedReply.objects.filter(user=uid,feed=feedElem)
@@ -258,11 +239,11 @@ def insertFeed(uid, uto, utotype, feedtype, tag=None, img=None, txt=None, vid=No
     if uid and uto and utotype and txt:
         feed = Feed.objects.create(ufrom=uid,ufromtype="u",uto=uto,utotype=utotype,feedtype=feedtype)
         FeedContents.objects.create(feed=feed,contype="txt",con=txt)
-        if tag and tag != 0 : FeedContents.objects.create(feed=feed,contype="tag",con=tag)
-        if img and img != 0 : FeedContents.objects.create(feed=feed,contype="img",con=img)
-        if vid and vid != 0 : FeedContents.objects.create(feed=feed,contype="vid",con=vid)
-        if log and log != 0 : FeedContents.objects.create(feed=feed,contype="log",con=log)
-        if hyp and hyp != 0 : FeedContents.objects.create(feed=feed,contype="hyp",con=hyp)
+        if tag and tag != 0 and tag!= "0" : FeedContents.objects.create(feed=feed,contype="tag",con=tag)
+        if img and img != 0 and img!= "0" : FeedContents.objects.create(feed=feed,contype="img",con=img)
+        if vid and vid != 0 and vid!= "0" : FeedContents.objects.create(feed=feed,contype="vid",con=vid)
+        if log and log != 0 and log!= "0" : FeedContents.objects.create(feed=feed,contype="log",con=log)
+        if hyp and hyp != 0 and hyp!= "0" : FeedContents.objects.create(feed=feed,contype="hyp",con=hyp)
     else:
         pass
 

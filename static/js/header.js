@@ -56,10 +56,12 @@ $(window).load(function() {
     });
 
     socket.on('isOffline', function (data) {
-        $(".conn_"+data.id).attr('src','/static/img/stats_group_disconn.png');
+        data_id = ""+data.id;
+        $(".conn_"+data_id).attr('src','/static/img/stats_group_disconn.png');
     });
 
     socket.on('isOnline', function (data) {
+        data_id = ""+data.id;
         $(".conn_"+data.id).attr('src','/static/img/stats_group_conn.png');
         if(data.func == "isOnline") memOnline++;
     });

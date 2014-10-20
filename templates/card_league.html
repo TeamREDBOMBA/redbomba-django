@@ -60,7 +60,7 @@
         $('#div_card_{{league.id}} .div_card_mouseover').hide();
     });
 
-    $('#div_card_{{league.id}} .btnjoin').click(function(){
+    $('#div_card_{{league.id}}').click(function(){
         ga('send', 'event', 'card_{{league.id}}', 'click');
         $('#LargeCard .modal-content').html("<div style='width:100%;height:700px;line-height:700px;padding-top:300px' align='center'><img src='/static/img/ajax-loader.gif'></div>");
         $('#LargeCard .modal-content').load("/card/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"league_id":"{{league.id}}"});
