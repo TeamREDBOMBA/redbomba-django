@@ -193,7 +193,7 @@ def feedsorter(loc, uid, len, fid, request):
                 'ufrom': get_or_none(User,id=feedElem.ufrom),
                 'uto': GlobalCard.objects.get(id=feedElem.uto).title,
                 'date_updated':feedElem.get_time_diff(),
-                'con_txt':feedElem.get_con('txt'),
+                'con_txt':feedElem.get_con('txt').con,
                 'smile':FeedSmile.objects.filter(feed=feedElem),
                 'isDone_smile':get_or_none(FeedSmile,feed=feedElem,user=user),
                 'reply_len':FeedReply.objects.filter(user=uid,feed=feedElem)

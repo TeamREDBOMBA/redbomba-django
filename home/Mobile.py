@@ -21,6 +21,7 @@ from redbomba.home.models import FeedContents
 from redbomba.home.models import PrivateCard
 from redbomba.home.Func import *
 from redbomba.home.Feed import *
+from redbomba.home.Arena_league import *
 from django.conf.global_settings import DEFAULT_CONTENT_TYPE
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate
@@ -89,7 +90,7 @@ def mode2(request) :
             groupname = gm.group.name
             groupimg = gm.group.group_icon
 
-        state.append({"username":user.username, "user_icon":user.get_profile().get_icon(), "gamelink":gl,"gid":gid,"groupname":groupname,"groupimg":groupimg})
+        state.append({"id":user.id,"username":user.username, "user_icon":user.get_profile().get_icon(), "gamelink":gl,"gid":gid,"groupname":groupname,"groupimg":groupimg})
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -134,7 +135,7 @@ def getPrivateListForMobile(request):
                     'name':value.group.name,
                     'con':"%s님이 %s에 새로운 멤버로 함류하였습니다.\n%s님의 도움의 손길과 따뜻한 환영의 메시지가 필요해 보이는 군요!"%(value.user.username,value.group.name,user.username),
                     'date_updated':get_date_format(value.date_updated),
-                    'date':value.date_updated
+                    'date':int(format(value.date_updated, u'U'))
                 })
 
     feed = Feed.objects.filter(ufrom=user.id,ufromtype='u')
@@ -150,7 +151,7 @@ def getPrivateListForMobile(request):
                 'name':value.user.username,
                 'con':'%s님이 %s에 올리신 "%s"글에 %s님의 댓글"%s"이 달렸습니다.\n지금 확인하세요!'%(user.username, uto, value.feed.get_con().con,value.user.username,value.con),
                 'date_updated':get_date_format(value.date_updated),
-                'date':value.date_updated
+                'date':int(format(value.date_updated, u'U'))
             })
 
     pc = PrivateCard.objects.filter(user=user).order_by("-date_updated")
@@ -162,14 +163,12 @@ def getPrivateListForMobile(request):
                 'name':"REDBOMBA",
                 'con':"%s님. 만나서 반가워요!\n이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.\n레드밤바에서 다양한 활동을 즐겨보세요!"%(value.user.username,value.user.username),
                 'date_updated':get_date_format(value.date_updated),
-                'date':value.date_updated})
+                'date':int(format(value.date_updated, u'U'))
+            })
 
     state.sort(key=lambda item:item['date'], reverse=True)
-    reS = []
-    for st in state :
-        del st["date"]
-        reS.append(st)
-    return HttpResponse(json.dumps(reS), content_type="application/json")
+
+    return HttpResponse(json.dumps(state), content_type="application/json")
 
 def getNotification(request):
     try:
@@ -233,9 +232,9 @@ def getLeagueTeam(request):
 
 def getLeagueRound(request):
     state = []
-    lidid = request.GET["id"]
+    lid = request.GET["id"]
     try:
-        lrounds = LeagueRound.objects.filter(league_id=lidid, round=1)
+        lrounds = LeagueRound.objects.filter(league_id=lid)
         for lround in lrounds:
             state.append({"id": lround.id, "league_id_id": lround.league_id,
                           "round": lround.round, "start": str(lround.start),
@@ -243,6 +242,22 @@ def getLeagueRound(request):
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
+
+# def getCurrentRound(request):
+#     state = []
+#     # date_date = ""
+#     # timediff = now - date_updated
+#     # timediff = timediff.total_seconds()
+#     lid = request.GET["lid"]
+#     try:
+#         currentRound = LeagueRound.objects.filter(league_id=lid).order_by("start")
+#         for cr in currentRound:
+#             now = datetime.utcnow().replace(tzinfo=utc)
+#             if cr.start.replace(tzinfo=utc) > now:
+#                 state.append({"start": cr.start, "end": cr.end})
+#             return HttpResponse(json.dumps(state), content_type="application/json")
+#     except Exception as e:
+#         return HttpResponse(e.message)
 
 def getArenaTicket(request):
     state = []
@@ -314,16 +329,16 @@ def getDetailLeagueInfo(request):
     # descrip = Contents.objects.get(uto=lg.id, utotype="l", ctype="txt")
     hostprofile = UserProfile.objects.get(user=lg.host_id)
     host = User.objects.get(id=lg.host_id)
-    firstroundid = LeagueRound.objects.get(league_id=lg.id, round=1)
-    now_team = LeagueTeam.objects.filter(round=firstroundid.id)
+    firstround = LeagueRound.objects.get(league_id=lg.id, round=1)
+    now_team = LeagueTeam.objects.filter(round=firstround.id)
     state.append({"id": lg.id, "name": lg.name,
                   "game_id": lg.game_id, "host": lg.host_id,
                   "level": lg.level, "method": lg.method,
                   "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
                   "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
                   "date_updated": str(lg.date_updated), "poster": str(lg.poster), "concept": lg.concept,
-                  "hosticon": str(hostprofile.user_icon), "hostname": host.username, "firstround": firstroundid.id,
-                  "rule": lg.rule})
+                  "hosticon": str(hostprofile.user_icon), "hostname": host.username, "firstround": firstround.id,
+                  "frstart": str(firstround.start), "frend": str(firstround.end), "rule": lg.rule})
     return HttpResponse(json.dumps(state), content_type="application/json")
     # except Exception as e:
     #     return HttpResponse(e.message)
@@ -340,7 +355,7 @@ def getUserProfile(request):
 
     state.append({"usericon": str(userprofile.user_icon), "username": user.username, "email": user.email,
                   "groupicon": group.group_icon, "groupname": group.name, "groupini": group.nick,
-                  "gameid": str(group.game), "numofmem": len(numberofmembers)})
+                  "gameid": group.game.name, "numofmem": len(numberofmembers)})
 
     return HttpResponse(json.dumps(state), content_type="application/json")
     # except Exception as e:
@@ -371,9 +386,10 @@ def getLeagueFeed(request):
         user = User.objects.get(id=f.ufrom)
         groupmember = GroupMember.objects.get(user=f.ufrom)
         group = Group.objects.get(id=groupmember.group_id)
+        reply = FeedReply.objects.filter(feed_id=f.id)
         state.append({"id": f.id, "con": feedcontents.con, "usericon": str(userprofile.user_icon),
                       "username": user.username, "groupname": group.name, "update": str(f.date_updated),
-                      "host": lg.host_id, "user": user.id})
+                      "host": lg.host_id, "user": user.id, "replynum": len(reply)})
 
     return HttpResponse(json.dumps(state), content_type="application/json")
     # except Exception as e:
@@ -428,8 +444,13 @@ def getCondition(request):
         s = LeagueState(lid, uid)
         if s["user_gid"] == None:
             s["user_gid"] = "0"
-        state.append({"no": s["no"], "isLeader": str(s["isAdmin"]), "group": str(s["user_gid"]),
-                      "groupmem": str(s["groupmem"]), "gamelink": str(s["gamelink"])})
+        if s['no'] < 1:
+            state.append({"no": s["no"], "isLeader": str(s["isAdmin"]), "group": str(s["user_gid"]),
+                      "groupmem": str(s['groupmem']), "gamelink": str(s['gamelink'])})
+        else:
+            state.append({"no": s["no"], "isLeader": str(s["isAdmin"]), "group": str(s["user_gid"]),
+                      "groupmem": "-1", "gamelink": "-1"})
+
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -481,6 +502,10 @@ def fromMobile(request):
             return postFeedReply(request)
         elif request.GET["mode"] == "getCondition":
             return getCondition(request)
+        elif request.GET["mode"] == "postLeagueTeam":
+            return setLeagueteam(request)
+        # elif request.GET["mode"] == "getCurrentRound":
+        #     return getCurrentRound(request)
 
         return HttpResponse('0')
     else:
