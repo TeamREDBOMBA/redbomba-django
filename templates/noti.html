@@ -1,6 +1,6 @@
 <div class='div_noti_cell {% if ele.date_read == 1 %}read{% endif %}' id='div_noti_cell{{ele.id}}'>
-    <div class='div_cell_icon'><img src='{{state.img| safe}}'></div>
-    <div class='div_cell_txt'>{{state.con | safe}}</div>
+    <div class='div_cell_icon'><img src='{{ele.icon| safe}}'></div>
+    <div class='div_cell_txt'>{{ele.contents | safe}}</div>
     <div class='div_cell_bottom'>
         <div class='div_bottom_date'>{{ ele.get_time_diff }}</div>
     </div>
@@ -9,7 +9,7 @@
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/stats/?get=myarena';
+            location.href='{{ ele.link }}';
         });
     </script>
 {% endif %}
@@ -17,7 +17,7 @@
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/stats/?get=myarena';
+            location.href='{{ ele.link }}';
         });
     </script>
 {% endif %}
@@ -25,7 +25,7 @@
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/battle/?round={{state.this.team_a.round.id}}';
+            location.href='{{ ele.link }}';
         });
     </script>
 {% endif %}
@@ -33,7 +33,7 @@
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/stats/';
+            location.href='{{ ele.link }}';
         });
     </script>
 {% endif %}
@@ -42,7 +42,7 @@
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
             $('.modal').modal('hide');
-            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ state.this.gid.id }}'},function(){
+            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ ele.link }}'},function(){
                 $('#GroupInfo .div_info_sub').css({"left":"330px"});
                 $('#GroupInfo .div_info').hide();
                 $('#GroupInfo #div_info_2').show();
@@ -56,7 +56,7 @@
     <script>
         $('#div_noti_cell{{ele.id}}').click(function(){
             $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
-            location.href='/stats/';
+            location.href='{{ ele.link }}';
         });
     </script>
 {% endif %}

@@ -42,13 +42,13 @@ def get_date_format(date_updated):
     if timediff > 259200:
         date_date = date_updated.strftime('%m.%d')
     elif timediff > 86400:
-        date_date = str(int(timediff/3600/24))+"일 전"
+        date_date = str(int(timediff/3600/24))+"일"
     elif timediff > 3600:
-        date_date = str(int(timediff/3600))+"시간 전"
+        date_date = str(int(timediff/3600))+"시간"
     elif timediff > 60:
-        date_date = str(int(timediff/60))+"분 전"
+        date_date = str(int(timediff/60))+"분"
     else :
-        date_date = str(int(timediff))+"초 전"
+        date_date = str(int(timediff))+"초"
     return date_date
 
 def mode1(request):
@@ -178,8 +178,7 @@ def getNotification(request):
         now = format(timezone.localtime(timezone.now()), u'U')
         for n in noti :
             unixtime = format(n.date_updated, u'U')
-            ret = NotificationMsg(n,user)
-            state.append({"no":n.id,"action":n.action,"con":ret["con"],"img":ret["img"],"imgurl":ret["imgurl"],"date_updated":unixtime, "now":now, "time":n.get_time_diff()})
+            state.append({"no":n.id,"action":n.action,"con":n.contents,"img":n.icon,"link":n.link,"date_updated":unixtime, "now":now, "time":n.get_time_diff()})
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
