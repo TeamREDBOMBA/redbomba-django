@@ -3,6 +3,7 @@
 # Create your views here.
 import json
 import datetime
+from redbomba.home.Login_join import fncSignupEmail, fncSignupNick, send_complex_message
 from redbomba.home.models import GroupMember
 from redbomba.home.models import GameLink
 from redbomba.home.models import Notification
@@ -51,29 +52,26 @@ def get_date_format(date_updated):
         date_date = str(int(timediff))+"초"
     return date_date
 
-def mode1(request):
+def getLoginSession(request):
     try:
-        email = request.GET["email"]
-        password = request.GET["password"]
+        email = request.GET.get("email")
+        password = request.GET.get("password")
         username = get_user(email)
         if username is None:
-            return HttpResponse('0')
+            return HttpResponse('ERROR : username')
         else :
             user = authenticate(username=username, password=password)
             if user is not None:
-                if user.is_active:
-                    state = []
-                    state.append({"uid":user.id});
-                    return HttpResponse(json.dumps(state), content_type="application/json")
-                else:
-                    return HttpResponse('0')
+                state = []
+                state.append({"uid":user.id});
+                return HttpResponse(json.dumps(state), content_type="application/json")
             else:
-                return HttpResponse('0')
+                return HttpResponse('ERROR : authenticate')
     except Exception as e:
         return HttpResponse(e.message)
-    return HttpResponse('0')
+    return HttpResponse('ERROR : TRY')
 
-def mode2(request) :
+def getUserInfo(request) :
     try:
         state = []
         user = User.objects.get(id=request.GET["uid"])
@@ -94,6 +92,25 @@ def mode2(request) :
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
+
+def postJoin(request):
+    user = User.objects.create_user(
+        username=request.GET.get('nick'),
+        password=request.GET.get('pw'),
+        email=request.GET.get('email')
+    )
+    if user :
+        user.is_active = False
+        user.save()
+        UserProfile.objects.create(user=user,user_icon="icon/usericon_1.jpg")
+        PrivateCard.objects.create(user=user,contype='sys',con="""%s님. 만나서 반가워요!
+    이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.
+    레드밤바에서 다양한 활동을 즐겨보세요!"""%(user.username,user.username))
+        send_complex_message(request.POST['username'])
+        Tutorial.objects.create(user=user,is_pass1=0)
+        return HttpResponse("")
+    else :
+        return HttpResponse("Fail")
 
 def getGroupListForMobile(request):
     state = []
@@ -457,48 +474,60 @@ def getCondition(request):
 @csrf_exempt
 def fromMobile(request):
     if 'mode' in request.GET:
-        if request.GET["mode"] == "1":
-            return mode1(request)
-        elif request.GET["mode"] == "2":
-            return mode2(request)
-        elif request.GET["mode"] == "getGroupList" :
-            return getGroupListForMobile(request)
+        if request.GET["mode"] == "getLoginSession":
+            return getLoginSession(request)
+        elif request.GET["mode"] == "getUserInfo":
+            return getUserInfo(request)
+        elif request.GET["mode"] == "getUserProfile":
+            return getUserProfile(request)
+        elif request.GET["mode"] == "getLinkedGames":
+            return getLinkedGames(request)
+
+        elif request.GET["mode"] == "postJoin":
+            return postJoin(request)
+        elif request.GET["mode"] == "chkEmail":
+            return fncSignupEmail(request)
+        elif request.GET["mode"] == "chkNick":
+            return fncSignupNick(request)
+
         elif request.GET["mode"] == "getGlobalList" :
             return getGlobalListForMobile(request)
         elif request.GET["mode"] == "getPrivateList" :
             return getPrivateListForMobile(request)
-        elif request.GET["mode"] == "Notification" :
-            return getNotification(request)
-        elif request.GET["mode"] == "NotificationDel" :
-            return NotificationDel(request)
-        elif request.GET["mode"] == "getChatting" :
-            return getMobileChatting(request)
-        elif request.GET["mode"] == "getReward":
-            return getReward(request)
-        elif request.GET["mode"] == "getLeagueTeam":
-            return getLeagueTeam(request)
-        elif request.GET["mode"] == "getLeagueRound":
-            return getLeagueRound(request)
-        elif request.GET["mode"] == "getArenaTicket":
-            return getArenaTicket(request)
-        elif request.GET["mode"] == "getRule":
-            return getRule(request)
-        elif request.GET["mode"] == "getSimpleLeagueInfo":
-            return getSimpleLeagueInfo(request)
-        elif request.GET["mode"] == "getDetailLeagueInfo":
-            return getDetailLeagueInfo(request)
-        elif request.GET["mode"] == "getUserProfile":
-            return getUserProfile(request)
-        elif request.GET["mode"] == "getLeagueFeed":
-            return getLeagueFeed(request)
-        elif request.GET["mode"] == "getLinkedGames":
-            return getLinkedGames(request)
-        elif request.GET["mode"] == "postLeagueFeed":
-            return postLeagueFeed(request)
         elif request.GET["mode"] == "getFeedComments":
             return getFeedComments(request)
         elif request.GET["mode"] == "postFeedReply":
             return postFeedReply(request)
+        elif request.GET["mode"] == "getLeagueFeed":
+            return getLeagueFeed(request)
+        elif request.GET["mode"] == "postLeagueFeed":
+            return postLeagueFeed(request)
+
+        elif request.GET["mode"] == "Notification" :
+            return getNotification(request)
+        elif request.GET["mode"] == "NotificationDel" :
+            return NotificationDel(request)
+
+        elif request.GET["mode"] == "getGroupList" :
+            return getGroupListForMobile(request)
+        elif request.GET["mode"] == "getChatting" :
+            return getMobileChatting(request)
+
+        elif request.GET["mode"] == "getReward":
+            return getReward(request)
+        elif request.GET["mode"] == "getSimpleLeagueInfo":
+            return getSimpleLeagueInfo(request)
+        elif request.GET["mode"] == "getDetailLeagueInfo":
+            return getDetailLeagueInfo(request)
+        elif request.GET["mode"] == "getRule":
+            return getRule(request)
+
+        elif request.GET["mode"] == "getArenaTicket":
+            return getArenaTicket(request)
+        elif request.GET["mode"] == "getLeagueTeam":
+            return getLeagueTeam(request)
+        elif request.GET["mode"] == "getLeagueRound":
+            return getLeagueRound(request)
         elif request.GET["mode"] == "getCondition":
             return getCondition(request)
         elif request.GET["mode"] == "postLeagueTeam":

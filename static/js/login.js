@@ -42,7 +42,7 @@ $(window).load(function() {
     });
 
     $('._aside #id_username').keyup(function(event){
-        $("#div_signup_nickerror").load("/auth/fnc/nick/",{"nick":$("._aside #id_username").val(),"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val()});
+        $("#div_signup_nickerror").load("/auth/fnc/nick/?nick="+$("._aside #id_username").val());
     });
 
     $('#button_signup_complete').click(function(){

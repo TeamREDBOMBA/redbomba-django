@@ -20,26 +20,31 @@ from django.utils.html import strip_tags
 
 def register_page(request):
     if request.method=='POST':
-        user = User.objects.create_user(
-            username=request.POST['username'],
-            password=request.POST['password1'],
-            email=request.POST['email']
-        )
-        user.is_active = False
-        user.save()
-        UserProfile.objects.create(user=user,user_icon="icon/usericon_%d.jpg"%(random.randint(1,10)))
-        PrivateCard.objects.create(user=user,contype='sys',con="""%s님. 만나서 반가워요!
-이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.
-레드밤바에서 다양한 활동을 즐겨보세요!"""%(user.username,user.username))
-        send_complex_message(request.POST['username'])
-        user = authenticate(username=request.POST['username'], password=request.POST['password1'])
-        if user is not None:
-            Tutorial.objects.create(user=user,is_pass1=0)
-            login(request, user)
-            request.session.set_expiry(31536000)
-            return HttpResponse("Success")
+        register(request)
     else:
         return HttpResponseRedirect('/home/?msg=200')
+
+def register(request):
+    user = User.objects.create_user(
+        username=request.POST['username'],
+        password=request.POST['password1'],
+        email=request.POST['email']
+    )
+    user.is_active = False
+    user.save()
+    UserProfile.objects.create(user=user,user_icon="icon/usericon_%d.jpg"%(random.randint(1,10)))
+    PrivateCard.objects.create(user=user,contype='sys',con="""%s님. 만나서 반가워요!
+이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.
+레드밤바에서 다양한 활동을 즐겨보세요!"""%(user.username,user.username))
+    send_complex_message(request.POST['username'])
+    user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+    if user is not None:
+        Tutorial.objects.create(user=user,is_pass1=0)
+        login(request, user)
+        request.session.set_expiry(31536000)
+        return HttpResponse("Success")
+    else :
+        return HttpResponse("Fail")
 
 def verifyEmail(request,id,date_joined):
     id, date_joined = int(id), str(date_joined)
@@ -89,14 +94,14 @@ def verifyEmail(request,id,date_joined):
     return HttpResponse(msg)
 
 def fncSignupEmail(request):
-    email = request.GET["email"]
+    email = request.GET.get("email")
     if get_user(email)==None:
         return HttpResponse("")
     else :
         return HttpResponse("이미 등록된 이메일입니다.")
 
 def fncSignupNick(request):
-    username = request.POST.get("nick")
+    username = request.GET.get("nick")
     res = get_or_none(User,username=username)
     if res==None:
         return HttpResponse("")
