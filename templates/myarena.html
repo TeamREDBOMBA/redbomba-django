@@ -60,55 +60,55 @@
            {% if s.lt.round.round == 1 %}
            &nbsp;
            {% else %}
-             {% if s.last_lm.team_a.group_id == s.user_gid %}
-             <span class='res'>{% if s.last_lm.result == "A" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
-             {{s.last_lm.team_b.group_id.name}}
+             {% if s.last_lm.team_a.group == s.user_gid %}
+             <span class='res'>{% if s.last_lm.result == "A" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group.group_icon}}'>
+             {{s.last_lm.team_b.group.name}}
              {% else %}
-             <span class='res'>{% if s.last_lm.result == "B" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
-             {{s.last_lm.team_b.group_id.name}}
+             <span class='res'>{% if s.last_lm.result == "B" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group.group_icon}}'>
+             {{s.last_lm.team_b.group.name}}
              {% endif %}
            {% endif %}
           {% elif s.no == 2 %}
            {% if s.lm.team_a.round.round == 1 %}
            &nbsp;
            {% else %}
-             {% if s.last_lm.team_a.group_id == s.user_gid %}
-             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
-             {{s.last_lm.team_b.group_id.name}}
+             {% if s.last_lm.team_a.group == s.user_gid %}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group.group_icon}}'>
+             {{s.last_lm.team_b.group.name}}
              {% else %}
-             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
-             {{s.last_lm.team_a.group_id.name}}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group.group_icon}}'>
+             {{s.last_lm.team_a.group.name}}
              {% endif %}
            {% endif %}
           {% elif s.no == 3 %}
            {% if s.lm.team_a.round.round == 1 %}
            &nbsp;
            {% else %}
-             {% if s.last_lm.team_a.group_id == s.user_gid %}
-             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
-             {{s.last_lm.team_b.group_id.name}}
+             {% if s.last_lm.team_a.group == s.user_gid %}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group.group_icon}}'>
+             {{s.last_lm.team_b.group.name}}
              {% else %}
-             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
-             {{s.last_lm.team_a.group_id.name}}
+             <span class='res'>승</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group.group_icon}}'>
+             {{s.last_lm.team_a.group.name}}
              {% endif %}
            {% endif %}
           {% elif s.no == 4 %}
-             {% if s.last_lm.team_a.group_id == s.user_gid %}
-             <span class='res'>{% if s.last_lm.result == "A" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>
-             {{s.last_lm.team_b.group_id.name}}
+             {% if s.last_lm.team_a.group == s.user_gid %}
+             <span class='res'>{% if s.last_lm.result == "A" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group.group_icon}}'>
+             {{s.last_lm.team_b.group.name}}
              {% else %}
-             <span class='res'>{% if s.last_lm.result == "B" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>
-             {{s.last_lm.team_b.group_id.name}}
+             <span class='res'>{% if s.last_lm.result == "B" %}승{% else %}패{% endif %}</span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group.group_icon}}'>
+             {{s.last_lm.team_b.group.name}}
              {% endif %}
           {% elif s.no == 5 %}
-             {% if s.last_lm.team_a.group_id == s.user_gid %}
+             {% if s.last_lm.team_a.group == s.user_gid %}
              <span class='res'>
              {% if s.last_lm.result == "A" %}승{% else %}패{% endif %}
-             </span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group_id.group_icon}}'>{{s.last_lm.team_b.group_id.name}}
+             </span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_b.group.group_icon}}'>{{s.last_lm.team_b.group.name}}
              {% else %}
              <span class='res'>
              {% if s.last_lm.result == "B" %}승{% else %}패{% endif %}
-             </span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group_id.group_icon}}'>{{s.last_lm.team_a.group_id.name}}
+             </span><span class='vs'>vs</span><img src='/media/group_icon/{{s.last_lm.team_a.group.group_icon}}'>{{s.last_lm.team_a.group.name}}
              {% endif %}
           {% endif %}
           </li>
@@ -136,12 +136,12 @@
         {% if s.no == 1 %}
         &nbsp;
         {% elif s.no == 2 or s.no == 3 %}
-          {% if s.lm.team_a.group_id == s.user_gid %}
-          <span class='vs'>vs</span><img src='/media/group_icon/{{s.lm.team_b.group_id.group_icon}}'>
-          {{s.lm.team_b.group_id.name}}
+          {% if s.lm.team_a.group == s.user_gid %}
+          <span class='vs'>vs</span><img src='/media/group_icon/{{s.lm.team_b.group.group_icon}}'>
+          {{s.lm.team_b.group.name}}
           {% else %}
-          <span class='vs'>vs</span><img src='/media/group_icon/{{s.lm.team_a.group_id.group_icon}}'>
-          {{s.lm.team_a.group_id.name}}
+          <span class='vs'>vs</span><img src='/media/group_icon/{{s.lm.team_a.group.group_icon}}'>
+          {{s.lm.team_a.group.name}}
           {% endif %}
         {% elif s.no == 4 %}
         {% elif s.no == 5 %}

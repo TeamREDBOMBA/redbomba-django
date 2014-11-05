@@ -64,6 +64,8 @@ def matchmaker(round):
     _team_b.append(teamid[team_b[i]])
     ftime.append(timecal(start,timearray[i]))
   insertteam(_team_a,_team_b,ftime)
+  round.is_finish = 1
+  round.save()
   retStr = """team_a:%s, team_b:%s, ftime:%s
   <script>
   alert('Success');

@@ -73,3 +73,7 @@ def getLine( value, arg ):
 @register.filter
 def getRange( value ):
 	return range(int(value))
+
+@register.filter
+def getMatch(league, round):
+    return league.get_league_match(round)

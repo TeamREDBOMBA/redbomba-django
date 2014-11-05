@@ -13,7 +13,7 @@
         <h3>메뉴</h3>
         <ul>
             <li id="li_menu_summary" class="li_menu active"><i class="fa fa-bullhorn"></i> 대회 요약</li>
-            <!-- <li><i class="fa fa-sitemap"></i> 대회 진행상황</li> -->
+            <li id="li_menu_result" class="li_menu"><i class="fa fa-sitemap"></i> 경기 대진 및 결과</li>
             <li id="li_menu_participants" class="li_menu"><i class="fa fa-check-circle"></i> 참가팀 보기</li>
             <li id="li_menu_detailRule" class="li_menu"><i class="fa fa-book"></i> 자세한 롤 보기</li>
         </ul>
@@ -173,6 +173,28 @@
     </div>
 </div>
 
+<div id="div_result" class="div_contents">
+    <p id='p_result_title'>{{league.name}}</p>
+    <p id='p_result_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
+    <div id="div_result_match">
+        {% for lr in league.get_league_round %}
+            <p class='p_match_title'>{{ lr.round }} Round</p>
+            {% for lm in league|getMatch:lr.round %}
+            <div class="div_result_list">
+                <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_a.group.name }}</p></div>
+                <div class="div_result_con">
+                    {% if lm.result == "A" and lm.state == 10 %}<p class="p_feed_res">승 vs 패</p>
+                    {% elif lm.result == "B" and lm.state == 10 %} <p class="p_feed_res">패 vs 승</p>
+                    {% else %} <p class="p_feed_res">진 행 중</p>{% endif %}
+                </div>
+                <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_b.group.name }}</p></div>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+
 <div id="div_join_done">
     <img id="ex" src="/static/img/arena_done_ex.png">
     <h1>대회 참가가 완료되었습니다.</h1>
@@ -220,6 +242,13 @@
         $(this).addClass("active");
         $(".div_contents").hide();
         $("#div_participants").show();
+    });
+
+    $("#li_menu_result").click(function(){
+        $(".li_menu").removeClass("active");
+        $(this).addClass("active");
+        $(".div_contents").hide();
+        $("#div_result").show();
     });
 
     $(".p_more").click(function(){

@@ -227,6 +227,15 @@ class League(models.Model):
     max_team = models.IntegerField(default=0)
     date_updated = models.DateTimeField(auto_now_add=True)
 
+    def get_league_match(self,round=None):
+        if round :
+            return LeagueMatch.objects.filter(team_a__round__league=self,team_a__round__round=round)
+        else :
+            return LeagueMatch.objects.filter(team_a__round__league=self)
+
+    def get_league_round(self):
+        return LeagueRound.objects.filter(league=self, is_finish=1)
+
     def get_time_diff(self):
         if self.end_apply:
             now = timezone.localtime(timezone.now())

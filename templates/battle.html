@@ -109,7 +109,7 @@
                     <p id="p_text">3</p></td></tr></table>
         </div>
         {% if next_round %}
-            {% if user.id|striptags == league.team_a.group.user.id|striptags or user.id|striptags == league.team_b.group.user.id|striptags %}
+            {% if user.id|striptags == league.team_a.group.leader.id|striptags or user.id|striptags == league.team_b.group.leader.id|striptags %}
                 <!-- Modal3 -->
                 <div class="modal fade" id="settime" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                     <div class="modal-dialog">
