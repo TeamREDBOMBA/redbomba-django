@@ -39,10 +39,13 @@ def getCard(request):
 def setLeagueteam(request):
     action = request.POST.get("action")
     if action == "insert":
+        user = request.POST.get("id")
+        if user == None:
+            user = request.user
         feasible_time = request.POST["feasible_time"]
         round = int(request.POST.get("round",'1'))
         is_complete = int(request.POST.get('is_complete',1))
-        group = get_or_none(GroupMember,user=request.user)
+        group = get_or_none(GroupMember,user=user)
         if group :
             group = group.group
         lr = LeagueRound.objects.get(league=League.objects.get(id=request.POST.get("league_id")),round=round)
@@ -61,13 +64,19 @@ def setLeagueteam(request):
             lr.save()
         return HttpResponse("Success")
     elif action == "delete":
-        group = GroupMember.objects.get(user=request.user).group
+        user = request.POST.get("id")
+        if user == None:
+            user = request.user
+        group = GroupMember.objects.get(user=user).group
         round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
         LeagueTeam.objects.filter(group=group,round=round).delete()
         return HttpResponse("Success")
     elif action == "abstain":
         try :
-            group = GroupMember.objects.get(user=request.user).group
+            user = request.POST.get("id")
+            if user == None:
+                user = request.user
+            group = GroupMember.objects.get(user=user).group
             lr = LeagueRound.objects.get(league__id=request.POST["league_id"],round=request.POST["round"])
             lt = LeagueTeam.objects.get(group=group,round=lr,is_complete=1)
             lm = LeagueMatch.objects.get(Q(team_a=lt)|Q(team_b=lt))
@@ -87,7 +96,7 @@ def setLeagueteam(request):
 def setMatchmaker(request):
     if request.user :
         round = LeagueRound.objects.get(id=request.GET["round"])
-        if request.user == round.league.user :
+        if request.user == round.league.host :
             return HttpResponse(matchmaker(round))
     return HttpResponse('ERROR')
 

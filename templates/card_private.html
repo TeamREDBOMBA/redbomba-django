@@ -20,7 +20,16 @@
             <p class="p_feed_username">{{ new.self.group.name }}</p>
             <h2 class="h2_feed_con">{{ new.self.user.username }}님이 {{ new.self.group.name }}에 새로운 멤버로 함류하였습니다. {{ user.username }}님의 도움의 손길과 따뜻한 환영의 메시지가 필요해 보이는 군요!</h2>
             <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"-" }}</p>
-
+        {% elif new.type == 'leaguematch' %}
+            <div class="div_feed_type"><i class="fa fa-trophy"></i></div>
+            <p class="p_feed_username">{{ new.self.team_a.round.league.name }} - {{ new.self.team_a.round.round }} Round</p>
+            <div class="div_feed_con"><img src="/media/group_icon/{{ new.self.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ new.self.team_a.group.name }}</p></div>
+            <div class="div_feed_con">
+                {% if new.self.result == "A" %}<p class="p_feed_res">승 vs 패</p>
+                {% else %} <p class="p_feed_res">패 vs 승</p>{% endif %}
+                <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"-" }}</p>
+            </div>
+            <div class="div_feed_con"><img src="/media/group_icon/{{ new.self.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ new.self.team_b.group.name }}</p></div>
         {% endif %}
     </div>
 {% endfor %}

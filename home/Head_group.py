@@ -55,7 +55,7 @@ def getGroupList(request):
             query_u = User.objects.filter(Q(id__in=query_g),Q(username__icontains=text))
             query = []
             for val in query_u:
-                query.append({'id':val.id, 'username':val.username, 'user_icon':"/media/%s"%(qval.get_profile().get_icon())})
+                query.append({'id':val.id, 'username':val.username, 'user_icon':"/media/%s"%(val.get_profile().get_icon())})
             context = { 'user': query, 'gid':GroupMember.objects.get(user=uid).group.id, 'mode':action }
             return render(request, 'groupmemlist.html', context)
     else:

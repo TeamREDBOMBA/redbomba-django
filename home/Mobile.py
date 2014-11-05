@@ -14,9 +14,11 @@ from redbomba.home.models import LeagueReward
 from redbomba.home.models import LeagueMatch
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound
+from redbomba.home.models import LeagueWish
 from redbomba.home.models import UserProfile
 from redbomba.home.models import Feed
 from redbomba.home.models import Group
+from redbomba.home.models import FeedSmile
 from redbomba.home.models import FeedReply
 from redbomba.home.models import FeedContents
 from redbomba.home.models import PrivateCard
@@ -79,6 +81,7 @@ def getUserInfo(request) :
         gl = get_or_none(GameLink,user=user)
         if gl :
             gl = gl.name
+        else : gl=""
 
         gid, groupname, groupimg = 0, 0, 0
 
@@ -88,7 +91,16 @@ def getUserInfo(request) :
             groupname = gm.group.name
             groupimg = gm.group.group_icon
 
-        state.append({"id":user.id,"username":user.username, "user_icon":user.get_profile().get_icon(), "gamelink":gl,"gid":gid,"groupname":groupname,"groupimg":groupimg})
+        state.append({
+            "id":user.id,
+            "username":user.username,
+            "emil":user.email,
+            "user_icon":user.get_profile().get_icon(),
+            "gamelink":gl,
+            "gid":gid,
+            "groupname":groupname,
+            "groupimg":groupimg
+        })
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -195,7 +207,17 @@ def getNotification(request):
         now = format(timezone.localtime(timezone.now()), u'U')
         for n in noti :
             unixtime = format(n.date_updated, u'U')
-            state.append({"no":n.id,"action":n.action,"con":n.contents,"img":n.icon,"link":n.link,"date_updated":unixtime, "now":now, "time":n.get_time_diff()})
+            state.append({
+                "no":n.id,
+                "action":n.action,
+                "con":n.contents,
+                "img":n.icon,
+                "link":n.link,
+                "date_updated":unixtime,
+                "state":"%d"%n.date_read,
+                "now":now,
+                "time":n.get_time_diff()
+            })
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -216,7 +238,7 @@ def getMobileChatting(request):
         group = get_or_none(Group,id=request.GET.get("gid"))
         msgs = list(Chatting.objects.filter(group=group).order_by("date_updated"))
         for msg in msgs[-len:] :
-            state.append({"id":msg.id,"uid":msg.user.id,"username":msg.user.username,"usericon":msg.user.get_profile().get_icon(),"con":msg.con})
+            state.append({"id":msg.id,"uid":msg.user.id,"username":msg.user.username,"usericon":msg.user.get_profile().get_icon(),"con":msg.con,"date":format(msg.date_updated, u'U')})
         return HttpResponse(json.dumps(state), content_type="application/json")
     return HttpResponse('ERROR')
 
@@ -295,12 +317,16 @@ def getArenaTicket(request):
                     opteam_num = leaguematch[0].team_a_id
                 opteam = LeagueTeam.objects.get(id=opteam_num)
                 opgroup = Group.objects.get(id=opteam.group_id)
-                state.append({"league_name": league.name, "round": leagueround.round,
+                state.append({
+                    "league_id": league.id,
+                    "league_name": league.name, "round": leagueround.round,
                               "group": group.name, "groupicon": group.group_icon,
                               "opgroup": opgroup.name, "opgroupicon": opgroup.group_icon,
                               "next_match": str(leaguematch[0].date_match), "state": s['no']})
             else:
-                state.append({"league_name": league.name, "round": leagueround.round,
+                state.append({
+                    "league_id": league.id,
+                    "league_name": league.name, "round": leagueround.round,
                               "group": group.name, "groupicon": group.group_icon,
                               "opgroup": "대전 상대가 아직 정해지지 않았습니다.", "opgroupicon": "",
                               "next_match": "0", "state": s['no']})
@@ -321,43 +347,70 @@ def getRule(request):
 
 def getSimpleLeagueInfo(request):
     state=[]
-    # try:
     lgs = League.objects.filter()
     for lg in lgs:
-        # poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
         lrounds = LeagueRound.objects.get(league=lg.id, round=1)
         now_team = LeagueTeam.objects.filter(round=lrounds.id)
-        state.append({"id": lg.id, "name": lg.name,
+        wish_len = LeagueWish.objects.filter(league=lg)
+        if wish_len : wish_len = str(wish_len.count())
+        else : wish_len = "0"
+        state.append({"id": lg.id,
+                      "name": lg.name,
                       "game_id": lg.game.name,
-                      "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
-                      "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
-                      "poster": str(lg.poster)})
+                      "start_apply": str(lg.start_apply),
+                      "end_apply": str(lg.end_apply),
+                      "min_team": lg.min_team,
+                      "max_team": lg.max_team,
+                      "now_team": len(now_team),
+                      "poster": str(lg.poster),
+                      "wish_len":wish_len
+        })
     return HttpResponse(json.dumps(state), content_type="application/json")
-    # except Exception as e:
-    #     return HttpResponse(e.message)
 
 def getDetailLeagueInfo(request):
     state = []
-    lid = request.GET["id"]
-    # try:
-    lg = League.objects.get(id=lid)
-    # poster = Contents.objects.get(uto=lg.id, utotype="l", ctype="img")
-    # descrip = Contents.objects.get(uto=lg.id, utotype="l", ctype="txt")
+    lid = request.GET.get("lid")
+    uid = request.GET.get("uid")
+    user = get_or_none(User,id=uid)
+    lg = get_or_none(League,id=lid)
     hostprofile = UserProfile.objects.get(user=lg.host_id)
     host = User.objects.get(id=lg.host_id)
     firstround = LeagueRound.objects.get(league_id=lg.id, round=1)
     now_team = LeagueTeam.objects.filter(round=firstround.id)
-    state.append({"id": lg.id, "name": lg.name,
-                  "game_id": lg.game_id, "host": lg.host_id,
-                  "level": lg.level, "method": lg.method,
-                  "start_apply": str(lg.start_apply), "end_apply": str(lg.end_apply),
-                  "min_team": lg.min_team, "max_team": lg.max_team, "now_team": len(now_team),
-                  "date_updated": str(lg.date_updated), "poster": str(lg.poster), "concept": lg.concept,
-                  "hosticon": str(hostprofile.user_icon), "hostname": host.username, "firstround": firstround.id,
-                  "frstart": str(firstround.start), "frend": str(firstround.end), "rule": lg.rule})
+
+    iswish = get_or_none(LeagueWish,user=user,league=lg)
+
+    if iswish : iswish = "true"
+    else : iswish = "false"
+
+    wish_len = LeagueWish.objects.filter(league=lg)
+    if wish_len : wish_len = str(wish_len.count())
+    else : wish_len = "0"
+
+    state.append({"id": lg.id,
+                  "name": lg.name,
+                  "game_id": lg.game_id,
+                  "host": lg.host_id,
+                  "level": lg.level,
+                  "method": lg.method,
+                  "start_apply": str(lg.start_apply),
+                  "end_apply": str(lg.end_apply),
+                  "min_team": lg.min_team,
+                  "max_team": lg.max_team,
+                  "now_team": len(now_team),
+                  "date_updated": str(lg.date_updated),
+                  "poster": str(lg.poster),
+                  "concept": lg.concept,
+                  "hosticon": str(hostprofile.user_icon),
+                  "hostname": host.username,
+                  "firstround": firstround.id,
+                  "frstart": str(firstround.start),
+                  "frend": str(firstround.end),
+                  "rule": lg.rule,
+                  "wish_len":wish_len,
+                  "is_wish":iswish
+    })
     return HttpResponse(json.dumps(state), content_type="application/json")
-    # except Exception as e:
-    #     return HttpResponse(e.message)
 
 def getUserProfile(request):
     state = []
@@ -365,13 +418,25 @@ def getUserProfile(request):
     # try:
     user = User.objects.get(id=uid)
     userprofile = UserProfile.objects.get(user=uid)
-    groupmember = GroupMember.objects.get(user_id=uid)
-    group = Group.objects.get(id=groupmember.group_id)
-    numberofmembers = GroupMember.objects.filter(group_id=groupmember.group_id)
+    groupmember = get_or_none(GroupMember, user_id=uid)
+    if groupmember:
+        group = Group.objects.get(id=groupmember.group_id)
+        numberofmembers = GroupMember.objects.filter(group_id=groupmember.group_id)
+        groupicon = group.group_icon
+        groupname = group.name
+        groupnick = group.nick
+        gameid = group.game.name
+        numofmem = len(numberofmembers)
+    else :
+        groupicon = ""
+        groupname = ""
+        groupnick = ""
+        gameid = ""
+        numofmem = 0
 
     state.append({"usericon": str(userprofile.user_icon), "username": user.username, "email": user.email,
-                  "groupicon": group.group_icon, "groupname": group.name, "groupini": group.nick,
-                  "gameid": group.game.name, "numofmem": len(numberofmembers)})
+                  "groupicon": groupicon, "groupname": groupname, "groupini": groupnick,
+                  "gameid": gameid, "numofmem": numofmem})
 
     return HttpResponse(json.dumps(state), content_type="application/json")
     # except Exception as e:
@@ -390,26 +455,102 @@ def getLinkedGames(request):
     except Exception as e:
         return HttpResponse(e.message)
 
+def getFeedForMobile(request):
+    state = []
+    fid = request.GET.get("fid")
+    uid = request.GET.get("uid")
+    type = request.GET.get("type")
+
+    if fid and type and uid :
+        feeds = Feed.objects.filter(uto=fid, utotype=type).order_by("-date_updated")
+        user = get_or_none(User,id=uid)
+        for feed in feeds:
+            issmile = get_or_none(FeedSmile, feed=feed, user=user)
+            if issmile: issmile = "true"
+            else: issmile = "false"
+
+            smile_len = FeedSmile.objects.filter(feed=feed)
+            if smile_len : smile_len = str(smile_len.count())
+            else : smile_len = "0"
+
+            ufrom = get_or_none(User,id=feed.ufrom)
+            con = get_or_none(FeedContents,feed=feed,contype='txt').con
+            reply = FeedReply.objects.filter(feed=feed)
+            state.append({"id": feed.id,
+                          "icon":ufrom.get_profile().get_icon(),
+                          "name":ufrom.username,
+                          "con": con,
+                          "date":get_date_format(feed.date_updated),
+                          "reply_no": len(reply),
+                          "smile_len": smile_len,
+                          "is_smile": issmile
+            })
+    return HttpResponse(json.dumps(state), content_type="application/json")
+
+def postFeedSmile(request):
+
+    feed = get_or_none(Feed,id=request.POST.get("fid"))
+    user = get_or_none(User,id=request.POST.get("uid"))
+
+    if feed is None or user is None :
+        return HttpResponse("")
+
+    smile = get_or_none(FeedSmile,feed=feed,user=user)
+
+    if smile :
+        smile.delete()
+    else :
+        FeedSmile.objects.create(
+            feed = feed,
+            user = user
+        )
+
+    return HttpResponse("Success")
+
 def getLeagueFeed(request):
     state = []
-    lid = request.GET["lid"]
-    # try:
+    lid = request.GET.get("lid")
+    uid = request.GET.get("uid")
     feeds = Feed.objects.filter(uto=lid, utotype="l").order_by("-date_updated")
-    lg = League.objects.get(id=lid)
+    lg = get_or_none(League,id=lid)
+
+    if lg : host_id = ""
+    else : host_id = lg.host.id
+
     for f in feeds:
+        user = get_or_none(User,id=f.ufrom)
+
         feedcontents = FeedContents.objects.get(feed=f.id, contype="txt")
         userprofile = UserProfile.objects.get(user=f.ufrom)
-        user = User.objects.get(id=f.ufrom)
-        groupmember = GroupMember.objects.get(user=f.ufrom)
-        group = Group.objects.get(id=groupmember.group_id)
-        reply = FeedReply.objects.filter(feed_id=f.id)
-        state.append({"id": f.id, "con": feedcontents.con, "usericon": str(userprofile.user_icon),
-                      "username": user.username, "groupname": group.name, "update": str(f.date_updated),
-                      "host": lg.host_id, "user": user.id, "replynum": len(reply)})
+
+        groupmember = get_or_none(GroupMember,user=f.ufrom)
+        if groupmember : groupname = groupmember.group.name
+        else: groupname = ""
+
+        issmile = get_or_none(FeedSmile, feed=f, user=uid)
+
+        if issmile: issmile = "true"
+        else: issmile = "false"
+
+        smile_len = FeedSmile.objects.filter(feed=f)
+        if smile_len : smile_len = str(smile_len.count())
+        else : smile_len = "0"
+
+        reply = FeedReply.objects.filter(feed=f)
+        state.append({"id": f.id,
+                      "con": feedcontents.con,
+                      "usericon": str(userprofile.user_icon),
+                      "username": user.username,
+                      "groupname": groupname,
+                      "update": str(f.date_updated),
+                      "host": host_id,
+                      "user": user.id,
+                      "replynum": len(reply),
+                      "smile_len": smile_len,
+                      "is_smile": issmile
+        })
 
     return HttpResponse(json.dumps(state), content_type="application/json")
-    # except Exception as e:
-    #     return HttpResponse(e.message)
 
 def postLeagueFeed(request):
     # # state = []
@@ -438,8 +579,15 @@ def getFeedComments(request):
             userprofile = UserProfile.objects.get(user_id=r.user_id)
             user = User.objects.get(id=r.user_id)
 
-            state.append({"user_icon": str(userprofile.user_icon), "user_name": user.username,
-                          "con": r.con, "update": str(r.date_updated)})
+            state.append({
+                "user_icon": str(userprofile.user_icon),
+                "user_name": user.username,
+                "con": r.con,
+                "update": str(r.date_updated),
+                "icon":user.get_profile().get_icon(),
+                "name":user.username,
+                "date":get_date_format(r.date_updated)
+            })
 
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
@@ -451,6 +599,25 @@ def postFeedReply(request):
     txt = request.POST.get("txt")
 
     insertReply(uid, fid, txt)
+
+def postLeagueWish(request):
+    league = get_or_none(League,id=request.POST.get("lid"))
+    user = get_or_none(User,id=request.POST.get("uid"))
+
+    if league is None or user is None :
+        return HttpResponse("")
+
+    wish = get_or_none(LeagueWish,league = league, user = user)
+
+    if wish :
+        wish.delete()
+    else :
+        LeagueWish.objects.create(
+            league = league,
+            user = user
+        )
+
+    return HttpResponse("Success")
 
 def getCondition(request):
     state = []
@@ -498,10 +665,16 @@ def fromMobile(request):
             return getFeedComments(request)
         elif request.GET["mode"] == "postFeedReply":
             return postFeedReply(request)
+        elif request.GET["mode"] == "getFeed":
+            return getFeedForMobile(request)
+        elif request.GET["mode"] == "postFeedSmile":
+            return postFeedSmile(request)
         elif request.GET["mode"] == "getLeagueFeed":
             return getLeagueFeed(request)
         elif request.GET["mode"] == "postLeagueFeed":
             return postLeagueFeed(request)
+        elif request.GET["mode"] == "postLeagueWish":
+            return postLeagueWish(request)
 
         elif request.GET["mode"] == "Notification" :
             return getNotification(request)
@@ -532,6 +705,7 @@ def fromMobile(request):
             return getCondition(request)
         elif request.GET["mode"] == "postLeagueTeam":
             return setLeagueteam(request)
+
         # elif request.GET["mode"] == "getCurrentRound":
         #     return getCurrentRound(request)
 

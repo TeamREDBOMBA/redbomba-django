@@ -67,7 +67,7 @@ class GroupMemberAdmin(admin.ModelAdmin):
     list_display = ('id','group','user','order','is_active','date_updated')
 
 class LeagueAdmin(admin.ModelAdmin):
-    list_display = ('id','name','host','game','level','poster','method','start_apply','end_apply','min_team','max_team','date_updated','concept','rule')
+    list_display = ('id','name','host','game','level','poster','method','start_apply','end_apply','min_team','max_team','date_updated','concept')
 
 class LeagueRoundAdmin(admin.ModelAdmin):
     list_display = ('id','league','round','start','end','bestof','is_finish')
@@ -83,6 +83,9 @@ class LeagueMatchAdmin(admin.ModelAdmin):
 
 class LeagueRewardAdmin(admin.ModelAdmin):
     list_display = ('id','league','name','con')
+
+class LeagueWishAdmin(admin.ModelAdmin):
+    list_display = ('id','league','user')
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
@@ -108,3 +111,4 @@ admin.site.register(LeagueInfo, LeagueInfoAdmin)
 admin.site.register(LeagueTeam, LeagueTeamAdmin)
 admin.site.register(LeagueMatch, LeagueMatchAdmin)
 admin.site.register(LeagueReward, LeagueRewardAdmin)
+admin.site.register(LeagueWish, LeagueWishAdmin)

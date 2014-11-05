@@ -7,7 +7,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.dateformat import format
-from django.db.models import Q
+from django.db.models import Q, Count
+
 
 class Game(models.Model):
     name = models.TextField()
@@ -22,10 +23,14 @@ class UserProfile(models.Model):
     user_icon = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
 
     def get_gamelink(self):
-        return GameLink.objects.filter(user=self.user)
+        return get_or_none(GameLink,user=self.user)
 
     def get_group(self):
-        return GroupMember.objects.filter(Q(user=self.user)&~Q(is_active=-1))
+        group = get_or_none(GroupMember,user=self.user,is_active=1)
+        if group :
+            return group.group
+        else :
+            return None
 
     def get_icon(self):
         return "/media/%s"%(self.user_icon)
@@ -147,7 +152,7 @@ class GameLink(models.Model):
     sid = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return u'[%d] %s (%s)' %(self.id, self.uid, self.game)
+        return u'[%d] %s (%s)' %(self.id, self.user, self.game)
 
 class Notification(models.Model):
     user = models.ForeignKey(User)
@@ -189,6 +194,10 @@ class Group(models.Model):
         if self.id:
             return GroupMember.objects.filter(group=self).order_by("order")
 
+    def get_league_history(self):
+        lt = LeagueTeam.objects.filter(group=self,round__round=1)
+        return lt.count()
+
 class GroupMember(models.Model):
     group = models.ForeignKey(Group)
     user = models.ForeignKey(User)
@@ -200,8 +209,8 @@ class GroupMember(models.Model):
         return u'[%d] %s (%s)' %(self.id, self.user.username, self.group)
 
     def get_gamelink(self):
-        if self.uid:
-            return GameLink.objects.get(uid=self.user)
+        if self.user:
+            return GameLink.objects.get(user=self.user)
 
 class League(models.Model):
     name = models.TextField()
@@ -255,7 +264,7 @@ class LeagueRound(models.Model):
                 return str(int(timediff/86400))+"일 후"
 
     def __unicode__(self):
-        return u'[%d] R%d(%s)' %(self.id, self.round, self.league_id)
+        return u'[%d] R%d(%s)' %(self.id, self.round, self.league)
 
 class LeagueInfo(models.Model):
     name = models.TextField()
@@ -304,6 +313,11 @@ class LeagueReward(models.Model):
     league = models.ForeignKey(League)
     name = models.TextField()
     con = models.TextField()
+
+class LeagueWish(models.Model):
+    league = models.ForeignKey(League)
+    user = models.ForeignKey(User)
+    date_updated = models.DateTimeField(auto_now_add=True)
 
 class Chatting(models.Model):
     group = models.ForeignKey(Group)

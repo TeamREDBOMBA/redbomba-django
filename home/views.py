@@ -160,8 +160,8 @@ def page_for_link(request,lid=None,gid=None):
 
     if lid:
         con = {'text':'','img':''}
-        con['text']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='txt').con
-        con['img']=get_or_none(Contents,uto=lid.id,utotype='l',ctype='img').con
+        con['text']=lid.concept
+        con['img']=lid.poster
         context = {
             'user': user,
             'uinfo' : user_profile,

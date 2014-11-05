@@ -14,7 +14,7 @@
         <ul>
             <li id="li_menu_summary" class="li_menu active"><i class="fa fa-bullhorn"></i> 대회 요약</li>
             <!-- <li><i class="fa fa-sitemap"></i> 대회 진행상황</li> -->
-            <!-- <li><i class="fa fa-check-circle"></i> 참가팀 보기</li> -->
+            <li id="li_menu_participants" class="li_menu"><i class="fa fa-check-circle"></i> 참가팀 보기</li>
             <li id="li_menu_detailRule" class="li_menu"><i class="fa fa-book"></i> 자세한 롤 보기</li>
         </ul>
     </div>
@@ -159,6 +159,20 @@
     </div>
 </div>
 
+<div id="div_participants" class="div_contents">
+    <p id='p_participants_title'>{{league.name}}</p>
+    <p id='p_participants_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
+    <div id="div_participants_group">
+        {% for group in groups %}
+        <div class="div_participants_list">
+            <img class="img_participants_icon" src="/media/group_icon/{{ group.group_icon }}">
+            <p class="p_participants_name">{{ group.name }}</p>
+            <p class="p_participants_history">아레나 참가 횟수 : {{ group.get_league_history }}회</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 <div id="div_join_done">
     <img id="ex" src="/static/img/arena_done_ex.png">
     <h1>대회 참가가 완료되었습니다.</h1>
@@ -199,6 +213,13 @@
         $(this).addClass("active");
         $(".div_contents").hide();
         $("#div_detailRule").show();
+    });
+
+    $("#li_menu_participants").click(function(){
+        $(".li_menu").removeClass("active");
+        $(this).addClass("active");
+        $(".div_contents").hide();
+        $("#div_participants").show();
     });
 
     $(".p_more").click(function(){

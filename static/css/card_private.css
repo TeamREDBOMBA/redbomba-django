@@ -6,3 +6,8 @@
 .div_sys .p_feed_username {padding-right: 5px;font-family: "RixSGo B";line-height: 1.5;}
 .div_sys .h2_feed_con {line-height: 1.5;margin-left: 35px;min-height: 30px;}
 .div_sys .p_feed_date {float: left;font-size: 10px;color: #999;margin-top: 5px;}
+.div_sys .div_feed_con {float: left;width:33.33%;text-align: center}
+.div_sys .div_feed_con img { width:60px;height:60px;border-radius: 60px;margin:10px;border:1px solid #ddd}
+.div_sys .div_feed_con .p_feed_groupname { text-align: center }
+.div_sys .div_feed_con .p_feed_res {width:100%;font-family: "RixSGo B";font-size:25px;line-height: 60px;margin-top:10px;text-align: center}
+.div_sys .div_feed_con .p_feed_date {width:100%;text-align: center}

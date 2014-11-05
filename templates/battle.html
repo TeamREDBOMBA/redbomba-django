@@ -60,7 +60,7 @@
                             <p class="h3">
                                 <input type='hidden' class='uid' value='{{ gm.user.id }}'>
                                 <img src="{{ gm.user.get_profile.get_icon }}" class="img_team_icon">
-                                <span>{{ gm.uid }}<br/><font>({{gm.get_gamelink.name}})</font></span>
+                                <span>{{ gm.user }}<br/><font>({{gm.get_gamelink.name}})</font></span>
                                 <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.user.id }}">
                             </p>
                         {% endfor %}
@@ -71,7 +71,7 @@
                             <p class="h3">
                                 <input type='hidden' class='uid' value='{{ gm.user.id }}'>
                                 <img src="{{ gm.user.get_profile.get_icon }}" class="img_team_icon">
-                                <span>{{ gm.uid }}<br/><font>({{gm.get_gamelink.name}})</font></span>
+                                <span>{{ gm.user }}<br/><font>({{gm.get_gamelink.name}})</font></span>
                                 <img src="/static/img/stats_group_disconn.png" id='conn' class="img_team_conn conn_{{ gm.user.id }}">
                             </p>
                         {% endfor %}
@@ -336,7 +336,7 @@
                 draw(false, {{i}});
             {% endfor %}
         </script>
-        {% if user.id|striptags == league.host.id|striptags  %}
+        {% if user.id|striptags == league.host|striptags  %}
             {% include "battle_host.html" %}
         {% elif user.id|striptags == league.team_a.group.user.id|striptags %}
             {% include "battle_leader.html" %}
@@ -349,7 +349,7 @@
         </html>
     {% else %}
         <script>
-            alert("{{league}}");
+            alert("{{league.id}}");
             alert("해당 경기에 대한 출전 권한이 없습니다.");
             location.href="/arena/";
         </script>

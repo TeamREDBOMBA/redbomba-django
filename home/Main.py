@@ -40,6 +40,7 @@ def getCardNewsLarge(request, fid=None):
 
 def getCardPrivate(request):
     user = request.user
+    group = user.get_profile().get_group()
     news = []
 
     mygroup = GroupMember.objects.filter(user=user).values_list('group', flat=True)
@@ -59,6 +60,11 @@ def getCardPrivate(request):
     if pc :
         for value in pc :
             news.append({'self':value,'type':'system','date':value.date_updated})
+
+    lm = LeagueMatch.objects.filter(Q(team_a__group=group)|Q(team_b__group=group)&Q(state=10)).order_by("-date_updated")
+    if lm :
+        for value in lm :
+            news.append({'self':value,'type':'leaguematch','date':value.date_updated})
 
     news.sort(key=lambda item:item['date'], reverse=True)
     context = {'user':user,'news':news}
