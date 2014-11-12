@@ -23,7 +23,7 @@ class UserProfile(models.Model):
     user_icon = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
 
     def get_gamelink(self):
-        return get_or_none(GameLink,user=self.user)
+        return GameLink.objects.filter(user=self.user)
 
     def get_group(self):
         group = get_or_none(GroupMember,user=self.user,is_active=1)

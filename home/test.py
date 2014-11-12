@@ -161,6 +161,8 @@ def test(request):
     elif action == 'delGroup' : return HttpResponse(delGroup(request))
     elif action == 'delLeague' : return HttpResponse(delLeague(request))
 
+    elif action == 'ls' : return HttpResponse(LeagueState(get_or_none(League,id=7),get_or_none(User,id=445)))
+
     return HttpResponse("""
     <b>생성</b><br/>
     ?action=makeUser // 유저 20명 생성<br/>

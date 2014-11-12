@@ -61,7 +61,7 @@ def getCardPrivate(request):
         for value in pc :
             news.append({'self':value,'type':'system','date':value.date_updated})
 
-    lm = LeagueMatch.objects.filter(Q(team_a__group=group)|Q(team_b__group=group)&Q(state=10)).order_by("-date_updated")
+    lm = LeagueMatch.objects.filter(Q(team_a__group=group)|Q(team_b__group=group)).filter(state=10).order_by("-date_updated")
     if lm :
         for value in lm :
             news.append({'self':value,'type':'leaguematch','date':value.date_updated})
