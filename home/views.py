@@ -188,6 +188,9 @@ def page_for_link(request,lid=None,gid=None):
         context = {'user': request.user}
     return render(request, 'page_for_link.html', context)
 
+def about(request):
+    return render(request, 'about.html', None)
+
 @csrf_exempt
 def file(request):
     action = request.GET.get("action");

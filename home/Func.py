@@ -132,12 +132,15 @@ def LeagueState(league, user):
     isFinishMatch = IsFinishMatch(league,user)
     isLast = IsLast(league,user)
 
-    if completeJoin==False and endApply==True :
-        no = 4
-    elif canBattle==True and isFinishGame==False and endApply==True :
-        no = 3
-    elif noticeSchedule==True and canBattle==False and endApply==True :
-        no = 2
+    if completeJoin==False and isFinishMatch == True and isFinishGame == True:
+        if endApply==True or noticeSchedule == True :
+            no = 4
+    elif canBattle==True and isFinishGame==False:
+        if endApply==True or noticeSchedule == True :
+            no = 3
+    elif noticeSchedule==True and canBattle==False:
+        if endApply==True or noticeSchedule == True :
+            no = 2
     elif completeJoin==True and noticeSchedule==False:
         no = 1
     elif hasFiveMem==True and hasFiveLink==True and isLeader==True and hasGroup==True and startApply==True :
@@ -185,7 +188,7 @@ def HasFiveLink(league,user,req=False):
         group = user.get_profile().get_group()
         if group :
             gm = group.get_member()
-            gl = GameLink.objects.filter(user__contains=gm,game=league.game)
+            gl = GameLink.objects.filter(user__contains=gm.values_list('user', flat=True),game=league.game)
             if gl :
                 if req :
                     return gl.count()
@@ -226,6 +229,7 @@ def CompleteJoin(league,user,req=False):
     return False
 
 def EndApply(league,req=False):
+
     now = timezone.localtime(timezone.now())
     if league.end_apply < now :
         return True

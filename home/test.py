@@ -12,7 +12,7 @@ def makeUser(request):
     try:
         for u in range(0,20):
             username = "u%d"%u
-            user = User.objects.create(
+            user = User.objects.create_user(
                 username=username,
                 password=username,
                 email="%s@u.u"%username
@@ -161,7 +161,7 @@ def test(request):
     elif action == 'delGroup' : return HttpResponse(delGroup(request))
     elif action == 'delLeague' : return HttpResponse(delLeague(request))
 
-    elif action == 'ls' : return HttpResponse(LeagueState(get_or_none(League,id=7),get_or_none(User,id=445)))
+    elif action == 'ls' : return HttpResponse(LeagueState(get_or_none(League,name="Test League"),get_or_none(User,username="u0")))
 
     return HttpResponse("""
     <b>생성</b><br/>

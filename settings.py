@@ -86,6 +86,7 @@ STATICFILES_DIRS = (
     ('js', 'redbomba/static/js'),
     ('img', 'redbomba/static/img'),
     ('less', 'redbomba/static/less'),
+    ('about', 'redbomba/static/about'),
 )
 
 # List of finder classes that know how to find static files in

@@ -320,16 +320,16 @@ def getArenaTicket(request):
                 state.append({
                     "league_id": league.id,
                     "league_name": league.name, "round": leagueround.round,
-                              "group": group.name, "groupicon": group.group_icon,
-                              "opgroup": opgroup.name, "opgroupicon": opgroup.group_icon,
-                              "next_match": str(leaguematch[0].date_match), "state": s['no']})
+                    "group": group.name, "groupicon": group.group_icon,
+                    "opgroup": opgroup.name, "opgroupicon": opgroup.group_icon,
+                    "next_match": str(leaguematch[0].date_match), "state": s['no']})
             else:
                 state.append({
                     "league_id": league.id,
                     "league_name": league.name, "round": leagueround.round,
-                              "group": group.name, "groupicon": group.group_icon,
-                              "opgroup": "대전 상대가 아직 정해지지 않았습니다.", "opgroupicon": "",
-                              "next_match": "0", "state": s['no']})
+                    "group": group.name, "groupicon": group.group_icon,
+                    "opgroup": "대전 상대가 아직 정해지지 않았습니다.", "opgroupicon": "",
+                    "next_match": "0", "state": s['no']})
         return HttpResponse(json.dumps(state), content_type="application/json")
     except Exception as e:
         return HttpResponse(e.message)
@@ -623,20 +623,45 @@ def getCondition(request):
     state = []
     uid = request.GET["uid"]
     lid = request.GET["lid"]
-    try:
-        s = LeagueState(lid, uid)
-        if s["user_gid"] == None:
-            s["user_gid"] = "0"
-        if s['no'] < 1:
-            state.append({"no": s["no"], "isLeader": str(s["isAdmin"]), "group": str(s["user_gid"]),
-                      "groupmem": str(s['groupmem']), "gamelink": str(s['gamelink'])})
+    group = "0"
+    isLeader = "0"
+    HasFiveLink = "0"
+    ls = LeagueState(get_or_none(League,id=lid), get_or_none(User,id=uid))
+    if ls :
+        group = get_or_none(User,id=uid).get_profile().get_group()
+        if group == None :
+            group = "0"
+
+        isLeader = ls['IsLeader']
+        if isLeader :
+            isLeader = "1"
+        else :
+            isLeader = "0"
+
+        HasFiveLink = ls['HasFiveLink']
+        if HasFiveLink :
+            HasFiveLink = ls['HasFiveLink']
+        else :
+            HasFiveLink = "0"
+
+        if ls['no'] < 1:
+            state.append({
+                "no": ls['no'],
+                "isLeader": isLeader,
+                "group": str(group),
+                "groupmem": str(ls['HasFiveMem']), #Count
+                "gamelink": str(HasFiveLink) #Count
+            })
         else:
-            state.append({"no": s["no"], "isLeader": str(s["isAdmin"]), "group": str(s["user_gid"]),
-                      "groupmem": "-1", "gamelink": "-1"})
+            state.append({
+                "no": ls['no'],
+                "isLeader": isLeader,
+                "group": str(group),
+                "groupmem": "-1",
+                "gamelink": "-1"
+            })
 
         return HttpResponse(json.dumps(state), content_type="application/json")
-    except Exception as e:
-        return HttpResponse(e.message)
 
 @csrf_exempt
 def fromMobile(request):
