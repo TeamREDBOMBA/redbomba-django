@@ -3,9 +3,11 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from home.views import *
+from redbomba.home.Socket import fromSocket
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
+
 admin.autodiscover()
 
 base64_pattern = r'(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$'
@@ -70,7 +72,7 @@ urlpatterns = patterns('',
     (r'^auth/fnc/email/$', fncSignupEmail),
     (r'^auth/fnc/nick/$', fncSignupNick),
     (r'^auth/(?P<id>\d+)/(?P<date_joined>{})'.format(base64_pattern), verifyEmail),
-    (r'^socket/notification/$', NotificationMsg),
+    (r'^socket/$', fromSocket),
     (r'^mobile/$', fromMobile),
     (r'^file/$', file),
     (r'^test/$', test),
