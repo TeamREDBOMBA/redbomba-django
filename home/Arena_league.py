@@ -55,13 +55,6 @@ def setLeagueteam(request):
             feasible_time=feasible_time,
             is_complete = is_complete
         )
-        if round >= 2 :
-            lr = LeagueRound.objects.get(league=League.objects.get(id=request.POST["league_id"]),round=round-1)
-            for lt in LeagueTeam.objects.filter(round=lr,is_complete=1) :
-                for lm in LeagueMatch.objects.filter((Q(team_a=lt)|Q(team_b=lt))&~Q(state=10)):
-                    return HttpResponse("Not Finish")
-            lr.is_finish = 1
-            lr.save()
         return HttpResponse("Success")
     elif action == "delete":
         user = request.POST.get("id")

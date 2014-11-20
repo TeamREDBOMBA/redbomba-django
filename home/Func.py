@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Create your views here.
+from math import log
 import sys
 import os
 import pwd
@@ -119,190 +120,175 @@ def LeagueState(league, user):
 
     no = "ERROR"
 
-    lastRound = LastRound(league)
+    #User State
+    isFiveMem = IsFiveMem(user)                     # 1
+    isFiveLink = IsFiveLink(league, user)           # 2
+    isLeader = IsLeader(user)                       # 3
+    isInGroup = IsInGroup(user)                     # 4
+    isHost = IsHost(league,user)                    # HOST
 
-    hasFiveMem = HasFiveMem(user)
-    hasFiveLink = HasFiveLink(league,user)
-    isLeader = IsLeader(user)
-    hasGroup = HasGroup(user)
-    isHost = IsHost(league,user)
+    #League State
+    isStartApply = IsStartApply(league)             # 5
+    isFullLeague = IsFullLeague(league)             # 6
+    isEndApply = IsEndApply(league)                 # 8
+    isFinishLeague = IsFinishLeague(league)         # 12
+    isStart1stMatch = IsStart1stMatch(league)       # 9-2
+    nowRound = NowRound(league)
+    canMatchMaker = CanMatchMaker(nowRound)
 
-    startApply = StartApply(league)
-    completeJoin = CompleteJoin(lastRound, user)
-    endApply = EndApply(league)
-    noticeSchedule = NoticeSchedule(league,user)
-    canBattle = CanBattle(league,user)
-    isFinishGame = IsFinishGame(league,user)
-    isFinishMatch = IsFinishMatch(league,user)
-    isLast = IsLast(league,user)
+    #User&League State
+    isCompleteJoin = IsCompleteJoin(league, user)   # 7
+    isRunMathMaker = IsRunMathMaker(isCompleteJoin) # 9-1
+    isCanBattle = IsCanBattle(isRunMathMaker)       # 10
+    isFinishMatch = IsFinishMatch(isCanBattle)      # 11
 
-    allFinish = AllFinish(league,lastRound)
-
-    if allFinish == True :
-        no = 5
-    elif completeJoin==False:
-        if endApply==True :
-            no = 4
-    elif canBattle==True and isFinishGame==False:
-        if endApply==True or noticeSchedule == True :
-            no = 3
-    elif noticeSchedule==True and canBattle==False:
-        if endApply==True or noticeSchedule == True :
-            no = 2
-    elif completeJoin==True and noticeSchedule==False:
-        no = 1
-    elif hasFiveMem==True and hasFiveLink==True and isLeader==True and hasGroup==True and startApply==True :
-        no = 0
-    elif isLeader==True and hasGroup==True and startApply==True :
-        if hasFiveMem==False or hasFiveLink==False :
-            no = -1
-    elif isLeader==False and hasGroup==False and startApply==True :
+    if isStartApply == None and isFinishLeague == None :
+        no = -3
+    elif isFiveMem==None and isFiveLink==None and isLeader==None and isInGroup==None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
         no = -2
+    elif (isFiveMem == None or  isFiveLink==None) and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
+        no = -1
+    elif isFiveMem!=None and isFiveLink!=None and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
+        no = 0
+    elif isStartApply!=None and isCompleteJoin!=None and isRunMathMaker==None:
+        no = 1
+    elif isCompleteJoin!=None and isRunMathMaker!=None and isCanBattle==None:
+        no = 2
+    elif isCanBattle!=None and isFinishMatch==None:
+        no = 3
+    elif isStart1stMatch!=None and isFinishLeague == None :
+        no = 4
+    elif isFinishLeague != None :
+        no = 5
+    else :
+        no = "Pass All"
 
     return {
         "no":no,
-        "user":user,
-        "league":league,
-        "HasFiveMem":HasFiveMem(user,True),
-        "HasFiveLink":HasFiveLink(league,user,True),
-        "IsLeader":IsLeader(user,True),
-        "HasGroup":HasGroup(user,True),
-        "IsHost":IsHost(league, user,True),
-        "StartApply":StartApply(league,True),
-        "CompleteJoin":CompleteJoin(league, user,True),
-        "EndApply":EndApply(league,True),
-        "NoticeSchedule":NoticeSchedule(league,user,True),
-        "CanBattle":CanBattle(league,user,True),
-        "IsFinishGame":IsFinishGame(league,user,True),
-        "IsFinishMatch":IsFinishMatch(league,user,True),
-        "IsLast":IsLast(league,user,True),
-        "lastRound":lastRound
-        }
+        "isFiveMem":isFiveMem,
+        "isFiveLink":isFiveLink,
+        "isLeader":isLeader,
+        "isInGroup":isInGroup,
+        "isHost":isHost,
+        "isStartApply":isStartApply,
+        "isFullLeague":isFullLeague,
+        "isStart1stMatch":isStart1stMatch,
+        "isCompleteJoin":isCompleteJoin,
+        "isRunMathMaker":isRunMathMaker,
+        "isCanBattle":isCanBattle,
+        "isFinishMatch":isFinishMatch,
+        "canMatchMaker":canMatchMaker,
+        "nowRound":nowRound
+    }
 
-def HasFiveMem(user, req=False):
-    if user:
-        group = user.get_profile().get_group()
-        if group :
-            gm = group.get_member()
-            if gm :
-                if req :
-                    return gm.count()
-                if gm.count() >= 5 :
-                    return True
-    return False
+def IsFiveMem(user):
+    group = user.get_profile().get_group()
+    if group :
+        gm = group.get_member()
+        if gm :
+            return gm.count()
+    return None
 
-def HasFiveLink(league,user,req=False):
-    if user:
-        group = user.get_profile().get_group()
-        if group :
-            gm = group.get_member()
-            gl = GameLink.objects.filter(user__contains=gm.values_list('user', flat=True),game=league.game)
-            if gl :
-                if req :
-                    return gl.count()
-                if gl.count() >= 5 :
-                    return True
-    return False
+def IsFiveLink(league, user):
+    group = user.get_profile().get_group()
+    if group :
+        gm = group.get_member()
+        gl = GameLink.objects.filter(user__contains=gm.values_list('user', flat=True),game=league.game)
+        if gl :
+            if gl.count() >= 5 :
+                return gl.count()
+    return None
 
-def IsLeader(user,req=False):
-    if user:
-        group = user.get_profile().get_group()
-        if group :
-            return group.leader == user
-    return False
+def IsLeader(user):
+    group = user.get_profile().get_group()
+    if group :
+        if group.leader == user :
+            return group.leader
+    return None
 
-def HasGroup(user,req=False):
-    if user:
-        group = user.get_profile().get_group()
-        if group :
-            return True
-    return False
+def IsInGroup(user):
+    group = user.get_profile().get_group()
+    if group :
+        return group
+    return None
 
-def IsHost(league,user,req=False):
+def IsHost(league,user):
     host = league.host
-    return host == user
+    if host == user :
+        return host == user
+    return None
 
-def StartApply(league,req=False):
+def IsStartApply(league):
     now = timezone.localtime(timezone.now())
     if league.start_apply <= now :
-        return True
-    return False
+        return league.start_apply
+    return None
 
-def CompleteJoin(lastRound,user,req=False):
-    lt = LeagueTeam.objects.filter(round=lastRound,group=user.get_profile().get_group()).order_by("-id")
-    if lt :
-        if req :
-            return lt[0]
-        return True
-    return False
+def IsFullLeague(league):
+    lt = LeagueTeam.objects.filter(round__league=league, round__round=1)
+    if lt:
+        if lt.count() >= league.max_team :
+            return lt.count()
+    return None
 
-def EndApply(league,req=False):
-
+def IsEndApply(league):
     now = timezone.localtime(timezone.now())
     if league.end_apply < now :
-        return True
-    return False
+        return league.end_apply
+    return None
 
-def NoticeSchedule(league,user,req=False):
-    lr = get_or_none(LeagueRound,league=league,is_finish=0)
-    lt = LeagueTeam.objects.filter(round=lr,group=user.get_profile().get_group()).order_by("-id")
-    if lt:
-        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
+def IsFinishLeague(league):
+    lr = LeagueRound.objects.filter(league=league).order_by("-round")
+    if lr :
+        lm = LeagueMatch.objects.filter(Q(team_a__round=lr[0])|Q(team_b__round=lr[0])).order_by("-id")
         if lm :
-            if req :
-                return lm[0]
-            return True
-    return False
+            lastLM = lm[0]
+            if lastLM.state == 10 :
+                return lastLM
+    return None
 
-def CanBattle(league,user,req=False):
-    now = timezone.localtime(timezone.now())
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
-    if lt :
-        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
-        if lm :
-            return lm[0].date_match-timedelta(minutes=30) <= now
-    return False
-
-def IsFinishGame(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
-    if lt :
-        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).filter(state='10').order_by("-id")
-        if lm :
-            if req :
-                return lm[0]
-            return True
-    return False
-
-def IsFinishMatch(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
-    if lt :
-        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).filter(state='10').order_by("-id")
-        if lm :
-            if lm.count() == int(lt[0].round.bestof) :
-                if req :
-                    return lm[0]
-                return True
-    return False
-
-def IsLast(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
-    if lt :
-        lm = LeagueMatch.objects.filter(team_a__round=lt[0].round)
-        if lm:
-            if req :
-                return lm[0]
-            return lm.count() == 1
-    return False
-
-def LastRound(league):
-    try:
-        lastRound = LeagueRound.objects.filter(league=league,is_finish=0).order_by("id")[0]
-    except Exception as e:
-        lastRound = LeagueRound.objects.filter(league=league,is_finish=1).order_by("-id")[0]
-    return lastRound
-
-def AllFinish(league,lastRound):
-    lm = get_or_none(LeagueMatch,team_a__round=lastRound)
+def IsStart1stMatch(league):
+    lm = LeagueMatch.objects.filter(team_a__round__league=league, team_a__round__round=1)
     if lm :
-        return lm.state == 10
-    return False
+        return lm[0]
+    return None
+
+def NowRound(league):
+    lr = LeagueRound.objects.filter(league=league,is_finish=0).order_by("id")
+    if lr :
+        return lr[0]
+    return None
+
+def CanMatchMaker(nowRound):
+    lm = LeagueMatch.objects.filter(Q(team_a__round=nowRound)|Q(team_b__round=nowRound))
+    if lm :
+        return None
+    return nowRound
+
+def IsCompleteJoin(league, user):
+    group = user.get_profile().get_group()
+    if group :
+        lt = LeagueTeam.objects.filter(group=group, round__league=league).order_by("-id")
+        if lt :
+            return lt[0]
+    return None
+
+def IsRunMathMaker(lt):
+    if lt :
+        lm = LeagueMatch.objects.filter(Q(team_a=lt)|Q(team_b=lt))
+        if lm :
+            return lm[0]
+    return None
+
+def IsCanBattle(lm):
+    now = timezone.localtime(timezone.now())
+    if lm :
+        if lm.date_match-timedelta(minutes=30) <= now :
+            return lm
+    return None
+
+def IsFinishMatch(lm):
+    if lm :
+        if lm.state == 10 :
+            return lm
+    return None
