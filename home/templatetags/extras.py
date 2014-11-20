@@ -38,7 +38,7 @@ def get_time_diff(date_data,arg):
 		elif timediff > 60:
 			return str(int(timediff/60))+"분 전"
 		else :
-			return 0
+			return "조금 전"
 	else :
 		now = datetime.utcnow().replace(tzinfo=utc)
 		timediff = date_data - now

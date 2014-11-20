@@ -69,7 +69,7 @@ def makeLeague(request):
         now = timezone.localtime(timezone.now())
         league = League.objects.create(
             name = "Test League",
-            host = get_or_none(User,id=1),
+            host = get_or_none(User,id=31),
             game = get_or_none(Game,id=1),
             poster = "upload/files_1413436225/02.jpg",
             concept = "Test League",
