@@ -33,12 +33,12 @@ def battle(request):
         if lm.state == 0:
             group_leader = Group.objects.get(leader=request.user).leader
             if group_leader :
-                lm.host = group_leader
+                lm.host = group_leader.id
                 lm.state = 1
                 lm.result = group_leader.id
                 lm.save()
         else :
-            lm.host = User.objects.get(id=lm.leader)
+            lm.host = User.objects.get(id=lm.leader).id
     except Exception as e:
         pass
 

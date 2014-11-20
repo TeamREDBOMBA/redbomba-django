@@ -40,7 +40,7 @@ def makeGroup(request):
             group = Group.objects.create(
                 name = groupname,
                 nick = "g%d"%g,
-                leader = User.objects.get(username="u%d"%g),
+                leader = User.objects.get(username="u%d"%(g*5)),
                 game = Game.objects.get(name="League of Legends")
             )
         return "makeGroup success"

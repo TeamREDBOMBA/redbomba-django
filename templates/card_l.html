@@ -179,18 +179,20 @@
     <p id='p_result_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
     <div id="div_result_match">
         {% for lr in league.get_league_round %}
-            <p class='p_match_title'>{{ lr.round }} Round</p>
-            {% for lm in league|getMatch:lr.round %}
-            <div class="div_result_list">
-                <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_a.group.name }}</p></div>
-                <div class="div_result_con">
-                    {% if lm.result == "A" and lm.state == 10 %}<p class="p_feed_res">승 vs 패</p>
-                    {% elif lm.result == "B" and lm.state == 10 %} <p class="p_feed_res">패 vs 승</p>
-                    {% else %} <p class="p_feed_res">진 행 중</p>{% endif %}
+            <div class="row">
+                <p class='p_match_title  col-lg-12'>{{ lr.round }} Round</p>
+                {% for lm in league|getMatch:lr.round %}
+                <div class="div_result_list col-lg-6">
+                    <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_a.group.name }}</p></div>
+                    <div class="div_result_con">
+                        {% if lm.result == "A" and lm.state == 10 %}<p class="p_feed_res">승 vs 패</p>
+                        {% elif lm.result == "B" and lm.state == 10 %} <p class="p_feed_res">패 vs 승</p>
+                        {% else %} <p class="p_feed_res">진 행 중</p>{% endif %}
+                    </div>
+                    <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_b.group.name }}</p></div>
                 </div>
-                <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_b.group.name }}</p></div>
-            </div>
             {% endfor %}
+            </div>
         {% endfor %}
     </div>
 </div>

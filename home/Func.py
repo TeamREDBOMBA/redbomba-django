@@ -117,6 +117,10 @@ def remakeLeagueState(l, u):
 
 def LeagueState(league, user):
 
+    no = "ERROR"
+
+    lastRound = LastRound(league)
+
     hasFiveMem = HasFiveMem(user)
     hasFiveLink = HasFiveLink(league,user)
     isLeader = IsLeader(user)
@@ -124,7 +128,7 @@ def LeagueState(league, user):
     isHost = IsHost(league,user)
 
     startApply = StartApply(league)
-    completeJoin = CompleteJoin(league, user)
+    completeJoin = CompleteJoin(lastRound, user)
     endApply = EndApply(league)
     noticeSchedule = NoticeSchedule(league,user)
     canBattle = CanBattle(league,user)
@@ -132,8 +136,12 @@ def LeagueState(league, user):
     isFinishMatch = IsFinishMatch(league,user)
     isLast = IsLast(league,user)
 
-    if completeJoin==False and isFinishMatch == True and isFinishGame == True:
-        if endApply==True or noticeSchedule == True :
+    allFinish = AllFinish(league,lastRound)
+
+    if allFinish == True :
+        no = 5
+    elif completeJoin==False:
+        if endApply==True :
             no = 4
     elif canBattle==True and isFinishGame==False:
         if endApply==True or noticeSchedule == True :
@@ -148,9 +156,8 @@ def LeagueState(league, user):
     elif isLeader==True and hasGroup==True and startApply==True :
         if hasFiveMem==False or hasFiveLink==False :
             no = -1
-    elif hasFiveMem==False and hasFiveLink==False and isLeader==False and hasGroup==False and startApply==True :
+    elif isLeader==False and hasGroup==False and startApply==True :
         no = -2
-    else : no = "ERROR"
 
     return {
         "no":no,
@@ -168,7 +175,8 @@ def LeagueState(league, user):
         "CanBattle":CanBattle(league,user,True),
         "IsFinishGame":IsFinishGame(league,user,True),
         "IsFinishMatch":IsFinishMatch(league,user,True),
-        "IsLast":IsLast(league,user,True)
+        "IsLast":IsLast(league,user,True),
+        "lastRound":lastRound
         }
 
 def HasFiveMem(user, req=False):
@@ -220,8 +228,8 @@ def StartApply(league,req=False):
         return True
     return False
 
-def CompleteJoin(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),is_complete=0).order_by("-id")
+def CompleteJoin(lastRound,user,req=False):
+    lt = LeagueTeam.objects.filter(round=lastRound,group=user.get_profile().get_group()).order_by("-id")
     if lt :
         if req :
             return lt[0]
@@ -236,7 +244,8 @@ def EndApply(league,req=False):
     return False
 
 def NoticeSchedule(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group()).order_by("-id")
+    lr = get_or_none(LeagueRound,league=league,is_finish=0)
+    lt = LeagueTeam.objects.filter(round=lr,group=user.get_profile().get_group()).order_by("-id")
     if lt:
         lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
         if lm :
@@ -247,7 +256,7 @@ def NoticeSchedule(league,user,req=False):
 
 def CanBattle(league,user,req=False):
     now = timezone.localtime(timezone.now())
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group()).order_by("-id")
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
     if lt :
         lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
         if lm :
@@ -255,31 +264,45 @@ def CanBattle(league,user,req=False):
     return False
 
 def IsFinishGame(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group()).order_by("-id")
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
     if lt :
-        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
+        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).filter(state='10').order_by("-id")
         if lm :
             if req :
                 return lm[0]
-            return lm[0].state == 10
+            return True
     return False
 
 def IsFinishMatch(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group()).order_by("-id")
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
     if lt :
-        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
+        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).filter(state='10').order_by("-id")
         if lm :
-            if req :
-                return lm[0]
-            return lm.count() == int(lt[0].round.bestof)
+            if lm.count() == int(lt[0].round.bestof) :
+                if req :
+                    return lm[0]
+                return True
     return False
 
 def IsLast(league,user,req=False):
-    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group()).order_by("-id")
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
     if lt :
         lm = LeagueMatch.objects.filter(team_a__round=lt[0].round)
         if lm:
             if req :
                 return lm[0]
             return lm.count() == 1
+    return False
+
+def LastRound(league):
+    try:
+        lastRound = LeagueRound.objects.filter(league=league,is_finish=0).order_by("id")[0]
+    except Exception as e:
+        lastRound = LeagueRound.objects.filter(league=league,is_finish=1).order_by("-id")[0]
+    return lastRound
+
+def AllFinish(league,lastRound):
+    lm = get_or_none(LeagueMatch,team_a__round=lastRound)
+    if lm :
+        return lm.state == 10
     return False

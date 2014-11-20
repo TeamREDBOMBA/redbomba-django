@@ -336,11 +336,13 @@
                 draw(false, {{i}});
             {% endfor %}
         </script>
+        {{ user.id }}, {{ league.team_a.group.leader.id|striptags }},
+        {{ user.id }}, {{ league.team_b.group.leader.id|striptags }}
         {% if user.id|striptags == league.host|striptags  %}
             {% include "battle_host.html" %}
-        {% elif user.id|striptags == league.team_a.group.user.id|striptags %}
+        {% elif user.id|striptags == league.team_a.group.leader.id|striptags %}
             {% include "battle_leader.html" %}
-        {% elif user.id|striptags == league.team_b.group.user.id|striptags %}
+        {% elif user.id|striptags == league.team_b.group.leader.id|striptags %}
             {% include "battle_leader.html" %}
         {% else %}
             {% include "battle_member.html" %}

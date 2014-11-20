@@ -234,7 +234,7 @@ class League(models.Model):
             return LeagueMatch.objects.filter(team_a__round__league=self)
 
     def get_league_round(self):
-        return LeagueRound.objects.filter(league=self, is_finish=1)
+        return LeagueRound.objects.filter(league=self, is_finish=1).order_by("-id")
 
     def get_time_diff(self):
         if self.end_apply:

@@ -124,7 +124,7 @@ $(window).load(function() {
 				$('#state').val('5');
 				$('#container #content #simpleMsg').html("");
 				$('#Chatting').hide();
-				time = new Date(Number(data.result));
+				time = new Date(data.result);
 				ready_timer = setInterval(function (){
 				    // The number of milliseconds in one day
 				    var ONE_MIN = 1000 * 60;
