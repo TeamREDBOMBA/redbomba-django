@@ -1,39 +1,62 @@
-<div class='div_noti_cell {% if this.date_read == 1 %}read{% endif %}' id='div_noti_cell{{this.id}}'>
-    <div class='div_cell_icon'><img src='{{state.img | safe}}'></div>
-    <div class='div_cell_txt'>{{state.con | safe}}</div>
+<div class='div_noti_cell {% if ele.date_read == 1 %}read{% endif %}' id='div_noti_cell{{ele.id}}'>
+    <div class='div_cell_icon'><img src='{{ele.icon| safe}}'></div>
+    <div class='div_cell_txt'>{{ele.contents | safe}}</div>
     <div class='div_cell_bottom'>
-      <div class='div_bottom_date'>{{date}}</div>
+        <div class='div_bottom_date'>{{ ele.get_time_diff }}</div>
     </div>
 </div>
-{% if table == 'home_league' %}
-  <script>
-  $('#div_noti_cell{{this.id}}').click(function(){
-    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
-    location.href='/stats/?get=myarena';
-  });
-  </script>
+{% if ele.action == 'League_JoinLeague' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='{{ ele.link }}';
+        });
+    </script>
 {% endif %}
-{% if table == 'home_group' %}
-  <script>
-  $('#div_noti_cell{{this.id}}').click(function(){
-    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
-    location.href='/stats/';
-  });
-  </script>
+{% if ele.action == 'League_RunMatchMaker' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='{{ ele.link }}';
+        });
+    </script>
 {% endif %}
-{% if table == 'home_leagueround' %}
-  <script>
-  $('#div_noti_cell{{this.id}}').click(function(){
-    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
-    location.href='/stats/?get=myarena';
-  });
-  </script>
+{% if ele.action == 'League_StartMatch' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='{{ ele.link }}';
+        });
+    </script>
 {% endif %}
-{% if table == 'home_leaguematch' %}
-  <script>
-  $('#div_noti_cell{{this.id}}').click(function(){
-    $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'id':{{this.id}},'action':'check' }).fadeIn('500');
-    location.href='/battle/?round={{state.this.team_a.round.id}}';
-  });
-  </script>
+{% if ele.action == 'Group_InviteMember' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='{{ ele.link }}';
+        });
+    </script>
+{% endif %}
+{% if ele.action == 'Group_AskAddMember' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            $('.modal').modal('hide');
+            $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ ele.link }}'},function(){
+                $('#GroupInfo .div_info_sub').css({"left":"330px"});
+                $('#GroupInfo .div_info').hide();
+                $('#GroupInfo #div_info_2').show();
+                $('#GroupInfo #div_info_2 #div_info_subWait').animate({"left":"0px"}, "fast");
+            });
+            $('#GroupInfo').modal('show');
+        });
+    </script>
+{% endif %}
+{% if ele.action == 'Group_AddMember' %}
+    <script>
+        $('#div_noti_cell{{ele.id}}').click(function(){
+            $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+            location.href='{{ ele.link }}';
+        });
+    </script>
 {% endif %}

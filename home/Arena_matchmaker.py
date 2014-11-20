@@ -16,11 +16,8 @@
  #
 
 from redbomba.home.Func import *
-from datetime import datetime, timedelta
-from redbomba.home.models import League
+from datetime import timedelta
 from redbomba.home.models import LeagueTeam
-from redbomba.home.models import LeagueRound
-from redbomba.home.models import LeagueReward
 from redbomba.home.models import LeagueMatch
 
 # Create your views here.
@@ -40,6 +37,7 @@ def matchmaker(round):
 
   indexholder = sortindex(sizeholder)
   for i in range(len(indexholder)):
+
     if indexholder[i] != -1:
       time = gettime(array[indexholder[i]])
       for j in range(len(indexholder)):
@@ -66,6 +64,8 @@ def matchmaker(round):
     _team_b.append(teamid[team_b[i]])
     ftime.append(timecal(start,timearray[i]))
   insertteam(_team_a,_team_b,ftime)
+  round.is_finish = 1
+  round.save()
   retStr = """team_a:%s, team_b:%s, ftime:%s
   <script>
   alert('Success');
@@ -77,7 +77,7 @@ def matchmaker(round):
 #Get array of team_id from database
 def team_id(round):
   team = []
-  query = LeagueTeam.objects.filter(round=round)
+  query = LeagueTeam.objects.filter(round=round,is_complete=1)
   for i in query:
     if i != None:
       team.append(i)
@@ -86,7 +86,7 @@ def team_id(round):
 #Get array of time from database
 def time_array(round):
   feasible_time = []
-  query = LeagueTeam.objects.filter(round=round).values_list('feasible_time', flat=True)
+  query = LeagueTeam.objects.filter(round=round,is_complete=1).values_list('feasible_time', flat=True)
   for i in query:
     if i != None:
       feasible_time.append(i)
@@ -170,10 +170,12 @@ def sortindex(array):
 
 #Get values(times) in an array
 def gettime(array):
+  recotime = [20,19,18,21,17,14,15,13,12,16,22,23,0,1,2,11,10,9,7,8,3,4,5,6]
   result = []
-  for i in array:
-    if i != 0 :
-      result.append(i)
+  for i in recotime:
+    for j in range(len(array)):
+      if i == array[j]%24:
+        result.append(array[j])
   return result
 
 #Time calculator
@@ -182,4 +184,4 @@ def starttime(round):
   return query.replace(hour=0, minute=0, second=0, microsecond=0)
 
 def timecal(datetime,n):
-  return datetime + timedelta(hours=n)
+  return datetime + timedelta(hours=n-9)

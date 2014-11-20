@@ -2,9 +2,9 @@
             <input type='hidden' id='uid' value='{{ group_user.id }}'>
             <a onclick="click_name('{{ group_user.username }}')">
             {% if host %}
-            <img id='usericon' class='{{ host }}' title='{{ group_user.username }}({{ host }})' src='/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg'>
+            <img id='usericon' class='{{ host }}' title='{{ group_user.username }}({{ host }})' src='{{ uinfo.get_icon }}'>
             {% else %}
-            <img id='usericon' title='{{ group_user.username }}' src='/static/img/icon/usericon_{{ uinfo.user_icon }}.jpg'>
+            <img id='usericon' title='{{ group_user.username }}' src='{{ uinfo.get_icon }}'>
             {% endif %}
             </a>
             {% if group_active == 0 %}

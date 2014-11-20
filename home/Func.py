@@ -1,34 +1,27 @@
 # -*- coding: utf-8 -*-
- 
+
 # Create your views here.
-import base64
+import sys
+import os
+import pwd
 import re, urlparse
-import requests
 import json
 import urllib2
-from redbomba.home.models import Smile
-from redbomba.home.models import Group
+import requests
+from redbomba.home.models import Group, Notification
 from redbomba.home.models import GroupMember
-from redbomba.home.models import Game
 from redbomba.home.models import GameLink
-from redbomba.home.models import Notification
-from redbomba.home.models import League
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound
 from redbomba.home.models import LeagueMatch
-from django import template
+from datetime import timedelta, datetime
 from django.db.models import Q
-from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
-from django.shortcuts import render_to_response
-from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.template import RequestContext, Context
-from django.template.loader import get_template, render_to_string
-from django.utils.html import strip_tags
-from datetime import date, datetime, timedelta
-from django.utils.timezone import utc
+from django.http import HttpResponse
 from django.utils import timezone
+from django.utils.dateformat import format
+
+# print >>sys.stderr, "%s"%(gm) # Log
 
 def get_user(email):
     try:
@@ -37,38 +30,35 @@ def get_user(email):
         return None
 
 def forsocket(request):
-  val = ""
-  if request.method=='POST':
-    try:
-      uid = request.user
-      gid = GroupMember.objects.get(uid=uid).gid
-      val = val + "<uid>%s</uid>" %(uid.id)
-      val = val + "<gid>%s</gid>" %(gid.id)
-    except Exception as e:
-      val = val + "<uid>%s</uid>" %(uid.id)
-      val = val + "<gid>0</gid>"
-  else:
-    val = "POST ERROR"
-  return HttpResponse(val)
+    val = ""
+    if request.method=='POST':
+        uid = request.user
+        gid =get_or_none(GroupMember,user=uid)
+        if gid == None : gid = 0
+        val = val + "<uid>%s</uid>" %(uid.id)
+        val = val + "<gid>%s</gid>" %(gid.id)
+    else:
+        val = "POST ERROR"
+    return HttpResponse(val)
 
 def errorMsg(msg) :
-  if msg=='100':
-    return {'msg':msg,'con':'로그인 중 오류가 발생하였습니다. 다시 시도해 주십시오.'}
-  elif msg=='101':
-    return {'msg':msg,'con':'E-mail이 틀렸습니다.'}
-  elif msg=='102':
-    return {'msg':msg,'con':'Password가 틀렸습니다.'}
-  elif msg=='110':
-    return {'msg':msg,'con':'이메일 인증이 필요합니다.'}
-  elif msg=='200':
-    return {'msg':msg,'con':'회원가입 중 오류가 발생하였습니다. 다시 시도해 주십시오.'}
-  elif msg=='201':
-    return {'msg':msg,'title':'축하합니다.','con':'게이머의 세상, REDBOMBA에 오신 것을 환영합니다.'}
-  elif msg=='300':
-    return {'msg':msg,'con':'그룹생성 중 오류가 발생하였습니다. 다시 시도해 주십시오.'}
-  elif msg=='301':
-    return {'msg':msg,'con':'그룹이 생성되었습니다. 그룹원을 모집해보세요.'}
-  
+    if msg=='100':
+        return {'msg':msg,'con':'로그인 중 오류가 발생하였습니다. 다시 시도해 주십시오.'}
+    elif msg=='101':
+        return {'msg':msg,'con':'E-mail이 틀렸습니다.'}
+    elif msg=='102':
+        return {'msg':msg,'con':'Password가 틀렸습니다.'}
+    elif msg=='110':
+        return {'msg':msg,'con':'이메일 인증이 필요합니다.'}
+    elif msg=='200':
+        return {'msg':msg,'con':'회원가입 중 오류가 발생하였습니다. 다시 시도해 주십시오.'}
+    elif msg=='201':
+        return {'msg':msg,'title':'축하합니다.','con':'게이머의 세상, REDBOMBA에 오신 것을 환영합니다.'}
+    elif msg=='300':
+        return {'msg':msg,'con':'그룹생성 중 오류가 발생하였습니다. 다시 시도해 주십시오.'}
+    elif msg=='301':
+        return {'msg':msg,'con':'그룹이 생성되었습니다. 그룹원을 모집해보세요.'}
+
 def urlEncodeNonAscii(b):
     return re.sub('[\x80-\xFF]', lambda c: '%%%02x' % ord(c.group(0)), b)
 
@@ -79,132 +69,240 @@ def iriToUri(iri):
         for parti, part in enumerate(parts)
     )
 
-def LeagueState(league, user):
-  state = {}
-  lr = LeagueRound.objects.filter(league_id=league).order_by("round")
-
-  try:
-    Group.objects.get(uid=user.uid)
-    isAdmin = 1
-  except Exception as e:
-    isAdmin = 0
-
-  try:
-    if LeagueTeam.objects.filter(group_id=user.gid,round__in=lr).order_by("-round")[0].round.round != 1 :
-      last_lt = LeagueTeam.objects.filter(group_id=user.gid,round__in=lr).order_by("-round")[1]
-      last_lm = LeagueMatch.objects.filter(Q(team_a=last_lt)|Q(team_b=last_lt)).order_by("-game")[0]
-    else :
-      last_lt = LeagueTeam.objects.filter(group_id=user.gid,round__in=lr).order_by("-round")[0]
-      last_lm = LeagueMatch.objects.filter(Q(team_a=last_lt)|Q(team_b=last_lt)).order_by("-game")[0]
-  except Exception as e:
-    last_lm = None
-
-  try:
-    last_round = lr.order_by("-round")
-    if LeagueMatch.objects.filter(team_a__round=last_round[0]).order_by("-game")[0].state == 10 :
-      final = LeagueMatch.objects.filter(team_a__round=last_round[0]).order_by("-game")[0]
-      semifinal = LeagueMatch.objects.filter(team_a__in=LeagueTeam.objects.filter(round=last_round[1])).order_by("-game")[0]
-      if final.result == 'A':
-        win_1 = final.team_a.group_id
-        win_2 = final.team_b.group_id
-      else:
-        win_2 = final.team_a.group_id
-        win_1 = final.team_b.group_id
-      if semifinal[0].result == 'A':
-        win_3_1 = semifinal[0].team_b.group_id
-      else :
-        win_3_1 = semifinal[0].team_a.group_id
-      if semifinal[1].result == 'A':
-        win_3_2 = semifinal[1].team_b.group_id
-      else :
-        win_3_2 = semifinal[1].team_a.group_id
-      state = {"no":5,"win_1":win_1,"win_2":win_2,"win_3_1":win_3_1,"win_3_2":win_3_2,"last_lm":last_lm,"isAdmin":isAdmin,"user":user,"league":league}
-      return state
-  except Exception as e:
-    pass
-
-  try:
-    all1_lt = LeagueTeam.objects.filter(round=lr[1],round__league_id=league)
-    now = datetime.utcnow().replace(tzinfo=utc)
-    if all1_lt.count():
-      all2_lt = LeagueTeam.objects.filter(id__in=all1_lt,group_id=user.gid)
-      if all2_lt.count() == 0:
-        state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"lt":all1_lt.filter(group_id=user.gid)[0],"isAdmin":isAdmin,"user":user,"league":league,"zz":1}
-        return state
-    elif LeagueTeam.objects.filter(round=lr[0],round__league_id=league).count() == 0 and lr[0].league_id.end_apply < now :
-      state = {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"league":league,"zz":2}
-      return state
-  except Exception as e:
-    state = {"no":4,"last_lm":last_lm,"lr":all1_lt[0].round,"isAdmin":isAdmin,"user":user,"league":league,"zz":3,"e":e.message}
-    return state
-
-  try:
-    lt = LeagueTeam.objects.filter(group_id=user.gid,round__in=lr).order_by("-round")[0]
-  except Exception as e:
-    try:
-      groupmem = GroupMember.objects.filter(gid=user.gid,is_active=1).count()
-    except Exception as e:
-      groupmem = 0
-    try:
-      gamelink = GameLink.objects.filter(uid__in=GroupMember.objects.filter(gid=user.gid,is_active=1).values_list('uid', flat=True)).count()
-    except Exception as e:
-      gamelink = 0
-    if isAdmin == 0 or groupmem < 5 or gamelink < 5 :
-      state = {"no":-1,"e":e.message,"isAdmin":isAdmin,"user":user,"league":league,"lr":lr[0],"groupmem":groupmem, "gamelink":gamelink}
-      return state
-    state = {"no":0,"e":e.message,"isAdmin":isAdmin,"user":user,"league":league,"lr":lr[0]}
-    return state
-
-  try:
-    lm = LeagueMatch.objects.filter(Q(team_a=lt)|Q(team_b=lt)).order_by("-game")[0]
-  except Exception as e:
-    state = {"no":1,"lt":lt,"last_lm":last_lm,"e":e.message,"isAdmin":isAdmin,"user":user,"league":league}
-    return state
-
-  try:
-    now = datetime.utcnow().replace(tzinfo=utc) + timedelta(minutes=30)
-    lm = LeagueMatch.objects.filter(id=lm.id,date_match__lte=now).order_by("-game")[0]
-  except Exception as e:
-    state = {"no":2,"lm":lm,"last_lm":last_lm,"e":e.message,"isAdmin":isAdmin,"user":user,"league":league}
-    return state
-
-  try:
-    lm = LeagueMatch.objects.filter(Q(id=lm.id)&Q(state="10")).order_by("-game")[0]
-    if lm.result == 'A' and lm.team_a.group_id == user.gid :
-      next_lt = LeagueTeam.objects.get(Q(group_id=user.gid)&Q(round_round=lm.team_a.round.round+1))
-    elif lm.result == 'B' and lm.team_b.group_id == user.gid :
-      next_lt = LeagueTeam.objects.get(Q(group_id=user.gid)&Q(round_round=lm.team_a.round.round+1))
-    else :
-      return {"no":4,"last_lm":last_lm,"lr":lr[0],"isAdmin":isAdmin,"user":user,"league":league}
-  except Exception as e:
-    state = {"no":3,"lm":lm,"last_lm":last_lm,"isAdmin":isAdmin,"user":user,"league":league}
-    return state
-
-  last_lt = LeagueTeam.objects.filter(group_id=user.gid,round__in=lr).order_by("-round")[0]
-  last_lm = LeagueMatch.objects.filter(Q(team_a=last_lt)|Q(team_b=last_lt)).order_by("-game")[0]
-
-  last_round = lr.order_by("-round")
-  final = lm
-  semifinal = LeagueMatch.objects.filter(team_a__in=LeagueTeam.objects.filter(round=last_round[1])).order_by("-game")[0]
-  if final.result == 'A':
-    win_1 = final.team_a.group_id
-    win_2 = final.team_b.group_id
-  else:
-    win_2 = final.team_a.group_id
-    win_1 = final.team_b.group_id
-  if semifinal[0].result == 'A':
-    win_3_1 = semifinal[0].team_b.group_id
-  else :
-    win_3_1 = semifinal[0].team_a.group_id
-  if semifinal[1].result == 'A':
-    win_3_2 = semifinal[1].team_b.group_id
-  else :
-    win_3_2 = semifinal[1].team_a.group_id
-
-  state = {"no":5,"win_1":win_1,"win_2":win_2,"win_3_1":win_3_1,"win_3_2":win_3_2,"last_lm":last_lm,"isAdmin":isAdmin,"user":user,"league":league,"last_round":last_round}
-  return state
-
 def get_json(url) :
-  j = urllib2.urlopen(url)
-  j_obj = json.load(j)
-  return j_obj
+    j = urllib2.urlopen(url)
+    j_obj = json.load(j)
+    return j_obj
+
+def get_or_none(model, **kwargs):
+    try:
+        return model.objects.get(**kwargs)
+    except model.DoesNotExist:
+        return None
+
+def upload(request):
+    errorMsg = ""
+    UPLOAD_DIR = "/media/upload/files_%s" %(format(timezone.localtime(timezone.now()), u'U'))
+    errorMsg = errorMsg +"<br/>"+"dir:"+ UPLOAD_DIR
+    if request.method == 'POST':
+        if 'file' in request.FILES:
+            if not os.path.exists("redbomba"+UPLOAD_DIR):
+                os.makedirs("redbomba"+UPLOAD_DIR)
+                uid, gid =  pwd.getpwnam('root').pw_uid, pwd.getpwnam('root').pw_uid
+                os.chown("redbomba"+UPLOAD_DIR, uid, gid)
+            file = request.FILES['file']
+            filename = file._name
+            errorMsg = errorMsg +"<br/>"+"filename:"+ filename
+            fp = open('%s/%s' % ("redbomba"+UPLOAD_DIR, filename) , 'wb')
+            for chunk in file.chunks():
+                fp.write(chunk)
+            fp.close()
+            return "%s/%s"%(UPLOAD_DIR, filename)
+    return 'Failed ' + errorMsg
+
+def remakeLeagueState(l, u):
+    ls = LeagueState(l,u)
+    if ls['no'] == 1 :
+        noti = get_or_none(Notification,action='League_JoinLeague',contents=ls['league'].id,user=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,user=ls['user']),"round":ls['lt'].round,"noti":noti}
+    elif ls['no'] == 2 :
+        noti = get_or_none(Notification,action='League_RunMatchMaker',contents=ls['lm'].team_a.round.id,user=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,user=ls['user']),"lm":ls['lm'],"noti":noti}
+    elif ls['no'] == 3 :
+        noti = get_or_none(Notification,action='League_StartMatch',contents=ls['lm'].id,user=ls['user'])
+        state = {"no":ls['no'],"league":ls['league'],"user":get_or_none(GroupMember,usdr=ls['user']),"msg":"배틀페이지 입장이 가능합니다.","lr":ls['lm'].team_a.round.id,"noti":noti}
+    else :
+        state = None
+    return state
+
+def LeagueState(league, user):
+
+    no = "ERROR"
+
+    lastRound = LastRound(league)
+
+    hasFiveMem = HasFiveMem(user)
+    hasFiveLink = HasFiveLink(league,user)
+    isLeader = IsLeader(user)
+    hasGroup = HasGroup(user)
+    isHost = IsHost(league,user)
+
+    startApply = StartApply(league)
+    completeJoin = CompleteJoin(lastRound, user)
+    endApply = EndApply(league)
+    noticeSchedule = NoticeSchedule(league,user)
+    canBattle = CanBattle(league,user)
+    isFinishGame = IsFinishGame(league,user)
+    isFinishMatch = IsFinishMatch(league,user)
+    isLast = IsLast(league,user)
+
+    allFinish = AllFinish(league,lastRound)
+
+    if allFinish == True :
+        no = 5
+    elif completeJoin==False:
+        if endApply==True :
+            no = 4
+    elif canBattle==True and isFinishGame==False:
+        if endApply==True or noticeSchedule == True :
+            no = 3
+    elif noticeSchedule==True and canBattle==False:
+        if endApply==True or noticeSchedule == True :
+            no = 2
+    elif completeJoin==True and noticeSchedule==False:
+        no = 1
+    elif hasFiveMem==True and hasFiveLink==True and isLeader==True and hasGroup==True and startApply==True :
+        no = 0
+    elif isLeader==True and hasGroup==True and startApply==True :
+        if hasFiveMem==False or hasFiveLink==False :
+            no = -1
+    elif isLeader==False and hasGroup==False and startApply==True :
+        no = -2
+
+    return {
+        "no":no,
+        "user":user,
+        "league":league,
+        "HasFiveMem":HasFiveMem(user,True),
+        "HasFiveLink":HasFiveLink(league,user,True),
+        "IsLeader":IsLeader(user,True),
+        "HasGroup":HasGroup(user,True),
+        "IsHost":IsHost(league, user,True),
+        "StartApply":StartApply(league,True),
+        "CompleteJoin":CompleteJoin(league, user,True),
+        "EndApply":EndApply(league,True),
+        "NoticeSchedule":NoticeSchedule(league,user,True),
+        "CanBattle":CanBattle(league,user,True),
+        "IsFinishGame":IsFinishGame(league,user,True),
+        "IsFinishMatch":IsFinishMatch(league,user,True),
+        "IsLast":IsLast(league,user,True),
+        "lastRound":lastRound
+        }
+
+def HasFiveMem(user, req=False):
+    if user:
+        group = user.get_profile().get_group()
+        if group :
+            gm = group.get_member()
+            if gm :
+                if req :
+                    return gm.count()
+                if gm.count() >= 5 :
+                    return True
+    return False
+
+def HasFiveLink(league,user,req=False):
+    if user:
+        group = user.get_profile().get_group()
+        if group :
+            gm = group.get_member()
+            gl = GameLink.objects.filter(user__contains=gm.values_list('user', flat=True),game=league.game)
+            if gl :
+                if req :
+                    return gl.count()
+                if gl.count() >= 5 :
+                    return True
+    return False
+
+def IsLeader(user,req=False):
+    if user:
+        group = user.get_profile().get_group()
+        if group :
+            return group.leader == user
+    return False
+
+def HasGroup(user,req=False):
+    if user:
+        group = user.get_profile().get_group()
+        if group :
+            return True
+    return False
+
+def IsHost(league,user,req=False):
+    host = league.host
+    return host == user
+
+def StartApply(league,req=False):
+    now = timezone.localtime(timezone.now())
+    if league.start_apply <= now :
+        return True
+    return False
+
+def CompleteJoin(lastRound,user,req=False):
+    lt = LeagueTeam.objects.filter(round=lastRound,group=user.get_profile().get_group()).order_by("-id")
+    if lt :
+        if req :
+            return lt[0]
+        return True
+    return False
+
+def EndApply(league,req=False):
+
+    now = timezone.localtime(timezone.now())
+    if league.end_apply < now :
+        return True
+    return False
+
+def NoticeSchedule(league,user,req=False):
+    lr = get_or_none(LeagueRound,league=league,is_finish=0)
+    lt = LeagueTeam.objects.filter(round=lr,group=user.get_profile().get_group()).order_by("-id")
+    if lt:
+        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
+        if lm :
+            if req :
+                return lm[0]
+            return True
+    return False
+
+def CanBattle(league,user,req=False):
+    now = timezone.localtime(timezone.now())
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
+    if lt :
+        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).order_by("-id")
+        if lm :
+            return lm[0].date_match-timedelta(minutes=30) <= now
+    return False
+
+def IsFinishGame(league,user,req=False):
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
+    if lt :
+        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).filter(state='10').order_by("-id")
+        if lm :
+            if req :
+                return lm[0]
+            return True
+    return False
+
+def IsFinishMatch(league,user,req=False):
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
+    if lt :
+        lm = LeagueMatch.objects.filter(Q(team_a=lt[0])|Q(team_b=lt[0])).filter(state='10').order_by("-id")
+        if lm :
+            if lm.count() == int(lt[0].round.bestof) :
+                if req :
+                    return lm[0]
+                return True
+    return False
+
+def IsLast(league,user,req=False):
+    lt = LeagueTeam.objects.filter(round__league=league,group=user.get_profile().get_group(),round__is_finish=1).order_by("-id")
+    if lt :
+        lm = LeagueMatch.objects.filter(team_a__round=lt[0].round)
+        if lm:
+            if req :
+                return lm[0]
+            return lm.count() == 1
+    return False
+
+def LastRound(league):
+    try:
+        lastRound = LeagueRound.objects.filter(league=league,is_finish=0).order_by("id")[0]
+    except Exception as e:
+        lastRound = LeagueRound.objects.filter(league=league,is_finish=1).order_by("-id")[0]
+    return lastRound
+
+def AllFinish(league,lastRound):
+    lm = get_or_none(LeagueMatch,team_a__round=lastRound)
+    if lm :
+        return lm.state == 10
+    return False

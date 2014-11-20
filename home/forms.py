@@ -28,3 +28,6 @@ class RegistrationForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
         return username
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

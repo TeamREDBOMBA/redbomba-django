@@ -1,0 +1,35 @@
+{% load extras %}
+{% for new in news %}
+    <div class="div_feed div_sys" id="card_{{ new.self.id }}">
+        <input type="hidden" id="fid" value="{{ new.id }}">
+        {% if new.type == 'system' %}
+            <div class="div_feed_type"><i class="fa fa-bullhorn"></i></div>
+            <div class="div_feed_icon imgbtn"><img src="/media/icon/redbomba.png"></div>
+            <p class="p_feed_username">REDBOMBA</p>
+            <h2 class="h2_feed_con">{{ new.self.con|linebreaks }}</h2>
+            <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"-" }}</p>
+        {% elif new.type == 'reply' %}
+            <div class="div_feed_type"><i class="fa fa-comment-o"></i></div>
+            <div class="div_feed_icon imgbtn"><img src="{{ new.self.user.get_profile.get_icon }}"></div>
+            <p class="p_feed_username">{{ new.self.user.username }}</p>
+            <h2 class="h2_feed_con">{{ user.username }}님이 {{ new.self.feed.get_uto.name }}에 올리신 "{{ new.self.feed.get_con.con }}"글에 {{ new.self.user.username }}님의 댓글 "{{ new.self.con }}"이 달렸습니다.<br/>지금 확인해보세요!</h2>
+            <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"-" }}</p>
+        {% elif new.type == 'groupmember' %}
+            <div class="div_feed_type"><i class="fa fa-users"></i></div>
+            <div class="div_feed_icon imgbtn"><img src="/media/group_icon/{{ new.self.group.group_icon }}"></div>
+            <p class="p_feed_username">{{ new.self.group.name }}</p>
+            <h2 class="h2_feed_con">{{ new.self.user.username }}님이 {{ new.self.group.name }}에 새로운 멤버로 함류하였습니다. {{ user.username }}님의 도움의 손길과 따뜻한 환영의 메시지가 필요해 보이는 군요!</h2>
+            <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"-" }}</p>
+        {% elif new.type == 'leaguematch' %}
+            <div class="div_feed_type"><i class="fa fa-trophy"></i></div>
+            <p class="p_feed_username">{{ new.self.team_a.round.league.name }} - {{ new.self.team_a.round.round }} Round</p>
+            <div class="div_feed_con"><img src="/media/group_icon/{{ new.self.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ new.self.team_a.group.name }}</p></div>
+            <div class="div_feed_con">
+                {% if new.self.result == "A" %}<p class="p_feed_res">승 vs 패</p>
+                {% else %} <p class="p_feed_res">패 vs 승</p>{% endif %}
+                <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"-" }}</p>
+            </div>
+            <div class="div_feed_con"><img src="/media/group_icon/{{ new.self.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ new.self.team_b.group.name }}</p></div>
+        {% endif %}
+    </div>
+{% endfor %}

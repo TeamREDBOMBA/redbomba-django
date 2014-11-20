@@ -1,9 +1,13 @@
 $(document).ready(function(){
-	
+
 });
 $(window).load(function() {
 
-	socket = io.connect('http://14.63.186.76:8080');
+    if(location.href.indexOf("www.") != -1 ){
+            location.href = location.href.replace("www.","");
+     }
+
+	socket = io.connect('http://redbomba.net:3000/');
 	socket.emit('leaveGroup','leave');
 	socket.emit('leaveRound','leave');
 
@@ -120,7 +124,7 @@ $(window).load(function() {
 				$('#state').val('5');
 				$('#container #content #simpleMsg').html("");
 				$('#Chatting').hide();
-				time = new Date(Number(data.result));
+				time = new Date(data.result);
 				ready_timer = setInterval(function (){
 				    // The number of milliseconds in one day
 				    var ONE_MIN = 1000 * 60;

@@ -1,10 +1,10 @@
                 {% load extras %}
                 <div id="div_submem_innerlist">
                   {% for gm in groupmem %}
-                    <div id='div_{{gm.uid.id}}' class="list" style="height:70px;">
-                      <a onclick="click_name('{{gm.uid.username}}')"><img src='/static/img/icon/usericon_{{gm.uid.get_profile.user_icon}}.jpg'></a>
-                      <p class='username'><a class="username" onclick="click_name('{{gm.uid.username}}')">{{gm.uid.username}}</a></p>
-                      <p class='gameid'>소환사명 : {{gm.uid|get_gamelink}}</p>
+                    <div id='div_{{gm.user.id}}' class="list" style="height:70px;">
+                      <a onclick="click_name('{{gm.user.username}}')"><img src='{{gm.user.get_profile.get_icon}}'></a>
+                      <p class='username'><a class="username" onclick="click_name('{{gm.user.username}}')">{{gm.user.username}}</a></p>
+                      <p class='gameid'>소환사명 : {{gm.user|get_gamelink}}</p>
                       {% if gm.order < 5 %}
                       <span class='badge pull-right order'>
                         {{gm.order|add:1}}
@@ -29,7 +29,7 @@
                   PlaceHolder.SourceI = null;
 
                   {% for gm in groupmem %}
-                  new dragObject("div_{{gm.uid.id}}", null, null, null, itemDragBegin, itemMoved, itemDragEnd, false);
+                  new dragObject("div_{{gm.user.id}}", null, null, null, itemDragBegin, itemMoved, itemDragEnd, false);
                   {% endfor %}
                 }
 

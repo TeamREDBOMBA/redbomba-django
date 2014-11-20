@@ -1,11 +1,13 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from home.views import *
+from redbomba.home.Socket import fromSocket
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
+
 admin.autodiscover()
 
 base64_pattern = r'(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$'
@@ -19,19 +21,25 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
     (r'^$', main),
+    (r'^admin/', include(admin.site.urls)),
+    (r'^about/$', about),
+    (r'^league/display/$', getLeagueListForDisplay),
     (r'^home/$', home),
     (r'^stats/$', stats),
     (r'^stats/(?P<username>.*)$', stats),
+    (r'^league/(?P<lid>.*)$', page_for_link),
+    (r'^group/(?P<gid>.*)$', page_for_link),
     (r'^arena/$', arena),
     (r'^battle/$', battle),
     (r'^s/$', summoner),
-    (r'^feed/private/$', read_Feed_pri),
-    (r'^feed/public/$', read_Feed_pub),
+    (r'^feed/private/$', getCardPrivate),
     (r'^feed/card/$', read_Feed_card),
+    (r'^feed/news/$', getCardNews),
+    (r'^feed/news/detail/$', read_Feed_news_detail),
+    (r'^feed/news/(?P<fid>.*)$', getCardNewsLarge),
     (r'^reply/$', read_Reply),
-    (r'^group/$', getGroup),
+    (r'^getgroup/$', getGroup),
     (r'^groupinfo/$', getGroupInfo),
     (r'^groupinfoorder/$', getGroupInfoOrder),
     (r'^card/$', getCard),
@@ -49,6 +57,7 @@ urlpatterns = patterns('',
     (r'^cardbtn/$', getLargeCardBtn),
     (r'^db/smile/$', setSmile),
     (r'^db/noti/$', write_Notification),
+    (r'^db/post_noti/$', post_Notification),
     (r'^db/feed/$', write_Feed),
     (r'^db/reply/$', write_Reply),
     (r'^db/gamelink/$', write_GameLink),
@@ -63,7 +72,9 @@ urlpatterns = patterns('',
     (r'^auth/fnc/email/$', fncSignupEmail),
     (r'^auth/fnc/nick/$', fncSignupNick),
     (r'^auth/(?P<id>\d+)/(?P<date_joined>{})'.format(base64_pattern), verifyEmail),
+    (r'^socket/$', fromSocket),
     (r'^mobile/$', fromMobile),
+    (r'^file/$', file),
     (r'^test/$', test),
 )
 urlpatterns += staticfiles_urlpatterns()
