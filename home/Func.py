@@ -125,22 +125,26 @@ def LeagueState(league, user):
     isFiveLink = IsFiveLink(league, user)           # 2
     isLeader = IsLeader(user)                       # 3
     isInGroup = IsInGroup(user)                     # 4
-    isHost = IsHost(league,user)                    # HOST
 
     #League State
     isStartApply = IsStartApply(league)             # 5
     isFullLeague = IsFullLeague(league)             # 6
     isEndApply = IsEndApply(league)                 # 8
     isFinishLeague = IsFinishLeague(league)         # 12
-    isStart1stMatch = IsStart1stMatch(league)       # 9-2
-    nowRound = NowRound(league)
-    canMatchMaker = CanMatchMaker(nowRound)
+    isRun1stMathMaker = IsRun1stMathMaker(league)       # 9-2
 
     #User&League State
     isCompleteJoin = IsCompleteJoin(league, user)   # 7
     isRunMathMaker = IsRunMathMaker(isCompleteJoin) # 9-1
     isCanBattle = IsCanBattle(isRunMathMaker)       # 10
     isFinishMatch = IsFinishMatch(isCanBattle)      # 11
+
+    #Etc State
+    nowRound = NowRound(league)
+    canMatchMaker = CanMatchMaker(nowRound)
+    isHost = IsHost(league,user)
+    getWinner = GetWinner(league,isFinishLeague)
+
 
     if isStartApply == None and isFinishLeague == None :
         no = -3
@@ -150,13 +154,13 @@ def LeagueState(league, user):
         no = -1
     elif isFiveMem!=None and isFiveLink!=None and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
         no = 0
-    elif isStartApply!=None and isCompleteJoin!=None and isRunMathMaker==None:
+    elif isStartApply!=None and isCompleteJoin!=None and isRunMathMaker==None :
         no = 1
-    elif isCompleteJoin!=None and isRunMathMaker!=None and isCanBattle==None:
+    elif isCompleteJoin!=None and isRunMathMaker!=None and isCanBattle==None :
         no = 2
-    elif isCanBattle!=None and isFinishMatch==None:
+    elif isCanBattle!=None and isFinishMatch==None :
         no = 3
-    elif isStart1stMatch!=None and isFinishLeague == None :
+    elif isRun1stMathMaker!=None and isFinishLeague == None :
         no = 4
     elif isFinishLeague != None :
         no = 5
@@ -172,12 +176,14 @@ def LeagueState(league, user):
         "isHost":isHost,
         "isStartApply":isStartApply,
         "isFullLeague":isFullLeague,
-        "isStart1stMatch":isStart1stMatch,
+        "isRun1stMathMaker":isRun1stMathMaker,
+        "isFinishLeague":isFinishLeague,
         "isCompleteJoin":isCompleteJoin,
         "isRunMathMaker":isRunMathMaker,
         "isCanBattle":isCanBattle,
         "isFinishMatch":isFinishMatch,
         "canMatchMaker":canMatchMaker,
+        "getWinner":getWinner,
         "nowRound":nowRound
     }
 
@@ -240,14 +246,18 @@ def IsEndApply(league):
 def IsFinishLeague(league):
     lr = LeagueRound.objects.filter(league=league).order_by("-round")
     if lr :
+        lt = LeagueTeam.objects.filter(round__league=league)
         lm = LeagueMatch.objects.filter(Q(team_a__round=lr[0])|Q(team_b__round=lr[0])).order_by("-id")
         if lm :
             lastLM = lm[0]
             if lastLM.state == 10 :
                 return lastLM
+        if lt :
+            pass
+        else : return True
     return None
 
-def IsStart1stMatch(league):
+def IsRun1stMathMaker(league):
     lm = LeagueMatch.objects.filter(team_a__round__league=league, team_a__round__round=1)
     if lm :
         return lm[0]
@@ -291,4 +301,24 @@ def IsFinishMatch(lm):
     if lm :
         if lm.state == 10 :
             return lm
+    return None
+
+def GetWinner(league,lm):
+    if lm and league :
+        if lm != True :
+            lm_all = LeagueMatch.objects.filter(Q(team_a__round__league=league)|Q(team_b__round__league=league)).order_by("-id")
+            state = {"w1":None,"w2":None,"w3_1":None,"w3_2":None}
+            if lm.result == "A" :
+                state["w1"] = lm.team_a.group
+                state["w2"] = lm.team_b.group
+            else :
+                state["w1"] = lm.team_b.group
+                state["w2"] = lm.team_a.group
+
+            if lm_all[1].result == "B" : state["w3_1"] = lm_all[1].team_a.group
+            else : state["w3_1"] = lm_all[1].team_b.group
+            if lm_all[2].result == "B" : state["w3_2"] = lm_all[2].team_a.group
+            else : state["w3_2"] = lm_all[2].team_b.group
+
+            return state
     return None

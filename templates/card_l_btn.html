@@ -192,7 +192,15 @@
         <button class="btn btn-warning" id="btnEnter" disabled="disabled"><i class="fa fa-arrow-circle-o-right"></i> {{state.nowRound.round}}라운드 진행 중</button>
     {% endif %}
 {% elif state.no == 5 %}
-리그 끝!!
+    {% if state.isFinishLeague == True %}
+        대회가 조기 종료되었습니다.
+    {% else %}
+        <p id="win_1" class="p_btn_winner"><img src="/static/img/card_rand_1.png" class="medal"><img src="/media/group_icon/{{ state.getWinner.w1.group_icon }}" class="group_icon">{{state.getWinner.w1.name}}</p>
+        <p id="win_2" class="p_btn_winner"><img src="/static/img/card_rand_2.png" class="medal"><img src="/media/group_icon/{{ state.getWinner.w2.group_icon }}" class="group_icon">{{state.getWinner.w2.name}}</p>
+        <p id="win_3_1" class="p_btn_winner"><img src="/static/img/card_rand_3.png" class="medal">
+            <img src="/media/group_icon/{{ state.getWinner.w3_1.group_icon }}" class="group_icon">{{state.getWinner.w3_1.name}}<br/>
+            <img src="/media/group_icon/{{ state.getWinner.w3_2.group_icon }}" class="group_icon">{{state.getWinner.w3_2.name}}</p>
+    {% endif %}
 {% endif %}
 
 <script>
