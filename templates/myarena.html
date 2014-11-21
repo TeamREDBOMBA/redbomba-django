@@ -125,9 +125,7 @@
       {% elif s.no == 2 or s.no == 3 %}
       <li class='title'>{{ s.lm.team_a.round.round }} 라운드 일정</li>
       <li class='time'>
-        {% if s.lm.date_match|get_time_diff:"state" %}
-        {{s.lm.date_match|get_time_diff:"msg"}}
-        {% else %}
+        {{s.lm.date_match|get_time_diff:"+"}}
         경기 진행 중
         {% endif %}
       </li>

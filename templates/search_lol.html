@@ -76,7 +76,7 @@
                             <span id="type_min">{{r.timePlayed}}분</span>
                         </p>
                         <p class="p_league_time">
-                            <span id="time_date">{{r.createdate|get_time_diff:"msg"}}</span>
+                            <span id="time_date">{{r.createdate|get_time_diff:"+"}}</span>
                         </p>
                     </li>
                 {% endfor %}

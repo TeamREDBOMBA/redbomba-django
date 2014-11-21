@@ -113,7 +113,7 @@
 {% elif state.no == 1 %}
     {% if state.isCompleteJoin.is_complete == 1 %}
         <button class="btn btn-default" id="btnjoin" disabled="disabled"><i class="fa fa-clock-o"></i> {{state.isCompleteJoin.round.round}}라운드 일정 대기 중</button>
-        <p class="processMsg">일정은 {{state.isCompleteJoin.round.start|get_time_diff:"value"}} 발표됩니다.</p>
+        <p class="processMsg">일정은 {{state.isCompleteJoin.round.start|get_time_diff:"-"}} 발표됩니다.</p>
         <img src="/static/img/arena_card_div.png">
 
         {% if state.isLeader %}
@@ -152,7 +152,7 @@
     {% endif %}
 {% elif state.no == 2 %}
     <button class="btn btn-warning" id="btnEnter" disabled="disabled"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button>
-    <p class="processMsg">배틀페이지는<br/>{{state.IsRunMathMaker.date_match|get_time_diff:"value"}} 입장 가능합니다.</p>
+    <p class="processMsg">배틀페이지는<br/>{{state.isRunMathMaker.date_match|sub_time:30|get_time_diff:"-"}} 입장 가능합니다.</p>
     <img src="/static/img/arena_card_div.png">
     {% if state.isLeader %}
         {% if state.isCompleteJoin.round.round > 1 %}

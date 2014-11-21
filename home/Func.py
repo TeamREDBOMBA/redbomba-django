@@ -146,13 +146,13 @@ def LeagueState(league, user):
     getWinner = GetWinner(league,isFinishLeague)
 
 
-    if isStartApply == None and isFinishLeague == None :
+    if isStartApply == None :
         no = -3
-    elif isFiveMem==None and isFiveLink==None and isLeader==None and isInGroup==None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
+    elif (isLeader==None or (isFiveMem==None and isFiveLink==None and isInGroup==None)) and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None :
         no = -2
-    elif (isFiveMem == None or  isFiveLink==None) and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
+    elif (isFiveMem == None or  isFiveLink==None) and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None :
         no = -1
-    elif isFiveMem!=None and isFiveLink!=None and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None and isFinishLeague == None :
+    elif isFiveMem!=None and isFiveLink!=None and isLeader!=None and isInGroup!=None and isStartApply!=None and isFullLeague==None and isCompleteJoin==None and isEndApply==None and isRunMathMaker==None :
         no = 0
     elif isStartApply!=None and isCompleteJoin!=None and isRunMathMaker==None :
         no = 1
@@ -191,7 +191,7 @@ def IsFiveMem(user):
     group = user.get_profile().get_group()
     if group :
         gm = group.get_member()
-        if gm :
+        if gm.count() >= 5 :
             return gm.count()
     return None
 

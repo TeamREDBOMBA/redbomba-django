@@ -22,7 +22,7 @@
                 <li id="li_name">{{l.league.name}}</li>
                 <li id="li_group"><img src="/media/group_icon/{{ l.user.gid.group_icon }}"> {{l.user.gid.name}}</li>
                 {% if l.no == 1 %}
-                    <li id="li_msg"><span class="border-round">{{ l.round.round }} 라운드</span> 일정도출 {{l.round.start|get_time_diff:"msg"}} 입니다.</li>
+                    <li id="li_msg"><span class="border-round">{{ l.round.round }} 라운드</span> 일정도출 {{l.round.start|get_time_diff:"-"}} 입니다.</li>
                 {% elif l.no == 2 %}
                     <li id="li_msg"><span class="border-round">{{ l.lm.team_a.round.round }} 라운드</span> {{ l.lm.date_match }}</li>
                 {% elif l.no == 3 %}
