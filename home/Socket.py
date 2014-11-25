@@ -91,11 +91,38 @@ def setNotification(request):
                 action=state['action'],
                 icon=state['icon'],
                 contents=state['con'],
-                link=state['user']
+                link=state['link']
                 )
         return HttpResponse(state)
     except Exception as e:
+        print "ERROR:%s"%e.message
         return HttpResponse("ERROR:%s"%e.message)
+
+def sendNotification(request):
+    state = []
+
+    action = request.GET.get("action")
+
+    if action == "League_JoinLeague" :
+        group_id = request.GET.get("group_id")
+        gms = GroupMember.objects.filter(group=group_id)
+        if gms :
+            for gm in gms:
+                state.append({'user_id':gm.user.id})
+
+    elif action == "League_RunMatchMaker" :
+        league_id = request.GET.get("league_id")
+        round_no = request.GET.get("round_no")
+
+        lr = LeagueRound.objects.filter(league=league_id,round=round_no)
+        lt_group = LeagueTeam.objects.filter(round__in=lr).values_list('group', flat=True)
+
+        gms = GroupMember.objects.filter(group__in=lt_group)
+        if gms :
+            for gm in gms:
+                state.append({'user_id':gm.user.id})
+
+    return HttpResponse(json.dumps(state), content_type="application/json")
 
 def setChatting(request):
     user_id = request.GET.get("user_id")
@@ -111,6 +138,8 @@ def setChatting(request):
 def fromSocket(request):
     if request.GET.get("mode") == "setNotification" :
         return setNotification(request)
+    elif request.GET.get("mode") == "sendNotification" :
+        return sendNotification(request)
     elif request.GET.get("mode") == "setChatting" :
         return setChatting(request)
 

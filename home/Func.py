@@ -169,6 +169,8 @@ def LeagueState(league, user):
 
     return {
         "no":no,
+        "league":league,
+        "user":user,
         "isFiveMem":isFiveMem,
         "isFiveLink":isFiveLink,
         "isLeader":isLeader,
