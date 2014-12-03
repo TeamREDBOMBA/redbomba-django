@@ -1,0 +1,36 @@
+{% load staticfiles %}
+{% load extras %}
+{% for s in state %}
+<div class='arenapass'>
+  <div class='div_pass_left'>
+    <div class='div_passleft_left'>
+      신청완료
+    </div>
+    <div class='div_passleft_right'>
+      <div class='pass_top'><b>{{ s.league.name }}</b></div>
+        <ul id='div_pass_bottom1' class='pass_bottom'>
+          <li class='title'>소속팀</li>
+          <li class='group'><img src='/media/group_icon/{{s.user.get_profile.get_group.group_icon}}'>{{ s.user.get_profile.get_group.name }}</li>
+        </ul>
+        <ul id='div_pass_bottom2' class='pass_bottom'>
+          <li class='title'>이전 라운드</li>
+          <li class='round'>
+           -
+          </li>
+          <li class='group'>
+           &nbsp;
+          </li>
+        </ul>
+    </div>
+  </div>
+  <div class='div_pass_right'>
+    <div class='pass_top'>다음 라운드</div>
+    <ul id='div_pass_bottom2' class='pass_bottom'>
+      <li class='title'>{{ s.lt.round.round }} 라운드 일정</li>
+      <li class='time'>일정 등록 전</li>
+      <li class='date'>{{s.lt.round.start}}</li>
+    </ul>
+      &nbsp;
+  </div>
+</div>
+{% endfor %}
