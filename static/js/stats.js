@@ -10,17 +10,18 @@ $(window).load(function() {
 
     memOnline--;
     $('#div_gamelink_gameadd').click(function(){
-        $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
+        $('#Gamelink .modal-content').load("/gamelink/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
         $('#Gamelink').modal('show');
     });
 
     $('.div_gamelink_game.game_1').click(function(){
-        var str = $(this).find(".p_gamelink_name").text();
-        $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
-            //str = str.replace(/\s+/g, '');
-            //str = str.toLowerCase();
-            $('#Gamelink #div_gamelink_panelbody').html("<div width='100%' align='center'><img src='/static/img/ajax-loader_s.gif'></div>");
-            $('#Gamelink .modal-content').load("/s/?from=/stats/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),"sid":str});
+        var sid = $(this).find(".p_gamelink_name").text();
+        $('#Gamelink .modal-content').load("/gamelink/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
+            $("#div_tutor_right").html('<img src="/static/img/ajax-loader_s.gif" style="margin-top:160px">');
+            $("#div_tutor_right").load("http://redbomba.net/gamelink/load/",{
+                "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
+                "sid":sid
+            });
         });
         $('#Gamelink').modal('show');
     });

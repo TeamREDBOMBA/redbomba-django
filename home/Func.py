@@ -9,7 +9,7 @@ import re, urlparse
 import json
 import urllib2
 import requests
-from redbomba.home.models import Group, Notification
+from redbomba.home.models import Group, Notification, get_or_none
 from redbomba.home.models import GroupMember
 from redbomba.home.models import GameLink
 from redbomba.home.models import LeagueTeam
@@ -35,9 +35,15 @@ def forsocket(request):
     if request.method=='POST':
         uid = request.user
         gid =get_or_none(GroupMember,user=uid)
+
+        if uid == None : uid = 0
+        else: uid = uid.id
+
         if gid == None : gid = 0
-        val = val + "<uid>%s</uid>" %(uid.id)
-        val = val + "<gid>%s</gid>" %(gid.id)
+        else: gid = gid.id
+
+        val = val + "<uid>%d</uid>" %(uid)
+        val = val + "<gid>%d</gid>" %(gid)
     else:
         val = "POST ERROR"
     return HttpResponse(val)
@@ -74,12 +80,6 @@ def get_json(url) :
     j = urllib2.urlopen(url)
     j_obj = json.load(j)
     return j_obj
-
-def get_or_none(model, **kwargs):
-    try:
-        return model.objects.get(**kwargs)
-    except model.DoesNotExist:
-        return None
 
 def upload(request):
     errorMsg = ""

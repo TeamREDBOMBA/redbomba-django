@@ -1,57 +1,70 @@
-﻿#Gamelink #div_gamelink_search {background-color:#2c3e50}
-#Gamelink #div_gamelink_search h1 {text-align: center;font-size: 25px;font-family:'RixSGo B';padding: 20px 0px 0px 0px;color: #fff;}
-#Gamelink #div_gamelink_search h3 {text-align: center;font-size: 15px;margin-top: 10px;color: #ddd;}
-#Gamelink #div_gamelink_search #div_gamelink_games {padding: 10px 0;}
-#Gamelink #div_gamelink_search #div_gamelink_games #p_gamelink_games {position: relative;text-align: center;}
-#Gamelink #div_gamelink_search #div_gamelink_games #p_gamelink_games .img_games_game{position: relative;border-radius: 50px;margin: 5px;width: 80px;
-	border: 5px solid #395169;cursor:pointer;}
-#Gamelink #div_gamelink_search #div_gamelink_games #p_gamelink_games .img_games_game:hover{border: 5px solid #556D85;}
-#Gamelink #div_gamelink_search #div_gamelink_games #p_gamelink_games .img_games_game.active {float:left;margin-left: 63px;margin-right: 15px;}
-#Gamelink #div_gamelink_search #input_gamelink_searchbar {display:none;width: 350px;height: 50px;margin-top: 10px;margin-bottom: 30px;font-size: 25px;}
-#Gamelink #div_gamelink_search #div_gamelink_panel {display:none;}
-
-#Gamelink #div_gamelink_panel {margin: 15px;max-height: 500px;overflow: auto;}
-#Gamelink #div_gamelink_panel #div_gamelink_panelbody {position: relative;padding: 15px;}
-
-#Gamelink #div_gamelink_panel .alert-danger {padding:10px}
-#Gamelink #div_gamelink_panel .alert-danger img{width: 20px;top: 0px;position: relative;margin-right: 2px;border-radius: 10px;}
-
-#Gamelink #div_gamelink_panel #brn_gamelink_delete {width:100%;margin-bottom: 15px;}
+﻿#Gamelink .modal-dialog {width:1000px}
+#Gamelink .modal-content {position: relative;width: 100%;height: 600px;padding: 10px;}
 
 
-#Gamelink #div_gamelink_panel #ul_gamelink_left{float: right;width: 250px;}
-#Gamelink #div_gamelink_panel #img_left_medal_unrank {height: 110px;float: left;}
-#Gamelink #div_gamelink_panel #p_left_unrank {font-size: 20px;margin-top: 45px;}
-#Gamelink #div_gamelink_panel #img_left_medal {width: 100px;float: left;margin-right: 5px;}
-#Gamelink #div_gamelink_panel #p_left_line1 {font-size: 20px;padding-top: 10px;}
-#Gamelink #div_gamelink_panel #p_left_line2 {font-size: 20px;}
-#Gamelink #div_gamelink_panel #p_left_line3 {padding-bottom:16px;font-size: 15px;}
-#Gamelink #div_gamelink_panel .li_left_stat{float: left;width: 240px;}
-#Gamelink #div_gamelink_panel .li_left_most{height: 33px;margin-top: 3px;border-bottom: 1px solid #eee;}
-#Gamelink #div_gamelink_panel .img_most_img{height: 30px;float:left;margin-right: 5px;border-radius: 15px;}
-#Gamelink #div_gamelink_panel .p_most_name {float:left;line-height: 25px;width: 130px;font-size: 15px;}
-#Gamelink #div_gamelink_panel .p_most_kda {float:left;font-size: 15px;line-height: 25px;width: 40px;}
-#Gamelink #div_gamelink_panel .p_most_played {float:left;line-height: 25px;font-size: 15px;text-align: right;width: 40px;}
 
-#Gamelink #div_gamelink_panel #ul_gamelink_right{margin-top: 130px;position: relative;width: 100%;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league {height: 70px;position: relative;border-bottom: 1px solid #eee;margin-top: 5px;padding-bottom: 10px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_win{float:left;position: absolute;width: 25px;height: 25px;text-align: center;bottom: 5px;background-color: #c0392b;border-radius: 25px;color: #fff;line-height: 25px;font-size: 15px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_win.win{background-color: #27ae60;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_win.lose{background-color: #c0392b;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league #img_league_img1{float:left;width: 60px;border-radius: 35px;margin: 2px 5px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_spell{float:left;width: 40px;text-align: center;padding-top: 2px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_spell .img_league_spell {width: 25px;margin: 3px 5px;border-radius: 5px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda{float:left;width: 85px;text-align: center;padding-top: 10px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda .kda{font-size: 15px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda .kda_r {color:#e74c3c;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda .kda_avg {padding: 0px 2px;font-size: 15px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_level {float:left;width: 70px;text-align: center;padding-top: 10px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_level .level{font-size: 15px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_level .cs{padding: 0px 2px;font-size: 15px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_item{float:left;width: 100px;text-align: center;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_item .img_league_item {width: 25px;margin: 3px 2px;border-radius: 5px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_type {float:left;width: 60px;text-align: center;padding-top: 15px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_type #type_sub{padding:1px 5px;font-size: 13px;}
-#Gamelink #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_time {float:left;width: 65px;text-align: center;padding-top: 22px;}
+#GameLink {position: relative;width: 100%;height: 100%;}
+#GameLink #Gamelink_Detail {position: relative;height: 100%;overflow-y: scroll;}
 
-#Gamelink #btnSave{position:relative;width: 100%;height: 50px;border-radius: 0;}
+#GameLink #Gamelink_Detail #div_gamelink_panel {overflow: auto;margin-bottom: 10px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #div_gamelink_panelbody {position: relative;}
+
+#GameLink #Gamelink_Detail .alert-danger {padding:10px}
+#GameLink #Gamelink_Detail .alert-danger img{width: 20px;top: 0px;position: relative;margin-right: 2px;border-radius: 10px;}
+
+#GameLink #Gamelink_Detail #brn_gamelink_delete {width:100%;margin-bottom: 15px;}
+
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_left{float: right;width: 250px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #img_left_medal_unrank {height: 110px;float: left;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #p_left_unrank {font-size: 20px;margin-top: 45px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #img_left_medal {width: 100px;float: left;margin-right: 5px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #p_left_line1 {font-size: 20px;padding-top: 10px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #p_left_line2 {font-size: 20px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #p_left_line3 {padding-bottom:16px;font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel .li_left_stat{float: left;width: 240px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel .li_left_most{height: 33px;margin-top: 3px;border-bottom: 1px solid #eee;}
+#GameLink #Gamelink_Detail #div_gamelink_panel .img_most_img{height: 30px;float:left;margin-right: 5px;border-radius: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel .p_most_name {float:left;line-height: 25px;width: 130px;font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel .p_most_kda {float:left;font-size: 15px;line-height: 25px;width: 40px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel .p_most_played {float:left;line-height: 25px;font-size: 15px;text-align: right;width: 40px;}
+
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right{margin-top: 130px;position: relative;width: 100%;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league {height: 70px;position: relative;border-bottom: 1px solid #eee;margin-top: 5px;padding-bottom: 10px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_win{float:left;position: absolute;width: 25px;height: 25px;text-align: center;bottom: 5px;background-color: #c0392b;border-radius: 25px;color: #fff;line-height: 25px;font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_win.win{background-color: #27ae60;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_win.lose{background-color: #c0392b;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league #img_league_img1{float:left;width: 60px;border-radius: 35px;margin: 2px 5px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_spell{float:left;width: 40px;text-align: center;padding-top: 2px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_spell .img_league_spell {width: 25px;margin: 3px 5px;border-radius: 5px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda{float:left;width: 85px;text-align: center;padding-top: 10px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda .kda{font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda .kda_r {color:#e74c3c;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_kda .kda_avg {padding: 0px 2px;font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_level {float:left;width: 70px;text-align: center;padding-top: 10px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_level .level{font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_level .cs{padding: 0px 2px;font-size: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_item{float:left;width: 100px;text-align: center;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_item .img_league_item {width: 25px;margin: 3px 2px;border-radius: 5px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_type {float:left;width: 60px;text-align: center;padding-top: 15px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_type #type_sub{padding:1px 5px;font-size: 13px;}
+#GameLink #Gamelink_Detail #div_gamelink_panel #ul_gamelink_right .li_right_league .p_league_time {float:left;width: 65px;text-align: center;padding-top: 22px;}
+
+#GameLink #Gamelink_Detail #btnSave{position:relative;width: 100%;height: 50px;border-radius: 0;}
+
+#GameLink .div_tutor_con {/* width: 370px; *//* background-color: #eee; *//* padding: 10px; */}
+#GameLink #div_tutor_right {position: absolute;top: 0;right: 0;bottom: 0;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;text-align: center;width: 570px;height: 100%;background-color: #eee;padding: 10px;}
+#GameLink #div_tutor_right #div_right_login {/* height: 100%; */background-color: #fff}
+#GameLink #div_tutor_right #div_right_login #div_login_top {position: relative;text-align: center;overflow: hidden; width:100%;height:130px}
+#GameLink #div_tutor_right #div_right_login #div_login_top .img_background {position: absolute;top: -100%;left: -10%;width: 120%;-webkit-filter: blur(8px);-moz-filter: blur(8px);-o-filter: blur(8px);-ms-filter: blur(8px);filter: blur(8px);background-color: #000}
+#GameLink #div_tutor_right #div_right_login #div_login_top .img_contents {position: absolute;top: 15px;left: 50%;margin-left: -50px;border-radius: 100px;box-shadow: 0px 0px 20px 0px #fff;}
+#GameLink #div_tutor_right #div_right_login .p_login_name {width:100%;background-color: #000;font-size: 20px; text-align: center;font-family:"RixSGo B";color:#fff;padding:5px}
+#GameLink #div_tutor_right #div_right_login .div_login_form {margin:20px}
+#GameLink #div_tutor_right #div_right_login .form-control {margin-bottom: 20px}
+
+#GameLink #div_tutor_left {width: 370px;background-color: #eee;padding: 10px;position: absolute;top: 0;left: 0;bottom: 0;}
+#GameLink #div_tutor_left #input_gamename { height: 40px; }
+#GameLink #div_tutor_left #div_left_list { position: absolute; top: 0; left: 0; bottom: 0; margin-top: 60px; width: 100%; overflow-y:scroll }
+#GameLink #div_tutor_left #div_left_list .div_gettingstart_list {position: relative;height: 60px;background-color: #fff;margin: 5px;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;cursor: pointer}
+#GameLink #div_tutor_left #div_left_list img {margin: 5px;float: left;width: 50px;margin-right: 10px;}
+#GameLink #div_tutor_left #div_left_list .p_list_gamename {font-size: 15px;font-family: "RixSGo B";padding-top: 10px;}
+#GameLink #div_tutor_left #div_left_list .icon_next {position:absolute;top: 50%;right: 10px;margin-top: -8px;color: #ccc;}

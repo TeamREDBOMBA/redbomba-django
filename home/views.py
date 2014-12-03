@@ -13,6 +13,7 @@ from redbomba.home.Head_search import *
 from redbomba.home.Login_join import *
 from redbomba.home.Login_login import *
 from redbomba.home.Main import *
+from redbomba.home.Main_gettingstart import *
 from redbomba.home.Mobile import *
 from redbomba.home.Stats_gamelink import *
 from redbomba.home.Stats_myarena import *
@@ -117,10 +118,9 @@ def arena(request):
 
         get_group = request.GET.get('group')
 
-        is_pass1 = get_or_none(Tutorial,user=request.user)
-        if is_pass1 : is_pass1 = int(is_pass1.is_pass1)
+        is_pass_arena = request.user.get_profile().is_pass_arena
 
-        state = {"is_pass1":is_pass1}
+        state = {"is_pass_arena":is_pass_arena}
 
         context = {
             'user': request.user,
@@ -135,6 +135,23 @@ def arena(request):
     except Exception as e:
         context = {'user': request.user}
     return render(request, 'arena.html', context)
+
+def gettingstart(request):
+
+    user = request.user
+    uinfo = request.user.get_profile()
+    get_group = request.user.get_profile().get_group()
+    if get_group : groupmem = get_group.get_member()
+    else : groupmem = None
+
+    context = {
+            'user': user,
+            'uinfo' : uinfo,
+            'groupmem':groupmem,
+            'get_group':get_group,
+        }
+    return render(request, 'gettingstart.html', context)
+
 
 def page_for_link(request,lid=None,gid=None):
     if lid :
@@ -185,7 +202,9 @@ def page_for_link(request,lid=None,gid=None):
             'from' : '/league/'
         }
     else :
-        context = {'user': request.user}
+        context = {
+            'user': request.user,
+        }
     return render(request, 'page_for_link.html', context)
 
 def about(request):

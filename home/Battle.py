@@ -2,7 +2,7 @@
 
 # Create your views here.
 from redbomba.home.Func import *
-from redbomba.home.models import Group
+from redbomba.home.models import Group, get_or_none
 from redbomba.home.models import GroupMember
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound

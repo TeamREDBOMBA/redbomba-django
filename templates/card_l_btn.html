@@ -35,15 +35,15 @@
             {% elif state.user.get_profile.get_gamelink == None %}
                 <a href="/?get=GameLink"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
             {% elif state.isFiveLink == None %}
-                <a href="#" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 현황보기</button></a>
+                <button id="btn_solve" class="btn btn-danger btn-xs" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})">그룹멤버 현황보기</button>
             {% elif state.isFiveMem == None %}
                 {% if state.isLeader %}
                     <button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 초대하기</button>
                 {% else %}
-                    <a href="#" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">건의하기</button></a>
+                    <button id="btn_solve" class="btn btn-danger btn-xs" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})">건의하기</button>
                 {% endif %}
             {% elif state.isLeader == None %}
-                <a href="#" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">참가 건의하기</button></a>
+                <button id="btn_solve" class="btn btn-danger btn-xs" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})">참가 건의하기</button>
             {% endif %}
         </div>
     </div>
@@ -74,15 +74,15 @@
             {% elif state.user.get_profile.get_gamelink == None %}
                 <a href="/?get=GameLink"><button id="btn_solve" class="btn btn-danger btn-xs">게임 연결하기</button></a>
             {% elif state.isFiveLink == None %}
-                <a href="#" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 현황보기</button></a>
+                <button id="btn_solve" class="btn btn-danger btn-xs" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})">그룹멤버 현황보기</button>
             {% elif state.isFiveMem == None %}
                 {% if state.isLeader %}
                     <button id="btn_solve" class="btn btn-danger btn-xs">그룹멤버 초대하기</button>
                 {% else %}
-                    <a href="#" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">건의하기</button></a>
+                    <button id="btn_solve" class="btn btn-danger btn-xs" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})">건의하기</button>
                 {% endif %}
             {% elif state.isLeader == None %}
-                <a href="#" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})"><button id="btn_solve" class="btn btn-danger btn-xs">참가 건의하기</button></a>
+                <button id="btn_solve" class="btn btn-danger btn-xs" onclick="goGroupPage({{ state.user.get_profile.get_group.id }})">참가 건의하기</button>
             {% endif %}
         </div>
     </div>

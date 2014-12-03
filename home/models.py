@@ -12,7 +12,11 @@ from django.db.models import Q, Count
 
 class Game(models.Model):
     name = models.TextField()
+    src = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
     is_active = models.IntegerField(default=1)
+
+    def get_src(self):
+        return "/media/%s"%(self.src)
 
     def __unicode__(self):
         return u'[%d] %s(active:%d)' %(self.id, self.name, self.is_active)
@@ -21,6 +25,8 @@ class UserProfile(models.Model):
     #required by the auth model
     user = models.ForeignKey(User, unique=True)
     user_icon = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
+    is_pass_arena = models.IntegerField(default=0)
+    is_pass_gamelink = models.IntegerField(default=0)
 
     def get_gamelink(self):
         return GameLink.objects.filter(user=self.user)
@@ -34,10 +40,6 @@ class UserProfile(models.Model):
 
     def get_icon(self):
         return "/media/%s"%(self.user_icon)
-
-class Tutorial(models.Model):
-    user = models.ForeignKey(User, unique=True)
-    is_pass1 = models.IntegerField(default=0)
 
 class GlobalCard(models.Model) :
     user = models.ForeignKey(User)

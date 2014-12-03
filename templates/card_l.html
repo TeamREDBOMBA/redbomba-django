@@ -17,7 +17,6 @@
             <li id="li_menu_participants" class="li_menu"><i class="fa fa-check-circle"></i> 참가팀 보기</li>
             <li id="li_menu_detailRule" class="li_menu"><i class="fa fa-book"></i> 자세한 롤 보기</li>
         </ul>
-        {{ state }}
     </div>
 </div>
 <div id="div_body" class="div_contents">
@@ -262,7 +261,9 @@
     });
 </script>
 <script>
-    $("#div_right_feed").load("/feed/card/?len=10&fid=0&league_id={{league.id}}");
+    var feed_league_len = 5;
+
+    readFeed("#div_right_feed","/feed/card/?league_id={{ league.id }}",feed_league_len,0);
 </script>
 <script>
     $('#div_main_cal').html(drawCal({{league.start_apply|date:'Y,n,j'}},{{league.end_apply|date:'Y,n,j'}},{{SR.min|date:'Y,n,j'}},{{ER.max|date:'Y,n,j'}}));

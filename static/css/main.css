@@ -7,21 +7,14 @@
 #container #gamelink_tutor a {margin-left:20px;font-weight: normal;font-size: 14px;color:#fff}
 
 #container #content{}
-<<<<<<< HEAD
-=======
 
 p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;margin-top: 20px;}
 
->>>>>>> develop
 #container #content #top_information { margin: 10px;margin-bottom: 20px;padding: 0 15px;line-height: 50px; font-family: 'RixSGo B'; border-radius: 4px;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);box-shadow: 0 1px 1px rgba(0,0,0,0.05); }
 #container #content #top_information .close { line-height:inherit }
 #container #content #top_information .btn { float: right;margin-right: 10px;margin-top: 10px; }
 
-<<<<<<< HEAD
-#container #content #display { height: 220px;background-color:#2F343D }
-=======
 #container #content #display { height: 220px;background-color:#2F343D ; display: none;}
->>>>>>> develop
 #container #content #display .display_title { height:50px;background-color:#232b34 }
 #container #content #display .display_title .display_title_live { background-color:#e74c3c ; color: #fff; font-size: 15px; padding: 5px 10px; letter-spacing: 3px; line-height: 50px; border-radius: 3px; margin-left: 10px;}
 #container #content #display .display_title .display_title_name { color: #fff; font-size: 1.1em;margin-left: 10px; }
@@ -29,11 +22,7 @@ p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;
 #container #content #display .display_title_btn i:hover { color:#aaa }
 #container #content #display .display_body { position:relative;width:100%;color:#fff }
 
-<<<<<<< HEAD
-#container #content #display .display_body .display_body_left {width:50%;float:left;text-align:right;padding-top: 5px;padding-right: 50px;}
-=======
 #container #content #display .display_body .display_body_left {width:50%;float:left;text-align:right;padding-top: 15px;padding-right: 50px;}
->>>>>>> develop
 #container #content #display .display_body .display_body_left .display_left_groupicon {width:60px;margin-left: 10px;float: right;}
 #container #content #display .display_body .display_body_left .display_left_text .display_left_name {font-size: 20px;}
 #container #content #display .display_body .display_body_left .display_left_text .display_left_bos { position:relative ; margin-top: 8px; letter-spacing: 3px;}
@@ -41,15 +30,9 @@ p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;
 #container #content #display .display_body .display_body_left .display_left_member { position:relative ; padding-top: 20px;}
 #container #content #display .display_body .display_body_left .display_left_member .display_member {float: right;width: 62px;padding: 0 6px;text-align: center;}
 #container #content #display .display_body .display_body_left .display_left_member .display_member img {width: 35px;border-radius: 35px;}
-<<<<<<< HEAD
-#container #content #display .display_body .display_body_left .display_left_member .display_member p {font-size: 12px;word-break: break-word;line-height: 10px;margin-top: 5px;}
-
-#container #content #display .display_body .display_body_right {width:50%;float:right;text-align:left;padding-top: 5px; padding-left: 50px;}
-=======
 #container #content #display .display_body .display_body_left .display_left_member .display_member p {font-size: 12px;word-break: break-word;line-height: 12px;margin-top: 5px;}
 
 #container #content #display .display_body .display_body_right {width:50%;float:right;text-align:left;padding-top: 15px; padding-left: 50px;}
->>>>>>> develop
 #container #content #display .display_body .display_body_right .display_right_groupicon {width:60px;margin-right: 10px;float: left;}
 #container #content #display .display_body .display_body_right .display_right_text .display_right_name {font-size: 20px;}
 #container #content #display .display_body .display_body_right .display_right_text .display_right_bos { position:relative ;margin-top: 8px; letter-spacing: 3px;}
@@ -57,30 +40,18 @@ p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;
 #container #content #display .display_body .display_body_right .display_right_member { position:relative ; padding-top: 20px;}
 #container #content #display .display_body .display_body_right .display_right_member .display_member {float:left;width: 62px;padding: 0 6px;text-align: center;}
 #container #content #display .display_body .display_body_right .display_right_member .display_member img {width: 35px;border-radius: 35px;}
-<<<<<<< HEAD
-#container #content #display .display_body .display_body_right .display_right_member .display_member p {font-size:12px;word-break: break-word;line-height: 10px;margin-top: 5px;}
-=======
 #container #content #display .display_body .display_body_right .display_right_member .display_member p {font-size:12px;word-break: break-word;line-height: 12px;margin-top: 5px;}
->>>>>>> develop
 
 #container #content #display .display_body .display_body_center {position:absolute;top:0;left:50%;margin-left:-50px;width:100px;height:100%;text-align:center}
 #container #content #display .display_body .display_body_center .center_vs { position: relative; top: 30px; font-size: 30px; font-family:'RixSGo B';}
 #container #content #display .display_body .display_body_center .center_gamename { position: relative; top: 40px; font-size: 10px;}
 
-<<<<<<< HEAD
-#container #content #link_league {height:200px;border:3px solid #FFDB6B;margin-top:20px}
-#container #content #link_league #link_league_img {float:left}
-#container #content #link_league #link_league_img img {height:200px}
-#container #content #link_league #link_league_con {float:right;position: relative;width: 247px;height: 100%;margin: 0 10px;}
-#container #content #link_league #link_league_con p {width:100%;font-size: 15px;text-align:center;line-height: 150px;}
-=======
 #container #content #link_league {height:200px;margin-top: 10px;}
 #container #content #link_league #link_league_img {float:left}
 #container #content #link_league #link_league_img img {height:200px}
 #container #content #link_league #link_league_con {float:right;position: relative;width: 247px;height: 100%;margin: 0 10px;}
 #container #content #link_league #link_league_con #link_league_title {width:100%;font-size: 15px;text-align:center;padding-top: 50px;font-family: "RixSGo B";}
 #container #content #link_league #link_league_con #link_league_inf { width:100%; font-size: 12px;text-align:center; padding-top: 20px; color: #666;}
->>>>>>> develop
 #container #content #link_league #link_league_con button {width:100%;bottom: 10px;position: absolute;}
 
 #container #content #feed_pub {margin-bottom: 10px;}
@@ -98,8 +69,5 @@ p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;
 #aside #profile #profile_bottom .div_link_btn #btnGamelink { width: 100% }
 #aside #profile #profile_bottom .div_link_btn_s { text-align:center; height:49px ; line-height: 49px; font-size: 12px;}
 #aside #profile #profile_bottom .div_link_btn_s #btnGamelink_s { margin-left:10px }
-<<<<<<< HEAD
-=======
 
 #GlobalFeedModal {overflow: hidden}
->>>>>>> develop

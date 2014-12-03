@@ -1,0 +1,40 @@
+<div id="div_right_login">
+    <div id="div_login_top">
+        <img class="img_background" src="{{ game.get_src }}">
+        <img class="img_contents" src="{{ game.get_src }}">
+    </div>
+    <p class="p_login_name">{{ game.name }}</p>
+    <div class="div_login_form">
+        <input type="text" id="input_userid" class="form-control" placeholder="ID">
+        <input type="password" id="input_userpw" class="form-control" placeholder="PW" onkeypress="pressSubmit(event)">
+        <button class="btn btn-success form-control" id="btn_link">연결하기</button>
+    </div>
+</div>
+<script>
+    $('#btn_link').click(function(){
+        chkAccount();
+    });
+
+    function pressSubmit(e) {
+        if (e.keyCode == 13) {
+            chkAccount();
+        } else {
+            e.keyCode == 0;
+            return;
+        }
+    }
+
+    function chkAccount(){
+        var uid = $("#input_userid").val();
+        var upw = $("#input_userpw").val();
+        var gid = '{{ game.id }}';
+        $("#div_tutor_right").html('<img src="/static/img/ajax-loader_s.gif" style="margin-top:160px">');
+        $("#div_tutor_right").hide().load("http://redbomba.net/gamelink/link/",{
+            "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
+            "id":uid,
+            "pw":upw,
+            "game_id":gid,
+            "from":"/gettingstart/"
+        }).fadeIn(300);
+    }
+</script>

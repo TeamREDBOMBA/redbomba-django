@@ -12,7 +12,7 @@ $(window).load(function() {
   	$(".card_line").hide().load("/card/").fadeIn('500');
 
   	$("#btnTutorialOk").click(function(){
-  		$.post("/db/tutorial/",{"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val()});
+  		$.post("/db/tutorial/",{"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),"is_pass":"arena"});
   		$('#Tutorial').modal('hide');
   	});
 

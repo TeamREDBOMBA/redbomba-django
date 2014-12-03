@@ -9,20 +9,12 @@ class UserProfileInline(admin.StackedInline):
     max_num = 1
     can_delete = True
 
-class TutorInline(admin.StackedInline):
-    model = Tutorial
-    max_num = 1
-    can_delete = True
-
 class UserAdmin(AuthUserAdmin):
     list_display = ('id','username','email','is_active','date_joined')
-    inlines = [UserProfileInline, TutorInline]
+    inlines = [UserProfileInline]
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('id','user','user_icon')
-
-class TutorialAdmin(admin.ModelAdmin):
-    list_display = ('id','user','is_pass1')
+    list_display = ('id','user','user_icon','is_pass_arena','is_pass_gamelink')
 
 class ChattingAdmin(admin.ModelAdmin):
     list_display = ('group','user','con','date_updated')
@@ -52,7 +44,7 @@ class FeedCheckAdmin(admin.ModelAdmin):
     list_display = ('id','user','feed')
 
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('id','name','is_active')
+    list_display = ('id','name','src','is_active')
 
 class GameLinkAdmin(admin.ModelAdmin):
     list_display = ('id','user','game','name','sid')
@@ -90,7 +82,6 @@ class LeagueWishAdmin(admin.ModelAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(Tutorial, TutorialAdmin)
 admin.site.register(Chatting, ChattingAdmin)
 admin.site.register(GlobalCard, GlobalFeedAdmin)
 admin.site.register(PrivateCard, PrivateCardAdmin)

@@ -1,0 +1,86 @@
+{% load extras %}
+<div id="Gamelink_Detail">
+    {% if isLinked %}{%else%}<button type="button" class="btn btn-danger input_gamelink_btn" id="btnSave"><i class="fa fa-link"></i> | 이 계정을 연결하기</button>{% endif %}
+    <div class="panel panel-default" id="div_gamelink_panel">
+        <div class="panel-body" id="div_gamelink_panelbody">
+            <div class="li_left_stat">
+                {% if summoner_stat.tier %}
+                    <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_medal_{{summoner_stat.tier}}.png" id="img_left_medal">
+                    <p id="p_left_line1">{{summoner_stat.tier}} <b>{{summoner_stat.rank}}</b></p>
+                    <p id="p_left_line2">{{summoner_stat.lp}} LP</p>
+                    <p id="p_left_line3">승 {{summoner_stat.wins}}&nbsp;&nbsp;패 {{summoner_stat.losses}}</p>
+                {% else %}
+                    <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_medal_DEFAULT.png" id="img_left_medal_unrank">
+                    <p id="p_left_unrank">UNRANKED</p>
+                {% endif %}
+            </div>
+            <ul id="ul_gamelink_left">
+                {% for s in summoner_most %}
+                    <li class="li_left_most">
+                        <img src="{{s.img}}" class="img_most_img" id="img_most_img1">
+                        <p class="p_most_name">{{s.name}}</p>
+                        <p class="p_most_kda">{{s.kda}}</p>
+                        <p class="p_most_played">{{s.played}}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+            <ul id="ul_gamelink_right">
+                {% for r in summoner_recent %}
+                    <li class="li_right_league">
+                        <p class="p_league_win {% if r.win_bool %}win{% else %}lose{% endif %}">{{r.win}}</p>
+                        <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_cham_{{r.cid}}.png" class="img_league_img" id="img_league_img1">
+                        <p class="p_league_spell">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_spell_{{r.spell1}}.png" class="img_league_spell">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_spell_{{r.spell2}}.png" class="img_league_spell">
+                        </p>
+                        <p class="p_league_kda">
+                            <span class='kda'>{{r.kill}} / <font class='kda_r'>{{r.death}}</font> / {{r.assists}}</span><br/>
+                            <span class='kda_avg'>{{r.kda}}</span>
+                        </p>
+                        <p class="p_league_level">
+        <span class='level'>레벨 {{r.level}}<br/>
+        <span class='cs'>CS {{r.cs}}</span>
+                        </p>
+                        <p class="p_league_item">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item0}}.png" class="img_league_item">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item1}}.png" class="img_league_item">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item2}}.png" class="img_league_item"><br/>
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item3}}.png" class="img_league_item">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item4}}.png" class="img_league_item">
+                            <img src="http://re01-xv2938.ktics.co.kr/gamelink_lol_item_{{r.item5}}.png" class="img_league_item">
+                        </p>
+                        <p class="p_league_type">
+                            <span id="type_sub" style="color:{{r.mathchtype.color}};background-color:{{r.mathchtype.bc}};">{{r.mathchtype.name}}</span><br/>
+                            <span id="type_min">{{r.timePlayed}}분</span>
+                        </p>
+                        <p class="p_league_time">
+                            <span id="time_date">{{r.createdate|get_time_diff:"+"}}</span>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% if isLinked %}
+        {% if isLinked.user.id == uid %}
+            <button type="button" class="btn btn-danger" id="brn_gamelink_delete">이 게임계정 연결 해제하기</button>
+        {% else %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong><a class="username" onclick="click_name('{{isLinked.user.username}}')"><img src="{{isLinked.user.get_profile.get_icon}}">{{isLinked.user.username}}</a></strong> 님에게 연결된 게임계정입니다.
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+<script>
+    loadList();
+
+    $('#brn_gamelink_delete').click(function(){
+        $.post('/gamelink/delete/',{
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            'gl':'{{isLinked.id}}'
+        },function(res,status){
+            history.go(0);
+        });
+    });
+</script>

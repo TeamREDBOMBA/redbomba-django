@@ -4,14 +4,12 @@
 from redbomba.home.Func import *
 from redbomba.home.forms import *
 from redbomba.home.Arena_matchmaker import *
-from redbomba.home.models import Tutorial
-from redbomba.home.models import Chatting
+from redbomba.home.models import Chatting, get_or_none
 from redbomba.home.models import GroupMember
 from redbomba.home.models import League
 from redbomba.home.models import LeagueTeam
 from redbomba.home.models import LeagueRound
 from redbomba.home.models import LeagueMatch
-from redbomba.home.models import Tutorial
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -107,12 +105,10 @@ def getLargeCardBtn(request):
 
 def setTutorial(request):
     if request.user :
-        uid = get_or_none(Tutorial,user=request.user)
-        if uid :
-            uid.is_pass1 = 1
-            uid.save()
-        else :
-            Tutorial.objects.create(user=request.user,is_pass1=1)
+        if request.POST.get('is_pass') == "arena" :
+            is_pass = get_or_none(UserProfile,user=request.user)
+            is_pass.is_pass_arena = 1
+            is_pass.save()
     return HttpResponse('ERROR')
 
 def cardsorter():

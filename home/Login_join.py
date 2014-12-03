@@ -7,7 +7,7 @@ import base64
 import requests
 import random
 from redbomba.home.models import PrivateCard
-from redbomba.home.models import UserProfile, Tutorial
+from redbomba.home.models import UserProfile
 from redbomba.home.models import Group
 from django.contrib.auth import authenticate, login
 from django.core.mail import EmailMultiAlternatives
@@ -39,7 +39,6 @@ def register(request):
     send_complex_message(request.POST['username'])
     user = authenticate(username=request.POST['username'], password=request.POST['password1'])
     if user is not None:
-        Tutorial.objects.create(user=user,is_pass1=0)
         login(request, user)
         request.session.set_expiry(31536000)
         return HttpResponse("Success")

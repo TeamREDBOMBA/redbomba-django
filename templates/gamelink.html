@@ -1,0 +1,32 @@
+<div id="GameLink">
+    <div class="div_tutor_con" id="div_tutor_right">계정을 갖고있는 게임을 선택해주세요.</div>
+    <div class="div_tutor_con" id="div_tutor_left">
+        <input type="text" id="input_gamename" class="form-control" placeholder="게임명을 입력하세요.">
+        <div id="div_left_list"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    loadList();
+
+    $('#input_gamename').keyup(function(evt){
+        loadList();
+        evt.stopPropagation();
+    });
+
+    function loadList(){
+        var query = $('#input_gamename').val();
+        $("#div_left_list").load("http://redbomba.net/gamelink/gamelist/?query="+query);
+    }
+
+    function loadLogin(gid){
+        $("#div_tutor_right").hide().load("http://redbomba.net/gamelink/login/?id="+gid).fadeIn(300);
+    }
+
+    function loadAccount(sid){
+        $("#div_tutor_right").html('<img src="/static/img/ajax-loader_s.gif" style="margin-top:160px">');
+        $("#div_tutor_right").hide().load("http://redbomba.net/gamelink/load/",{
+            "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
+            "sid":sid
+        }).fadeIn(300);
+    }
+</script>

@@ -119,7 +119,6 @@ def postJoin(request):
     이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.
     레드밤바에서 다양한 활동을 즐겨보세요!"""%(user.username,user.username))
         send_complex_message(request.POST['username'])
-        Tutorial.objects.create(user=user,is_pass1=0)
         return HttpResponse("")
     else :
         return HttpResponse("Fail")
@@ -632,15 +631,15 @@ def getCondition(request):
         if group == None :
             group = "0"
 
-        isLeader = ls['IsLeader']
+        isLeader = ls['isLeader']
         if isLeader :
             isLeader = "1"
         else :
             isLeader = "0"
 
-        HasFiveLink = ls['HasFiveLink']
+        HasFiveLink = ls['isFiveLink']
         if HasFiveLink :
-            HasFiveLink = ls['HasFiveLink']
+            HasFiveLink = ls['isFiveLink']
         else :
             HasFiveLink = "0"
 
@@ -649,7 +648,7 @@ def getCondition(request):
                 "no": ls['no'],
                 "isLeader": isLeader,
                 "group": str(group),
-                "groupmem": str(ls['HasFiveMem']), #Count
+                "groupmem": str(ls['isFiveMem']), #Count
                 "gamelink": str(HasFiveLink) #Count
             })
         else:

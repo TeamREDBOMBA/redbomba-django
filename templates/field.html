@@ -55,9 +55,5 @@
     {% endfor %}
 </div>
 <script>
-    function goGroupPage(gid){
-        $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':gid});
-        $('#GroupInfo').modal('show');
-    }
     $("#field_login").text(memOnline);
 </script>

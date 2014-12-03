@@ -28,9 +28,11 @@
     </div>
 </div>
 <script>
+    var feed_news_len = 5;
+
     $('.focuspoint').focusPoint()
 
-    $("#div_right_feed").load("/feed/news/detail/?len=10&fid=0&gfid={{ news.id }}");
+    readFeed("#div_right_feed","/feed/news/detail/?gfid={{ news.id }}",feed_news_len,0);
 
     var w_h = $(window).height()-60;
     $("#GlobalFeedModal .modal-content").css({"height":w_h+"px"});

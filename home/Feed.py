@@ -2,7 +2,7 @@
 
 # Create your views here.
 from redbomba.home.Func import *
-from redbomba.home.models import FeedContents
+from redbomba.home.models import FeedContents, get_or_none
 from redbomba.home.models import FeedReply
 from redbomba.home.models import GlobalCard
 from redbomba.home.models import Feed
@@ -167,7 +167,7 @@ def feedsorter(loc, uid, len, fid, request):
             val = val+output;
             i=i+1;
         if feed.count() > i :
-            btnMore = "<div class='div_feedcard_morebtn' onclick='clickMore()'> more </div>"
+            btnMore = """<div class='div_feedcard_morebtn' onclick='clickMore(feed_league_len,"#div_right_feed","/feed/card/?league_id=%d")'> more </div>"""%(lid.id)
         else :
             btnMore=""
         return val+btnMore
@@ -203,7 +203,7 @@ def feedsorter(loc, uid, len, fid, request):
             val = val+output;
             i=i+1;
         if feed.count() > i :
-            btnMore = "<div class='div_feedcard_morebtn' onclick='clickMore()'> more </div>"
+            btnMore = """<div class='div_feedcard_morebtn' onclick='clickMore(feed_news_len,"#div_right_feed","/feed/news/detail/?gfid=%d")'> more </div>"""%(gfid.id)
         else :
             btnMore=""
         return val+btnMore

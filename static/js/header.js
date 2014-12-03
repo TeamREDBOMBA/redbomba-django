@@ -1,8 +1,8 @@
 $(window).load(function() {
 
-     if(location.href.indexOf("www.") != -1 ){
-            location.href = location.href.replace("www.","");
-     }
+    if(location.href.indexOf("www.") != -1 ){
+        location.href = location.href.replace("www.","");
+    }
 
     uid = 0;
     memOnline = 1;
@@ -146,10 +146,20 @@ $(document).ready(function(){
         $("#fchat").css({"bottom":"-256px"});
     },3000);
 
-     $("#fchat-header").click(function(){
-            $("#fchat").css({"bottom":"0"});
-        });
+    $("#fchat-header").click(function(){
+        $("#fchat").css({"bottom":"0"});
+    });
+
 });
+
+function readFeed(div_id, query, len, fid){
+    $(div_id).load(query+"&len="+len+"&fid="+fid);
+}
+
+function clickMore(feed_len, div_id, query){
+    feed_len+=10;
+    readFeed(div_id,query,feed_len,0);
+}
 
 function clickGamelink(iconid) {
     if(iconid == 1){
@@ -170,7 +180,8 @@ function click_name(username){
 }
 
 function goGroupPage(gid){
-    $('.modal').modal('hide');
-    $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':gid});
-    $('#GroupInfo').modal('show');
-}
+        $('.modal').modal('hide');
+        $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':gid},function(){
+            $('#GroupInfo').modal('show');
+        });
+    }
