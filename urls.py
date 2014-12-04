@@ -1,91 +1,12 @@
-from django.conf.urls import *
-from django.conf import settings
+from django.conf.urls import patterns, include, url
+
 from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from home.views import *
-from redbomba.home.Socket import fromSocket
-
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-
 admin.autodiscover()
-
-base64_pattern = r'(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$'
 
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'redbomba.views.home', name='home'),
-    # url(r'^redbomba/', include('redbomba.foo.urls')),
+    # url(r'^blog/', include('blog.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    (r'^$', main),
-    (r'^admin/', include(admin.site.urls)),
-    (r'^about/$', about),
-    (r'^league/display/$', getLeagueListForDisplay),
-    (r'^home/$', home),
-    (r'^stats/$', stats),
-    (r'^stats/(?P<username>.*)$', stats),
-    (r'^league/(?P<lid>.*)$', page_for_link),
-    (r'^group/(?P<gid>.*)$', page_for_link),
-    (r'^gettingstart/$', gettingstart),
-    (r'^gamelink/$', gamelink),
-    (r'^gamelink/gamelist/$', gamelink_gamelist),
-    (r'^gamelink/login/$', gamelink_login),
-    (r'^gamelink/link/$', gamelink_link),
-    (r'^gamelink/load/$', gamelink_loadAccount),
-    (r'^gamelink/delete/$', gamelink_delete),
-    (r'^arena/$', arena),
-    (r'^battle/$', battle),
-    (r'^feed/private/$', getCardPrivate),
-    (r'^feed/card/$', read_Feed_card),
-    (r'^feed/news/$', getCardNews),
-    (r'^feed/news/detail/$', read_Feed_news_detail),
-    (r'^feed/news/(?P<fid>.*)$', getCardNewsLarge),
-    (r'^reply/$', read_Reply),
-    (r'^getgroup/$', getGroup),
-    (r'^groupinfo/$', getGroupInfo),
-    (r'^groupinfoorder/$', getGroupInfoOrder),
-    (r'^card/$', getCard),
-    (r'^matchmaker/$', setMatchmaker),
-    (r'^group/fnc/name/$', fncGroupName),
-    (r'^group/fnc/nick/$', fncGroupNick),
-    (r'^groupmember/$', getGroupMember),
-    (r'^grouplist/$', getGroupList),
-    (r'^searchlist/$', getSearchBar),
-    (r'^field/$', getField),
-    (r'^noti/$', read_Notification),
-    (r'^forsocket/$', forsocket),
-    (r'^chatting/$', getChatting),
-    (r'^myarena/$', getMyarena),
-    (r'^cardbtn/$', getLargeCardBtn),
-    (r'^db/smile/$', setSmile),
-    (r'^db/noti/$', write_Notification),
-    (r'^db/post_noti/$', post_Notification),
-    (r'^db/feed/$', write_Feed),
-    (r'^db/reply/$', write_Reply),
-    (r'^db/group/$', write_Group),
-    (r'^db/groupmember/$', setGroupMember),
-    (r'^db/grouplist/$', setGroupList),
-    (r'^db/leagueteam/$', setLeagueteam),
-    (r'^db/tutorial/$', setTutorial),
-    (r'^auth/login/$', email_login_view),
-    (r'^auth/logout/$', logout_page),
-    (r'^auth/signup/$', register_page),
-    (r'^auth/fnc/email/$', fncSignupEmail),
-    (r'^auth/fnc/nick/$', fncSignupNick),
-    (r'^auth/(?P<id>\d+)/(?P<date_joined>{})'.format(base64_pattern), verifyEmail),
-    (r'^socket/$', fromSocket),
-    (r'^mobile/$', fromMobile),
-    (r'^file/$', file),
-    (r'^test/$', test),
+    url(r'^admin/', include(admin.site.urls)),
 )
-urlpatterns += staticfiles_urlpatterns()
-
-if settings.DEBUG:
-    # static files (images, css, javascript, etc.)
-    urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-        'document_root': settings.MEDIA_ROOT}))
