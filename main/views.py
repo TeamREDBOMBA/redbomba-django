@@ -7,6 +7,7 @@ def main(request):
         context = {
             'user': request.user,
             'from':'/',
+            'appname':'main'
             }
     except Exception as e:
         context = {'user': request.user}
