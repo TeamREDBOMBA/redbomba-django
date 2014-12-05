@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+
+.fa-lol{
+	position:relative;
+	width:100%;
+	height:100%;
+	background-image: url(fa-lol.png);
+	background-size: 100% 100%;
+	float:left;
+}
+
+.fa-lol-b{
+	position:relative;
+	width:100%;
+	height:100%;
+	background-image: url(fa-lol-b.png);
+	background-size: 100% 100%;
+	float:left;
+}
+
+.fa-arena{
+	position:relative;
+	width:100%;
+	height:100%;
+	background-image: url(fa-arena.png);
+	background-size: 100% 100%;
+	float:left;
+}

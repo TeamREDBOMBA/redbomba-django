@@ -1,0 +1,106 @@
+﻿/* Common */
+html,body{width:100%;height:100%; overflow:hidden;background:#e84c3d}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
+body,input,textarea,select,button,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table{font-family:'RixSGo L',"나눔고딕","맑은 고딕", Tahoma, "Keep Calm",'돋움',Dotum,AppleGothic,sans-serif; font-size:12px;}
+img,fieldset{border:0}
+ul,ol{list-style:none}
+em,address{font-style:normal}
+a{text-decoration:none}
+a:hover,a:active,a:focus{text-decoration:underline}
+
+/* Layout */
+.alert{ position:fixed;bottom:0;width:100%;margin-bottom:0;z-index:1000;
+filter:alpha(opacity=90); opacity:0.9; -moz-opacity:0.9;
+}
+
+#wrap{width:100%;height:100%;margin:0 auto;}
+
+#container{width:100%;height:100%;min-width:980px;min-height:700px}
+#container:after{display:block;clear:both;content:''}
+
+#content{position:relative;float:left;width:auto;margin-left:16%;z-index:10}
+#content #login{ margin-top:70%}
+
+.aside{float:right;position:relative;min-width:500px;max-width:800px;width:40%;height:100%;z-index:0}
+
+._aside{position:absolute;top:0;right:-100%;min-width:500px;max-width:800px;width:40%;height:100%;z-index:20;display:none}
+
+._aside_done{position:absolute;top:0;right:-100%;min-width:500px;max-width:800px;width:40%;height:100%;z-index:30;display:none}
+
+#backBG{position:absolute;width:100%;height:100%;min-height:700px;top:0;left:0;background-color:RGBA(0,0,0,0.6);z-index:10;display:none}
+
+/* You must delete below style */
+#wrap{}
+
+#container{}
+#content #login #p_login_welcom_b{color:#FFF; font-size:27px;font-family:'RixSGo B'; line-height:30px;}
+#content #login #p_login_welcom_s{color:#f4ada6; font-size:15px; line-height:30px;letter-spacing: -.5px;}
+#content #login .form_login{width:300px}
+#content #login #p_login_id{margin-top:20px}
+#content #login .btn{width:300px}
+#content #login #p_login_or{margin-top:10px}
+#content #login #p_login_hello_s{width:300px;color:#FFF; text-align:center; margin-bottom:5px}
+
+.aside{background:#2d3e50}
+.aside #img_main_bg{position:absolute;left:-426px;top:170px;z-index:1}
+.aside #img_main_bg_eyes{position:absolute;left:-426px;top:170px;z-index:0}
+.aside #info{position:relative;width:100%;height:100%;background-color:#2d3e50;z-index:2}
+.aside #info #div_info_line1{width:100%;height:85px}
+.aside #info #p_line1_title{color:#FFF;font-size:33px;font-family: 'RixSGo B';line-height:40px;padding:25px}
+.aside #info #div_info_line2{width:100%;height:225px;background-color:#283848;margin-bottom:1px}
+.aside #info #div_info_line3{width:100%;height:225px;background-color:#2d3e50}
+.aside #info #div_info_line4{width:100%;height:160px;background-color:#283848}
+.aside #info #div_info_line4 p:nth-child(1){padding:10px 40px;color:#FFF;font-size:20px}
+.aside #info #div_info_line4 p:nth-child(2){padding-left:40px;color:#FFF;font-size:20px}
+.aside #info .div_info_ele{position:relative;width:250px;color:#FFF;text-align:center;float:left}
+.aside #info .div_info_ele li:nth-child(1){ padding-top:20px}
+.aside #info .div_info_ele li:nth-child(2){ padding-top:15px;font-size:20px}
+.aside #info .div_info_ele li:nth-child(3){ padding:5px 0;font-size:13px}
+.aside #info #div_info_line3 .div_info_ele:nth-child(1) li:nth-child(2) {padding-top:5px;}
+.aside #info .developing li { color:#aaa; }
+.aside #info .developing li span { position: absolute;left: 102px;top: 51px;font-size: 17px;color: #fff;text-shadow: #000 0px 0px 4px; }
+.aside #info .developing li img { filter:gray; -webkit-filter: grayscale(1); filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); }
+._aside{background:#2d3e50}
+._aside #signup{width:100%;height:100%}
+._aside #signup #div_signup_line1{width:100%;height:85px;background-color:#2d3e50}
+._aside #signup #p_line1_title{color:#FFF;font-size:35px;line-height:85px;padding-left:25px}
+._aside #signup #div_signup_line2{width:100%;height:225px;background-color:#283848}
+._aside #signup #div_signup_line3{width:100%;height:225px;background-color:#2d3e50}
+._aside #signup #div_signup_line4{width:100%;height:160px;background-color:#283848}
+
+._aside #signup #div_signup_line2 font{color:#FFF;font-size:15px}
+._aside #signup #div_signup_line2 #font2 {padding-right:141px}
+._aside #signup #div_signup_line2 p{padding-left:50px}
+._aside #signup #div_signup_line2 #p1{padding-top:40px;padding-bottom:5px}
+._aside #signup #div_signup_line2 #p2{padding-bottom:5px}
+._aside #signup #div_signup_line2 #id_email{width:400px;margin-bottom:5px}
+._aside #signup #div_signup_line2 #id_password1{float:left;width:195px;margin-right:10px;margin-bottom:5px}
+._aside #signup #div_signup_line2 #id_password2{width:195px;margin-bottom:5px}
+._aside #signup #div_signup_line3 li:nth-child(2) {padding-top: 20px;padding-left: 85px;color: #fff;margin-left: 10px;text-indent: -7px;}
+._aside #signup #div_signup_line3 .p_line3_nick{color:#FFF;width:350px;font-size:15px;padding-left:150px;}
+._aside #signup #div_signup_line3 .p_line3_nick:nth-child(1){padding-top:20px}
+._aside #signup #div_signup_line3 .p_line3_nick:nth-child(3){text-align:right}
+
+._aside #signup #div_signup_line3 .p_line3_info {font-size: 13px;}
+._aside #signup #div_signup_line3 #id_username{width:200px;margin:10px 0}
+._aside #signup #div_signup_line4 .btn{margin-top:65px}
+._aside #signup #div_signup_line4 #button_signup_cancle{width:100px;margin-right:10px;margin-left:75px}
+._aside #signup #div_signup_line4 #button_signup_complete{width:240px}
+
+._aside #signup #div_signup_line2 .error{position:relative;text-align:right;color:#ec9890;width:450px;height:17px;font-size:12px;padding-left:50px;top:0px}
+._aside #signup #div_signup_line3 .error{position:relative;text-align:center;color:#ec9890;width:450px;font-size:12px;padding-left:50px}
+
+._aside_done{background:#2d3e50}
+._aside_done #signup{width:100%;height:100%}
+._aside_done #signup #div_done_line1{width:100%;height:85px;background-color:#2d3e50}
+._aside_done #signup #div_done_line2{width:100%;height:225px;background-color:#283848}
+._aside_done #signup #div_done_line3{width:100%;height:225px;background-color:#2d3e50}
+._aside_done #signup #div_done_line4{width:100%;height:160px;background-color:#283848}
+
+._aside_done #signup #p_line1_title{color:#FFF;font-size:35px;line-height:85px;padding-left:25px}
+._aside_done #signup #div_done_line2 .p_line2_info{ color: #FFF;font-size: 15px;line-height: 50px;padding-left: 90px; }
+._aside_done #signup #div_done_line3 .p_line3_info{ color: #FFF;font-size: 15px;line-height: 225px;padding-left: 90px; }
+._aside_done #signup #div_done_line4 #button_signup_close{ width: 100px;margin-right: 10px;margin-left: 75px;margin-top: 65px; }
+._aside_done #signup #div_done_line4 #button_signup_checkemail{ margin-top: 65px;width: 230px; }
+
+#container #bottom{position:absolute;left:0;bottom:0;width:100%;height:40px;line-height:40px;color:#fff;font-size:15px;background-color:#c0392b;padding-left: 16%;}
