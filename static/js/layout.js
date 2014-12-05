@@ -13,7 +13,7 @@ $(window).load(function() {
 
     socket = io.connect('http://redbomba.net:3000/');
     socket.emit('leaveGroup','leave');
-    $.post("/forsocket/",
+    $.post("/head/userinfo/",
         {
             "csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val()
         },

@@ -2,13 +2,15 @@
 
 import base64
 import random
+
 import requests
 from django.contrib.auth import logout, authenticate, login
-from django.contrib.auth.models import User, AnonymousUser
-from home.models import UserProfile, get_or_none
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from django.utils.html import strip_tags
+
+from redbomba.home.models import UserProfile, get_or_none
 
 # Create your views here.
 
@@ -44,7 +46,7 @@ def home_join(request):
     user = User.objects.create_user(username=username,password=passwd,email=email)
     user.is_active = False
     user.save()
-    UserProfile.objects.create(user=user,user_icon="icon/usericon_%d.jpg"%(random.randint(1,10)))
+    UserProfile.objects.create(user=user)
     #     PrivateCard.objects.create(user=user,contype='sys',con="""%s님. 만나서 반가워요!
     # 이 곳은 %s님에게 관련된 소식만을 모아서 보여주는 활동 스트림 영역입니다.
     # 레드밤바에서 다양한 활동을 즐겨보세요!"""%(user.username,user.username))
@@ -107,7 +109,7 @@ def home_verify(request,id,date_joined):
 def send_complex_message(username):
     user = get_or_none(User,username=username)
     email = user.email
-    url_link = "http://redbomba.net/auth/%s/%s" %(user.id,base64.urlsafe_b64encode(str(user.date_joined)))
+    url_link = "http://redbomba.net/home/verify/%s/%s" %(user.id,base64.urlsafe_b64encode(str(user.date_joined)))
     html_content = render_to_response('home_email.html', {'url_link':url_link})
     text_content = strip_tags(html_content)
     return requests.post(

@@ -38,8 +38,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home',
-    'main',
+    'redbomba.home',
+    'redbomba.main',
+    'redbomba.head',
+    'redbomba.group',
+    'redbomba.feed',
 )
 
 MIDDLEWARE_CLASSES = (

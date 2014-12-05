@@ -48,7 +48,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #header #content > ul > .btn_top_menu img{margin-right:3px}
 #header #content > ul > .btn_top_menu:hover{border-bottom:5px solid #c0392b;}
 #header #content > ul > li{float:left;height:46px;text-align:center}
-#header #content > ul > li #img_head_usericon{width: 40px;height: 40px;margin: 3px;float:left;background-color:#000;border-radius: 40px;border: 1px solid #ddd;}
+#header #content > ul > li #img_head_usericon{width: 40px;height: 40px;margin: 3px;float:left;border-radius: 40px;border: 1px solid #ddd;}
 #header #content > ul > li .dropdown-menu {font-size:12px;min-width:10px;left:inherit;}
 #header #content > ul > li #p_head_username{font-size:13px;color: #333;line-height:46px;padding:0 5px;text-align:left;float: left;}
 #header #content > ul > li #i_profile_btn{float:right;line-height: 46px;padding: 0 10px;cursor:pointer}
