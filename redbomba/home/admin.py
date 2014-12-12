@@ -2,9 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib.auth.models import User
-from redbomba.home.models import UserProfile
+from redbomba.home.models import UserProfile, Game, GameLink
 from django.contrib.auth.admin import UserAdmin
-
 
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
@@ -18,6 +17,14 @@ class UserAdmin(UserAdmin):
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('id','user','src','is_pass_arena','is_pass_gamelink')
 
+class GameAdmin(admin.ModelAdmin):
+    list_display = ('id','name','src','is_active')
+
+class GameLinkAdmin(admin.ModelAdmin):
+    list_display = ('id','user','game','account_id','account_name')
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(Game, GameAdmin)
+admin.site.register(GameLink, GameLinkAdmin)

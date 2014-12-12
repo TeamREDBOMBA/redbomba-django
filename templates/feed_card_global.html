@@ -1,0 +1,32 @@
+{% for new in news %}
+    <div class="div_feed div_globalfeed" id="news_{{ new.id }}">
+    <input type="hidden" id="fid" value="{{ new.id }}">
+        <div class="div_box_img focuspoint" data-focus-x="{{ new.img.focusx }}" data-focus-y="{{ new.img.focusy }}">
+            <img src="{{ new.img.src }}">
+        </div>
+        <div class="div_box_user">
+            <img src="{{ new.user.get_profile.src.url }}">{{ new.user.username }}
+        </div>
+        <div class="div_box_con">
+            <p class="p_con_title">{{ new.title }}</p>
+            {% if new.txt %}
+            <p class="p_con_txt">{{ new.txt }}</p>
+            {% endif %}
+            <div class="div_gra"></div>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+    var box_size = $("#feed_pub .div_globalfeed").size();
+    var arr = setSize(box_size);
+    for(i=0;i<box_size;i++){
+        $("#feed_pub .div_globalfeed:nth-child("+(i+1)+")").css({"width":arr[i],"background-color":"#7f8c8d"});
+    }
+
+    $(".div_globalfeed").click(function(){
+        $("#GlobalFeedModal").modal("show");
+        $("#GlobalFeedModal .modal-content").load("/feed/card/global/large/"+$(this).children("#fid").val(),{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val()});
+    });
+
+</script>

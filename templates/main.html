@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "head.html" %}
 {% load staticfiles %}
 {% block content %}
 <div id="content">
@@ -38,7 +38,7 @@
     <!-- Profile -->
     <div id="profile" class="div_feed">
         <div id="profile_top">
-            <img id="img_usericon" src="{{ user.get_profile.src }}">
+            <img id="img_usericon" src="{{ user.get_profile.src.url }}">
             <p id="p_username">{{ user.username }}</p>
             <p id="p_groupname">{{ user.email }}</p>
         </div>

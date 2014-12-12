@@ -1,0 +1,17 @@
+{% for gl in gamelist %}
+    {% if gl.link %}
+        <div class="div_gettingstart_list" onclick="loadAccount({{ gl.link.account_id }})">
+            <img src="{{ gl.game.src.url }}">
+            <p class="p_list_gamename">{{ gl.game.name }}</p>
+            <p class="p_list_link">{{ gl.link.account_name }}</p>
+            <span class="icon_next">&gt;</span>
+        </div>
+    {% else %}
+        <div class="div_gettingstart_list" onclick="loadLogin({{ gl.game.id }})">
+            <img src="{{ gl.game.src.url }}">
+            <p class="p_list_gamename">{{ gl.game.name }}</p>
+            <p class="p_list_link">연결된 게임계정이 없습니다.</p>
+            <span class="icon_next">&gt;</span>
+        </div>
+    {% endif %}
+{% endfor %}
