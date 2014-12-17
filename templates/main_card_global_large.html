@@ -47,6 +47,7 @@
         $("#div_right_feed").load("/feed/post/?gcid={{ news.id }}&len="+feed_news_len,{
             'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),
             'con_txt':$('#textarea_feedinput_input').val()
-        })
+        });
+        $('#textarea_feedinput_input').val("");
     });
 </script>

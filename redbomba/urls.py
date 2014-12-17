@@ -31,6 +31,8 @@ urlpatterns = patterns('',
    url(r'^card/global/large/(?P<fid>\d+)$', 'redbomba.main.views.card_global_large'),
    url(r'^feed/$', 'redbomba.feed.views.feed'),
    url(r'^feed/post/$', 'redbomba.feed.views.feed_post'),
+   url(r'^feed/reply/$', 'redbomba.feed.views.feed_reply'),
+   url(r'^feed/reply/post/$', 'redbomba.feed.views.feed_reply_post'),
    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
    )
 

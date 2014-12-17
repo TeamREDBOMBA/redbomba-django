@@ -3,7 +3,7 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render
-from redbomba.feed.models import Feed, FeedContents
+from redbomba.feed.models import Feed, FeedContents, FeedReply
 from redbomba.home.models import get_or_none
 from redbomba.main.models import GlobalCard
 
@@ -18,7 +18,7 @@ def feed(request):
             for feed in gc.feeds.all().order_by("-id")[:len] :
                 feeds.append(feed)
     context = {'user':request.user,'feeds':feeds}
-    return render(request, 'feed_body.html', context)
+    return render(request, 'feed.html', context)
 
 def feed_post(request):
     gcid = request.GET.get("gcid")
@@ -33,4 +33,26 @@ def feed_post(request):
         gc.feeds.add(fid)
 
         return feed(request)
+    return HttpResponse("입력 실패")
+
+def feed_reply(request):
+    fid = request.GET.get("fid")
+    len = request.GET.get("len")
+
+    replies = []
+    feed_ele = get_or_none(Feed,id=fid)
+    if feed_ele :
+        for reply in feed_ele.reply.all().order_by("-id")[:len] :
+            replies.append(reply)
+    context = {'user':request.user,'feed':feed_ele,'replies':replies}
+    return render(request, 'feed_reply.html', context)
+
+def feed_reply_post(request):
+    fid = request.GET.get("fid")
+    con = request.POST.get("con")
+
+    feed_ele = get_or_none(Feed,id=fid)
+    if feed_ele :
+        if con : feed_ele.reply.add(FeedReply.objects.create(user=request.user,con=con))
+        return feed_reply(request)
     return HttpResponse("입력 실패")
