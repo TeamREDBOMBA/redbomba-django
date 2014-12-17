@@ -27,8 +27,10 @@ urlpatterns = patterns('',
    url(r'^head/gamelink/load/$', 'redbomba.head.views.head_gamelink_load'),
    url(r'^head/gamelink/delete/$', 'redbomba.head.views.head_gamelink_delete'),
    url(r'^head/gamelink/skip/$', 'redbomba.head.views.head_gamelink_skip'),
-   url(r'^feed/card/global/$', 'redbomba.feed.views.feed_card_global'),
-   url(r'^feed/card/global/large/(?P<fid>\d+)$', 'redbomba.feed.views.feed_card_global_large'),
+   url(r'^card/global/$', 'redbomba.main.views.card_global'),
+   url(r'^card/global/large/(?P<fid>\d+)$', 'redbomba.main.views.card_global_large'),
+   url(r'^feed/$', 'redbomba.feed.views.feed'),
+   url(r'^feed/post/$', 'redbomba.feed.views.feed_post'),
    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
    )
 

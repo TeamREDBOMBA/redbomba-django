@@ -1,0 +1,16 @@
+.feed_body {border: 1px solid #ecf0f1;width: 100%;padding: 10px;}
+
+.feed_body .div_feed_icon {width:30px;height:30px;overflow:hidden;border-radius: 30px;margin-right: 5px;float:left}
+.feed_body .div_feed_icon img{width:100%}
+.feed_body .p_feed_username {padding-right: 5px;font-family: "RixSGo B";float:left;line-height: 1.5;}
+.feed_body .h2_feed_con {line-height: 1.5;margin-left: 35px;min-height: 30px;}
+.feed_body .p_feed_date {float: left;line-height: 30px;font-size: 10px;color: #999;}
+.feed_body .div_btn_more {margin-top:30px}
+.feed_body .div_btn_more .input_reply_txt { height: 22px; }
+
+.reply_body {background-color: RGBA(0,0,0,0.05);width: 100%;padding: 10px;padding-left:5%;}
+.reply_body .div_reply_icon {width:30px;height:30px;overflow:hidden;border-radius: 30px;margin-right: 5px;float:left}
+.reply_body .div_reply_icon img{width:100%}
+.reply_body H1 {padding-right: 5px;font-family: "RixSGo B";float:left;line-height: 1.5;}
+.reply_body H2 {line-height: 1.5;margin-left: 35px;min-height: 30px;}
+.reply_body .div_reply_date {margin-top: 10px;font-size: 10px;color: #999;}

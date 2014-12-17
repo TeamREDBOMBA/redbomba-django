@@ -26,7 +26,7 @@
 
     $(".div_globalfeed").click(function(){
         $("#GlobalFeedModal").modal("show");
-        $("#GlobalFeedModal .modal-content").load("/feed/card/global/large/"+$(this).children("#fid").val(),{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val()});
+        $("#GlobalFeedModal .modal-content").load("/card/global/large/"+$(this).children("#fid").val(),{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val()});
     });
 
 </script>

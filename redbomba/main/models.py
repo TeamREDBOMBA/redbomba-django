@@ -14,3 +14,6 @@ class GlobalCard(models.Model) :
     focus_x = models.FloatField(default=0.0)
     focus_y = models.FloatField(default=0.0)
     date_updated = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "[%d] %s"%(self.id, self.title)

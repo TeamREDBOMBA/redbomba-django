@@ -1,0 +1,30 @@
+{% load extras %}
+{% for feed in feeds %}
+    <div id="feed_body_{{ feed.is }}" class="feed_body">
+        <div class="div_feed_icon imgbtn">
+            <a onclick="click_name('{{ feed.user.id }}')">
+                <img src="{{ feed.user.get_profile.src.url }}">
+            </a>
+        </div>
+        <p class="p_feed_username"><a onclick="click_name('{{ feed.user.id }}')">{{ feed.user.username }}</a></p>
+        <h2 class="h2_feed_con">
+            {% for c in feed.con.all %}
+                {% if c.type == 'txt' %}
+                    {{ c.con|linebreaks }}
+                {% endif %}
+            {% endfor %}
+        </h2>
+        <p class="p_feed_date">{{ feed.date_updated|get_time_diff:"+" }}</p>
+        <div class="div_feed_reply">
+            <div class="div_btn_more">
+                <div class="input-group">
+                    <input type="text" class="input_reply_txt form-control btn-xs" placeholder="댓글을 남겨주세요.">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default btn_reply_replybtn btn-xs">입력</button>
+            </span>
+                </div>
+            </div>
+            <div id="div_reply_body">&nbsp;</div>
+        </div>
+    </div>
+{% endfor %}

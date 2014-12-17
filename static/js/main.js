@@ -16,7 +16,7 @@ var feedSize = [
 
 $(window).load(function() {
 
-    $("#feed_pub").load("/feed/card/global/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
+    $("#feed_pub").load("/card/global/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
         $('.focuspoint').focusPoint();
     });
 
