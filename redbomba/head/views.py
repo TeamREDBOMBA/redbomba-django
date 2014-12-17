@@ -108,8 +108,8 @@ def head_gamelink_skip(request):
     return HttpResponseRedirect("/")
 
 def head_gamelink_load(request) :
-    sid = request.POST.get("sid")
-    return summoner(request,sid)
+    account_id = request.POST.get("account_id")
+    return summoner(request,account_id)
 
 def reloadSummoner(request, sid, sinfo):
     gl = get_or_none(GameLink,account_id=sid)

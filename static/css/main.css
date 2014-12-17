@@ -61,8 +61,10 @@ p.title {padding-left: 20px;font-size: 18px;font-family: 'RixSGo B';color: #999;
 #aside #profile #profile_top #img_usericon { width:50px; border-radius: 50px;border:1px solid #ddd; margin: 15px;float:left}
 #aside #profile #profile_top #p_username { font-size: 14px;font-family:'RixSGo B'; padding-top: 20px;}
 #aside #profile #profile_top #p_groupname { color:#999 }
-#aside #profile #profile_bottom .div_link_game{position:relative;width:100%;height:60px;overflow:hidden;border-top:1px solid #999999;background-position: 50% 50%;cursor:pointer;}
-#aside #profile #profile_bottom .div_link_game .img_gamelink_icon{width:50px;margin:5px;border: 1px solid #666;background-color: #ddd;border-radius: 50px;}
+#aside #profile #profile_bottom .div_link_game{position:relative;width:100%;height:60px;overflow:hidden;border-top:1px solid #999999;background-color: #000;cursor:pointer;}
+#aside #profile #profile_bottom .div_link_game .div_gamelink_bg {position:absolute;top:0;bottom:0;left:0;right:0;}
+#aside #profile #profile_bottom .div_link_game .div_gamelink_bg {background-size:100% auto;background-repeat:no-repeat;background-position: 50% 50%;}
+#aside #profile #profile_bottom .div_link_game .img_gamelink_icon{position: relative;width:50px;margin:5px;border: 1px solid #666;background-color: #ddd;border-radius: 50px;}
 #aside #profile #profile_bottom .div_link_game p{position:absolute;right:10px;bottom:5px;color:#FFF;font-size:15px}
 
 #aside #profile #profile_bottom .div_link_btn { text-align:center ; padding: 15px; font-size: 13px; line-height: 20px;}

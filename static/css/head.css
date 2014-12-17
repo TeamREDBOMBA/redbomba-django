@@ -141,8 +141,8 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #Tutorial #div_tutor_btn {text-align: right}
 #Tutorial #div_tutor_btn #btn_next {margin: 10px;}
 
-#Gamelink .modal-dialog {width:1000px}
-#Gamelink .modal-content {position: relative;width: 100%;height: 600px;padding: 10px;}
+#GamelinkModal .modal-dialog {width:1000px}
+#GamelinkModal .modal-content {position: relative;width: 100%;height: 600px;padding: 10px;}
 
 #GameLink {position: relative;width: 100%;height: 100%;}
 #GameLink #Gamelink_Detail {position: relative;height: 100%;overflow-y: scroll;}

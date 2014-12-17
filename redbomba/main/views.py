@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from redbomba.home.models import get_or_none
+from redbomba.home.models import get_or_none, GameLink
 from redbomba.main.models import GlobalCard
 
 
@@ -10,7 +10,9 @@ def main(request):
     try:
         if request.user.get_profile().is_pass_gamelink == 0 :
             return HttpResponseRedirect("/head/start/")
+        gamelink = GameLink.objects.filter(user=request.user)
         context = {
+            'gamelink':gamelink,
             'user': request.user,
             'from':'/',
             'appname':'main'

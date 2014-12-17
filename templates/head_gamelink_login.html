@@ -28,7 +28,7 @@
         var uid = $("#input_userid").val();
         var upw = $("#input_userpw").val();
         var gid = '{{ game.id }}';
-        $("#div_tutor_right").html('<img src="/static/img/ajax-loader_s.gif" style="margin-top:160px">');
+        $("#div_tutor_right").html('<img src="/static/img/head/ajax-loader_s.gif" style="margin-top:160px">');
         $("#div_tutor_right").hide().load("/head/gamelink/link/",{
             "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
             "id":uid,
