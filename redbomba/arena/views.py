@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
@@ -16,3 +17,6 @@ def arena(request):
         'appname':'arena'
     }
     return render(request, 'arena.html', context)
+
+def card_arena(request) :
+    return HttpResponse('1')
