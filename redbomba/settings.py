@@ -39,8 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'redbomba.home',
-    'redbomba.main',
     'redbomba.head',
+    'redbomba.main',
+    'redbomba.arena',
     'redbomba.group',
     'redbomba.feed',
 )

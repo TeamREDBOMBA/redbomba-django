@@ -1,0 +1,33 @@
+{% extends "head.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div id="content">
+
+        <div id="arenaAd" class="carousel slide vertical">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                {% for banner in top_banner %}
+                    <div class="item {% if forloop.counter0 == 0 %}active{% endif %}" onclick="location.href='{{ banner.url }}';">
+                        <img src="{{ banner.src.url }}">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="arenaAdNavi">
+            <ul>
+                {% for banner in top_banner %}
+                    <li onclick="$('#arenaAd').carousel({{ forloop.counter0 }});" style="background-image:url({{ banner.src.url }})"></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="line">
+            <p class="p_line_title"><b>{{ user.username }}</b>님에게 추천하는 대회입니다.<p>
+            <!-- Card -->
+            <div class="card_line">
+                <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
+            </div><!--// Card -->
+        </div>
+    </div>
+    </div>
+{% endblock %}
