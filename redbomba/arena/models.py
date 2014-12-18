@@ -5,15 +5,28 @@ from django.db import models
 # Create your models here.
 from django.utils import timezone
 from django.utils.dateformat import format
-from redbomba.home.models import Game
+from django.utils.datetime_safe import datetime
+from django.utils.timezone import utc
+from redbomba.feed.models import Feed
+from redbomba.home.models import Game, get_time_difference
+
 
 class ArenaBanner(models.Model):
     src = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
     url = models.TextField(default='/')
 
-METHOD_IN_ARENACARD_CHOICES = (
+METHOD_IN_LEAGUE_CHOICES = (
     (0, '온라인'),
     (1, '오프라인'),
+)
+
+MIN_MAX_IN_LEAGUE_CHOICES = (
+    (4, '4팀'),
+    (8, '8팀'),
+    (16, '16팀'),
+    (32, '32팀'),
+    (64, '64팀'),
+    (128, '128팀'),
 )
 
 class League(models.Model):
@@ -23,12 +36,45 @@ class League(models.Model):
     poster = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
     concept = models.TextField()
     rule = models.TextField()
-    method = models.IntegerField(default=0,choices=METHOD_IN_ARENACARD_CHOICES)
+    method = models.IntegerField(default=0,choices=METHOD_IN_LEAGUE_CHOICES)
     start_apply = models.DateTimeField(editable=True)
     end_apply = models.DateTimeField(editable=True)
-    min_team = models.IntegerField(default=0)
-    max_team = models.IntegerField(default=0)
+    min_team = models.IntegerField(default=0,choices=MIN_MAX_IN_LEAGUE_CHOICES)
+    max_team = models.IntegerField(default=0,choices=MIN_MAX_IN_LEAGUE_CHOICES)
+    feeds = models.ManyToManyField(Feed, null=True, blank=True)
     date_updated = models.DateTimeField(auto_now_add=True)
+
+    def get_rounds(self):
+        return LeagueRound.objects.filter(league=self, is_finish=1).order_by("-id")
+
+    def get_rewards(self):
+        return LeagueReward.objects.filter(league=self).order_by("name")
+
+    def get_timer(self):
+        now = datetime.utcnow().replace(tzinfo=utc)
+        if self.start_apply > now :
+            return "접수 전"
+        elif self.end_apply < now :
+            return "접수마감"
+        else :
+            return get_time_difference(self.end_apply,"-")
+
+    def get_schedule(self):
+        shedule = {'start_apply':self.start_apply,'end_apply':self.end_apply,'start_round':0,'end_round':0}
+        rounds = LeagueRound.objects.filter(league=self).order_by('id')
+        if rounds :
+            shedule['start_round'] = rounds[0].start
+            shedule['end_round'] = rounds[0].end
+        return shedule
+
+    def get_participants(self):
+        return LeagueTeam.objects.filter(round__league = self,round__round=1)
+
+    def get_league_match(self,round=None):
+        if round :
+            return LeagueMatch.objects.filter(team_a__round__league=self,team_a__round__round=round)
+        else :
+            return LeagueMatch.objects.filter(team_a__round__league=self)
 
     def __unicode__(self):
         return '[%d] %s' %(self.id, self.name)

@@ -1,0 +1,47 @@
+{% for league in leagues %}
+    <div id="div_card_{{league.id}}" class="div_card div_feed">
+        <div class="div_card_mouseover">
+            <div class="cal">
+                &nbsp;
+            </div>
+            <ul class="div_card_award">
+                {% for reward in league.get_rewards %}
+                    <li><img src="/static/img/arena/arena_award_{{ reward.name }}.png"><p>{{ reward.con }}</p></li>
+                {% endfor %}
+            </ul>
+            <button class="btn btn-default btnjoin">자 세 히</button>
+        </div>
+        <div class="div_card_poster" style="background-image:url({{ league.poster.url }})"></div>
+        <p class="p_card_title">{{league.name}}</p>
+        <p class="p_card_game">{{league.game.name}}</p>
+        <div class="div_card_bottom">
+            <div class="div_bottom_btn">신청마감<p>
+                <font class='font_btn_main'>{{ league.get_timer }}</font>
+            </p></div>
+            <div class="div_bottom_btn">참가현황<p><font class="font_btn_main">{{ league.get_participants|length }}</font>/{{league.max_team}}</p></div>
+            <div class="div_bottom_btn">대회등급<p></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#div_card_{{league.id}}').mouseenter(function(){
+            $(this).css({"border":"2px solid #2ecc71"});
+            $('#div_card_{{league.id}} .div_card_mouseover').show();
+        });
+
+        $('#div_card_{{league.id}}').mouseleave(function(){
+            $(this).removeAttr("style");
+            $('#div_card_{{league.id}} .div_card_mouseover').hide();
+        });
+
+        $('#div_card_{{league.id}}').click(function(){
+            $('#LargeCardModal .modal-content').html("<div style='width:100%;height:700px;line-height:700px;' align='center'><img src='/static/img/ajax-loader.gif'></div>");
+            $('#LargeCardModal .modal-content').load("/card/league/large/{{league.id}}");
+            $('.modal-content').removeAttr("style");
+            $('#LargeCardModal').modal('toggle');
+        });
+
+        $('#div_card_{{league.id}} > .div_card_mouseover > .cal').html(drawCal({{league.get_schedule.start_apply|date:'Y,n,j'}},{{league.get_schedule.end_apply|date:'Y,n,j'}},
+                {{league.get_schedule.start_round|date:'Y,n,j'}},{{league.get_schedule.end_round|date:'Y,n,j'}}));
+    </script>
+{% endfor %}

@@ -26,6 +26,12 @@ class UserProfile(models.Model):
         if self.user:
             return get_or_none(GameLink,user=self.user)
 
+    def get_group(self):
+        groupmember = get_or_none(model="group.GroupMember",user=self.user)
+        if groupmember :
+            return groupmember.group
+        return None
+
 class Game(models.Model):
     name = models.TextField()
     src = models.FileField(upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')))
@@ -48,7 +54,7 @@ class GameLink(models.Model):
 def get_or_none(model, **kwargs):
     try:
         return model.objects.get(**kwargs)
-    except model.DoesNotExist:
+    except Exception as e:
         return None
 
 def urlEncodeNonAscii(b):

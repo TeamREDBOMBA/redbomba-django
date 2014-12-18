@@ -1,0 +1,444 @@
+{% load arena_extras %}
+
+<div id="div_top">
+    <div id="div_top_logo">
+        <i class="fa fa-arena"></i>콜로세움
+    </div>
+    <button type="button" id="btn_top_close" class="close" data-dismiss="modal" aria-hidden="true"><img src="/static/img/modal_closeB.png"></button>
+</div>
+<div id="div_left">
+    <input type="hidden" name="lid" id="lid" value="{{league.id}}">
+    <input type="hidden" name="uid" id="uid" value="{{user.id}}">
+    <div id="div_left_body">
+        <h3>메뉴</h3>
+        <ul>
+            <li id="li_menu_summary" class="li_menu active"><i class="fa fa-bullhorn"></i> 대회 요약</li>
+            <li id="li_menu_result" class="li_menu"><i class="fa fa-sitemap"></i> 경기 대진 및 결과</li>
+            <li id="li_menu_participants" class="li_menu"><i class="fa fa-check-circle"></i> 참가팀 보기</li>
+            <li id="li_menu_detailRule" class="li_menu"><i class="fa fa-book"></i> 자세한 롤 보기</li>
+        </ul>
+    </div>
+</div>
+<div id="div_body" class="div_contents">
+    <div id="div_body_top" style="background-image:url({{ contents.poster }})">
+        <img src="/static/img/arena/arena_poster_bg.png">
+        <h1>{{league.name}}</h1>
+        <p class='p_poster_info'><i class="fa fa-lol"></i>&nbsp;리그오브레전드</p>
+        <p class='p_poster_info'><span style='color:#2ecc71'>●</span> 참가신청 가능</p>
+        <p class='p_poster_info'><i class="fa fa-globe"></i>&nbsp;온라인 대회</p>
+        <p class='p_poster_icon'><i class="fa fa-heart"></i> 0 <button class="btn btn-danger btn-xs" id="btnWish">관심있어요! +1</button></p>
+    </div>
+    <div id="div_body_main">
+        <h3>대회 설명</h3>
+        <p id='p_main_con1'>{{contents.concept | safe}}</p>
+        <h3>자세한 대회 규정</h3>
+        <p id='p_main_con2'>&nbsp;</p>
+        <p class='p_more'>...더보기</p>
+    </div>
+    <div class="div_main_bottom" id="div_main_bottom1">
+        <h3>이 대회의 주최자</h3>
+        <a class="username" onclick="click_name('{{league.host.username}}')"><img src="{{league.host.get_profile.src.url}}"></a>
+        <p id="p_bottom_hostname"><a class="username" onclick="click_name('{{league.host.username}}')">{{league.host.username}}</a></p>
+        <p id="p_bottom_game">{{league.host.get_profile.get_gamelink.game.name}}</p>
+    </div>
+    <div class="div_main_bottom" id="div_main_bottom2">
+        <h3>이 대회의 스폰서</h3>
+        <img src="/media/sponsor/redbomba.png">
+    </div>
+    <div class="div_main_right">
+        <div id="div_main_schedule">
+            <div id="div_main_carousel" class="carousel slide">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#div_main_carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#div_main_carousel" data-slide-to="1"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div id="div_main_cal" class="item active">-</div>
+                    <div id="div_main_round" class="item">
+                        <h3><span class='p_cal_title red'>신청기간</span> {{league.start_apply|date:'m월 d일'}} ~ {{league.end_apply|date:'m월 d일'}}</h3>
+                        {% for r in rounds %}
+                            <h3><span class='p_cal_title blue'>라운드 {{r.round}}</span> {{r.start|date:'m월 d일'}} ~ {{r.end|date:'m월 d일'}}</h3>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="div_main_group">
+            {% for group in groups|slice:":9" %}
+                <div class="div_group_icon" style="background-image:url(/media/group_icon/{{ group.group_icon }})"></div>
+            {% endfor %}
+            <div id="div_group_count">{{groups|length}}/{{league.max_team}}</div>
+        </div>
+    </div>
+</div>
+<div id="div_reserve">
+    <h1><i class="fa fa-exclamation-circle"></i> 잠시만요!</h1>
+    <p class="p_reserve_txt">
+        <a href="#" id="a_reserve_msg" data-toggle="popover" data-trigger="hover" data-placement="left" title="" data-content="해당 ‘아레나 참가 조건’을 만족시키지 못한 상태에서 참가 신청을 진행할 경우, 참가 신청 완료가 아닌 일종의 예약 신청인 ‘참가 대기 신청 완료’가 됩니다. 참가 대기 신청 후 해당 조건을 만족하면 자동으로 참가 완료가 됩니다. (단, 위 조건이 만족되기 전에 참가 마감이 될 경우 자동으로 참가 취소가 됩니다. 서둘러 주세요!)" role="button" data-original-title="참가 대기">
+            참가 대기 상태<i class="fa fa-question-circle"></i>
+        </a>로 신청되는데 괜찮으신가요?
+    </p>
+    <ul>
+        <li class="title">아레나 참가 조건</li>
+        <li>{% if state.groupmem < 5 %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}<font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹 멤버가 5명 이상</li>
+        <li>{% if state.gamelink != state.groupmem %}<font color='#e74c3c'><i class='fa fa-times-circle'>{% else %}<font color='#40d47e'><i class='fa fa-check-circle'>{% endif %}</i></font> 그룹 멤버 전원의 게임(League of Legends) 계정 연결</li>
+    </ul>
+    <p class="p_reserve_btn">
+        <button class="btn btn-default" id="btn_reserve_cancel">취소</button>
+        <button class="btn btn-success" id="btn_reserve_continue">참가 대기로 신청하기</button>
+    </p>
+</div>
+<div id="div_join">
+    <div id="div_join_left">
+        <p id='p_join_title'>첫번째 경기를 위해, 참가 <font color="#ff5d5d">불가능한</font> 시간을 선택해주세요.</p>
+        <p id='p_join_desc'><span class="label label-info">왜죠?</span> 게임을 위한 우리의 열정은 아무도 막을 순 없습니다.<br/>
+            는 Fail... 회사에 있는 시간, 수업시간, 소개팅시간, 술 먹는 시간 등<br/>
+            1라운드 경기가 잡히면 안되는 시간을 선택해주세요. <b>(중복선택가능)</b></p>
+        <ul class="nav nav-tabs">
+            {% for i in round1.day %}
+                <li {% if i == 0 %}class='active'{% endif %}><a href="day-{{i}}" data-toggle="tab">{{SR.league.start|date_add:i|date:'m월 d일'}}</a></li>
+            {% endfor %}
+        </ul>
+        {% for i in round1.day %}
+            <div id="day-{{i}}" class="div_left_time tab-pane">
+                <input type="hidden" id="date" >
+                <canvas id="wheelcanvas{{i}}" class="wheelcanvas" width="350" height="350" onclick="draw(event,{{i}});"></canvas>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="div_join_right">
+        {% for i in round1.day %}
+            <div class="div_time_tag">
+                <h1>{{SR.league.start|date_add:i|date:'m월 d일'}}</h1>
+                <div class="wheelcanvas_tag" id="wheelcanvas{{i}}_tag">&nbsp;</div>
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" id="btnDone">참가신청 완료하기!</button>
+    </div>
+</div>
+<div id="div_right">
+    {% if user %}
+        <div id="div_right_btn">&nbsp;</div>
+    {% else %}
+        <div id="div_right_btn" style="display: block;">
+            <button class="btn btn-primary" id="btnJoin"><i class="fa fa-check-circle"></i> 참가신청</button>
+            <img src="/static/img/arena_card_div.png">
+            <button class="btn btn-danger" id="btnWish"><i class="fa fa-heart"></i> 관심있어요!</button>
+        </div>
+    {% endif %}
+    <div id='div_right_feedTitle'>실시간 반응 {% if user %}<i id='btn_feed_write' class="fa fa-pencil-square-o"></i>
+        <div id='div_feedTitle_input'>
+            <form role="form" id="div_feedInput_form" name="div_feedInput_form" method="post" action="/">
+                <textarea id="textarea_feedinput_input" class="form-control" placeholder="질문이나 반응을 올려보세요!"></textarea>
+                <div id="div_feedInput_btn">
+                    <button type="button" id="btn_feedInput_post" class="btn btn-primary btn-xs">올리기</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    </div>
+    <div id="div_right_feed">&nbsp;</div>
+</div>
+
+<div id="div_detailRule" class="div_contents">
+    <p id='p_detailRule_title'>{{league.name}}</p>
+    <p id='p_detailRule_desc'>경기설명입니다.</p>
+    <ul class="nav nav-tabs">
+        {% for tab in contents.rule %}<li {% if forloop.counter == 1 %}class="active"{% endif %}><a href="#tab{{forloop.counter}}" data-toggle="tab">{{tab|getLine:0}}</a></li>{% endfor %}
+    </ul>
+    <div class="tab-content">
+        {% for rule in contents.rule %}
+            <div id="tab{{forloop.counter}}" class="tab-pane {% if forloop.counter == 1 %}active{% endif %}">
+                <div class="tab_markdown">-</div>
+                <div class="tab_editor"><textarea class="form-control">{{ rule | safe }}</textarea></div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="div_participants" class="div_contents">
+    <p id='p_participants_title'>{{league.name}}</p>
+    <p id='p_participants_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
+    <div id="div_participants_group">
+        {% for group in groups %}
+            <div class="div_participants_list">
+                <img class="img_participants_icon" src="/media/group_icon/{{ group.group_icon }}">
+                <p class="p_participants_name">{{ group.name }}</p>
+                <p class="p_participants_history">아레나 참가 횟수 : {{ group.get_league_history }}회</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="div_result" class="div_contents">
+    <p id='p_result_title'>{{league.name}}</p>
+    <p id='p_result_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
+    <div id="div_result_match">
+        {% for lr in league.get_rounds %}
+            <div class="row">
+                <p class='p_match_title  col-lg-12'>{{ lr.round }} Round</p>
+                {% for lm in league|getMatch:lr.round %}
+                    <div class="div_result_list col-lg-6">
+                        <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_a.group.name }}</p></div>
+                        <div class="div_result_con">
+                            {% if lm.result == "A" and lm.state == 10 %}<p class="p_feed_res">승 vs 패</p>
+                            {% elif lm.result == "B" and lm.state == 10 %} <p class="p_feed_res">패 vs 승</p>
+                            {% else %} <p class="p_feed_res">진 행 중</p>{% endif %}
+                        </div>
+                        <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_b.group.name }}</p></div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div id="div_join_done">
+    <img id="ex" src="/static/img/arena/arena_done_ex.png">
+    <h1>대회 참가가 완료되었습니다.</h1>
+    <h3>참가 취소, 진행상황, 결과확인 등은<br /> 모두 <img id="btn_done_arena" src="/static/img/arena/arena_done_arena.png"> 에서 가능합니다.</h3>
+    <button class="btn btn-default" id="btn_done_back">◀ 뒤로가기</button>
+    <button class="btn btn-success" id="btn_done_ok">확인</button>
+</div>
+<script>
+    {% for i in contents.rule %}
+        $("#tab{{forloop.counter}} .tab_markdown").html(markdown.toHTML($("#tab{{forloop.counter}} .tab_editor textarea").val()));
+    {% endfor %}
+    $("#p_main_con2").html(markdown.toHTML($("#tab1 .tab_editor textarea").val()));
+
+    /*
+     $(".tab-pane .tab_markdown").click(function(){
+     $(this).hide();
+     $(this).siblings(".tab_editor").show();
+     $(this).siblings(".tab_editor").focus();
+     });
+     */
+
+    $("#div_top_logo").click(function(){
+        $(".li_menu").removeClass("active");
+        $("#li_menu_summary").addClass("active");
+        $(".div_contents").hide();
+        $("#div_body").show();
+    });
+
+    $("#li_menu_summary").click(function(){
+        $(".li_menu").removeClass("active");
+        $(this).addClass("active");
+        $(".div_contents").hide();
+        $("#div_body").show();
+    });
+
+    $("#li_menu_detailRule").click(function(){
+        $(".li_menu").removeClass("active");
+        $(this).addClass("active");
+        $(".div_contents").hide();
+        $("#div_detailRule").show();
+    });
+
+    $("#li_menu_participants").click(function(){
+        $(".li_menu").removeClass("active");
+        $(this).addClass("active");
+        $(".div_contents").hide();
+        $("#div_participants").show();
+    });
+
+    $("#li_menu_result").click(function(){
+        $(".li_menu").removeClass("active");
+        $(this).addClass("active");
+        $(".div_contents").hide();
+        $("#div_result").show();
+    });
+
+    $(".p_more").click(function(){
+        $(".li_menu").removeClass("active");
+        $("#li_menu_detailRule").addClass("active");
+        $(".div_contents").hide();
+        $("#div_detailRule").show();
+    });
+</script>
+<script>
+    var feed_league_len = 5;
+
+    readFeed("#div_right_feed","/feed/?lid={{ league.id }}",feed_league_len,0);
+
+    $('#btn_feed_write').click(function(){
+        $('#div_feedTitle_input').toggle();
+    });
+
+    $("#btn_feedInput_post").click(function(){
+        $("#div_right_feed").load("/feed/post/?lid={{league.id}}&len="+feed_league_len,{
+            'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),
+            'con_txt': $("#textarea_feedinput_input").val()
+        });
+        $('#textarea_feedinput_input').val("");
+    });
+</script>
+<script>
+    $('#div_main_cal').html(drawCal({{league.get_schedule.start_apply|date:'Y,n,j'}},{{league.get_schedule.end_apply|date:'Y,n,j'}}, {{league.get_schedule.start_round|date:'Y,n,j'}},{{league.get_schedule.end_round|date:'Y,n,j'}}));
+</script>
+{% if user %}
+    <script>
+        var startAngle = 4.7;
+        var arc = Math.PI / 12;
+        var ctx;
+        var isClicked = new Array();
+        var isNotAllow = new Array();
+        var now = new Date();
+
+        {% for i in round1.day %}
+            isClicked[{{i}}] = new Array();
+            isNotAllow[{{i}}] = new Array();
+            draw(false, {{i}});
+        {% endfor %}
+
+        function setTimeline(ele){
+            $('#wheelcanvas'+ele+'_tag').html("");
+            for(var i=0;i<isClicked[ele].length;i++){
+                if(isClicked[ele][i]>=0&&isClicked[ele][i]<=23)
+                    $('#wheelcanvas'+ele+'_tag').html($('#wheelcanvas'+ele+'_tag').html()+"<span class='label label-danger'>"+isClicked[ele][i]+":00~</span>");
+            }
+        }
+
+        function draw(E, ele) {
+            drawRouletteWheel(E, ele);
+        }
+
+        function drawRouletteWheel(E, ele) {
+            var canvas = document.getElementById("wheelcanvas"+ele);
+
+            var boxsize = 350;
+            var outsideRadius = boxsize/2;
+            var textRadius = (boxsize/2)-30;
+            var insideRadius = (boxsize/2)-60;
+
+            if (canvas.getContext) {
+                if (E === false) {
+                    mx = outsideRadius;
+                    my = outsideRadius;
+                } else {
+                    mx = E.clientX-$("#wheelcanvas"+ele).offset().left;
+                    my = E.clientY-$("#wheelcanvas"+ele).offset().top;
+                }
+
+                mangle = (-Math.atan2(mx-outsideRadius, my-outsideRadius)+Math.PI*2.5)%(Math.PI*4);
+                mradius = Math.sqrt(Math.pow(mx-outsideRadius, 2) + Math.pow(my-outsideRadius, 2));
+
+                ctx = canvas.getContext("2d");
+                ctx.clearRect(0,0,boxsize,boxsize);
+
+
+                ctx.font = 'bold 15px 맑은 고딕';
+
+                for(var i = 0; i < 24; i++) {
+                    var angle = startAngle + i * arc;
+
+                    if(i < {{SR.league.start|date:'H'}} || i > {{SR.league.end|date:'H'}}) isNotAllow[ele][i]=i;
+
+                    if (mangle > angle && mangle < (angle + arc) && mradius<=outsideRadius && mradius>=insideRadius) {
+                        if(i < {{SR.league.start|date:'H'}} || i > {{SR.league.end|date:'H'}}){
+                            continue;
+                        }else if(isClicked[ele][i] == i){
+                            delete isClicked[ele][i];
+                            delete isNotAllow[ele][i];
+                        }else{
+                            isClicked[ele][i]=i;
+                            isNotAllow[ele][i]=i;
+                        }
+                    }
+
+                    if(i < {{SR.league.start|date:'H'}} || i > {{SR.league.end|date:'H'}}) ctx.fillStyle="#dddddd";
+                    else if(isClicked[ele][i] == i) ctx.fillStyle="#e74c3c";
+                    else ctx.fillStyle="#2ecc71";
+
+                    ctx.beginPath();
+                    ctx.arc(outsideRadius, outsideRadius, outsideRadius, angle, angle + arc, false);
+                    ctx.arc(outsideRadius, outsideRadius, insideRadius, angle + arc, angle, true);
+                    ctx.fill();
+
+                    ctx.save();
+                    ctx.fillStyle = "white";
+                    ctx.translate(outsideRadius + Math.cos(angle + arc / 2) * textRadius, outsideRadius + 7 + Math.sin(angle + arc / 2) * textRadius);
+
+                    if(i < {{SR.league.start|date:'H'}} || i > {{SR.league.end|date:'H'}}) ctx.fillText(" ", -ctx.measureText(" ").width / 2, 0);
+                    else if(isClicked[ele][i] == i) ctx.fillText("불가", -ctx.measureText("불가").width / 2, 0);
+                    else ctx.fillText(i, -ctx.measureText(i).width / 2, 0);
+                    ctx.restore();
+
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    setTimeline(ele);
+                }
+            }
+        }
+    </script>
+    <script>
+        var is_complete = 0;
+
+        $('#a_reserve_msg').popover('hide');
+
+        $("#btn_reserve_cancel").click(function(){
+            $("#div_reserve").hide();
+        });
+
+        $("#btn_reserve_continue").click(function(){
+            $("#div_reserve").hide();
+            $('#div_join').show();
+        });
+
+        $('#btnDone').click(function(){
+            var feasible_time = "";
+            var unfeasible_time = new Array();
+            for(i=0;i<$('.wheelcanvas').length;i++){
+                for(j=0;j<isNotAllow[i].length;j++)
+                    if(isNotAllow[i][j]>=0&&isNotAllow[i][j]<=23)
+                        unfeasible_time.push(isNotAllow[i][j]+(i*24));
+            }
+            for(i=0; i<24*isNotAllow.length; i++){
+                for(j=0;j<unfeasible_time.length; j++){
+                    if(i==unfeasible_time[j]){
+                        break;
+                    }
+                }
+                if(j==unfeasible_time.length) feasible_time += i+",";
+            }
+            feasible_time=feasible_time.substr(0,feasible_time.length-1)
+
+            $.post('/db/leagueteam/',{
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                'action':'insert',
+                'round':'1',
+                'league_id':{{league.id}},
+                'feasible_time':feasible_time,
+                'is_complete':is_complete
+            },function(res,status){
+                socket.emit('sendNotification', {'gid':'{{user_group.id}}','lid':'{{league.id}}','action':'League_JoinLeague'});
+                $('#div_join').fadeOut('fast');
+                $('#div_join_done').fadeIn('fast');
+            });
+        });
+        $('#btn_done_back').click(function(){
+            $.post('/db/leagueteam/',{
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                'action':'delete',
+                'round':'1',
+                'league_id':{{league.id}}
+            },function(res,status){
+                $('#div_join_done').fadeOut('fast');
+                $('#div_join').fadeIn('fast');
+            });
+        });
+
+        $('#btn_done_ok').click(function(){
+            location.href = "/arena/";
+        });
+    </script>
+    <script>
+        $("#div_right_btn").html("<div style='width:100%;text-align:center'><img src='/static/img/ajax-loader.gif'></div>");
+        $("#div_right_btn").hide().load("/card/league/btn/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),"lid":$("#div_left #lid").val(),"uid":$("#div_left #uid").val()}).fadeIn('500');
+    </script>
+{% endif %}

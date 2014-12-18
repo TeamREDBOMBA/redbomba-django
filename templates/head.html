@@ -110,15 +110,26 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- Modal -->
-    <div class="modal fade" id="GamelinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    {% if appname == 'mail' %}
+        <!-- Modal -->
+        <div class="modal fade" id="GamelinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <!-- /.modal -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- /.modal -->
+    {% elif appname == 'arena' %}
+        <!-- Modal -->
+        <div class="modal fade" id="LargeCardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width:1120px">
+                <div class="modal-content">
+                    &nbsp;
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
 
     <!-- Load JS here for greater good =============================-->
     <script src="http://redbomba.net:3000/socket.io/socket.io.js" type="text/javascript"></script>
@@ -137,7 +148,7 @@
     <script src="/static/js/group_info_drop.js" type="text/javascript"></script>
     <script src="/static/js/markdown.js" type="text/javascript"></script>
     <script src="/static/js/head.js" type="text/javascript"></script>
-    <script src="/static/js/main.js" type="text/javascript"></script>
+    <script src="/static/js/{{ appname }}.js" type="text/javascript"></script>
     <script type="text/javascript">
         var FHChat = {product_id: "9cf6240931e7"};
         FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
