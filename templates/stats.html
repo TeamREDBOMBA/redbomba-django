@@ -1,0 +1,92 @@
+{% extends "head.html" %}
+{% load staticfiles %}
+{% block outside %}
+    <div id="profileBG">
+        <div id="profileBG_filter"></div>
+    </div>
+{% endblock %}
+{% block content %}
+    <!-- Profile -->
+    <div id="profile">
+        <img id="img_profile_bg" src="/static/img/stats/arena_poster_bg.png">
+        <img src="{{target_user.get_profile.get_icon}}" id="img_profile_usericon">
+        <p id="p_profile_username">{{target_user.username}}</p>
+        <div id="div_profile_gamelink">
+            {% for gl in gamelink %}
+                <div class="div_gamelink_game game_{{gl.game.id}}">
+                    <img src="{{gl.game.src.url}}" class="img_gamelink_icon">
+                    <p class="p_gamelink_name">{{gl.account_name}}</p>
+                </div>
+            {% endfor %}
+            {% if target_user == user %}
+                <div class="div_gamelink_game" id="div_gamelink_gameadd">
+                    <i class="fa fa-plus-circle"></i>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- //Profile -->
+    <div id="content">
+        <p class="title">{% if target_user == user %}내가 참여중인 대회{% else %}{{target_user.username}}님이 참여중인 대회{% endif %}<p>
+        <div id="feed_menu" class="div_feed">
+            <div id="myarenalist">&nbsp;</div>
+        </div>
+    </div>
+    <div id="aside">
+        <!-- Group -->
+        {% if wait_group %}
+            {% if target_user == user %}<p class="title">나의 신청 대기중인 그룹<p>
+                <div id="wait_group">
+                    {% for wg in wait_group %}
+                        <p><img src="/media/group_icon/{{ wg.gid.group_icon }}">{{ wg.gid.name }} <button class="btn btn-primary btn-sm" onclick="goGroupPage({{ wg.gid.id }})">그룹 페이지</button></p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+        <p class="title">{% if target_user == user %}내가 소속된 그룹{% else %}{{target_user.username}}님이 소속된 그룹{% endif %}<p>
+        <div id="group">
+            <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
+        </div>
+        <!-- //Group -->
+    </div>
+{% endblock %}
+{% block modal %}
+    <div class="modal fade" id="groupaddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">그룹생성</h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            <div class="form-group">
+                                <label for="name">그룹이름</label>
+                                <input type="text" class="form-control" id="name" name="name" maxlength="20" placeholder="e.g. Maximum Impact Gaming">
+                                <p style="margin-top:5px;width:100%;color:#ec9890;text-align:right"></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <label for="nick">그룹태그</label>
+                                <input type="text" class="form-control" id="nick" name="nick" maxlength="4" placeholder="e.g. MiG">
+                                <p style="margin-top:5px;width:100%;color:#ec9890;text-align:right"></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <label for="game">주 활동영역을 선택해보세요.</label>
+                                <input class="form-control" id="game" name="game" type="text" placeholder="League of Legends" value="League of Legends" disabled>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="save" class="btn btn-primary">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+{% endblock %}

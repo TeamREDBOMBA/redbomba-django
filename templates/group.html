@@ -1,0 +1,54 @@
+{% for group in groups %}
+    <div id='group_{{ group.id }}' class='group div_feed'>
+        {% if is_active == 0 and target_user == user.id %}
+            <div class='div_grouop_notactive'>
+                &quot;<b>{{ group.name }}</b>&quot;에<br>
+                당신을 초대합니다.<br>
+                <button id='btnYes' class='btn btn-warning'>수락</button><button id='btnNo' class='btn btn-default'>거절</button>
+            </div>
+        {% endif %}
+        <div class='div_group_head'>
+            <ul>
+                <li id='group_icon'><img src='{{ group.group_icon.url }}'></li>
+                <li>{{ group.name }}</li>
+                <li class='imgbtn' id="btnGroupPage"><i class="fa fa-comments"></i> | 그룹 페이지</li>
+                <!-- <li>3/5</li> -->
+            </ul>
+        </div>
+        <div class='div_group_memlist'>
+            <div class='div_memlist_mem'>
+                {% for groupmember in group.get_members %}
+                    <div id='div_mem_{{ groupmember.id }}' class='div_mem'>
+                        <input type='hidden' id='uid' value='{{ groupmember.id }}'>
+                        <a onclick="click_name('{{ groupmember.user.username }}')">
+                            {% if group.host == groupmember.user %}
+                                <img id='usericon' class='{{ group.host.id }}' title='{{ groupmember.user.username }}({{ group.host.id }})' src='{{ groupmember.user.get_profile.src.url }}'>
+                            {% else %}
+                                <img id='usericon' title='{{ groupmember.user.username }}' src='{{ groupmember.user.get_profile.src.url }}'>
+                            {% endif %}
+                        </a>
+                        {% if groupmember.is_active %}
+                            <img id='conn' class='conn_{{ groupmember.id }}' src='/static/img/stats/stats_group_disconn.png'>
+                        {% else %}
+                            <div id='notactive'>초대 중</div>
+                        {% endif %}
+                        <p class='p_mem_username'><a class="username" onclick="click_name('{{ groupmember.user.username }}')">{{ groupmember.user.username }}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if host and target_user == user.id %}
+                <div class='btnset'>
+                    <button type='button' class='btn btn-default btn-sm' id='insertMem' title='멤버추가'><img src='/static/img/stats_group_addmem.png'></button>
+                    <button type='button' class='btn btn-default btn-sm' id='removeMem' title='멤버삭제'><img src='/static/img/stats_group_removemem.png'></button>
+                </div>
+                <div class='inputset'>
+                    <div class='div_inputset_memlist'>&nbsp;</div>
+                    <div class='input-group input-group-sm'>
+                        <span class='input-group-addon'><img src='/static/img/stats_group_addmem.png'></span>
+                        <input type='text' class='form-control' placeholder='Nickname'>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

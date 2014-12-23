@@ -12,6 +12,7 @@ from datetime import datetime
 from django.utils.timezone import utc
 
 # Create your models here.
+import redbomba
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -27,9 +28,12 @@ class UserProfile(models.Model):
             return get_or_none(GameLink,user=self.user)
 
     def get_group(self):
-        groupmember = get_or_none(model="group.GroupMember",user=self.user)
+        res = []
+        groupmember = redbomba.group.models.GroupMember.objects.filter(user=self.user)
         if groupmember :
-            return groupmember.group
+            for gm in groupmember :
+                res.append(gm.group)
+            return res
         return None
 
 class Game(models.Model):
