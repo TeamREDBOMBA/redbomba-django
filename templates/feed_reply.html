@@ -2,8 +2,8 @@
 {% for reply in replies %}
     <div id="reply_body_{{ reply.id }}" class="div_reply reply_body">
         <input type="hidden" id="fid" value="{{ feed.id }}">
-        <div class="div_reply_icon imgbtn"><a class="username" onclick="click_name('{{ reply.user.id }}')"><img src="{{ reply.user.get_profile.src.url }}"></a></div>
-        <h1><a class="username" onclick="click_name('{{ reply.user.id }}')">{{ reply.user.username }}</a></h1>
+        <div class="div_reply_icon imgbtn"><a class="username" onclick="click_name('{{ reply.user.username }}')"><img src="{{ reply.user.get_profile.src.url }}"></a></div>
+        <h1><a class="username" onclick="click_name('{{ reply.user.username }}')">{{ reply.user.username }}</a></h1>
         <h2>{{ reply.con|linebreaks }}</h2>
         <p class="div_reply_date">{{ reply.date_updated|get_time_diff:"+" }}</p>
     </div>

@@ -5,13 +5,15 @@ import random
 import ssl
 import urllib
 from bs4 import BeautifulSoup
+from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 from django.utils.timezone import utc
 from sleekxmpp import ClientXMPP
-from redbomba.group.models import GroupMember
+from redbomba.group.models import GroupMember, Group
 from redbomba.home.models import get_or_none, Game, GameLink, get_json, iriToUri
 
 
@@ -110,6 +112,25 @@ def head_gamelink_skip(request):
 def head_gamelink_load(request) :
     account_id = request.POST.get("account_id")
     return summoner(request,account_id)
+
+def head_search(request) :
+	users = []
+	groups = []
+	text = request.POST.get("text","")
+
+	query_u = User.objects.filter(Q(username__icontains=text)|Q(id__in=GameLink.objects.filter(account_name__icontains=text).values_list('user', flat=True)))
+	for val in query_u:
+		gl = get_or_none(GameLink,user=val)
+		gm = get_or_none(GroupMember,user=val)
+		if gm : gm = gm.group
+		users.append({'uid':val, 'gamelink':gl, 'group':gm})
+
+	query_g = Group.objects.filter(Q(name__icontains=text)|Q(nick__icontains=text)|Q(leader__in=User.objects.filter(username__icontains=text)))
+	for val in query_g:
+		groups.append({'gid':val})
+
+	context = {"users":users,"groups":groups}
+	return render(request, 'head_search.html', context)
 
 def reloadSummoner(request, sid, sinfo):
     gl = get_or_none(GameLink,account_id=sid)
@@ -262,4 +283,3 @@ def setStatsValue(j, s):
         return j['stats'][s]
     except Exception as e:
         return 0
-

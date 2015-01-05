@@ -168,7 +168,7 @@ function clickGamelink(iconid) {
 
 function getSearchList(){
     $('#div_head_searchlist').show();
-    $('#div_head_searchlist').load('/searchlist/',{
+    $('#div_head_searchlist').load('/head/search/',{
         'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),
         'text':$('#input_search_bar').val()
     });

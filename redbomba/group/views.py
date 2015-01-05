@@ -19,7 +19,7 @@ def card_group(request):
         'from' : '/stats/',
         'appname':'stats'
     }
-    return render(request, 'group.html', context)
+    return render(request, 'card_group.html', context)
 
 def card_group_members(request):
     action = request.POST.get('action')
