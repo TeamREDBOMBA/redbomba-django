@@ -179,8 +179,19 @@ function click_name(username){
 }
 
 function goGroupPage(gid){
-        $('.modal').modal('hide');
-        $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':gid},function(){
-            $('#GroupInfo').modal('show');
-        });
-    }
+    $('.modal').modal('hide');
+    $('#GroupInfo .modal-content').load('/card/group/large/'+gid,function(){
+        $('#GroupInfo').modal('show');
+    });
+}
+
+function loadGameLinkAccount(account_id){
+    $('#GamelinkModal .modal-content').load("/head/gamelink/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
+        $("#GamelinkModal #div_tutor_right").html('<img src="/static/img/ajax-loader_s.gif" style="margin-top:160px">');
+        $("#GamelinkModal #div_tutor_right").hide().load("/head/gamelink/load/",{
+            "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
+            "account_id":account_id
+        }).fadeIn(300);
+    });
+    $('#GamelinkModal').modal('show');
+}

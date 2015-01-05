@@ -5,4 +5,9 @@
 
     $("#aside #group").load("/card/group/");
 
+    $("#div_gamelink_gameadd").click(function(){
+        $('#GamelinkModal .modal-content').load("/head/gamelink/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
+        $('#GamelinkModal').modal('show');
+    });
+
 });

@@ -9,11 +9,11 @@
     <!-- Profile -->
     <div id="profile">
         <img id="img_profile_bg" src="/static/img/stats/arena_poster_bg.png">
-        <img src="{{target_user.get_profile.get_icon}}" id="img_profile_usericon">
+        <img src="{{target_user.get_profile.src.url}}" id="img_profile_usericon">
         <p id="p_profile_username">{{target_user.username}}</p>
         <div id="div_profile_gamelink">
             {% for gl in gamelink %}
-                <div class="div_gamelink_game game_{{gl.game.id}}">
+                <div class="div_gamelink_game game_{{gl.game.id}}" onclick="loadGameLinkAccount({{ gl.account_id }});">
                     <img src="{{gl.game.src.url}}" class="img_gamelink_icon">
                     <p class="p_gamelink_name">{{gl.account_name}}</p>
                 </div>

@@ -11,7 +11,7 @@
             <ul>
                 <li id='group_icon'><img src='{{ group.group_icon.url }}'></li>
                 <li>{{ group.name }}</li>
-                <li class='imgbtn' id="btnGroupPage"><i class="fa fa-comments"></i> | 그룹 페이지</li>
+                <li class='imgbtn' id="btnGroupPage" onclick="goGroupPage({{ group.id }})"><i class="fa fa-comments"></i> | 그룹 페이지</li>
                 <!-- <li>3/5</li> -->
             </ul>
         </div>

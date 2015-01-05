@@ -27,17 +27,6 @@ $(window).load(function() {
 
 });
 
-function loadGameLinkAccount(account_id){
-    $('#GamelinkModal .modal-content').load("/head/gamelink/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()},function(){
-        $("#GamelinkModal #div_tutor_right").html('<img src="/static/img/ajax-loader_s.gif" style="margin-top:160px">');
-        $("#GamelinkModal #div_tutor_right").hide().load("/head/gamelink/load/",{
-            "csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val(),
-            "account_id":account_id
-        }).fadeIn(300);
-    });
-    $('#GamelinkModal').modal('show');
-}
-
 function setSize(box_size){
     var count = 0;
     var arr = new Array();
