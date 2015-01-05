@@ -35,7 +35,7 @@ class UserProfile(models.Model):
             for gm in groupmember :
                 res.append(gm.group)
             return res
-        return None
+        return []
 
 class Game(models.Model):
     name = models.TextField()

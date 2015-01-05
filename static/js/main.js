@@ -20,6 +20,8 @@ $(window).load(function() {
         $('.focuspoint').focusPoint();
     });
 
+    $("#feed_private").load("/card/private/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
+
     $('#btnGamelink, #btnGamelink_s').click(function(){
         $('#GamelinkModal .modal-content').load("/head/gamelink/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()});
         $('#GamelinkModal').modal('show');

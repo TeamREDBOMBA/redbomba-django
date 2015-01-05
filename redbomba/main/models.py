@@ -5,6 +5,11 @@ from django.utils import timezone
 from django.utils.dateformat import format
 from redbomba.feed.models import Feed
 
+CONTYPE_IN_PRIVATECARD_CHOICES = (
+    ('txt', '텍스트'),
+    ('img', '이미지'),
+    ('mov', '비디오'),
+)
 
 class GlobalCard(models.Model) :
     user = models.ForeignKey(User)
@@ -18,3 +23,9 @@ class GlobalCard(models.Model) :
 
     def __unicode__(self):
         return "[%d] %s"%(self.id, self.title)
+
+class PrivateCard(models.Model) :
+    user = models.ForeignKey(User)
+    contype = models.CharField(max_length=3,choices=CONTYPE_IN_PRIVATECARD_CHOICES)
+    con = models.TextField()
+    date_updated = models.DateTimeField(auto_now_add=True)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -9,6 +9,7 @@ from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from redbomba.feed.models import Feed
 from redbomba.home.models import Game, get_time_difference
+from redbomba.group.models import Group
 
 
 class ArenaBanner(models.Model):
