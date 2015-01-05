@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
     src = models.FileField(
         upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')),
-        default="static/img/home/default_icon.png"
+        default="default/default_icon.png"
     )
     is_pass_arena = models.IntegerField(default=0)
     is_pass_gamelink = models.IntegerField(default=0)

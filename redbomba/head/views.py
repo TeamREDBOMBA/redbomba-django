@@ -262,3 +262,4 @@ def setStatsValue(j, s):
         return j['stats'][s]
     except Exception as e:
         return 0
+

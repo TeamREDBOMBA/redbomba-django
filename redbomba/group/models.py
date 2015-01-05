@@ -42,3 +42,9 @@ class GroupMember(models.Model):
 
     def __unicode__(self):
         return u'[%d] %s (%s)' %(self.id, self.user.username, self.group)
+
+class Chatting(models.Model):
+    group = models.ForeignKey(Group)
+    user = models.ForeignKey(User)
+    con = models.TextField()
+    date_updated = models.DateTimeField(auto_now_add=True)

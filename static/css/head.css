@@ -224,6 +224,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #GroupInfo .modal-menu {position:relative;width:90px;height:600px;background-color:#282828;border-right:1px solid #ccc;float:left}
 #GroupInfo .modal-menu .menuBtn{height:90px;color:#FFF;text-align:center;padding-top:20px;cursor:pointer;}
 #GroupInfo .modal-menu .menuBtn:hover{background-color:RGBA(0,0,0,0.1)}
+#GroupInfo .modal-menu .menuBtn i {font-size:35px}
 
 #GroupInfo .modal-info {position:relative;width:330px;height:600px;text-align:center;float:left;overflow:hidden}
 

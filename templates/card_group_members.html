@@ -1,0 +1,35 @@
+<ul id="ul_memlist_list">
+    {% if users %}
+        {% for user in users %}
+            <li class='imgbtn'><img alt="{{ user.id }}" src='{{ user.get_profile.src.url }}'><p>{{ user.username }}</p></li>
+        {% endfor %}
+    {% else %}
+        <li class='imgbtn' style='text-align:center'><p>조회내용이 없습니다.</p></li>
+    {% endif %}
+</ul>
+<script>
+{% if users %}
+    $('#ul_memlist_list li').click(function(evt){
+        var username = $(this).find('p').text();
+        var uid = $(this).find('img').attr("alt");
+        if(username != '조회내용이 없습니다.'){
+            $.post('/db/grouplist/',{
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                'action':'{{ mode }}',
+                'username':username,
+                'gid':'{{ group.id }}'
+            },function(res,status){
+                {% if mode == "insert" %}
+                    socket.emit('setGroup',{'to':'user','id':uid});
+                    socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
+                    socket.emit('sendNotification', {'gid':{{group.id}},'uid':uid,'action':'Group_InviteMember'});
+                {% else %}
+                    socket.emit('setGroup',{'to':'group','id':'{{ group.id }}'});
+                {% endif %}
+                location.reload();
+            });
+        }
+        evt.stopPropagation();
+    });
+{% endif %}
+</script>
