@@ -9,7 +9,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from redbomba.arena.models import ArenaBanner, League, LeagueTeam, LeagueRound, LeagueMatch
 from redbomba.group.models import GroupMember, Group
-from redbomba.home.models import get_or_none
+from redbomba.home.models import get_or_none, GameLink
 
 
 def arena(request):
@@ -107,10 +107,10 @@ def LeagueState(league, user):
     no = "ERROR"
 
     #User State
-    isFiveMem = IsFiveMem(user)                     # 1
+    isFiveMem = IsFiveMem(league,user)                     # 1
     isFiveLink = IsFiveLink(league, user)           # 2
-    isLeader = IsLeader(user)                       # 3
-    isInGroup = IsInGroup(user)                     # 4
+    isLeader = IsLeader(league,user)                       # 3
+    isInGroup = IsInGroup(league,user)                     # 4
 
     #League State
     isStartApply = IsStartApply(league)             # 5
@@ -175,33 +175,33 @@ def LeagueState(league, user):
         "nowRound":nowRound
     }
 
-def IsFiveMem(user):
-    group = user.get_profile().get_group()
+def IsFiveMem(league,user):
+    group = user.get_profile().get_group(league.game)[0]
     if group :
-        gm = group.get_member()
+        gm = group.get_members()
         if gm.count() >= 5 :
             return gm.count()
     return None
 
-def IsFiveLink(league, user):
-    group = user.get_profile().get_group()
+def IsFiveLink(league,user):
+    group = user.get_profile().get_group(league.game)[0]
     if group :
-        gm = group.get_member()
+        gm = group.get_members()
         gl = GameLink.objects.filter(user__contains=gm.values_list('user', flat=True),game=league.game)
         if gl :
             if gl.count() >= 5 :
                 return gl.count()
     return None
 
-def IsLeader(user):
-    group = user.get_profile().get_group()
+def IsLeader(league,user):
+    group = user.get_profile().get_group(league.game)[0]
     if group :
         if group.leader == user :
             return group.leader
     return None
 
-def IsInGroup(user):
-    group = user.get_profile().get_group()
+def IsInGroup(league,user):
+    group = user.get_profile().get_group(league.game)[0]
     if group :
         return group
     return None
@@ -264,7 +264,7 @@ def CanMatchMaker(nowRound):
     return nowRound
 
 def IsCompleteJoin(league, user):
-    group = user.get_profile().get_group()
+    group = user.get_profile().get_group(league.game)[0]
     if group :
         lt = LeagueTeam.objects.filter(group=group, round__league=league).order_by("-id")
         if lt :

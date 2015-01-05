@@ -27,9 +27,10 @@ class UserProfile(models.Model):
         if self.user:
             return get_or_none(GameLink,user=self.user)
 
-    def get_group(self):
+    def get_group(self,game=None):
         res = []
-        groupmember = redbomba.group.models.GroupMember.objects.filter(user=self.user)
+        if game : groupmember = redbomba.group.models.GroupMember.objects.filter(user=self.user,group__game=game)
+        else : groupmember = redbomba.group.models.GroupMember.objects.filter(user=self.user)
         if groupmember :
             for gm in groupmember :
                 res.append(gm.group)
