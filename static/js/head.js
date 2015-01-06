@@ -129,7 +129,7 @@ $(document).ready(function(){
     });
 
     $('#a_head_field').click(function(){
-        $.post('/field/',{
+        $.post('/head/field/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
             $.post('/db/noti/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'check','loc':'field','uid':uid});

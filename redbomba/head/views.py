@@ -13,6 +13,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.utils.timezone import utc
 from sleekxmpp import ClientXMPP
+from redbomba.arena.models import League, LeagueTeam
 from redbomba.group.models import GroupMember, Group
 from redbomba.head.models import Notification
 from redbomba.home.models import get_or_none, Game, GameLink, get_json, iriToUri
@@ -44,6 +45,44 @@ def head_start(request):
             'appname':'head'
         }
     return render(request, 'head_start.html', context)
+
+def head_search(request) :
+	users = []
+	groups = []
+	text = request.POST.get("text","")
+
+	query_u = User.objects.filter(Q(username__icontains=text)|Q(id__in=GameLink.objects.filter(account_name__icontains=text).values_list('user', flat=True)))
+	for val in query_u:
+		gl = get_or_none(GameLink,user=val)
+		gm = get_or_none(GroupMember,user=val)
+		if gm : gm = gm.group
+		users.append({'uid':val, 'gamelink':gl, 'group':gm})
+
+	query_g = Group.objects.filter(Q(name__icontains=text)|Q(nick__icontains=text)|Q(leader__in=User.objects.filter(username__icontains=text)))
+	for val in query_g:
+		groups.append({'gid':val})
+
+	context = {"users":users,"groups":groups}
+	return render(request, 'head_search.html', context)
+
+def head_notification(request) :
+    notis = Notification.objects.filter(user=request.user)
+    context = {"user":request.user,"notis":notis}
+    return render(request, 'head_notification.html', context)
+
+def head_field(request) :
+    query_g = GroupMember.objects.filter(user=request.user)
+    groups = []
+    for val in query_g:
+        groups.append(val.group)
+
+    user = get_or_none(GroupMember,user=request.user)
+    query_l = League.objects.filter(id__in=LeagueTeam.objects.filter(group=user.group).values_list('round__league', flat=True))
+    leagues = []
+    for val in query_l:
+        leagues.append(val)
+    context = {"groups":groups,"leagues":leagues}
+    return render(request, 'head_field.html', context)
 
 def head_gamelink(request):
     context = {
@@ -113,30 +152,6 @@ def head_gamelink_skip(request):
 def head_gamelink_load(request) :
     account_id = request.POST.get("account_id")
     return summoner(request,account_id)
-
-def head_search(request) :
-	users = []
-	groups = []
-	text = request.POST.get("text","")
-
-	query_u = User.objects.filter(Q(username__icontains=text)|Q(id__in=GameLink.objects.filter(account_name__icontains=text).values_list('user', flat=True)))
-	for val in query_u:
-		gl = get_or_none(GameLink,user=val)
-		gm = get_or_none(GroupMember,user=val)
-		if gm : gm = gm.group
-		users.append({'uid':val, 'gamelink':gl, 'group':gm})
-
-	query_g = Group.objects.filter(Q(name__icontains=text)|Q(nick__icontains=text)|Q(leader__in=User.objects.filter(username__icontains=text)))
-	for val in query_g:
-		groups.append({'gid':val})
-
-	context = {"users":users,"groups":groups}
-	return render(request, 'head_search.html', context)
-
-def head_notification(request) :
-    notis = Notification.objects.filter(user=request.user)
-    context = {"user":request.user,"notis":notis}
-    return render(request, 'head_notification.html', context)
 
 def reloadSummoner(request, sid, sinfo):
     gl = get_or_none(GameLink,account_id=sid)

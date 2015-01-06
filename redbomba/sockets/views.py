@@ -12,7 +12,6 @@ from redbomba.group.models import GroupMember, Chatting, Group
 from redbomba.head.models import Notification
 from redbomba.home.models import get_or_none
 
-
 def setNotification(request):
     try :
         ele_action = request.GET.get("ele_action")
