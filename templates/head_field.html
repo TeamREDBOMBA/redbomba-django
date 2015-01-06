@@ -16,8 +16,8 @@
         <div class="div_searchbar_non">소속된 그룹이 없습니다.</div>
     {% endif %}
     <div class="div_field_top">아레나<a href="/stats/?get=myarena"><button type="button" class="btn btn-default btn-xs">마이아레나</button></a></div>
-    {% for league in leagues %}
-        <!--{% if l %}-->
+    {% if leagues %}
+        {% for league in leagues %}
             <!--<ul class="div_field_con div_field_arena {% if l.noti.date_read == 1 %}read{% endif %}" onclick="location.href='/arena/?get={{l.league.id}}';">-->
                 <!--<li id="li_name">{{l.league.name}}</li>-->
                 <!--<li id="li_group"><img src="/media/group_icon/{{ l.user.gid.group_icon }}"> {{l.user.gid.name}}</li>-->
@@ -49,10 +49,10 @@
             <!--<script>-->
                 <!--$('.progress-bar').tooltip('hide');-->
             <!--</script>-->
-        {% else %}
-            <div class="div_searchbar_non">참가중인 대회가 없습니다.</div>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <div class="div_searchbar_non">참가중인 대회가 없습니다.</div>
+    {% endif %}
 </div>
 <script>
     $("#field_login").text(memOnline);

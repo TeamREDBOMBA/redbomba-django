@@ -1,11 +1,5 @@
 {% load arena_extras %}
 
-{% if state.isHost and state.canMatchMaker %}
-    <button class="btn btn-success" id="btnMatchMaker">Start Round{{state.canMatchMaker.round}}</button>
-    <input type="hidden" id="round_id" name="round_id" value="{{state.canMatchMaker.id}}" />
-    <input type="hidden" id="round_no" name="round_no" value="{{state.canMatchMaker.round}}" />
-{% endif %}
-
 {% if state.no == -3 %}
     접수 전입니다.
 {% elif state.no == -2 %}

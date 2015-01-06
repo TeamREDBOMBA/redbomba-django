@@ -63,6 +63,7 @@
 #LargeCardModal #div_body{position:relative;margin-left:200px;width:660px;height:700px;border-bottom:1px solid #dfe3eb;}
 #LargeCardModal #div_body #div_body_top {position:relative;width:100%;height:265px;background-color:#396da8;background-repeat:no-repeat;background-position: center center;background-size:100% auto}
 #LargeCardModal #div_body #div_body_top img{position:absolute;bottom:0;left:0;}
+#LargeCardModal #div_body #div_body_top #btnMatchMaker {position: absolute;width: 200px;height: 60px;top: 50%;left: 50%;margin-left: -100px;margin-top: -30px;z-index: 100;}
 #LargeCardModal #div_body #div_body_top h1{position:relative;padding-top:200px;margin-left:20px;color:#fff;font-size:25px;font-family:'RixSGo B';}
 #LargeCardModal #div_body #div_body_top .p_poster_info{position:relative;margin-left:20px;padding-top: 10px;color:#fff;font-size:12px;float:left}
 #LargeCardModal #div_body #div_body_top .p_poster_info .fa-lol{width: 12px;height: 12px;margin: 2px;}

@@ -8,6 +8,7 @@ from redbomba.arena.models import ArenaBanner, LeagueRound, LeagueTeam, LeagueMa
 class LeagueRoundInline(admin.StackedInline):
     model = LeagueRound
     can_delete = True
+    extra = 0
 
 class LeagueRewardInline(admin.StackedInline):
     model = LeagueReward
