@@ -16,7 +16,7 @@
             <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"+" }}</p>
         {% elif new.type == 'groupmember' %}
             <div class="div_feed_type"><i class="fa fa-users"></i></div>
-            <div class="div_feed_icon imgbtn"><img src="{{ new.self.group.src.url }}"></div>
+            <div class="div_feed_icon imgbtn"><img src="{{ new.self.group.group_icon.url }}"></div>
             <p class="p_feed_username">{{ new.self.group.name }}</p>
             <h2 class="h2_feed_con">{{ new.self.user.username }}님이 {{ new.self.group.name }}에 새로운 멤버로 함류하였습니다. {{ user.username }}님의 도움의 손길과 따뜻한 환영의 메시지가 필요해 보이는 군요!</h2>
             <p class="p_feed_date">{{ new.self.date_updated|get_time_diff:"+" }}</p>

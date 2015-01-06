@@ -7,8 +7,9 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.utils import timezone
+from redbomba.arena.matchmaker import matchmaker
 from redbomba.arena.models import ArenaBanner, League, LeagueTeam, LeagueRound, LeagueMatch
-from redbomba.group.models import GroupMember, Group
+from redbomba.group.models import GroupMember
 from redbomba.home.models import get_or_none, GameLink
 
 
@@ -59,8 +60,6 @@ def card_league_large(request,lid=None):
         "rule":rule
     }
 
-    groups = Group.objects.filter(id__in=LeagueTeam.objects.filter(round=get_or_none(LeagueRound,league=league,round=1),is_complete=1).values_list('group', flat=True))
-
     try:
         round1 = {"day":range((LeagueRound.objects.get(league=league,round=1).end - LeagueRound.objects.get(league=league,round=1).start).days+1)}
     except Exception as e:
@@ -81,7 +80,6 @@ def card_league_large(request,lid=None):
         'user_group': user_group,
         'league':league,
         'contents':con,
-        'groups':groups,
         'round1':round1,
         'rounds':rounds,
         'SR':SR,
@@ -151,6 +149,13 @@ def card_league_team(request):
     else :
         return HttpResponse("Error")
     return HttpResponse("Success")
+
+def card_league_matchmaker(request) :
+    if request.user :
+        round = LeagueRound.objects.get(id=request.GET.get("round"))
+        if request.user == round.league.host :
+            return HttpResponse(matchmaker(round))
+    return HttpResponse('ERROR')
 
 def LeagueState(league, user):
 

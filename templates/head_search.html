@@ -6,7 +6,7 @@
   <ul class="div_searchbar_con user" id="{{u.uid.username}}">
     <li id="li_icon"><img src="{{ u.uid.get_profile.src.url }}"></li>
     <li id="li_name">{{u.uid.username}}</li>
-    {% if u.gamelink.name %}<li id="li_game"><span id="span_aka">A.K.A</span>&nbsp;&nbsp;<i class="fa fa-lol-b"></i>{{u.gamelink.account_name}}</li>
+    {% if u.uid.get_profile.get_gamelink.account_name %}<li id="li_game"><span id="span_aka">A.K.A</span>&nbsp;&nbsp;<i class="fa fa-lol-b"></i>{{u.uid.get_profile.get_gamelink.account_name}}</li>
     {% else %}<li id="li_game">연결된 게임계정이 없습니다.</li>{% endif %}
   </ul>
   {% endfor %}

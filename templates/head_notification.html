@@ -1,10 +1,11 @@
+{% load extras %}
 {% if notis %}
 {% for ele in notis %}
 <div class='div_noti_cell {% if ele.date_read == 1 %}read{% endif %}' id='div_noti_cell{{ele.id}}'>
     <div class='div_cell_icon'><img src='{{ele.icon| safe}}'></div>
     <div class='div_cell_txt'>{{ele.contents | safe}}</div>
     <div class='div_cell_bottom'>
-        <div class='div_bottom_date'>{{ ele.get_time_diff }}</div>
+        <div class='div_bottom_date'>{{ ele.date_updated|get_time_diff:"+" }}</div>
     </div>
 </div>
 {% if ele.action == 'League_JoinLeague' %}

@@ -18,37 +18,37 @@
     <div class="div_field_top">아레나<a href="/stats/?get=myarena"><button type="button" class="btn btn-default btn-xs">마이아레나</button></a></div>
     {% if leagues %}
         {% for league in leagues %}
-            <!--<ul class="div_field_con div_field_arena {% if l.noti.date_read == 1 %}read{% endif %}" onclick="location.href='/arena/?get={{l.league.id}}';">-->
-                <!--<li id="li_name">{{l.league.name}}</li>-->
-                <!--<li id="li_group"><img src="/media/group_icon/{{ l.user.gid.group_icon }}"> {{l.user.gid.name}}</li>-->
-                <!--{% if l.no == 1 %}-->
-                    <!--<li id="li_msg"><span class="border-round">{{ l.round.round }} 라운드</span> 일정도출 {{l.round.start|get_time_diff:"-"}} 입니다.</li>-->
-                <!--{% elif l.no == 2 %}-->
-                    <!--<li id="li_msg"><span class="border-round">{{ l.lm.team_a.round.round }} 라운드</span> {{ l.lm.date_match }}</li>-->
-                <!--{% elif l.no == 3 %}-->
-                    <!--<li id="li_msg">{{l.msg}}</li>-->
-                <!--{% endif %}-->
-                <!--{% if l.no == 3 %}-->
-                    <!--<li id="li_btn"><a href="/battle/?round={{l.lr}}"><buttun type="button" class="btn btn-warning btn-xs" id="btnEnter"><i class="fa fa-sign-in"></i> | 배틀페이지 입장</buttun></a></li>-->
-                <!--{% else %}-->
-                    <!--<li id="li_btn">-->
-                        <!--<div class="progress-label">대기</div>-->
-                        <!--<div class="progress-label">준비</div>-->
-                        <!--<div class="progress-label">배틀</div>-->
-                        <!--<div class="progress">-->
-                            <!--<div id='progress1' class="progress-bar progress-bar-danger" style="width: 16%" data-toggle="tooltip" data-placement="top" title="경기 일정·상태 등록 대기 단계" data-html="true">-->
-                            <!--</div>-->
-                            <!--<div id='progress2' class="progress-bar progress-bar-danger" {% if l.no == 2 %}style="width: 33%"{% else %}style="width: 0%"{% endif %} data-toggle="tooltip" data-placement="top" title="경기 일정·상태 등록 완료 단계" data-html="true">-->
-                            <!--</div>-->
-                            <!--<div id='progress3' class="progress-bar progress-bar-danger" style="width: 51%" data-toggle="tooltip" data-placement="top" title="경기 시작 30분 전부터<br/>배틀페이지 입장 가능" data-html="true">-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</li>-->
-                <!--{% endif %}-->
-            <!--</ul>-->
-            <!--<script>-->
-                <!--$('.progress-bar').tooltip('hide');-->
-            <!--</script>-->
+            <ul class="div_field_con div_field_arena read" onclick="location.href='/arena/?get={{league.id}}';">
+                <li id="li_name">{{league.name}}</li>
+                <li id="li_group"><img src="/media/group_icon/{{ l.user.gid.group_icon }}"> {{l.user.gid.name}}</li>
+                {% if l.no == 1 %}
+                    <li id="li_msg"><span class="border-round">{{ l.round.round }} 라운드</span> 일정도출 {{l.round.start|get_time_diff:"-"}} 입니다.</li>
+                {% elif l.no == 2 %}
+                    <li id="li_msg"><span class="border-round">{{ l.lm.team_a.round.round }} 라운드</span> {{ l.lm.date_match }}</li>
+                {% elif l.no == 3 %}
+                    <li id="li_msg">{{l.msg}}</li>
+                {% endif %}
+                {% if l.no == 3 %}
+                    <li id="li_btn"><a href="/battle/?round={{l.lr}}"><buttun type="button" class="btn btn-warning btn-xs" id="btnEnter"><i class="fa fa-sign-in"></i> | 배틀페이지 입장</buttun></a></li>
+                {% else %}
+                    <li id="li_btn">
+                        <div class="progress-label">대기</div>
+                        <div class="progress-label">준비</div>
+                        <div class="progress-label">배틀</div>
+                        <div class="progress">
+                            <div id='progress1' class="progress-bar progress-bar-danger" style="width: 16%" data-toggle="tooltip" data-placement="top" title="경기 일정·상태 등록 대기 단계" data-html="true">
+                            </div>
+                            <div id='progress2' class="progress-bar progress-bar-danger" {% if l.no == 2 %}style="width: 33%"{% else %}style="width: 0%"{% endif %} data-toggle="tooltip" data-placement="top" title="경기 일정·상태 등록 완료 단계" data-html="true">
+                            </div>
+                            <div id='progress3' class="progress-bar progress-bar-danger" style="width: 51%" data-toggle="tooltip" data-placement="top" title="경기 시작 30분 전부터<br/>배틀페이지 입장 가능" data-html="true">
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+            <script>
+                $('.progress-bar').tooltip('hide');
+            </script>
         {% endfor %}
     {% else %}
         <div class="div_searchbar_non">참가중인 대회가 없습니다.</div>

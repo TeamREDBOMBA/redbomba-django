@@ -72,10 +72,10 @@
             </div>
         </div>
         <div id="div_main_group">
-            {% for group in groups|slice:":9" %}
-            <div class="div_group_icon" style="background-image:url(/media/group_icon/{{ group.group_icon }})"></div>
+            {% for lt in league.get_participants|slice:":9" %}
+            <div class="div_group_icon" style="background-image:url({{ lt.group.group_icon.url }})"></div>
             {% endfor %}
-            <div id="div_group_count">{{groups|length}}/{{league.max_team}}</div>
+            <div id="div_group_count">{{league.get_participants|length}}/{{league.max_team}}</div>
         </div>
     </div>
 </div>
@@ -166,13 +166,19 @@
 
 <div id="div_participants" class="div_contents">
     <p id='p_participants_title'>{{league.name}}</p>
-    <p id='p_participants_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
+    <p id='p_participants_desc'>총 {{league.get_participants|length}}개의 팀이 참가 중 입니다.</p>
     <div id="div_participants_group">
-        {% for group in groups %}
+        {% for lt in league.get_participants %}
         <div class="div_participants_list">
-            <img class="img_participants_icon" src="/media/group_icon/{{ group.group_icon }}">
-            <p class="p_participants_name">{{ group.name }}</p>
-            <p class="p_participants_history">아레나 참가 횟수 : {{ group.get_league_history }}회</p>
+            <img class="img_participants_icon" src="{{ lt.group.group_icon.url }}">
+            <p class="p_participants_name">{{ lt.group.name }}</p>
+            <p class="p_participants_history">아레나 참가 횟수 :
+                {% if lt.group.get_league_history %}
+                {{ lt.group.get_league_history|length }}
+                {% else %}
+                0
+                {% endif %}
+                회</p>
         </div>
         {% endfor %}
     </div>
@@ -180,20 +186,20 @@
 
 <div id="div_result" class="div_contents">
     <p id='p_result_title'>{{league.name}}</p>
-    <p id='p_result_desc'>총 {{groups|length}}개의 팀이 참가 중 입니다.</p>
+    <p id='p_result_desc'>총 {{league.get_participants|length}}개의 팀이 참가 중 입니다.</p>
     <div id="div_result_match">
         {% for lr in league.get_rounds %}
         <div class="row">
             <p class='p_match_title  col-lg-12'>{{ lr.round }} Round</p>
             {% for lm in league|getMatch:lr.round %}
             <div class="div_result_list col-lg-6">
-                <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_a.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_a.group.name }}</p></div>
+                <div class="div_result_con"><img src="{{ lm.team_a.group.group_icon.url }}"><p class="p_feed_groupname">{{ lm.team_a.group.name }}</p></div>
                 <div class="div_result_con">
                     {% if lm.result == "A" and lm.state == 10 %}<p class="p_feed_res">승 vs 패</p>
                     {% elif lm.result == "B" and lm.state == 10 %} <p class="p_feed_res">패 vs 승</p>
                     {% else %} <p class="p_feed_res">진 행 중</p>{% endif %}
                 </div>
-                <div class="div_result_con"><img src="/media/group_icon/{{ lm.team_b.group.group_icon }}"><p class="p_feed_groupname">{{ lm.team_b.group.name }}</p></div>
+                <div class="div_result_con"><img src="{{ lm.team_b.group.group_icon.url }}"><p class="p_feed_groupname">{{ lm.team_b.group.name }}</p></div>
             </div>
             {% endfor %}
         </div>

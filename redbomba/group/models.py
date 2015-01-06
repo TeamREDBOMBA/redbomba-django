@@ -13,7 +13,7 @@ class Group(models.Model):
     leader = models.ForeignKey(User)
     group_icon = models.FileField(
         upload_to='upload/files_%s/'%(format(timezone.localtime(timezone.now()), u'U')),
-        default="static/img/group/default_icon.png"
+        default="default/default_group.png"
     )
     game = models.ForeignKey(Game)
     date_updated = models.DateTimeField(auto_now_add=True)
@@ -29,6 +29,10 @@ class Group(models.Model):
             else :
                 gamelinks.append(GameLink.objects.filter(user=gm.user))
         return gamelinks
+
+    def get_league_history(self):
+        lt = get_or_none('arena.LeagueTeam',group=self,round__round=1)
+        return lt
 
     def __unicode__(self):
         return u'%s' %(self.name)

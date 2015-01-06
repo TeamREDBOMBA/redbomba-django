@@ -162,7 +162,7 @@
         {% endif %}
     {% endif %}
 {% elif state.no == 3 %}
-    <a href="/battle/?round={{state.isCompleteJoin.round.id}}"><button class="btn btn-warning" id="btnEnter"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button></a>
+    <a href="/battle/{{state.isCompleteJoin.round.id}}"><button class="btn btn-warning" id="btnEnter"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button></a>
     <p class="processMsg">배틀페이지 입장이 가능합니다.<br/>행운을 빕니다!</p>
     <img src="/static/img/arena/card_div.png">
     {% if state.isLeader %}
@@ -263,7 +263,7 @@
     $('#btnMatchMaker').click(function(){
         var round_id = $("#round_id").val();
         var round_no = $("#round_no").val();
-        $.post("/matchmaker/?round="+round_id,{
+        $.post("/card/league/matchmaker/?round="+round_id,{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
             socket.emit('sendNotification', {'lid':round_id,'round':round_no,'action':'League_RunMatchMaker'});

@@ -66,12 +66,12 @@ def head_search(request) :
 	return render(request, 'head_search.html', context)
 
 def head_notification(request) :
-    notis = Notification.objects.filter(user=request.user)
+    notis = Notification.objects.filter(user=request.user).order_by('-id')
     context = {"user":request.user,"notis":notis}
     return render(request, 'head_notification.html', context)
 
 def head_field(request) :
-    query_g = GroupMember.objects.filter(user=request.user)
+    query_g = GroupMember.objects.filter(user=request.user).order_by('-id')
     groups = []
     for val in query_g:
         groups.append(val.group)
