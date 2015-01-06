@@ -116,7 +116,7 @@ $(document).ready(function(){
     });
 
     $('#a_head_noti').click(function(){
-        $.post('/noti/',{
+        $.post('/head/notification/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
             $.post('/db/noti/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'read','uid':uid});

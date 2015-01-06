@@ -14,6 +14,7 @@ from django.shortcuts import render
 from django.utils.timezone import utc
 from sleekxmpp import ClientXMPP
 from redbomba.group.models import GroupMember, Group
+from redbomba.head.models import Notification
 from redbomba.home.models import get_or_none, Game, GameLink, get_json, iriToUri
 
 
@@ -131,6 +132,11 @@ def head_search(request) :
 
 	context = {"users":users,"groups":groups}
 	return render(request, 'head_search.html', context)
+
+def head_notification(request) :
+    notis = Notification.objects.filter(user=request.user)
+    context = {"user":request.user,"notis":notis}
+    return render(request, 'head_notification.html', context)
 
 def reloadSummoner(request, sid, sinfo):
     gl = get_or_none(GameLink,account_id=sid)
