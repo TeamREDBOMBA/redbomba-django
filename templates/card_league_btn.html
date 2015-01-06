@@ -108,7 +108,7 @@
     {% if state.isCompleteJoin.is_complete == 1 %}
         <button class="btn btn-default" id="btnjoin" disabled="disabled"><i class="fa fa-clock-o"></i> {{state.isCompleteJoin.round.round}}라운드 일정 대기 중</button>
         <p class="processMsg">일정은 {{state.isCompleteJoin.round.start|get_time_diff:"-"}} 발표됩니다.</p>
-        <img src="/static/img/arena_card_div.png">
+        <img src="/static/img/arena/card_div.png">
 
         {% if state.isLeader %}
             {% if state.isCompleteJoin.round.round > 1 %}
@@ -127,7 +127,7 @@
     {% else %}
         <button class="btn btn-default" id="btnjoin" disabled="disabled"><i class="fa fa-clock-o"></i> {{state.isCompleteJoin.round.round}}라운드 참가 대기 상태</button>
         <p class="processMsg">{{state.isCompleteJoin.round.start}}까지 조건을 갖추어 주세요.</p>
-        <img src="/static/img/arena_card_div.png">
+        <img src="/static/img/arena/card_div.png">
 
         {% if state.isLeader %}
             {% if state.isCompleteJoin.round.round > 1 %}
@@ -147,7 +147,7 @@
 {% elif state.no == 2 %}
     <button class="btn btn-warning" id="btnEnter" disabled="disabled"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button>
     <p class="processMsg">배틀페이지는<br/>{{state.isRunMathMaker.date_match|sub_time:30|get_time_diff:"-"}} 입장 가능합니다.</p>
-    <img src="/static/img/arena_card_div.png">
+    <img src="/static/img/arena/card_div.png">
     {% if state.isLeader %}
         {% if state.isCompleteJoin.round.round > 1 %}
             <button class="btn btn-danger" id="btnAbstain"><i class="fa fa-times-circle"></i> 기권하기</button>
@@ -164,7 +164,7 @@
 {% elif state.no == 3 %}
     <a href="/battle/?round={{state.isCompleteJoin.round.id}}"><button class="btn btn-warning" id="btnEnter"><i class="fa fa-sign-in"></i> 배틀페이지로 입장</button></a>
     <p class="processMsg">배틀페이지 입장이 가능합니다.<br/>행운을 빕니다!</p>
-    <img src="/static/img/arena_card_div.png">
+    <img src="/static/img/arena/card_div.png">
     {% if state.isLeader %}
         {% if state.isCompleteJoin.round.round > 1 %}
             <button class="btn btn-danger" id="btnAbstain"><i class="fa fa-times-circle"></i> 기권하기</button>
@@ -216,7 +216,7 @@
         {% endif %}
     {% endif %}
     $('#btnCancel').click(function(){
-        $.post('/db/leagueteam/',{
+        $.post('/card/league/team/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             'action':'delete',
             'round':'1',
@@ -227,7 +227,7 @@
     });
 
     $('#btnAbstain').click(function(){
-        $.post('/db/leagueteam/',{
+        $.post('/card/league/team/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             'action':'abstain',
             'league_id':"{{state.league.id}}",

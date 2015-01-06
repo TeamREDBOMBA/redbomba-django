@@ -396,38 +396,38 @@
     });
 
     $('#btnDone').click(function(){
-                var feasible_time = "";
-                var unfeasible_time = new Array();
-                for(i=0;i<$('.wheelcanvas').length;i++){
-                    for(j=0;j<isNotAllow[i].length;j++)
-                        if(isNotAllow[i][j]>=0&&isNotAllow[i][j]<=23)
-                            unfeasible_time.push(isNotAllow[i][j]+(i*24));
+        var feasible_time = "";
+        var unfeasible_time = new Array();
+        for(i=0;i<$('.wheelcanvas').length;i++){
+            for(j=0;j<isNotAllow[i].length;j++)
+                if(isNotAllow[i][j]>=0&&isNotAllow[i][j]<=23)
+                    unfeasible_time.push(isNotAllow[i][j]+(i*24));
+        }
+        for(i=0; i<24*isNotAllow.length; i++){
+            for(j=0;j<unfeasible_time.length; j++){
+                if(i==unfeasible_time[j]){
+                    break;
                 }
-                for(i=0; i<24*isNotAllow.length; i++){
-                    for(j=0;j<unfeasible_time.length; j++){
-                        if(i==unfeasible_time[j]){
-                            break;
-                        }
-                    }
-                    if(j==unfeasible_time.length) feasible_time += i+",";
-                }
-                feasible_time=feasible_time.substr(0,feasible_time.length-1)
+            }
+            if(j==unfeasible_time.length) feasible_time += i+",";
+        }
+        feasible_time=feasible_time.substr(0,feasible_time.length-1)
 
-                $.post('/db/leagueteam/',{
-                    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-                    'action':'insert',
-                    'round':'1',
-                    'league_id':{{league.id}},
+        $.post('/card/league/team/',{
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            'action':'insert',
+            'round':'1',
+            'league_id':'{{league.id}}',
             'feasible_time':feasible_time,
             'is_complete':is_complete
-    },function(res,status){
-        socket.emit('sendNotification', {'gid':'{{user_group.id}}','lid':'{{league.id}}','action':'League_JoinLeague'});
-        $('#div_join').fadeOut('fast');
-        $('#div_join_done').fadeIn('fast');
-    });
+        },function(res,status){
+            socket.emit('sendNotification', {'gid':'{{user_group.id}}','lid':'{{league.id}}','action':'League_JoinLeague'});
+            $('#div_join').fadeOut('fast');
+            $('#div_join_done').fadeIn('fast');
+        });
     });
     $('#btn_done_back').click(function(){
-        $.post('/db/leagueteam/',{
+        $.post('/card/league/team/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             'action':'delete',
             'round':'1',

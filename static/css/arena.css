@@ -45,7 +45,7 @@
 #LargeCardModal .modal-dialog {width:1120px;}
 #LargeCardModal .modal-dialog .modal-content {overflow:hidden}
 
-#LargeCardModal #div_top{position:relative;width:100%;height: 60px;background-color: RGBA(0,0,0,0.2);color:#fff;font-size:22px;font-family:'RixSGo B';cursor: pointer;float: left;z-index: 10;}
+#LargeCardModal #div_top{position:relative;width:100%;height: 60px;background-color: RGBA(0,0,0,0.2);color:#fff;font-size:22px;font-family:'RixSGo B';cursor: pointer;float: left;z-index: 20;}
 #LargeCardModal #div_top #div_top_logo {width:200px;position: relative;text-align: center;}
 #LargeCardModal #div_top #div_top_logo .fa-arena {width:40px;height:40px;float:none;top:10px;margin-right: 10px}
 #LargeCardModal #div_top #btn_top_close {position: absolute;top: 10px;right: 10px;}
@@ -63,7 +63,7 @@
 #LargeCardModal #div_body{position:relative;margin-left:200px;width:660px;height:700px;border-bottom:1px solid #dfe3eb;}
 #LargeCardModal #div_body #div_body_top {position:relative;width:100%;height:265px;background-color:#396da8;background-repeat:no-repeat;background-position: center center;background-size:100% auto}
 #LargeCardModal #div_body #div_body_top img{position:absolute;bottom:0;left:0;}
-#LargeCardModal #div_body #div_body_top #btnMatchMaker {position: absolute;width: 200px;height: 60px;top: 50%;left: 50%;margin-left: -100px;margin-top: -30px;z-index: 100;}
+#LargeCardModal #div_body #div_body_top #btnMatchMaker {position: absolute;width: 200px;height: 60px;top: 50%;left: 50%;margin-left: -100px;margin-top: -30px;z-index: 5;}
 #LargeCardModal #div_body #div_body_top h1{position:relative;padding-top:200px;margin-left:20px;color:#fff;font-size:25px;font-family:'RixSGo B';}
 #LargeCardModal #div_body #div_body_top .p_poster_info{position:relative;margin-left:20px;padding-top: 10px;color:#fff;font-size:12px;float:left}
 #LargeCardModal #div_body #div_body_top .p_poster_info .fa-lol{width: 12px;height: 12px;margin: 2px;}
@@ -196,7 +196,7 @@
 #LargeCardModal #div_reserve .p_reserve_btn {text-align:right;margin-top: 10px;}
 #LargeCardModal #div_reserve .popover {color:#000;font-size: 12px;}
 
-#LargeCardModal #div_join {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;display:none;z-index: 1;}
+#LargeCardModal #div_join {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;display:none;z-index: 10;}
 #LargeCardModal #div_join #div_join_left{position:relative;width:660px;height:700px;padding:  20px;padding-top: 80px;}
 #LargeCardModal #div_join #div_join_left #p_join_title{font-size: 20px;margin-bottom: 10px;font-family:'RixSGo B';}
 #LargeCardModal #div_join #div_join_left #p_join_desc{font-size: 13px;margin-bottom: 10px;margin-left: 40px;text-indent: -40px;}
@@ -209,7 +209,7 @@
 #LargeCardModal #div_join #div_join_right .wheelcanvas_tag .label{margin:2px;display: inline-block;}
 #LargeCardModal #div_join #div_join_right #btnDone{width:100%;}
 
-#LargeCardModal #div_join_done {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;padding: 60px;text-align: center;display:none;}
+#LargeCardModal #div_join_done {position:absolute;top:0;right:0;width:900px;height:700px;background-color:#fff;padding: 60px;text-align: center;z-index: 10;display:none;}
 #LargeCardModal #div_join_done H1{font-size: 20px;font-family:'RixSGo B';margin: 10px;}
 #LargeCardModal #div_join_done H3{font-size: 13px;line-height: 30px;margin: 20px;}
 

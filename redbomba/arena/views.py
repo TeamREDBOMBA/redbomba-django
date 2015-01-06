@@ -102,6 +102,56 @@ def card_league_btn(request):
     }
     return render(request, 'card_league_btn.html', context)
 
+def card_league_team(request):
+    action = request.POST.get("action")
+    if action == "insert":
+        user = request.POST.get("id")
+        if user == None:
+            user = request.user
+        feasible_time = request.POST["feasible_time"]
+        round = int(request.POST.get("round",'1'))
+        is_complete = int(request.POST.get('is_complete',1))
+        group = get_or_none(GroupMember,user=user)
+        if group :
+            group = group.group
+        lr = LeagueRound.objects.get(league=League.objects.get(id=request.POST.get("league_id")),round=round)
+        LeagueTeam.objects.create(
+            group=group,
+            round=lr,
+            feasible_time=feasible_time,
+            is_complete = is_complete
+        )
+        return HttpResponse("Success")
+    elif action == "delete":
+        user = request.POST.get("id")
+        if user == None:
+            user = request.user
+        group = GroupMember.objects.get(user=user).group
+        round = LeagueRound.objects.get(league_id=League.objects.get(id=request.POST["league_id"]),round=request.POST["round"])
+        LeagueTeam.objects.filter(group=group,round=round).delete()
+        return HttpResponse("Success")
+    elif action == "abstain":
+        try :
+            user = request.POST.get("id")
+            if user == None:
+                user = request.user
+            group = GroupMember.objects.get(user=user).group
+            lr = LeagueRound.objects.get(league__id=request.POST["league_id"],round=request.POST["round"])
+            lt = LeagueTeam.objects.get(group=group,round=lr,is_complete=1)
+            lm = LeagueMatch.objects.get(Q(team_a=lt)|Q(team_b=lt))
+            lm.state = 10
+            if lm.team_a == lt :
+                lm.result = 'B'
+            elif lm.team_b == lt :
+                lm.result = 'A'
+            lm.save()
+            return HttpResponse("Success")
+        except Exception as e:
+            return HttpResponse("error:"+e.message)
+    else :
+        return HttpResponse("Error")
+    return HttpResponse("Success")
+
 def LeagueState(league, user):
 
     no = "ERROR"
