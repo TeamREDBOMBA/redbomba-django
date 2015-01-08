@@ -1,149 +1,149 @@
 <div id="result">
-  <p id='title'>승자와 패자는 한명 뿐!</p>
-  <p id='subtitle'>다시 선택해주세요.</p>
-  <p id="btn_group">
-    <button class='btn btn-success' id="result_win"><img src="/static/img/battle/battle_result_win.png"></button>
-    <button class='btn btn-danger' id="result_lose"><img src="/static/img/battle/battle_result_lose.png"></button>
-  </p>
+    <p id='title'>승자와 패자는 한명 뿐!</p>
+    <p id='subtitle'>다시 선택해주세요.</p>
+    <p id="btn_group">
+        <button class='btn btn-success' id="result_win"><img src="/static/img/battle/battle_result_win.png"></button>
+        <button class='btn btn-danger' id="result_lose"><img src="/static/img/battle/battle_result_lose.png"></button>
+    </p>
 </div>
 <div id="lock">
-  <p id='title'>이제 게임을 시작해 주세요.</p>
-  <button class='btn btn-warning' id='btn_lock_ready' data-loading-text="잠시만 기다려주세요<br/>상대팀의 동의를 기다리는 중 입니다.<br/><img src='/static/img/battle/ajax-loader_btn.gif'>" autocomplete="off">게임 끝<br />화면잠금 해제</button>
-  <p id='desc'>경기 종료 후 화면잠금을 풀고,<br/>경기결과(승/패)를 입력해 주세요.</p>
+    <p id='title'>이제 게임을 시작해 주세요.</p>
+    <button class='btn btn-warning' id='btn_lock_ready' data-loading-text="잠시만 기다려주세요<br/>상대팀의 동의를 기다리는 중 입니다.<br/><img src='/static/img/ajax-loader_btn.gif'>" autocomplete="off">게임 끝<br />화면잠금 해제</button>
+    <p id='desc'>경기 종료 후 화면잠금을 풀고,<br/>경기결과(승/패)를 입력해 주세요.</p>
 </div>
-  <!-- Modal2 -->
-  <div class="modal fade" id="state_2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
+<!-- Modal2 -->
+<div class="modal fade" id="state_2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <ul>
-            <li><h1>'사용자 설정 게임'이 생성되었습니다.</h1></li>
-            <li><p>경기 시작을 위해,</p></li>
-            <li><p><a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<img src='/static/img/battle/battle_modal2_guide1.png'>">아래의 방으로 접속<i class="fa fa-question-circle"></i></a>해 주세요.</p></li>
-            <li>
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <ul id="room">
-                    <li><p>방 이름 : <input type="text" id="roomtitle" class="form-control" readonly="readonly" value="{{ league.result }}"></p></li>
-                    <li><p>방 비밀번호 : <input type="text" id="roompass" class="form-control" readonly="readonly" value="{{ league.team_a.date_updated|date:'is' }}"></p></li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li><p>{{group.name}} 전원이 게임방에 접속하여<br/>준비가 완료되었다면, <button type="button" class="btn btn-warning" id="btnReady">팀경기 준비완료</button></p></li>
-          </ul>
-        </div>
-      </div><!-- /.modal-content -->
+        <div class="modal-content">
+            <div class="modal-body">
+                <ul>
+                    <li><h1>'사용자 설정 게임'이 생성되었습니다.</h1></li>
+                    <li><p>경기 시작을 위해,</p></li>
+                    <li><p><a href="#" data-toggle="tooltip" data-placement="right" data-html="true" title="<img src='/static/img/battle/battle_modal2_guide1.png'>">아래의 방으로 접속<i class="fa fa-question-circle"></i></a>해 주세요.</p></li>
+                    <li>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <ul id="room">
+                                    <li><p>방 이름 : <input type="text" id="roomtitle" class="form-control" readonly="readonly" value="{{ league.result }}"></p></li>
+                                    <li><p>방 비밀번호 : <input type="text" id="roompass" class="form-control" readonly="readonly" value="{{ league.team_a.date_updated|date:'is' }}"></p></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><p>{{group.name}} 전원이 게임방에 접속하여<br/>준비가 완료되었다면, <button type="button" class="btn btn-warning" id="btnReady">팀경기 준비완료</button></p></li>
+                </ul>
+            </div>
+        </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+</div><!-- /.modal -->
 {% if next_round == None %}
-<!-- Modal3 -->
-  <div class="modal fade" id="winner" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content" style='background-color:#e74c3c'>
-        <div class="modal-body">
-          <ul>
-            <li><H1 style='color:#fff;font-size:30px'>1등</H1></li>
-            <li><p><img src="/static/img/battle/img-3.png"></p></li>
-            <li></li>
-            <li></li>
-            <li><p><button type="button" class="btn btn-warning" id="btnClose">전리품 수령</button></p></li>
-          </ul>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+    <!-- Modal3 -->
+    <div class="modal fade" id="winner" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content" style='background-color:#e74c3c'>
+                <div class="modal-body">
+                    <ul>
+                        <li><H1 style='color:#fff;font-size:30px'>1등</H1></li>
+                        <li><p><img src="/static/img/battle/img-3.png"></p></li>
+                        <li></li>
+                        <li></li>
+                        <li><p><button type="button" class="btn btn-warning" id="btnClose">전리품 수령</button></p></li>
+                    </ul>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% else %}
-<!-- Modal3 -->
-  <div class="modal fade" id="winner" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <ul>
-            <li><h1>축하합니다!</h1></li>
-            <li><p><img src="/static/img/battle/img-1.jpg"></p></li>
-            <li><H3>다음 라운드에 진출하였습니다.</H3></li>
-            <li><p>다음 라운드 일정을 입력해주세요.</p></li>
-            <li><p><button type="button" class="btn btn-warning" id="btnWin">일정입력</button></p></li>
-          </ul>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+    <!-- Modal3 -->
+    <div class="modal fade" id="winner" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <ul>
+                        <li><h1>축하합니다!</h1></li>
+                        <li><p><img src="/static/img/battle/img-1.jpg"></p></li>
+                        <li><H3>다음 라운드에 진출하였습니다.</H3></li>
+                        <li><p>다음 라운드 일정을 입력해주세요.</p></li>
+                        <li><p><button type="button" class="btn btn-warning" id="btnWin">일정입력</button></p></li>
+                    </ul>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endif %}
 {% if next_round == None %}
-<!-- Modal4 -->
-  <div class="modal fade" id="loser" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <ul>
-            <li><h1>침착해! 침착해! 침착해!</h1></li>
-            <li><p><img src="/static/img/battle/img-2.jpg"></p></li>
-            <li><H3>...</H3></li>
-            <li><p>.....후</p></li>
-            <li><p><button type="button" class="btn btn-warning" id="btnLose">전리품 수령</button></p></li>
-          </ul>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  {% else %}
-  <!-- Modal4 -->
-  <div class="modal fade" id="loser" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <ul>
-            <li><h1>침착해! 침착해! 침착해!</h1></li>
-            <li><p><img src="/static/img/battle/img-2.jpg"></p></li>
-            <li><H3>이건 연습일 뿐<br />새로운 대회를 찾아보자</H3></li>
-            <li><p>알림 혹은 My Arena에서 확인하세요</p></li>
-            <li><p><button type="button" class="btn btn-warning" id="btnLose">더 많은 대회 찾아보기</button></p></li>
-          </ul>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  {% endif %}
+    <!-- Modal4 -->
+    <div class="modal fade" id="loser" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <ul>
+                        <li><h1>침착해! 침착해! 침착해!</h1></li>
+                        <li><p><img src="/static/img/battle/img-2.jpg"></p></li>
+                        <li><H3>...</H3></li>
+                        <li><p>.....후</p></li>
+                        <li><p><button type="button" class="btn btn-warning" id="btnLose">전리품 수령</button></p></li>
+                    </ul>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% else %}
+    <!-- Modal4 -->
+    <div class="modal fade" id="loser" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <ul>
+                        <li><h1>침착해! 침착해! 침착해!</h1></li>
+                        <li><p><img src="/static/img/battle/img-2.jpg"></p></li>
+                        <li><H3>이건 연습일 뿐<br />새로운 대회를 찾아보자</H3></li>
+                        <li><p>알림 혹은 My Arena에서 확인하세요</p></li>
+                        <li><p><button type="button" class="btn btn-warning" id="btnLose">더 많은 대회 찾아보기</button></p></li>
+                    </ul>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endif %}
 <script>
-  $("[data-toggle='tooltip']").tooltip();
-  
-  $('#state_2 #roomtitle').val(Base64.encode("{{host.username}}"));
-  $('#state_2 #btnReady').click(function(){
-    socket.emit("state",{'state':Number($('#state').val()),'side':$('#side').val(),'lid':'{{ league.id }}'});
-  });
-  $('#btn_lock_ready').click(function(){
-    $(this).button('loading');
-    socket.emit("state",{'state':6,'side':$('#side').val(),'lid':'{{ league.id }}'});
-  });
-  $('#result #result_win').click(function(){
-    if(!($('#result #result_win').hasClass('grayimg')||$('#result #result_lose').hasClass('grayimg'))){
-      $('#result #result_lose').addClass('grayimg');
-      socket.emit("setResult",{'side':$('#side').val(),'result':'win','lid':'{{ league.id }}','gameno':$('#gameno').val()});
-    }
-  });
-  $('#result #result_lose').click(function(){
-    if(!($('#result #result_win').hasClass('grayimg')||$('#result #result_lose').hasClass('grayimg'))){
-      $('#result #result_win').addClass('grayimg');
-      socket.emit("setResult",{'side':$('#side').val(),'result':'lose','lid':'{{ league.id }}','gameno':$('#gameno').val()});
-    }
-  });
-  $('#btnWin').click(function(){
-    $('#winner').modal('hide');
-    $('#settime').modal('show');
-    {% if next_lt %}
-      $('#btn_done_back').hide();
-      $('#settime .div_modal_mouseover').fadeOut('fast');
-      $('#settime .modal-content').css({"overflow":"hidden","height":"650px"});
-      $('#settime .div_modal_done').fadeIn('fast');
-    {% endif %}
-  });
-  $('#btnLose').click(function(){
-    location.href = "/arena/";
-  });
-  $('#btnClose').click(function(){
-    location.href = "/arena/";
-  });
-  
+    $("[data-toggle='tooltip']").tooltip();
+
+    $('#state_2 #roomtitle').val(Base64.encode("{{host.username}}"));
+    $('#state_2 #btnReady').click(function(){
+        socket.emit("state",{'state':Number($('#state').val()),'side':$('#side').val(),'lid':'{{ league.id }}'});
+    });
+    $('#btn_lock_ready').click(function(){
+        $(this).button('loading');
+        socket.emit("state",{'state':6,'side':$('#side').val(),'lid':'{{ league.id }}'});
+    });
+    $('#result #result_win').click(function(){
+        if(!($('#result #result_win').hasClass('grayimg')||$('#result #result_lose').hasClass('grayimg'))){
+            $('#result #result_lose').addClass('grayimg');
+            socket.emit("setResult",{'side':$('#side').val(),'result':'win','lid':'{{ league.id }}','gameno':$('#gameno').val()});
+        }
+    });
+    $('#result #result_lose').click(function(){
+        if(!($('#result #result_win').hasClass('grayimg')||$('#result #result_lose').hasClass('grayimg'))){
+            $('#result #result_win').addClass('grayimg');
+            socket.emit("setResult",{'side':$('#side').val(),'result':'lose','lid':'{{ league.id }}','gameno':$('#gameno').val()});
+        }
+    });
+    $('#btnWin').click(function(){
+        $('#winner').modal('hide');
+        $('#settime').modal('show');
+        {% if next_lt %}
+            $('#btn_done_back').hide();
+            $('#settime .div_modal_mouseover').fadeOut('fast');
+            $('#settime .modal-content').css({"overflow":"hidden","height":"650px"});
+            $('#settime .div_modal_done').fadeIn('fast');
+        {% endif %}
+    });
+    $('#btnLose').click(function(){
+        location.href = "/arena/";
+    });
+    $('#btnClose').click(function(){
+        location.href = "/arena/";
+    });
+
 </script>
