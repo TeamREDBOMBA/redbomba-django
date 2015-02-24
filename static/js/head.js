@@ -119,7 +119,7 @@ $(document).ready(function(){
         $.post('/head/notification/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
-            $.post('/db/noti/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'read','uid':uid});
+            $.post('/head/notification/read/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'read','uid':uid});
             $("#title_noti_value").hide();
             $("#noti_value").hide();
             $("#div_head_icon1 i").css({"color":"RGBA(102,117,127,0.3)"});
@@ -132,7 +132,7 @@ $(document).ready(function(){
         $.post('/head/field/',{
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
         },function(res,status){
-            $.post('/db/noti/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'check','loc':'field','uid':uid});
+            $.post('/head/field/read/',{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'action':'check','uid':uid});
             $("#field_value").hide();
             $('#div_head_icon2 .popover-content').html(res);
         });

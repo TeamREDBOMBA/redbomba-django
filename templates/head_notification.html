@@ -11,7 +11,7 @@
 {% if ele.action == 'League_JoinLeague' %}
 <script>
     $('#div_noti_cell{{ele.id}}').click(function(){
-        $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+        $('#noti_value').hide().load("/head/notification/read/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
     location.href='{{ ele.link }}';
     });
 </script>
@@ -19,7 +19,7 @@
 {% if ele.action == 'League_RunMatchMaker' %}
 <script>
     $('#div_noti_cell{{ele.id}}').click(function(){
-        $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+        $('#noti_value').hide().load("/head/notification/read/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
     location.href='{{ ele.link }}';
     });
 </script>
@@ -27,7 +27,7 @@
 {% if ele.action == 'League_StartMatch' %}
 <script>
     $('#div_noti_cell{{ele.id}}').click(function(){
-        $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+        $('#noti_value').hide().load("/head/notification/read/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
     location.href='{{ ele.link }}';
     });
 </script>
@@ -35,7 +35,7 @@
 {% if ele.action == 'Group_InviteMember' %}
 <script>
     $('#div_noti_cell{{ele.id}}').click(function(){
-        $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+        $('#noti_value').hide().load("/head/notification/read/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
     location.href='{{ ele.link }}';
     });
 </script>
@@ -43,7 +43,7 @@
 {% if ele.action == 'Group_AskAddMember' %}
 <script>
     $('#div_noti_cell{{ele.id}}').click(function(){
-        $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+        $('#noti_value').hide().load("/head/notification/read/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
     $('.modal').modal('hide');
     $('#GroupInfo .modal-content').load('/groupinfo/',{'csrfmiddlewaretoken':$('#header input[name=csrfmiddlewaretoken]').val(),'group':'{{ ele.link }}'},function(){
         $('#GroupInfo .div_info_sub').css({"left":"330px"});
@@ -58,7 +58,7 @@
 {% if ele.action == 'Group_AddMember' %}
 <script>
     $('#div_noti_cell{{ele.id}}').click(function(){
-        $('#noti_value').hide().load("/db/noti/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
+        $('#noti_value').hide().load("/head/notification/read/",{'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),'nid':{{ele.id}},'action':'check' }).fadeIn('500');
     location.href='{{ ele.link }}';
     });
 </script>

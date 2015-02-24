@@ -70,6 +70,16 @@ def head_notification(request) :
     context = {"user":request.user,"notis":notis}
     return render(request, 'head_notification.html', context)
 
+def head_notification_read(request) :
+    action = request.POST.get("action")
+    if action == "read":
+        noti = Notification.objects.filter(user=request.POST['uid'],date_read=-1).update(date_read=0)
+    elif action == "check":
+            noti = Notification.objects.get(id=request.POST['nid'])
+            noti.date_read = 1
+            noti.save()
+    return HttpResponse(' ')
+
 def head_field(request) :
     query_g = GroupMember.objects.filter(user=request.user).order_by('-id')
     groups = []
@@ -83,6 +93,14 @@ def head_field(request) :
         leagues.append(val)
     context = {"groups":groups,"leagues":leagues}
     return render(request, 'head_field.html', context)
+
+def head_field_read(request) :
+    action = request.POST.get("action")
+    if action == "read":
+        noti = Notification.objects.filter(user=request.POST['uid'],date_read=-1).update(date_read=0)
+    elif action == "check":
+        noti = Notification.objects.filter(user=request.POST['uid'],action__icontains='League_').update(date_read=1)
+    return HttpResponse(' ')
 
 def head_gamelink(request):
     context = {
