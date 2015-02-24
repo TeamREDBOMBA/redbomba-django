@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from redbomba.arena.models import LeagueMatch
+from redbomba.arena.models import LeagueMatch, LeagueTeam
 from redbomba.feed.models import Feed, FeedReply
 from redbomba.group.models import GroupMember
 from redbomba.home.models import get_or_none, GameLink
@@ -70,10 +70,12 @@ def card_private(request):
         for value in pc :
             news.append({'self':value,'type':'system','date':value.date_updated})
 
-    lm = LeagueMatch.objects.filter(Q(team_a__group__in=group)|Q(team_b__group__in=group)).filter(state=10).order_by("-date_updated")
-    if lm :
-        for value in lm :
-            news.append({'self':value,'type':'leaguematch','date':value.date_updated})
+    lts = LeagueTeam.objects.filter(group__in=group)
+    if lts :
+        for lt in lts :
+            lm = LeagueMatch.objects.filter(Q(team_a=lt)|Q(team_b=lt)).filter(state=10).order_by("-game")
+            if lm :
+                news.append({'self':lm[0],'type':'leaguematch','date':lm[0].date_updated})
 
     news.sort(key=lambda item:item['date'], reverse=True)
     context = {'user':user,'news':news}
