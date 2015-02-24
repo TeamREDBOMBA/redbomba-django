@@ -252,7 +252,7 @@ def IsLeader(league,user):
     group = user.get_profile().get_group(league.game)
     if group :
         if group[0].leader == user :
-            return group.leader
+            return group[0].leader
     return None
 
 def IsInGroup(league,user):

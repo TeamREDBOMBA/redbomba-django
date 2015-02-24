@@ -2,13 +2,14 @@
 
 from datetime import timedelta
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse
 
 # Create your views here.
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from redbomba.arena.matchmaker import matchmaker
-from redbomba.arena.models import League, LeagueRound, LeagueTeam, LeagueReward
+from redbomba.arena.models import League, LeagueRound, LeagueTeam, LeagueReward, LeagueMatch
 from redbomba.arena.views import LeagueState
 from redbomba.group.models import Group, GroupMember
 from redbomba.home.models import get_or_none, Game, GameLink, UserProfile
@@ -76,7 +77,7 @@ def makeLeague(request):
         now = timezone.localtime(timezone.now())
         league = League.objects.create(
             name = "Test League",
-            host = get_or_none(User,id=2),
+            host = get_or_none(User,id=83),
             game = get_or_none(Game,id=1),
             poster = "upload/files_1418879265/poster_redbomba.png",
             concept = "Test League",
@@ -119,7 +120,7 @@ def makeLeague(request):
                 round = i,
                 start = now + timedelta(hours=i),
                 end = now + timedelta(hours=i+1),
-                bestof = 3
+                bestof = 1
             )
         return "makeLeague success"
     except Exception as e:
@@ -127,26 +128,55 @@ def makeLeague(request):
 
 def makeLeagueTeam(request):
     try:
-        lr = get_or_none(LeagueRound,round=1,league__name = "Test League")
+        this_round = 1
+        lt = LeagueTeam.objects.filter(round__league__name="Test League")
+        if lt :
+            this_round = lt[0].round.round + 1
+        lr = get_or_none(LeagueRound,round=this_round,league__name = "Test League")
         lr_start = lr.start + timedelta(hours=9)
         lr_end = lr.end + timedelta(hours=9)
-        for g in range(0,4):
-            LeagueTeam.objects.create(
-                group = get_or_none(Group,name = "testGroup%d"%g),
-                round = lr,
-                feasible_time = "%d,%d"%(lr_start.hour,lr_end.hour),
-            )
+        if this_round == 1:
+            for g in range(0,4):
+                LeagueTeam.objects.get_or_create(
+                    group = get_or_none(Group,name = "testGroup%d"%g),
+                    round = lr,
+                    feasible_time = "%d,%d"%(lr_start.hour,lr_end.hour),
+                )
+        else :
+            LeagueTeam.objects.get_or_create(
+                    group = get_or_none(Group,name = "testGroup0"),
+                    round = lr,
+                    feasible_time = "%d,%d"%(lr_start.hour,lr_end.hour),
+                )
+            LeagueTeam.objects.get_or_create(
+                    group = get_or_none(Group,name = "testGroup2"),
+                    round = lr,
+                    feasible_time = "%d,%d"%(lr_start.hour,lr_end.hour),
+                )
         return "makeLeagueTeam success"
     except Exception as e:
         return e.message
 
 def startMatchMaker(request):
     try:
-        lr = get_or_none(LeagueRound,round=1,league__name = "Test League")
+        this_round = 1
+        lt = LeagueTeam.objects.filter(round__league__name="Test League")
+        if lt :
+            this_round = lt[0].round.round + 1
+        lr = get_or_none(LeagueRound,round=this_round,league__name = "Test League")
         matchmaker(lr)
         return "makeLeagueTeam success"
     except Exception as e:
         return e.message
+
+def finishRound(request):
+    lms = LeagueMatch.objects.filter(Q(team_a__round__league__name="Test League")&~Q(state=10))
+    for lm in lms:
+        lm.host=lm.team_a.group.leader.id
+        lm.state=10
+        lm.result="A"
+        lm.save()
+    return "finishRound success"
 
 def delUser(request):
     try:
@@ -184,6 +214,7 @@ def tester(request):
     elif action == 'makeLeague' : return HttpResponse(makeLeague(request))
     elif action == 'makeLeagueTeam' : return HttpResponse(makeLeagueTeam(request))
     elif action == 'startMatchMaker' : return HttpResponse(startMatchMaker(request))
+    elif action == 'finishRound' : return HttpResponse(finishRound(request))
 
     elif action == 'delUser' : return HttpResponse(delUser(request))
     elif action == 'delGroup' : return HttpResponse(delGroup(request))
@@ -197,8 +228,10 @@ def tester(request):
     ?action=makeGroup // 4개 그룹 생성<br/>
     ?action=makeGroupMember // 4개 그룹에 유저 분배<br/>
     ?action=makeLeague // 대회 생성<br/>
-    ?action=makeLeagueTeam // 4개 팀 생성<br/>
+    <br/><br/><b>운영</b><br/>
+    ?action=makeLeagueTeam // 대회 참가<br/>
     ?action=startMatchMaker // 메치메이커 작동<br/>
+    ?action=finishRound // 라운드 종료<br/>
     <br/><br/><b>삭제</b><br/>
     ?action=delUser // 유저 20명 삭제<br/>
     ?action=delGroup // 4개 그룹 삭제<br/>
