@@ -231,17 +231,17 @@ def LeagueState(league, user):
     }
 
 def IsFiveMem(league,user):
-    group = user.get_profile().get_group(league.game)[0]
+    group = user.get_profile().get_group(league.game)
     if group :
-        gm = group.get_members()
+        gm = group[0].get_members()
         if gm.count() >= 5 :
             return gm.count()
     return None
 
 def IsFiveLink(league,user):
-    group = user.get_profile().get_group(league.game)[0]
+    group = user.get_profile().get_group(league.game)
     if group :
-        gm = group.get_members()
+        gm = group[0].get_members()
         gl = GameLink.objects.filter(user__contains=gm.values_list('user', flat=True),game=league.game)
         if gl :
             if gl.count() >= 5 :
@@ -249,16 +249,16 @@ def IsFiveLink(league,user):
     return None
 
 def IsLeader(league,user):
-    group = user.get_profile().get_group(league.game)[0]
+    group = user.get_profile().get_group(league.game)
     if group :
-        if group.leader == user :
+        if group[0].leader == user :
             return group.leader
     return None
 
 def IsInGroup(league,user):
-    group = user.get_profile().get_group(league.game)[0]
+    group = user.get_profile().get_group(league.game)
     if group :
-        return group
+        return group[0]
     return None
 
 def IsHost(league,user):
@@ -319,9 +319,9 @@ def CanMatchMaker(nowRound):
     return nowRound
 
 def IsCompleteJoin(league, user):
-    group = user.get_profile().get_group(league.game)[0]
+    group = user.get_profile().get_group(league.game)
     if group :
-        lt = LeagueTeam.objects.filter(group=group, round__league=league).order_by("-id")
+        lt = LeagueTeam.objects.filter(group=group[0], round__league=league).order_by("-id")
         if lt :
             return lt[0]
     return None
