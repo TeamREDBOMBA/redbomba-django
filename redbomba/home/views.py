@@ -9,8 +9,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, render_to_response
 from django.utils.html import strip_tags
+from django.views.decorators.csrf import csrf_exempt
 
 from redbomba.home.models import UserProfile, get_or_none
+
 
 # Create your views here.
 
@@ -19,6 +21,7 @@ def home(request, msg=None):
         return HttpResponseRedirect('/')
     context = {'msg':msg}
     return render(request, 'home.html', context)
+
 
 def home_logout(request):
     logout(request)
@@ -59,6 +62,7 @@ def home_join(request):
     else :
         return home(request, msg=u"생성할 수 없는 계정입니다.")
 
+@csrf_exempt
 def home_join_chkEmail(request):
     email = request.GET.get("email")
     if get_or_none(User,email=email.lower()):
@@ -66,6 +70,7 @@ def home_join_chkEmail(request):
     else :
         return HttpResponse("")
 
+@csrf_exempt
 def home_join_chkNick(request):
     username = request.GET.get("nick")
     res = get_or_none(User,username=username)
