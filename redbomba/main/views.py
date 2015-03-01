@@ -13,14 +13,20 @@ from redbomba.main.models import GlobalCard, PrivateCard
 
 def main(request):
     try:
-        if request.user.get_profile().is_pass_gamelink == 0 :
+        if request.user.get_profile().tutorial_phase == 0 :
             return HttpResponseRedirect("/head/start/")
+        if request.user.get_profile().tutorial_phase == 1:
+            return HttpResponseRedirect("/head/invite/")
+        if request.user.get_profile().tutorial_phase == 2:
+            return HttpResponseRedirect("/head/complete/")
+
         gamelink = GameLink.objects.filter(user=request.user)
         context = {
             'gamelink':gamelink,
             'user': request.user,
             'from':'/',
-            'appname':'main'
+            'appname':'main',
+            'profile': request.user.get_profile()
             }
     except Exception as e:
         context = {'user': request.user}

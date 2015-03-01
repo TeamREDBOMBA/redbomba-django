@@ -13,6 +13,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 
 .developing_img { filter:gray; -webkit-filter: grayscale(1); filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); }
 
+
 /* Layout */
 .imgbtn{cursor:pointer}
 .arrow_box {position: relative;background: #ffffff;border: 1px solid #e3e3e3;}
@@ -132,9 +133,11 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #Tutorial {position:relative;width: 1000px;min-height:100px;left:50%;margin:10px 0;margin-left: -500px;margin-top: 20px;padding: 20px;background-color:#fff;border-bottom:1px solid #ddd;overflow:hidden}
 #Tutorial #div_tutor_head {position: relative;width:100%;line-height:40px;font-size:14px;border:1px solid #e74c3c;overflow: hidden}
 #Tutorial #div_tutor_head > ul {position: relative;width:100%}
-#Tutorial #div_tutor_head > ul > li {height: 42px;text-align: center;float:left;padding:0px 10px;background-color: #e74c3c;color:#fff;}
+#Tutorial #div_tutor_head > ul > li {height: 42px;text-align: center;float:left;padding:0px 0px;background-color: #e74c3c;color:#fff;width:33.33%;}
+
 #Tutorial #div_tutor_head > ul > .blur {background-color: #fff;color:#e74c3c;background-image: url(/static/img/head/img_tutor_gamelink_head_blur.png);background-repeat: no-repeat;background-position: left top;background-size: contain;padding-left: 30px;}
 #Tutorial #div_tutor_head > ul > .blur.first {background-image: url(/static/img/head/img_tutor_gamelink_head_focus.png);}
+#Tutorial #div_tutor_head > ul > .pass {background-color:#FFF;color:#e74c3c;}
 #Tutorial #div_tutor_title p {text-align: center; font-size: 14px;}
 #Tutorial #div_tutor_title .title {font-size: 24px;font-family: "RixSGo B";margin:20px}
 #Tutorial #div_tutor_con {position: relative;width: 100%;height: 600px;}
@@ -208,7 +211,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #GameLink #div_tutor_left #div_left_list .div_gettingstart_list {position: relative;height: 60px;background-color: #fff;margin: 5px;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;cursor: pointer}
 #GameLink #div_tutor_left #div_left_list img {margin: 5px;float: left;width: 50px;margin-right: 10px;}
 #GameLink #div_tutor_left #div_left_list .p_list_gamename {font-size: 15px;font-family: "RixSGo B";padding-top: 10px;}
-#GameLink #div_tutor_left #div_left_list .icon_next {position:absolute;top: 50%;right: 10px;margin-top: -8px;color: #ccc;}
+#GameLink #div_tutor_left #div_left_list .icon_next {position:absolute;top: 50%;right: 10px;margin-top: -8px;color: darkgray;}
 
 #GroupInfo .modal-dialog {width:1000px}
 #GroupInfo .modal-content {overflow:hidden}
@@ -361,3 +364,26 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #GroupInfo .modal-chat .div_chat .myname{font-family:'RixSGo B'}
 #GroupInfo .modal-chat .div_input{position:absolute;bottom:0;left:0;width:100%;height:40px;background-color:rgba(0,0,0,0.7)}
 #GroupInfo .modal-chat .div_input #chatMsg{width: 540px;height: 25px;border-radius: 5px;font-size: 12px;margin: 8px;border: 0;padding-left: 8px;}
+
+#Gamelink_Connected .div_link_game { position: relative; width: 100%; height: 60px; overflow: hidden; border-top: 1px solid #999999; background-color: #000000;}
+#Gamelink_Connected .div_link_game .div_gamelink_bg { background-size: 100% auto; background-repeat: no-repeat; background-position: 50% 50%; opacity: 0.4;}
+#Gamelink_Connected .div_link_game .div_gamelink_bg { position: absolute; top: 0; bottom: 0; left: 0; right: 0; }
+#Gamelink_Connected .div_link_game .img_gamelink_icon { position: relative; width: 50px; margin: 5px; background-color: #dddddd; border-radius: 50px; }
+#Gamelink_Connected .div_link_game p { position: absolute; left: 65px; bottom: 10px; color: #FFFFFF; font-size: 15px; }
+
+.btn_link_delete { position: absolute; bottom: 13px; right: 15px; }
+#div_tutor-btn .btn { margin-top: 10px; }
+.modal-title { font-size: 20px; font-weight: bold; }
+
+.btn-invite { width: 20%; -webkit-transition: all 500ms ease; -moz-transition: all 500ms ease; -ms-transition: all 500ms ease; -o-transition: all 500ms ease; transition: all 500ms ease; margin-right: 10px;}
+
+.btn-facebook { background-color:#fff; color:#3b5998; border:2px solid #3b5998; }
+.btn-facebook:hover { background-color:#3b5998; color:#fff; }
+
+.btn-email { background-color:#fff; color:#7F8C8D; border:2px solid #7F8C8D; }
+.btn-email:hover {background-color:#7F8C8D; color:#fff;}
+
+.btn-message { background-color: #fff; color:#3498DB; border:2px solid #3498DB;  }
+.btn-message:hover {background-color: #3498DB; color: #fff;}
+
+#my_url { text-align:left; }

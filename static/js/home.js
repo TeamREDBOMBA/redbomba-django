@@ -49,10 +49,18 @@ $(window).load(function() {
         var val_username = $('._aside #id_username').val();
         var val_password1 = $('._aside #id_password1').val();
         var val_email = $('._aside #id_email').val();
+        var curr_path = window.location.pathname;
+        var path_array = curr_path.split('/');
+        var inviter = '';
+
+        if(path_array[0] == 'invite') {
+            inviter = path_array[1];
+        }
+
         if($("#div_signup_iderror").text()==""&&$("#div_signup_passerror").text()==""&&$("#div_signup_passerror2").text()==""&&$("#div_signup_nickerror").text()==""&&
             $('._aside #id_email').val()!=""&&$('._aside #id_password1').val()!=""&&$('._aside #id_password2').val()!=""&&$('._aside #id_username').val()!=""){
             $('#button_signup_complete').html("<img src='/static/img/ajax-loader_btn.gif'>로딩 중...");
-            $("._aside_done #signup").load("/home/join/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email}, function(){
+            $("._aside_done #signup").load("/home/join/", {"csrfmiddlewaretoken":$('input[name=csrfmiddlewaretoken]').val(),"username":val_username,"password1":val_password1,"email":val_email,"inviter":inviter}, function(){
                 location.href="/";
             });
         }

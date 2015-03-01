@@ -1,7 +1,8 @@
 ﻿$(document).ready(function(){
-    var ran_no = Math.floor((Math.random() * 621) + 1);
-    $("#profile").css({"background-image":"url(http://re01-xv2938.ktics.co.kr/stat_lol_"+ran_no+".jpg)"});
-    $("#profileBG").css({"background-image":"url(http://re01-xv2938.ktics.co.kr/stat_lol_"+ran_no+".jpg)"});
+    var ran_no = Math.floor((Math.random() * 270) + 500);
+    var ran_no2 = Math.floor((Math.random() * 270) + 500);
+    $("#profile").css({"background-image":"url(http://ddragon.leagueoflegends.com/cdn/5.2.1/img/profileicon/"+ ran_no + ".png)"});
+    $("#profileBG").css({"background-image":"url(http://ddragon.leagueoflegends.com/cdn/5.2.1/img/profileicon/"+ ran_no2 + ".png)"});
 
     $("#aside #group").load("/card/group/");
 
@@ -10,4 +11,7 @@
         $('#GamelinkModal').modal('show');
     });
 
+    $("#img_profile_usericon").click(function() {
+       $('#profileAddModal').modal('show');
+    });
 });

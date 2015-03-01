@@ -5,8 +5,13 @@
     </div>
     <p class="p_login_name">{{ game.name }}</p>
     <div class="div_login_form">
-        <input type="text" id="input_userid" class="form-control" placeholder="ID">
-        <input type="password" id="input_userpw" class="form-control" placeholder="PW" onkeypress="pressSubmit(event)">
+        <input type="text" id="input_userid" class="form-control" placeholder="ID를 입력하세요.">
+        <input type="password" id="input_userpw" class="form-control" placeholder="비밀번호를 입력하세요." onkeypress="pressSubmit(event)">
+        <p style="font-size: 30px; font-weight: bold; color: green;">안심하세요!</p>
+        <p>레드밤바는 {{ user.username }}님의 게임 계정 정보를 저장하지 않으며, </p>
+        <p>게임 계정 소유 인증 수단으로만 사용합니다. </p>
+        <p>또한 암호화되어 전송되니, 안심하시고 입력해주세요 :D</p>
+        <br>
         <button class="btn btn-success form-control" id="btn_link">연결하기</button>
     </div>
 </div>

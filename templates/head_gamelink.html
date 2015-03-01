@@ -13,6 +13,7 @@
         evt.stopPropagation();
     });
 
+
     function loadList(){
         var query = $('#input_gamename').val();
         $("#div_left_list").load("/head/gamelink/list/?query="+query);
@@ -29,4 +30,5 @@
             "account_id":account_id
         }).fadeIn(300);
     }
+
 </script>

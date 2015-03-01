@@ -23,6 +23,7 @@ def stats(request,username=None):
         'wait_group':wait_group,
         'gamelink' : gamelink,
         'from' : '/stats/',
-        'appname':'stats'
+        'appname':'stats',
+        'profile': request.user.get_profile()
     }
     return render(request, 'stats.html', context)

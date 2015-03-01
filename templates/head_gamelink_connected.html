@@ -1,0 +1,23 @@
+<div id="Gamelink_Connected">
+    {% if gamelink %}
+        {% for gl in gamelink %}
+            <div class="div_link_game game_{{gl.game.id}}">
+                <div class="div_gamelink_bg" style="background-image:url({{gl.game.src.url}})"></div>
+                <img src="{{gl.game.src.url}}" class="img_gamelink_icon">
+                <p class="p_gamelink_name">{{ gl.account_name }}</p>
+                <button class="btn btn-danger pull-right btn_link_delete" value="{{ gl.id }}">연결해제하기</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<script>
+    $('.btn_link_delete').on('click', function() {
+       $.post('/head/gamelink/delete/',{
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            'gl': $(this).val()
+        },function(res,status){
+            history.go(0);
+        });
+    });
+</script>

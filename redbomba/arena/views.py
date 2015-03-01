@@ -11,11 +11,12 @@ from redbomba.arena.matchmaker import matchmaker
 from redbomba.arena.models import ArenaBanner, League, LeagueTeam, LeagueRound, LeagueMatch
 from redbomba.group.models import GroupMember
 from redbomba.home.models import get_or_none, GameLink
+from redbomba.main.views import main
 
 
 def arena(request):
-    if request.user.get_profile().is_pass_gamelink == 0 :
-        return HttpResponseRedirect("/head/start/")
+    if request.user.get_profile().tutorial_phase != 3 :
+        return main()
     top_banner = ArenaBanner.objects.all().order_by("-id")
     context = {
         'top_banner':top_banner,

@@ -1,0 +1,78 @@
+{% extends "head.html" %}
+{% load staticfiles %}
+{% block content %}
+<div id="Tutorial">
+    <div id="div_tutor_head">
+        <ul>
+            <li class="pass"><a href="/head/start/"><b>1단계</b> : 게임 계정 연결</a></li>
+            <li class="blur" style="background-color: #e74c3c; color:#fff;"><b>2단계</b> : 친구 초대하기</li>
+            <li class="blur first" style=""><b>3단계</b> : 가입완료</li>
+        </ul>
+    </div>
+    <div id="div_tutor_title">
+        <p class="title">2단계 : 친구 초대하기</p>
+        <p>게임은 함께 해야 제 맛!</p>
+        <p>함께 게임을 하는 친구들을 모아보자!</p>
+    </div>
+    <div id="div_tutor_con" style="text-align: center;">
+        <div id="invite-buttons">
+            <div class="btn btn-invite btn-facebook">
+                <i class="fa fa-facebook-square fa-4x" style="width:68px; height:69px;"></i><br>
+                페이스북으로 초대하기
+            </div>
+            <div class="btn btn-invite btn-email" data-toggle="modal" data-target="#InviteEmailModal">
+                <i class="fa fa-envelope fa-4x" style="width:68px; height:69px;"></i><br>
+                이메일으로 초대하기
+            </div>
+            <div class="btn btn-invite btn-message">
+                <i class="fa fa-comment fa-4x" style="width:68px; height:69px;"></i><br>
+                문자메시지로 초대하기
+            </div>
+        </div>
+
+        <div id="my_url" class="col-md-6 col-md-offset-3">
+            <br>
+            <label for="text" style="font-size: 15px;">아래 주소를 복사해서 친구들을 초대해보세요!</label>
+            <div class="input-group">
+
+                <input id="input-url" type="text" class="form-control" value="http://redbomba.net/invite/{{ user.username }}/" disabled/>
+                <span class="input-group-btn"><button id="btn_copy" class="btn btn-primary" type="button">복사</button></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="div_tutor_btn">
+        <button id="btn_prev" class="btn btn-warning">이전 단계로</button>
+        <button id="btn_next" class="btn btn-info">다음 단계로</button>
+    </div>
+</div>
+
+<script src="/static/js/jquery.zclip.min.js" type="text/javascript"></script>
+
+<script>
+    $('#btn_prev').click(function() {
+        location.href="/head/start/";
+    });
+
+    $(document).ready(function() {
+        $('#btn_copy').zclip({
+            path:'/static/js/ZeroClipboard.swf',
+            copy:$('#input-url').val(),
+            afterCopy:function() {
+                alert('주소가 클립보드에 복사되었습니다!');
+            }
+        });
+    });
+
+    $('.btn-facebook').click(function() {
+        var link = "http://redbomba.net/invite/{{ user.username }}/";
+        var popOption = "width=640, height=360, resizable=no, scrollbars=no, status=no;";
+        var wp = window.open("http://www.facebook.com/share.php?u=" + encodeURIComponent(link), 'Facebook', popOption);
+        if ( wp ) {
+            wp.focus();
+        }
+    });
+
+
+</script>
+{% endblock %}

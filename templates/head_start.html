@@ -5,25 +5,29 @@
     <div id="div_tutor_head">
         <ul>
             <li><b>1단계</b> : 게임 계정 연결</li>
-            <li class="blur first"><b>2단계</b> : ㅇㅇㅇ</li>
-            <li class="blur"><b>3단계</b> : ㅇㅇㅇ</li>
+            <li class="blur first"><b>2단계</b> : 친구 초대하기</li>
+            <li class="blur"><b>3단계</b> : 가입완료</li>
         </ul>
     </div>
     <div id="div_tutor_title">
         <p class="title">1단계 : 게임 계정 연결</p>
         <p>레드밤바에서는 게임계정이 중심!</p>
     </div>
+    <div id="div_connected_con">
+    </div>
     <div id="div_tutor_con">
     </div>
     <div id="div_tutor_btn">
-        <a href="/head/gamelink/skip/">건너뛰기</a>
-        <button id="btn_next" class="btn btn-warning btn-sm" {% if gamelink %}{% else %}disabled="disabled"{% endif %}>다음</button>
+        {% if gamelink %}
+            <button id="btn_next" class="btn btn-info pull-right">다음 단계로</button>
+        {% else %}
+            <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#SkipWarningModal">건너뛰기</button>
+        {% endif %}
     </div>
 </div>
+
 <script>
     $('#div_tutor_con').load("/head/gamelink/",{"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val()});
-    $('#btn_next').click(function(){
-        location.href="/head/gamelink/skip/";
-    });
+    $('#div_connected_con').load("/head/gamelink/connected/", {"csrfmiddlewaretoken":$("#header input[name=csrfmiddlewaretoken]").val()});
 </script>
 {% endblock %}

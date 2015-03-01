@@ -195,3 +195,10 @@ function loadGameLinkAccount(account_id){
     });
     $('#GamelinkModal').modal('show');
 }
+
+$('#btn_next').click(function() {
+    var curr_path = window.location.pathname;
+    var path_array = curr_path.split('/');
+    location.href="/head/gamelink/skip/" + path_array[2] + "/";
+});
+

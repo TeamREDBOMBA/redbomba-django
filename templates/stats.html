@@ -9,7 +9,7 @@
     <!-- Profile -->
     <div id="profile">
         <img id="img_profile_bg" src="/static/img/stats/arena_poster_bg.png">
-        <img src="{{target_user.get_profile.src.url}}" id="img_profile_usericon">
+        <img style="cursor: pointer;" src="{{target_user.get_profile.src.url}}" id="img_profile_usericon">
         <p id="p_profile_username">{{target_user.username}}</p>
         <div id="div_profile_gamelink">
             {% for gl in gamelink %}
@@ -88,5 +88,20 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
+    </div>
+{% endblock %}
+
+{% block profilemodal %}
+    <div class="modal fade" id="profileAddModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">프로필 사진</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

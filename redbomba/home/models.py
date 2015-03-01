@@ -21,8 +21,11 @@ class UserProfile(models.Model):
         default="default/default_icon.png"
     )
     is_pass_arena = models.IntegerField(default=0)
-    is_pass_gamelink = models.IntegerField(default=0)
-
+    tutorial_phase = models.IntegerField(default=0)
+    # tutorial_phase == 0 : 1단계
+    # tutorial_phase == 1 : 2단계
+    # tutorial_phase == 2 : 3단계
+    # tutorial_phase == 3 : 통과
     def get_gamelink(self):
         if self.user:
             return get_or_none(GameLink,user=self.user)

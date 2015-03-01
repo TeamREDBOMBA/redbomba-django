@@ -15,7 +15,7 @@ class UserAdmin(UserAdmin):
     inlines = [UserProfileInline]
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('id','user','src','is_pass_arena','is_pass_gamelink')
+    list_display = ('id','user','src','is_pass_arena','tutorial_phase')
 
 class GameAdmin(admin.ModelAdmin):
     list_display = ('id','name','src','is_active')

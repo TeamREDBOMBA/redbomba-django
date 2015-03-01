@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+import requests
 
 # Create your views here.
 from django.utils.timezone import utc
@@ -17,6 +17,7 @@ from redbomba.arena.models import League, LeagueTeam
 from redbomba.group.models import GroupMember, Group
 from redbomba.head.models import Notification
 from redbomba.home.models import get_or_none, Game, GameLink, get_json, iriToUri
+from django.shortcuts import render, render_to_response
 
 
 def head_userinfo(request):
@@ -42,9 +43,53 @@ def head_start(request):
     context = {
             'user': request.user,
             'gamelink':gl,
-            'appname':'head'
+            'appname':'head',
+            'profile': request.user.get_profile()
         }
     return render(request, 'head_start.html', context)
+
+
+def head_invite(request):
+    context = {
+        'user': request.user
+    }
+    return render(request, 'head_invite.html', context)
+
+def head_complete(request):
+    context = {
+        'user': request.user
+    }
+    return render(request, 'head_complete.html', context)
+
+def head_invite_url(request, username):
+    inviter = username
+    context = {
+        'inviter': inviter
+    }
+    return render(request, 'home.html', context)
+
+def head_send_invite_email(request):
+    mailto = request.POST.get('mailto')
+    inviter_name = request.POST.get('inviter')
+    url = "http://redbomba.net/invite/%s/" % inviter_name
+    html_content = render_to_response('email_invite.html', {
+        'inviter': inviter_name,
+        'url': url
+    })
+    requests.post(
+        "https://api.mailgun.net/v2/redbomba.net/messages",
+        auth=("api", "key-84c68ec43394478a9ae518451102b3e4"),
+        files=[],
+        data= {
+            "from": "REDBOMBA Team <no-reply@redbomba.net>",
+            "to": mailto,
+            "subject": "REDBOMBA에서 게임을 더욱 즐겁게 해보세요!",
+            "html": html_content
+        }
+    )
+
+    return HttpResponse("OK")
+
 
 def head_search(request) :
 	users = []
@@ -95,14 +140,22 @@ def head_gamelink_list(request):
     gamelist = []
     if query : games = Game.objects.filter(name__icontains=query,is_active=1)
     else : games = Game.objects.filter(is_active=1)
-    for game in games :
-        link = get_or_none(GameLink,user=request.user,game=game)
-        gamelist.append({'game':game,'link':link})
+    # for game in games :
+    #     link = get_or_none(GameLink,user=request.user,game=game)
+    #     gamelist.append({'game':game,'link':link})
 
     context = {
-            'gamelist': gamelist,
+            'gamelist': games,
         }
     return render(request, 'head_gamelink_list.html', context)
+
+def head_gamelink_connected(request):
+    gamelink = GameLink.objects.filter(user=request.user)
+    context = {
+        'gamelink': gamelink,
+    }
+    return render(request, 'head_gamelink_connected.html', context)
+
 
 def head_gamelink_login(request):
     gid = request.GET.get("id")
@@ -131,8 +184,9 @@ def head_gamelink_link(request) :
                 end = roster.index('@')
                 sid = roster[start:end]
                 xmpp.disconnect()
-                insertGameLink(request.user, game, sid)
+                #insertGameLink(request.user, game, sid)
                 return summoner(request,sid)
+
             except Exception as e:
                 return HttpResponse("wrong id and password=%s"%e)
     return HttpResponse("wrong id and password")
@@ -143,9 +197,24 @@ def head_gamelink_delete(request):
     game.delete()
     return HttpResponse("Done")
 
-def head_gamelink_skip(request):
+def head_gamelink_save(request):
+    uid = request.user
+    sid = request.POST.get("sid")
+    gid = request.POST.get("gid")
+    game = Game.objects.get(id=gid)
+    insertGameLink(uid, game, sid)
+    return HttpResponse("Done")
+
+
+def head_gamelink_skip(request, path):
     profile = request.user.get_profile()
-    profile.is_pass_gamelink = 1
+    if path == 'start':
+        profile.tutorial_phase = 1
+    elif path == 'invite':
+        profile.tutorial_phase = 2
+    else:
+        profile.tutorial_phase = 3
+
     profile.save()
     return HttpResponseRedirect("/")
 
@@ -269,7 +338,11 @@ def summoner(request,sid=None):
 
         isLinked = get_or_none(GameLink,account_name=summoner_info['name'])
 
+        gid = Game.objects.get(name='League of legends').id
+
         context = {
+            'sid':sid,
+            'gid':gid,
             'summoner_info':summoner_info,
             'summoner_stat':summoner_stat,
             'summoner_most':summoner_most,
@@ -288,7 +361,20 @@ def summoner(request,sid=None):
     return render(request, 'head_gamelink_detail_lol.html', context)
 
 def insertGameLink(uid=None, game=None, sid=None):
+    apikey = [
+        #"fa072bf3-4b01-4719-8036-e3c32c1fd108",
+        "382f860d-58b6-420e-b769-049b36c6f862"
+        #"1cb3ed80-344a-47e3-b03d-1344bde33f30"
+    ]
+
     if uid and game and sid :
+        random.shuffle(apikey)
+        json_res = get_json(iriToUri('https://kr.api.pvp.net/api/lol/kr/v1.4/summoner/%s?api_key=%s' %(sid,apikey[0])))
+        summoner_info = dict(json_res).values()[0]
+        account_name = summoner_info['name']
+        GameLink.objects.create(user=uid, game=game, account_name=account_name, account_id=sid)
+
+        """
         gl = GameLink.objects.filter(user=uid,game=game)
         if int(gl.count()) > 0 :
             gl = GameLink.objects.get(user=uid,game=game)
@@ -298,6 +384,7 @@ def insertGameLink(uid=None, game=None, sid=None):
             gl.save()
         else:
             GameLink.objects.create(user=uid,game=game,account_name="",account_id=sid)
+            """
 
 def setStatsValue(j, s):
     try:

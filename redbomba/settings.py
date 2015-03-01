@@ -46,7 +46,8 @@ INSTALLED_APPS = (
     'redbomba.feed',
     'redbomba.sockets',
     'redbomba.tester',
-    'redbomba.battle'
+    'redbomba.battle',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (

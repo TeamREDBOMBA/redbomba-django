@@ -114,10 +114,9 @@ def send_complex_message(username):
     text_content = strip_tags(html_content)
     return requests.post(
         "https://api.mailgun.net/v2/redbomba.net/messages",
-        auth=("api", "key-2me-oqat4bkqruomgfzrqdhz14hafhr2"),
+        auth=("api", "key-84c68ec43394478a9ae518451102b3e4"),
         files=[],
         data={"from": "Redbomba Team <no-reply@redbomba.net>",
               "to": email,
               "subject": "Thanks for signing up with REDBOMBA!",
-              "text": text_content,
               "html": html_content})

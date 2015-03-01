@@ -61,12 +61,12 @@ class League(models.Model):
             return get_time_difference(self.end_apply,"-")
 
     def get_schedule(self):
-        shedule = {'start_apply':self.start_apply,'end_apply':self.end_apply,'start_round':0,'end_round':0}
+        schedule = {'start_apply':self.start_apply,'end_apply':self.end_apply,'start_round':0,'end_round':0}
         rounds = LeagueRound.objects.filter(league=self).order_by('id')
         if rounds :
-            shedule['start_round'] = rounds[0].start
-            shedule['end_round'] = rounds[0].end
-        return shedule
+            schedule['start_round'] = rounds[0].start
+            schedule['end_round'] = rounds[0].end
+        return schedule
 
     def get_participants(self):
         return LeagueTeam.objects.filter(round__league = self,round__round=1)
