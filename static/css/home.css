@@ -99,3 +99,7 @@ ul {list-style:none; -webkit-padding-start: 0px;}
 .links a {
     color: #fff;
 }
+
+#content #img_main_bg { position: absolute; right: -6px; z-index:0;}
+#content #img_main_bg_eyes { position: absolute; right: -19px; z-index:0;}
+#login-box { position: relative; z-index:1; }

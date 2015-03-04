@@ -14,10 +14,6 @@
         location.href = location.href.replace("www.","");
     }
 
-
-
-
-
     $('#support-game-img').one("load", function() {
 
     }).each(function() {
