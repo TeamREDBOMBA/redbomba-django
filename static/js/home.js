@@ -14,6 +14,10 @@
         location.href = location.href.replace("www.","");
     }
 
+
+
+
+
     $('#support-game-img').one("load", function() {
 
     }).each(function() {
@@ -32,9 +36,22 @@
         $('#content').height('100%');
         $('#aside').height('100%');
         $('#content').css('margin-bottom', '20px');
-
+        $('#img_main_bg').remove();
+        $('#img_main_bg_eyes').remove();
     } else {
         $('#hidden-row').height(wh / 5);
+
+        var ch = $('#content').height() / 5;
+        $('#img_main_bg').css({"top":ch});
+        $('#img_main_bg_eyes').css({"top":ch+1});
+
+        $("body").mousemove(function(e){
+            var w = e.pageX/$(document).width()*10;
+            var h = e.pageY/$(document).height()*10;
+            var t = (($("#img_main_bg_eyes").scrollTop()+ch)+h);
+            var r = (-19-w);
+            $("#img_main_bg_eyes").css({"top":t,"right":r});
+        });
     }
 
     if (ww > 1500) {

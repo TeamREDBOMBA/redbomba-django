@@ -23,6 +23,11 @@
     <!--[if lt IE 9]>
     <script src="/static/js/html5shiv.js"></script>
     <![endif]-->
+    <style>
+        #content #img_main_bg { position: absolute; right: -6px; z-index:0;}
+        #content #img_main_bg_eyes { position: absolute; right: -19px; z-index:0;}
+        #login-box { position: relative; z-index:1; }
+    </style>
 
 </head>
 
@@ -38,7 +43,9 @@
         </div>
         <div id="hidden-row" class="row">
         </div>
-        <div class="row">
+        <img src="/static/img/home/login_main_bg_eyes.png" id="img_main_bg_eyes">
+        <img src="/static/img/home/login_main_bg.png" id="img_main_bg">
+        <div id="login-box" class="row">
             <div class="centre">
                 <p class="main-headline" style="line-height: 30px;">게이머의 세계에<br>오신 것을 환영합니다!</p>
                 <p class="main-content">게이머에 의한, 게이머를 위한, 게이머의 네트워크</p>
@@ -63,6 +70,7 @@
     </div>
 
     <div id="aside" class="col-md-4 col-xs-12">
+
         <div class="row aside-line-2" style="text-align: center;">
             <p id="love-text" class="main-headline" style="font-size: 35px;"><font color="e84c3d">RED</font>BOMBA L<i class="fa fa-heart fa-3" style='color:#e74c3c;margin:0 3px'></i>VES GAMERS!</p>
         </div>
