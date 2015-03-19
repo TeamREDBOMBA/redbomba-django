@@ -21,11 +21,11 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 .arrow_box:after {border-color: rgba(255, 255, 255, 0);border-bottom-color: #ffffff;border-width: 20px;margin-left: -15px;}
 .arrow_box:before {border-color: rgba(128, 128, 128, 0);border-bottom-color: #e3e3e3;border-width: 21px;margin-left: -16px;}
 
-#wrap{position:relative;width:100%;min-width:1140px;min-height:100%;margin:0 auto}
+#wrap{position:relative;width:100%;min-height:100%;margin:0 auto}
 
 #header{position:fixed;width:100%;top:0;left:0;z-index:10}
 #header #is_not_active {position:relative;width: 100%;line-height: 40px;text-align: center;}
-#header #content{position:relative;width:1140px;height:46px;left:50%;margin-left:-570px;}
+#header #content{position:relative;max-width:1140px;height:46px;left:50%;margin-left:-570px;}
 
 #container{position:relative;width:1140px;min-height:100%;left:50%;margin-left:-570px;padding-top:46px;z-index:0}
 #container:after{display:block;clear:both;content:''}
@@ -34,7 +34,7 @@ a:hover,a:active,a:focus{text-decoration:underline;color:inherit;}
 #container #aside{float:right;position:relative;width:350px;height:100%}
 
 /* You must delete below style */
-#wrap{background:#f5f5f5}
+#wrap{background:#EAEAEA;}
 
 #header{background-color: #fff;box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1),0 1px 0 0 rgba(0, 0, 0, 0.1);}
 

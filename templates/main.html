@@ -1,74 +1,100 @@
 {% extends "head.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div id="content">
-        <div class="alert alert-info fade in" id="top_information">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            레드밤바의 정체를 알아볼 시간! 단 1분이면 충분합니다. <button onclick="$('#top_information').alert('close')" class="btn btn-primary btn-sm">1분짜리 동영상 보기</button>
+
+    <!--div id="side-navbar">
+        <div class="row card-headline">
+            <h1 class="p-headline">내 그룹</h1>
+        </div>
+        {% if groups %}
+            {% for group in groups %}
+                <div class="row group-row" onclick="goGroupPage({{group.id}})">
+                    <div class="div-group-icon img-box">
+                        <img class="group-icon" src="{{ group.group_icon.url }}">
+                    </div>
+                    <div class="div-group-name">
+                        <p class="p-group-name">{{ group.name }}</p>
+                    </div>
+                    <div class="div-group-people">
+                        <p class="p-group-people">
+                            <i class="fa fa-user"></i><span>{{group.get_members|length}}</span>/{{group.get_members|length}}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="row division-line"></div>
+        <div class="row card-headline">
+            <h1 class="p-headline">내 매치박스</h1>
+        </div>
+        <div class="row division-line"></div>
+        <div class="row card-headline">
+            <h1 class="p-headline">활동스트림</h1>
+        </div>
+        <div class="row stream-row">
+
+        </div>
+    </div-->
+
+
+    <div class="container" style="max-width: 1360px;">
+        <div style="height: 72px;"></div>
+        <div id="content">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3" id="hidden-row">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12" id="col-1">
+                <div class="row">
+                    <div id="input-box" class="card">
+                        <textarea id="input-textarea" class="form-control" rows="3" style="resize:none;" placeholder="오늘 당신의 플레이는 어땠나요?"></textarea><br>
+
+                        <input class="hidden" id="hidden-file-input" type="file" name="files[]" data-url="/main/add_post_image/" multiple/>
+
+                        <div class="row hidden dropzone" id="dropzone">
+                            <p style="margin-top: 35px; font-size: 20px; font-weight: bold; color: gray;">여기를 클릭하거나 이미지를 끌어다 놓으세요.</p>
+                        </div>
+
+                        <div class="row" id="video-view">
+
+                        </div>
+                        <div class="row">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="스크린샷을 추가해보세요!">
+                            <i class="fa fa-camera fa-2x fa-add" data-toggle="modal" data-target="#PictureModal"></i></a>
+                            <div class="input-group" style="width: 70%; float: right;">
+                                <input id="game-input" type="text" class="form-control" placeholder="게임을 선택하세요." disabled>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a class="game-list">#leagueoflegends</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button id="post-cancel-btn" class="btn btn-default pull-right" style="margin-left:5px; margin-top: 10px;">취소</button>
+                            <button id="post-btn" class="btn btn-success pull-right" style="margin-top: 10px;">게시</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12" id="col-2">
+                <div class="row">
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12" id="col-3">
+                <div class="row">
+
+                </div>
+            </div>
         </div>
 
-        <!-- Display -->
-        <div id="display" class="div_feed">
-            <div id="display_con">
-                &nbsp;
-            </div>
-        </div>
-        <!-- //Display -->
-        {% if link %}
-            <p class="title">이 대회에 관심이 있으신가요?<p>
-            <!-- Link League -->
-            <div id="link_league" class="div_feed">
-                <div id="link_league_img">
-                    <img src="{{ link.img }}">
-                </div>
-                <div id="link_league_con">
-                    <p id="link_league_title">{{ link.title }}</p>
-                    <p id="link_league_inf">{{ link.inf }}</p>
-                    <button class="btn btn-warning" id="btnDetail">자세히 보기</button>
-                </div>
-            </div>
-            <!-- //Link League -->
-        {% endif %}
-        <!-- Global Feed -->
-        <p class="title"><i class="fa fa-newspaper-o"></i> 글로벌 아티클<p>
-        <div id="feed_pub">&nbsp;</div>
-        <!-- //Global Feed -->
     </div>
-    <div id="aside">
-        <!-- Profile -->
-        <div id="profile" class="div_feed">
-            <div id="profile_top">
-                <img id="img_usericon" src="{{ user.get_profile.src.url }}">
-                <p id="p_username">{{ user.username }}</p>
-                <p id="p_groupname">{{ user.email }}</p>
-            </div>
-            <p class="profile_subtitle">연결된 게임 계정</p>
-            <div id="profile_bottom">
-                {% if gamelink %}
-                    {% for gl in gamelink %}
-                        <div class="div_link_game game_{{gl.game.id}}" onclick="loadGameLinkAccount({{ gl.account_id }});">
-                            <div class="div_gamelink_bg" style="background-image:url({{gl.game.src.url}})"></div>
-                            <img src="{{gl.game.src.url}}" class="img_gamelink_icon">
-                            <p class="p_gamelink_name">{{ gl.account_name }}</p>
-                        </div>
-                    {% endfor %}
-                    <div class="div_link_btn_s">
-                        <b>게임계정</b>이 더 있으신가요? <button class="btn btn-danger btn-sm" id="btnGamelink_s"><i class="fa fa-link"></i> 게임 연결하기</button>
-                    </div>
-                {% else %}
-                    <div class="div_link_btn">
-                        <b>게임계정을 연결해보세요!</b><br/>REDBOMBA에서는 당신의 게임계정이 중심입니다.
-                        <button class="btn btn-danger" id="btnGamelink" style="margin-top: 4px;"><i class="fa fa-link"></i> 게임 연결하기</button>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <!-- //Profile -->
-        <!-- Private Feed -->
-        <p class="title"><i class="fa fa-tachometer"></i> 활동 스트림<p>
-        <div id="feed_private">&nbsp;</div>
-        <!-- //Private Feed -->
-    </div>
+
+
 {% endblock %}
 {% block modal %}
     <!-- Modal -->

@@ -4,6 +4,7 @@ import base64
 import random
 
 import requests
+from datetime import datetime
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
@@ -25,6 +26,8 @@ def home(request, msg=None):
 
 def home_logout(request):
     logout(request)
+    if 'loadtime' in request.session:
+        del request.session['loadtime']
     return HttpResponseRedirect('/')
 
 def home_login(request):
@@ -36,6 +39,7 @@ def home_login(request):
         if username :
             user = authenticate(username=username, password=password)
             login(request, user)
+            request.session['loadtime'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             request.session.set_expiry(31536000)
             return HttpResponseRedirect(next)
         return home(request, msg=u"존재하지 않는 계정입니다.")

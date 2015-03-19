@@ -1,0 +1,34 @@
+{% load extras %}
+{% for new in news %}
+    <div class="row stream-ele">
+    {% if new.type == 'system' %}
+        <div class="div-stream-icon">
+            <img class="stream-icon" src="/media/icon/redbomba.png">
+        </div>
+        <div class="div-stream-content">
+            <p>{{ new.self.con|linebreaks }}</p>
+        </div>
+    {% elif new.type == 'reply' %}
+        <div class="div-stream-icon">
+            <img class="stream-icon" src="{{ new.self.user.get_profile.src.url }}">
+        </div>
+        <div class="div-stream-content">
+            <p>{{ user.username }}님이 {{ new.self.feed.get_uto.name }}에 올리신 글에 {{ new.self.user.username }}님의 댓글이 달렸습니다.</p>
+        </div>
+    {% elif new.type == 'groupmember' %}
+        <div class="div-stream-icon">
+            <img class="stream-icon" src="{{ new.self.group.group_icon.url }}">
+        </div>
+        <div class="div-stream-content">
+            <p>{{ new.self.user.username }}님이 {{ new.self.group.name }}에 새로운 멤버로 함류하였습니다. {{ user.username }}님의 도움의 손길과 따뜻한 환영의 메시지가 필요해 보이는 군요!</p>
+        </div>
+    {% elif new.type == 'leaguematch' %}
+            <div class="div-stream-icon">
+            <img class="stream-icon" src="{{ new.self.team_a.group.group_icon.url }}">
+        </div>
+        <div class="div-stream-content">
+            <p>{{ new.self.team_a.round.league.name }} - {{ new.self.team_a.round.round }} Round 경기 결과가 등록되었습니다.</p>
+         </div>
+    {% endif %}
+    </div>
+{% endfor %}

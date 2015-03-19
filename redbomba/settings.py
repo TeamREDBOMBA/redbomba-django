@@ -124,3 +124,11 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+)
+
+MAX_UPLOAD_SIZE = 20971520  # 20MB
+CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']

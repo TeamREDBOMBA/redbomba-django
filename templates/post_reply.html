@@ -1,0 +1,9 @@
+{% for reply in replys %}
+    <div class="row">
+        <img class="profile-icon profile-icon-sm pull-left" src="{{ reply.user.get_profile.src.url }}" alt="{{ reply.user.username }}">
+        <div class="div-reply-content pull-left">
+            <span>{{ reply.user.username }}</span><span> {{ reply.date_updated }}</span>
+            <p>{{ reply.content }}</p>
+        </div>
+    </div>
+{% endfor %}

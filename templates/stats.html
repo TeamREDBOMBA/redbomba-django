@@ -7,47 +7,49 @@
 {% endblock %}
 {% block content %}
     <!-- Profile -->
-    <div id="profile">
-        <img id="img_profile_bg" src="/static/img/stats/arena_poster_bg.png">
-        <img style="cursor: pointer;" src="{{target_user.get_profile.src.url}}" id="img_profile_usericon">
-        <p id="p_profile_username">{{target_user.username}}</p>
-        <div id="div_profile_gamelink">
-            {% for gl in gamelink %}
-                <div class="div_gamelink_game game_{{gl.game.id}}" onclick="loadGameLinkAccount({{ gl.account_id }});">
-                    <img src="{{gl.game.src.url}}" class="img_gamelink_icon">
-                    <p class="p_gamelink_name">{{gl.account_name}}</p>
-                </div>
-            {% endfor %}
-            {% if target_user == user %}
-                <div class="div_gamelink_game" id="div_gamelink_gameadd">
-                    <i class="fa fa-plus-circle"></i>
-                </div>
+    <div id="container">
+        <div id="profile">
+            <img id="img_profile_bg" src="/static/img/stats/arena_poster_bg.png">
+            <img style="cursor: pointer;" src="{{target_user.get_profile.src.url}}" id="img_profile_usericon">
+            <p id="p_profile_username">{{target_user.username}}</p>
+            <div id="div_profile_gamelink">
+                {% for gl in gamelink %}
+                    <div class="div_gamelink_game game_{{gl.game.id}}" onclick="loadGameLinkAccount({{ gl.account_id }});">
+                        <img src="{{gl.game.src.url}}" class="img_gamelink_icon">
+                        <p class="p_gamelink_name">{{gl.account_name}}</p>
+                    </div>
+                {% endfor %}
+                {% if target_user == user %}
+                    <div class="div_gamelink_game" id="div_gamelink_gameadd">
+                        <i class="fa fa-plus-circle"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- //Profile -->
+        <div id="content">
+            <p class="title">{% if target_user == user %}내가 참여중인 대회{% else %}{{target_user.username}}님이 참여중인 대회{% endif %}<p>
+            <div id="feed_menu" class="div_feed">
+                <div id="myarenalist">&nbsp;</div>
+            </div>
+        </div>
+        <div id="aside">
+            <!-- Group -->
+            {% if wait_group %}
+                {% if target_user == user %}<p class="title">나의 신청 대기중인 그룹<p>
+                    <div id="wait_group">
+                        {% for wg in wait_group %}
+                            <p><img src="/media/group_icon/{{ wg.gid.group_icon }}">{{ wg.gid.name }} <button class="btn btn-primary btn-sm" onclick="goGroupPage({{ wg.gid.id }})">그룹 페이지</button></p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             {% endif %}
+            <p class="title">{% if target_user == user %}내가 소속된 그룹{% else %}{{target_user.username}}님이 소속된 그룹{% endif %}<p>
+            <div id="group">
+                <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
+            </div>
+            <!-- //Group -->
         </div>
-    </div>
-    <!-- //Profile -->
-    <div id="content">
-        <p class="title">{% if target_user == user %}내가 참여중인 대회{% else %}{{target_user.username}}님이 참여중인 대회{% endif %}<p>
-        <div id="feed_menu" class="div_feed">
-            <div id="myarenalist">&nbsp;</div>
-        </div>
-    </div>
-    <div id="aside">
-        <!-- Group -->
-        {% if wait_group %}
-            {% if target_user == user %}<p class="title">나의 신청 대기중인 그룹<p>
-                <div id="wait_group">
-                    {% for wg in wait_group %}
-                        <p><img src="/media/group_icon/{{ wg.gid.group_icon }}">{{ wg.gid.name }} <button class="btn btn-primary btn-sm" onclick="goGroupPage({{ wg.gid.id }})">그룹 페이지</button></p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endif %}
-        <p class="title">{% if target_user == user %}내가 소속된 그룹{% else %}{{target_user.username}}님이 소속된 그룹{% endif %}<p>
-        <div id="group">
-            <div width='100%' align='center'><img src='/static/img/ajax-loader.gif'></div>
-        </div>
-        <!-- //Group -->
     </div>
 {% endblock %}
 {% block modal %}

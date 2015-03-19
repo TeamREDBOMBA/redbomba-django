@@ -5,6 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+
         <title>REDBOMBA</title>
         <link rel="stylesheet" type="text/css" href="http://api.typolink.co.kr/css?family=RixSGo+L:400|RixSGo+M:400|RixSGo+B:400|RixSGo+EB:400" />
         <link href="/static/css/bootstrap.css" rel="stylesheet" />
@@ -13,12 +14,11 @@
         <link href="/static/css/{{ appname }}.css" rel="stylesheet">
         <link href="/static/css/feed.css" rel="stylesheet">
         <link href="/static/css/icon.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <!--link href="/static/css/dropzone.css" rel="stylesheet"-->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
         <link rel="shortcut icon" href="/static/img/main/favicon.ico" type="image/x-icon" />
 
-        <script src="/static/js/jquery-1.11.0.min.js" type="text/javascript"></script>
-        <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
 
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
         <!--[if lt IE 9]>
@@ -102,11 +102,8 @@
         </div>
         <!-- //Header -->
         {% block outside %}{% endblock %}
-        <!-- Container -->
-        <div id="container">
-            {% block content %}{% endblock %}
-        </div>
-        <!-- //Container -->
+
+        {% block content %}{% endblock %}
     </div>
     {% block modal %}{% endblock %}
         <!-- Modal -->
@@ -170,9 +167,14 @@
 
     <!-- /.modal -->
     <!-- Load JS here for greater good =============================-->
+
+
+
     <script src="http://redbomba.net:3000/socket.io/socket.io.js" type="text/javascript"></script>
+
     <script src="/static/js/analyticstool.js" type="text/javascript"></script>
-    <script src="/static/js/bootstrap-select.js" type="text/javascript"></script>
+
+    <!--script src="/static/js/bootstrap-select.js" type="text/javascript"></script>
     <script src="/static/js/bootstrap-switch.js" type="text/javascript"></script>
     <script src="/static/js/flatui-checkbox.js" type="text/javascript"></script>
     <script src="/static/js/flatui-radio.js" type="text/javascript"></script>
@@ -184,13 +186,26 @@
     <script src="/static/js/jquery.focuspoint.js" type="text/javascript"></script>
     <script src="/static/js/application.js" type="text/javascript"></script>
     <script src="/static/js/group_info_drop.js" type="text/javascript"></script>
-    <script src="/static/js/markdown.js" type="text/javascript"></script>
+    <script src="/static/js/markdown.js" type="text/javascript"></script-->
+
+    <script src="/static/js/moment.min.js" type="text/javascript"></script>
+    <script src="/static/js/moment.kr.js" type="text/javascript"></script>
+
+    <script src="/static/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/static/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+    <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="/static/js/jquery.iframe-transport.js" type="text/javascript"></script>
+    <script src="/static/js/jquery.fileupload.js" type="text/javascript"></script>
+    <Script src="/static/js/jquery.fileupload-process.js" type="text/javascript"></Script>
+    <script src="/static/js/jquery.fileupload-image.js" type="text/javascript"></script>
+    <script src="/static/js/jquery.fileupload-validate.js" type="text/javascript"></script>
+    <!--script src="/static/js/dropzone.js" type="text/javascript"></script-->
+
     <script src="/static/js/head.js" type="text/javascript"></script>
     <script src="/static/js/{{ appname }}.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        var FHChat = {product_id: "9cf6240931e7"};
-        FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-    </script>
     </body>
     </html>
 {% else %}

@@ -1,0 +1,104 @@
+{% if post %}
+<div class="card" id="{{ post.id }}">
+    {% if reason != 0 %}
+        <div class="card-subject">
+            <p class="p-subject">
+                {% if reason == 1 %}
+                    {{ publisher }}님이 스마일 했습니다.
+                {% elif reason == 2 %}
+                    {{ publisher }}님이 댓글을 달았습니다.
+                {% endif %}
+            </p>
+        </div>
+        <div class="row division-line"></div>
+    {% endif %}
+    <div class="profile-popover">
+
+    </div>
+    <span id="hidden-datetime" class="hidden">{{ feeddatetime }}</span>
+    <div class="row">
+        <div class="div-card-icon">
+            <img id="post-icon" class="profile-icon" src="{{ post.user.get_profile.src.url }}" >
+        </div>
+        <div class="div-card-name">
+            <a id="post-username">{{ post.user.username }}</a>
+            <p id="post-date">{{ postdatetime }}</p>
+        </div>
+    </div>
+    <div class="row div-card-content">
+        <p>
+            {{ post.content }}
+        </p>
+    </div>
+    {% if post.video %}
+    <div class="row" style="margin-left: -15px; margin-right: -15px; margin-top: 10px;">
+        <div class="video-wrapper">
+            <iframe class="video-frame" src="{{ post.video }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    {% elif images %}
+    <div class="row" style="margin-left: -15px; margin-right: -15px; margin-top: 10px;">
+        {% if images|length == 1 %}
+            <img src="{{ images.0.src.url }}" class="post-img-1">
+        {% elif images|length == 2 %}
+            <div style="background-image:url({{ images.0.src.url }});" class="post-img post-img-2"></div>
+            <div style="background-image:url({{ images.1.src.url }});" class="post-img post-img-2 pull-right"></div>
+        {% elif images|length == 3 %}
+            <div style="background-image:url({{ images.0.src.url }});" class="post-img post-img-3"></div>
+            <div style="max-width: 33.16%; min-width: 33.16%; float:left;">
+                <div style="background-image:url({{ images.1.src.url }});" class="post-img"></div>
+                <div style="background-image:url({{ images.2.src.url }});" class="post-img"></div>
+            </div>
+        {% else %}
+            <div style="background-image:url({{ images.0.src.url }});" class="post-img post-img-4"></div>
+            <div style="max-width: 24.75%; min-width: 24.75%; float:left;">
+                <div style="background-image:url({{ images.1.src.url }});" class="post-img"></div>
+                <div style="background-image:url({{ images.2.src.url }});" class="post-img"></div>
+                <div style="background-image:url({{ images.3.src.url }});" class="post-img"></div>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="row div-card-btns">
+        <div class="btn-group btn-group-sm pull-right">
+            {% if my_smile %}
+                <button class="btn btn-default smile-btn btn-warning"><i class="fa fa-smile-o smile-btn"></i> 스마일</button>
+            {% else %}
+                <button class="btn btn-default smile-btn"><i class="fa fa-smile-o smile-btn"></i> 스마일</button>
+            {% endif %}
+            <span class="btn btn-default count-btn">{{ num_smiles }}</span>
+        </div>
+    </div>
+    <div class="row division-line division-line-long"></div>
+    <div class="row">
+        {% if num_replys > 1 %}
+        <p class="num-replys">댓글 {{ num_replys }}개 <i class="fa fa-comment-o" style="font-weight: bold;"></i></p>
+        {% elif num_replys == 0 %}
+        <p>댓글이 없습니다.</p>
+        {% endif %}
+    </div>
+    {% if reply %}
+        <div class="row div-card-reply">
+            <div class="row" id="{{ reply.id }}">
+                <div>
+                    <img id="reply-icon" class="profile-icon profile-icon-sm pull-left" src="{{ reply.user.get_profile.src.url }}" alt="{{ reply.user.username }}">
+                </div>
+                <div class="div-reply-content pull-left">
+                    <a id="reply-username">{{ reply.user.username }} </a><span id="reply-time"> {{ replytime }}</span>
+                    <p>{{ reply.content }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row div-reply-input">
+        <img class="profile-icon profile-icon-sm pull-left reply-profile-icon" src="{{ user.get_profile.src.url }}" alt="{{ user.username }}">
+        <textarea rows="1" class="form-control input-reply" placeholder="댓글을 입력하세요" style="resize:none;"></textarea>
+        <button class="btn btn-primary reply-btn" style="margin-left: 45px;">등록</button>
+        <button class="btn btn-default reply-cancel-btn">취소</button>
+    </div>
+</div>
+{% else %}
+    <div class="card" style="text-align:center;">
+        <p id="not-found" style=" font-size: 15px;">소식이 없습니다.</p>
+    </div>
+{% endif %}
